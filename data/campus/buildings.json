@@ -1,0 +1,670 @@
+[
+ {
+  "id": "ugli",
+  "name": "Shapiro Undergraduate Library (UgLi)",
+  "campus": "central",
+  "lat": 42.275735,
+  "lon": -83.737267,
+  "aliases": [
+   "UgLi",
+   "Ugli",
+   "UGLI",
+   "Shapiro",
+   "Shapiro Library",
+   "Undergraduate Library",
+   "Shapiro Design Lab"
+  ],
+  "source": "Overture places 2026-11-18 id 00bcb083-a56c-439f-b200-4215ed231f42",
+  "hours_note": "Open 24/7 during term; MCard required midnight-8am; hours differ during breaks (research/student-behavior.md 2.12, lib.umich.edu/hours)"
+ },
+ {
+  "id": "hatcher",
+  "name": "Harlan Hatcher Graduate Library",
+  "campus": "central",
+  "lat": 42.276361,
+  "lon": -83.737973,
+  "aliases": [
+   "Hatcher",
+   "Hatcher Library",
+   "Grad Library",
+   "the Grad",
+   "Hatcher Graduate Library"
+  ],
+  "source": "Overture places 2026-11-18 id d14b1dc5-12b6-49c5-a9ad-a84910e05231"
+ },
+ {
+  "id": "angell",
+  "name": "Angell Hall / Mason Hall / Haven Hall / Tisch Hall",
+  "campus": "central",
+  "lat": 42.276759,
+  "lon": -83.739979,
+  "aliases": [
+   "Angell",
+   "Angell Hall",
+   "Mason Hall",
+   "Mason",
+   "Haven Hall",
+   "Haven",
+   "Tisch Hall",
+   "Tisch",
+   "Fishbowl",
+   "Auditorium A",
+   "Angell Hall Auditorium"
+  ],
+  "source": "Overture places 2026-11-18 id 92d2c8a7-4d8a-4a1e-80de-0aabd72b7ebf (Angell Hall Observatory; cross-checked with Mason Hall 50ef4bfa, ~110 m)"
+ },
+ {
+  "id": "mlb",
+  "name": "Modern Languages Building",
+  "campus": "central",
+  "lat": 42.280075,
+  "lon": -83.739135,
+  "aliases": [
+   "MLB",
+   "Modern Languages",
+   "Modern Language Building",
+   "Modern Langs"
+  ],
+  "source": "Overture places 2026-11-18 id 40f42b59-a44a-4643-b59f-f94cba5561a6"
+ },
+ {
+  "id": "chem",
+  "name": "Chemistry Building",
+  "campus": "central",
+  "lat": 42.278052,
+  "lon": -83.736963,
+  "aliases": [
+   "Chem",
+   "Chem Building",
+   "Chemistry",
+   "Chemistry Building"
+  ],
+  "source": "Overture places 2026-11-18 id 9f77b05a-dcbc-42d5-b237-a3bde6f1a63c"
+ },
+ {
+  "id": "dennison",
+  "name": "Dennison Building",
+  "campus": "central",
+  "lat": 42.276611,
+  "lon": -83.7354,
+  "aliases": [
+   "Dennison",
+   "Dennison Hall",
+   "Dennison Building"
+  ],
+  "source": "Overture places 2026-11-18 id 035d9066-b3dc-4b77-8e29-14632419fe23"
+ },
+ {
+  "id": "randall",
+  "name": "Randall Laboratory",
+  "campus": "central",
+  "lat": 42.276527,
+  "lon": -83.735875,
+  "aliases": [
+   "Randall",
+   "Randall Lab",
+   "Randall Laboratory",
+   "Physics building"
+  ],
+  "source": "Overture places 2026-11-18 id 08538c13-0ef1-41d4-bb28-a8a34c90e442"
+ },
+ {
+  "id": "west_hall",
+  "name": "West Hall",
+  "campus": "central",
+  "lat": 42.275771,
+  "lon": -83.7363,
+  "aliases": [
+   "West Hall"
+  ],
+  "source": "Overture places 2026-11-18 id b993646b-2670-40f0-a777-a21fff7b8070"
+ },
+ {
+  "id": "east_hall",
+  "name": "East Hall",
+  "campus": "central",
+  "lat": 42.275777,
+  "lon": -83.735228,
+  "aliases": [
+   "East Hall",
+   "Math building"
+  ],
+  "source": "Overture places 2026-11-18 id 15670207-36c9-47c5-9efd-5f11479dbc43"
+ },
+ {
+  "id": "lsa",
+  "name": "Literature, Science, and the Arts Building",
+  "campus": "central",
+  "lat": 42.276232,
+  "lon": -83.741189,
+  "aliases": [
+   "LSA",
+   "LSA Building",
+   "LSA Bldg"
+  ],
+  "source": "Overture places 2026-11-18 id 086501c0-3561-467f-b31f-cf5caff6cce9"
+ },
+ {
+  "id": "ross",
+  "name": "Ross School of Business",
+  "campus": "central",
+  "lat": 42.272988,
+  "lon": -83.737994,
+  "aliases": [
+   "Ross",
+   "Ross School",
+   "Ross School of Business",
+   "Ross Business",
+   "Business School",
+   "Kresge",
+   "Blau Hall"
+  ],
+  "source": "Overture places 2026-11-18 id fd58ddbc-3164-451b-9744-00b421cef5fc"
+ },
+ {
+  "id": "law",
+  "name": "Law Quadrangle (Hutchins Hall)",
+  "campus": "central",
+  "lat": 42.27375,
+  "lon": -83.740576,
+  "aliases": [
+   "Law",
+   "Law School",
+   "Law Quad",
+   "Hutchins",
+   "Hutchins Hall",
+   "Law Library"
+  ],
+  "source": "Overture places 2026-11-18 id 60c5d713-0688-4aac-befd-3f662ee903fc"
+ },
+ {
+  "id": "union",
+  "name": "Michigan Union",
+  "campus": "central",
+  "lat": 42.275086,
+  "lon": -83.741362,
+  "aliases": [
+   "Union",
+   "the Union",
+   "Michigan Union",
+   "MUG"
+  ],
+  "source": "Overture places 2026-11-18 id a87523f2-b4a1-45d2-9cb3-006bf18a9654 (rejected bogus duplicate 6167f111 at 42.2859,-83.7405)"
+ },
+ {
+  "id": "league",
+  "name": "Michigan League",
+  "campus": "central",
+  "lat": 42.279033,
+  "lon": -83.73778,
+  "aliases": [
+   "League",
+   "the League",
+   "Michigan League"
+  ],
+  "source": "Overture places 2026-11-18 id cc3eeb94-13fa-4a21-9eef-dfad2d5b82d0 (The Inn at the Michigan League)"
+ },
+ {
+  "id": "rackham",
+  "name": "Rackham Graduate School",
+  "campus": "central",
+  "lat": 42.280808,
+  "lon": -83.738266,
+  "aliases": [
+   "Rackham",
+   "Rackham Building",
+   "Rackham Auditorium"
+  ],
+  "source": "Overture places 2026-11-18 id 25ea1e47-2fac-4640-8a75-6d7273583018"
+ },
+ {
+  "id": "ssw",
+  "name": "School of Social Work Building",
+  "campus": "central",
+  "lat": 42.27497,
+  "lon": -83.736221,
+  "aliases": [
+   "SSW",
+   "Social Work",
+   "School of Social Work"
+  ],
+  "source": "Overture places 2026-11-18 id 19f1a056-6009-4b2a-81ad-8402b7576d3d"
+ },
+ {
+  "id": "weill",
+  "name": "Weill Hall (Ford School of Public Policy)",
+  "campus": "central",
+  "lat": 42.272093,
+  "lon": -83.740392,
+  "aliases": [
+   "Weill",
+   "Weill Hall",
+   "Ford School",
+   "Ford School of Public Policy"
+  ],
+  "source": "Overture places 2026-11-18 id d4b9b15a-fe0e-4e02-80a6-2357b55a41aa"
+ },
+ {
+  "id": "ccrb",
+  "name": "Central Campus Recreation Building",
+  "campus": "central",
+  "lat": 42.278298,
+  "lon": -83.732696,
+  "aliases": [
+   "CCRB",
+   "Central Campus Rec",
+   "Central Campus Recreation Building"
+  ],
+  "source": "Overture places 2026-11-18 id 088166cf-6dd5-4b17-879f-07db0e6e1d3d",
+  "hours_note": "Coordinates mark the CCRB site; whether the facility is open or replaced/under construction in 2026-27 is unverified"
+ },
+ {
+  "id": "biosci",
+  "name": "Biological Sciences Building",
+  "campus": "central",
+  "lat": 42.278866,
+  "lon": -83.734526,
+  "aliases": [
+   "BSB",
+   "Biosci",
+   "BioSci",
+   "Biological Sciences Building",
+   "Bio Sci"
+  ],
+  "source": "Overture places 2026-11-18 id cee4fa23-c08e-4b53-9965-6f934ccc48ce"
+ },
+ {
+  "id": "dental",
+  "name": "School of Dentistry",
+  "campus": "central",
+  "lat": 42.27888,
+  "lon": -83.736339,
+  "aliases": [
+   "Dental",
+   "Dental School",
+   "Dentistry",
+   "School of Dentistry"
+  ],
+  "source": "Overture places 2026-11-18 id b9649ae9-7378-4635-bd93-579c339236ff"
+ },
+ {
+  "id": "pharmacy",
+  "name": "College of Pharmacy",
+  "campus": "central",
+  "lat": 42.277543,
+  "lon": -83.735403,
+  "aliases": [
+   "Pharmacy",
+   "College of Pharmacy",
+   "Pharmacy Building"
+  ],
+  "source": "Overture places 2026-11-18 id be4ca25d-d659-49bd-bf86-e7393874631d"
+ },
+ {
+  "id": "nursing",
+  "name": "School of Nursing Building",
+  "campus": "medical",
+  "lat": 42.285015,
+  "lon": -83.738595,
+  "aliases": [
+   "Nursing",
+   "School of Nursing",
+   "Nursing Building"
+  ],
+  "source": "Overture places 2026-11-18 id 2a1b469a-61ec-4243-ad78-c36972b7c3b2"
+ },
+ {
+  "id": "uhosp",
+  "name": "University Hospital (Michigan Medicine)",
+  "campus": "medical",
+  "lat": 42.28469,
+  "lon": -83.728924,
+  "aliases": [
+   "UH",
+   "University Hospital",
+   "U Hospital",
+   "the Hospital",
+   "Michigan Medicine"
+  ],
+  "source": "Overture places 2026-11-18 id 9b839a2c-e704-47d8-97cf-d8f55c0b9e6e"
+ },
+ {
+  "id": "medsci",
+  "name": "Medical Science Buildings (Med Sci I/II)",
+  "campus": "medical",
+  "lat": 42.2831,
+  "lon": -83.7338,
+  "aliases": [
+   "Med Sci",
+   "MedSci",
+   "Med Sci I",
+   "Med Sci II",
+   "MSI",
+   "MSII",
+   "Medical Science Building"
+  ],
+  "source": "manual: approximate (unverified) - between Overture BSRB a6bbae39 (42.28173,-83.73438) and Taubman Health Sciences Library 39471e10 (42.28360,-83.73453); Overture has no clean Med Sci I/II POI"
+ },
+ {
+  "id": "taubman_lib",
+  "name": "Taubman Health Sciences Library",
+  "campus": "medical",
+  "lat": 42.283601,
+  "lon": -83.734534,
+  "aliases": [
+   "Taubman Library",
+   "THL",
+   "Taubman Health Sciences Library",
+   "Med Library"
+  ],
+  "source": "Overture places 2026-11-18 id 39471e10-9fcc-4dad-b238-8ee5a57c3786"
+ },
+ {
+  "id": "sph",
+  "name": "School of Public Health",
+  "campus": "medical",
+  "lat": 42.280642,
+  "lon": -83.730402,
+  "aliases": [
+   "SPH",
+   "Public Health",
+   "School of Public Health",
+   "SPH I",
+   "SPH II"
+  ],
+  "source": "Overture places 2026-11-18 id 45e872db-1722-4ca1-b624-200742ba643b"
+ },
+ {
+  "id": "bbb",
+  "name": "Bob and Betty Beyster Building",
+  "campus": "north",
+  "lat": 42.293018,
+  "lon": -83.716371,
+  "aliases": [
+   "BBB",
+   "Beyster",
+   "Bob and Betty",
+   "Bob & Betty Beyster",
+   "CSE building"
+  ],
+  "source": "Overture places 2026-11-18 id c8ed5dcc-92a4-4c80-9834-b359b0c19060"
+ },
+ {
+  "id": "eecs",
+  "name": "Electrical Engineering & Computer Science Building",
+  "campus": "north",
+  "lat": 42.292498,
+  "lon": -83.714418,
+  "aliases": [
+   "EECS",
+   "EECS Building",
+   "Electrical Engineering"
+  ],
+  "source": "Overture places 2026-11-18 id 582f608f-a12d-4044-b1f0-736c7fa38c73"
+ },
+ {
+  "id": "ggbl",
+  "name": "G.G. Brown Laboratory",
+  "campus": "north",
+  "lat": 42.293363,
+  "lon": -83.713837,
+  "aliases": [
+   "GGBL",
+   "GG Brown",
+   "G.G. Brown",
+   "Brown Lab",
+   "GG Brown Lab"
+  ],
+  "source": "Overture places 2026-11-18 id 1ed563c9-588d-4267-b9ff-bc4cad4fc691"
+ },
+ {
+  "id": "duderstadt",
+  "name": "Duderstadt Center",
+  "campus": "north",
+  "lat": 42.29117,
+  "lon": -83.716517,
+  "aliases": [
+   "Dude",
+   "the Dude",
+   "Duderstadt",
+   "Duderstadt Center",
+   "Media Union"
+  ],
+  "source": "Overture places 2026-11-18 id abfea38e-88d1-4e36-aa93-0fe6b081f221 (Duderstadt Gallery; rejected bogus duplicate 306d4c54 at 42.2460,-83.7590)"
+ },
+ {
+  "id": "pierpont",
+  "name": "Pierpont Commons",
+  "campus": "north",
+  "lat": 42.291198,
+  "lon": -83.717568,
+  "aliases": [
+   "Pierpont",
+   "Pierpont Commons",
+   "the Commons"
+  ],
+  "source": "Overture places 2026-11-18 id afd0f9df-6a0f-45e7-a08a-cbed07276182"
+ },
+ {
+  "id": "fxb",
+  "name": "Francois-Xavier Bagnoud Building",
+  "campus": "north",
+  "lat": 42.293679,
+  "lon": -83.711923,
+  "aliases": [
+   "FXB",
+   "Francois-Xavier Bagnoud",
+   "Aerospace building"
+  ],
+  "source": "Overture places 2026-11-18 id 66604d56-fd68-409c-a989-61c95e5713ca"
+ },
+ {
+  "id": "ioe",
+  "name": "Industrial and Operations Engineering Building",
+  "campus": "north",
+  "lat": 42.29095,
+  "lon": -83.71365,
+  "aliases": [
+   "IOE",
+   "IOE Building",
+   "1891 IOE"
+  ],
+  "source": "manual: approximate (unverified) - Beal Ave just south of Lurie Engineering Center (Overture 42.29153,-83.71390); no Overture POI for the IOE building"
+ },
+ {
+  "id": "art_arch",
+  "name": "Art & Architecture Building (Taubman College / Stamps)",
+  "campus": "north",
+  "lat": 42.289166,
+  "lon": -83.717353,
+  "aliases": [
+   "A&A",
+   "Art and Architecture",
+   "Art & Architecture",
+   "Taubman College",
+   "Stamps",
+   "Stamps School"
+  ],
+  "source": "Overture places 2026-11-18 id 441fc0ab-044e-4e62-b7b1-c1b11775bfcd"
+ },
+ {
+  "id": "music",
+  "name": "Earl V. Moore Building (School of Music, Theatre & Dance)",
+  "campus": "north",
+  "lat": 42.289823,
+  "lon": -83.720802,
+  "aliases": [
+   "Moore",
+   "Moore Building",
+   "SMTD",
+   "School of Music",
+   "Music School"
+  ],
+  "source": "Overture places 2026-11-18 id fc680c3f-1e93-4696-96df-6759d479bb1f"
+ },
+ {
+  "id": "nccrb",
+  "name": "North Campus Recreation Building",
+  "campus": "north",
+  "lat": 42.295406,
+  "lon": -83.720003,
+  "aliases": [
+   "NCRB",
+   "NCCRB",
+   "North Campus Rec",
+   "North Campus Recreation Building"
+  ],
+  "source": "Overture places 2026-11-18 id 17faabd4-76f5-4072-b5ec-bb22503f2009"
+ },
+ {
+  "id": "bursley",
+  "name": "Bursley Hall",
+  "campus": "north",
+  "lat": 42.293728,
+  "lon": -83.72094,
+  "aliases": [
+   "Bursley",
+   "Bursley Hall",
+   "Bursley Dining"
+  ],
+  "source": "Overture places 2026-11-18 id 2945680b-e2cd-4743-812c-316a5e48d00c (Bursley Dining Hall)"
+ },
+ {
+  "id": "baits",
+  "name": "Baits II",
+  "campus": "north",
+  "lat": 42.294062,
+  "lon": -83.723374,
+  "aliases": [
+   "Baits",
+   "Baits II",
+   "Baits 2"
+  ],
+  "source": "Overture places 2026-11-18 id b217da6d-b96e-45de-bd42-c76c4c663346"
+ },
+ {
+  "id": "ford_robotics",
+  "name": "Ford Motor Company Robotics Building",
+  "campus": "north",
+  "lat": 42.294432,
+  "lon": -83.709591,
+  "aliases": [
+   "FRB",
+   "Ford Robotics",
+   "Robotics Building",
+   "Ford Motor Company Robotics Building",
+   "Robotics"
+  ],
+  "source": "Overture places 2026-11-18 id d7789918-88eb-451c-83ec-fce0d6d8acb6"
+ },
+ {
+  "id": "imsb",
+  "name": "Intramural Sports Building",
+  "campus": "south",
+  "lat": 42.269497,
+  "lon": -83.742265,
+  "aliases": [
+   "IMSB",
+   "IM Building",
+   "IM building",
+   "Intramural Sports Building",
+   "the IM"
+  ],
+  "source": "Overture places 2026-11-18 id e4fca0bd-4111-4900-b6f7-5bfc5c4d4f85"
+ },
+ {
+  "id": "crisler",
+  "name": "Crisler Center",
+  "campus": "south",
+  "lat": 42.265085,
+  "lon": -83.746613,
+  "aliases": [
+   "Crisler",
+   "Crisler Arena",
+   "Crisler Center"
+  ],
+  "source": "Overture places 2026-11-18 id 604e5524-a8b0-410b-b8f4-7a787fc393ee"
+ },
+ {
+  "id": "big_house",
+  "name": "Michigan Stadium",
+  "campus": "south",
+  "lat": 42.265753,
+  "lon": -83.747336,
+  "aliases": [
+   "Big House",
+   "the Big House",
+   "Michigan Stadium",
+   "Stadium"
+  ],
+  "source": "Overture places 2026-11-18 id d70be69f-e36d-4008-8c1e-4fe65494dde2; moved 112 m from the POI centroid (42.26584,-83.74869) to the nearest walk-network point (building interior is not on the street graph)"
+ },
+ {
+  "id": "kerrytown",
+  "name": "Kerrytown Market & Shops",
+  "campus": "downtown",
+  "lat": 42.2844,
+  "lon": -83.74634,
+  "aliases": [
+   "Kerrytown",
+   "Kerrytown Market",
+   "Farmers Market"
+  ],
+  "source": "Overture places 2026-11-18 id bf05a7c6-42f5-4e7d-b839-e09070d1248b"
+ },
+ {
+  "id": "main_liberty",
+  "name": "Main St & Liberty St",
+  "campus": "downtown",
+  "lat": 42.27975,
+  "lon": -83.74855,
+  "aliases": [
+   "Main & Liberty",
+   "Main Street",
+   "Main St",
+   "Downtown"
+  ],
+  "source": "manual: intersection of S Main St and W Liberty St, cross-checked against corner Overture POIs (Rally House 21587b5d 42.27905,-83.74861; Elmo's Main Street 820f43c4 42.27993,-83.74895)"
+ },
+ {
+  "id": "blake_tc",
+  "name": "Blake Transit Center",
+  "campus": "downtown",
+  "lat": 42.278295,
+  "lon": -83.746758,
+  "aliases": [
+   "Blake",
+   "Blake Transit Center",
+   "BTC",
+   "Blake TC"
+  ],
+  "source": "Overture places 2026-11-18 id 1584ce0c-a903-4d02-9823-65e59eb7ca53"
+ },
+ {
+  "id": "briarwood",
+  "name": "Briarwood Mall",
+  "campus": "other",
+  "lat": 42.240927,
+  "lon": -83.745576,
+  "aliases": [
+   "Briarwood",
+   "Briarwood Mall",
+   "the mall"
+  ],
+  "source": "Overture places 2026-11-18 id 245c39e9-092c-442b-b843-4929d7d1799d; moved 91 m from the POI centroid (42.24056,-83.74657) to the nearest walk-network point (building interior is not on the street graph)"
+ },
+ {
+  "id": "state_liberty",
+  "name": "State St & Liberty St (State Theatre)",
+  "campus": "central",
+  "lat": 42.279428,
+  "lon": -83.740658,
+  "aliases": [
+   "State & Liberty",
+   "State Street",
+   "State Theatre",
+   "State St"
+  ],
+  "source": "Overture places 2026-11-18 id a44f66cd-d72b-46b0-ba9e-ea7250521581 (The State Theatre, corner of State & Liberty)"
+ }
+]

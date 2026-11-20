@@ -1,0 +1,802 @@
+{
+ "provider": "real",
+ "built_at": "2026-11-20T02:26:50+00:00",
+ "git_rev": "c5c641a",
+ "feed_policy": "live feed covering the current/upcoming term > historical/proxy term fallback; see ledger/pipeline/feeds.py",
+ "feeds": {
+  "UM": {
+   "agency": "UM",
+   "path": "data/raw/gtfs_live/um_gtfs.zip",
+   "source": "live",
+   "label": "current UM schedule (feed valid 2026-08-23..2027-01-02)",
+   "reason": "live feed um_gtfs.zip covers the current/upcoming term; representative week chosen as the candidate week with the most weekday trips",
+   "week_monday": "2026-11-30",
+   "day_dates": {
+    "M": "2026-11-30",
+    "T": "2026-12-01",
+    "W": "2026-12-02",
+    "R": "2026-12-03",
+    "F": "2026-12-04",
+    "S": "2026-12-05",
+    "U": "2026-12-06"
+   },
+   "calendar_start": "2026-08-23",
+   "calendar_end": "2027-01-02",
+   "feed_version": "S1000100",
+   "weekday_trips_in_week": 8348,
+   "provenance": "2026-11-20 Provided by team member, downloaded from official URLs (UM webapps.fo.umich.edu / theride.org)",
+   "candidates_considered": [
+    {
+     "path": "um_gtfs.zip",
+     "calendar": [
+      "2026-08-23",
+      "2027-01-02"
+     ],
+     "usable": true,
+     "best_week": "2026-11-30",
+     "weekday_trips": 8348
+    }
+   ]
+  },
+  "AAATA": {
+   "agency": "AAATA",
+   "path": "data/raw/gtfs_live/aaata_gtfs.zip",
+   "source": "live",
+   "label": "current AAATA schedule (feed valid 2026-11-15..2027-01-23)",
+   "reason": "live feed aaata_gtfs.zip covers the current/upcoming term; representative week chosen as the candidate week with the most weekday trips",
+   "week_monday": "2026-11-30",
+   "day_dates": {
+    "M": "2026-11-30",
+    "T": "2026-12-01",
+    "W": "2026-12-02",
+    "R": "2026-12-03",
+    "F": "2026-12-04",
+    "S": "2026-12-05",
+    "U": "2026-12-06"
+   },
+   "calendar_start": "2026-11-15",
+   "calendar_end": "2027-01-23",
+   "feed_version": "S1000304",
+   "weekday_trips_in_week": 10315,
+   "provenance": "2026-11-20 Provided by team member, downloaded from official URLs (UM webapps.fo.umich.edu / theride.org)",
+   "candidates_considered": [
+    {
+     "path": "aaata_gtfs.zip",
+     "calendar": [
+      "2026-11-15",
+      "2027-01-23"
+     ],
+     "usable": true,
+     "best_week": "2026-11-30",
+     "weekday_trips": 10315
+    }
+   ]
+  }
+ },
+ "daytypes": [
+  {
+   "name": "MTWR",
+   "days": [
+    "M",
+    "T",
+    "W",
+    "R"
+   ],
+   "dates": {
+    "UM": "2026-11-30",
+    "AAATA": "2026-11-30"
+   },
+   "connections": 70325,
+   "trips": 3731
+  },
+  {
+   "name": "F",
+   "days": [
+    "F"
+   ],
+   "dates": {
+    "UM": "2026-12-04",
+    "AAATA": "2026-12-04"
+   },
+   "connections": 70413,
+   "trips": 3739
+  },
+  {
+   "name": "S",
+   "days": [
+    "S"
+   ],
+   "dates": {
+    "UM": "2026-12-05",
+    "AAATA": "2026-12-05"
+   },
+   "connections": 34864,
+   "trips": 1581
+  },
+  {
+   "name": "U",
+   "days": [
+    "U"
+   ],
+   "dates": {
+    "UM": "2026-12-06",
+    "AAATA": "2026-12-06"
+   },
+   "connections": 27864,
+   "trips": 1330
+  }
+ ],
+ "day_to_type": {
+  "M": 0,
+  "T": 0,
+  "W": 0,
+  "R": 0,
+  "F": 1,
+  "S": 2,
+  "U": 3
+ },
+ "network": {
+  "stops": 1192,
+  "stops_um": 120,
+  "stops_aaata": 1072,
+  "stops_walkable": 864,
+  "routes": 42,
+  "dropped_routes": {
+   "UM": [
+    "99995",
+    "99997",
+    "99998",
+    "99999"
+   ],
+   "AAATA": []
+  },
+  "footpaths_directed": 3622,
+  "footpaths_cross_agency_directed": 500,
+  "transfers_txt_rows_applied": 17
+ },
+ "walk_graph": {
+  "source": "Overture Maps transportation 2026-11-18.0 (ODbL, (c) OpenStreetMap contributors)",
+  "nodes": 100196,
+  "edges": 120334,
+  "max_edge_m": 40.0,
+  "walk_component_nodes": 98145,
+  "bike_component_nodes": 96949
+ },
+ "params": {
+  "walk_mps": 1.34,
+  "bike_mps": 4.2,
+  "bike_overhead_min": 2.0,
+  "stop_radius_m": 900.0,
+  "stop_k": 20,
+  "footpath_m": 300,
+  "scan_window_min": 240,
+  "slot_start_min": 360,
+  "slot_end_min": 1590,
+  "slot_step_min": 5,
+  "transfer_tiebreak_s": 120
+ },
+ "buildings": {
+  "count": 47,
+  "snap_m": {
+   "ugli": 19.2,
+   "hatcher": 20.6,
+   "angell": 16.6,
+   "mlb": 16.4,
+   "chem": 25.6,
+   "dennison": 16.7,
+   "randall": 7.1,
+   "west_hall": 12.0,
+   "east_hall": 35.4,
+   "lsa": 13.7,
+   "ross": 5.7,
+   "law": 2.8,
+   "union": 28.3,
+   "league": 12.5,
+   "rackham": 21.0,
+   "ssw": 7.5,
+   "weill": 18.8,
+   "ccrb": 24.0,
+   "biosci": 24.5,
+   "dental": 17.2,
+   "pharmacy": 24.2,
+   "nursing": 7.7,
+   "uhosp": 42.4,
+   "medsci": 4.6,
+   "taubman_lib": 32.2,
+   "sph": 21.9,
+   "bbb": 22.4,
+   "eecs": 37.4,
+   "ggbl": 5.3,
+   "duderstadt": 24.7,
+   "pierpont": 13.9,
+   "fxb": 25.2,
+   "ioe": 11.2,
+   "art_arch": 21.2,
+   "music": 25.6,
+   "nccrb": 10.4,
+   "bursley": 14.4,
+   "baits": 20.2,
+   "ford_robotics": 16.8,
+   "imsb": 10.8,
+   "crisler": 59.9,
+   "big_house": 0.0,
+   "kerrytown": 14.9,
+   "main_liberty": 10.6,
+   "blake_tc": 19.4,
+   "briarwood": 0.0,
+   "state_liberty": 4.5
+  }
+ },
+ "labels": {
+  "scans": 92872,
+  "numba": true,
+  "ms_per_scan": 0.103
+ },
+ "late_night": {
+  "MTWR": {
+   "AAATA:104": {
+    "first": "06:28",
+    "last": "18:41"
+   },
+   "AAATA:22": {
+    "first": "06:05",
+    "last": "24:10 (+1 day)"
+   },
+   "AAATA:23": {
+    "first": "05:48",
+    "last": "24:21 (+1 day)"
+   },
+   "AAATA:25": {
+    "first": "06:03",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:26": {
+    "first": "06:15",
+    "last": "23:57"
+   },
+   "AAATA:27": {
+    "first": "06:15",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:28": {
+    "first": "05:49",
+    "last": "23:36"
+   },
+   "AAATA:3": {
+    "first": "06:15",
+    "last": "24:39 (+1 day)"
+   },
+   "AAATA:30": {
+    "first": "06:00",
+    "last": "23:52"
+   },
+   "AAATA:31": {
+    "first": "06:24",
+    "last": "23:40"
+   },
+   "AAATA:32": {
+    "first": "06:15",
+    "last": "24:11 (+1 day)"
+   },
+   "AAATA:33": {
+    "first": "06:15",
+    "last": "23:56"
+   },
+   "AAATA:34": {
+    "first": "06:11",
+    "last": "18:26"
+   },
+   "AAATA:4": {
+    "first": "06:02",
+    "last": "24:24 (+1 day)"
+   },
+   "AAATA:42": {
+    "first": "05:56",
+    "last": "23:54"
+   },
+   "AAATA:43": {
+    "first": "06:00",
+    "last": "23:25"
+   },
+   "AAATA:44": {
+    "first": "06:15",
+    "last": "23:56"
+   },
+   "AAATA:45": {
+    "first": "06:00",
+    "last": "23:25"
+   },
+   "AAATA:46": {
+    "first": "06:00",
+    "last": "23:40"
+   },
+   "AAATA:47": {
+    "first": "06:00",
+    "last": "23:55"
+   },
+   "AAATA:5": {
+    "first": "06:08",
+    "last": "24:25 (+1 day)"
+   },
+   "AAATA:6": {
+    "first": "06:15",
+    "last": "24:38 (+1 day)"
+   },
+   "AAATA:61": {
+    "first": "06:15",
+    "last": "19:05"
+   },
+   "AAATA:62": {
+    "first": "06:04",
+    "last": "23:33"
+   },
+   "AAATA:63": {
+    "first": "06:46",
+    "last": "18:04"
+   },
+   "AAATA:64": {
+    "first": "06:24",
+    "last": "18:19"
+   },
+   "AAATA:65": {
+    "first": "06:35",
+    "last": "21:07"
+   },
+   "AAATA:66": {
+    "first": "06:05",
+    "last": "24:01 (+1 day)"
+   },
+   "AAATA:67": {
+    "first": "06:18",
+    "last": "23:59"
+   },
+   "AAATA:68": {
+    "first": "06:00",
+    "last": "23:56"
+   },
+   "UM:BB": {
+    "first": "07:15",
+    "last": "26:28 (+1 day)"
+   },
+   "UM:CN": {
+    "first": "05:30",
+    "last": "26:26 (+1 day)"
+   },
+   "UM:CS": {
+    "first": "05:30",
+    "last": "26:28 (+1 day)"
+   },
+   "UM:CSX": {
+    "first": "15:45",
+    "last": "19:04"
+   },
+   "UM:DD": {
+    "first": "12:56",
+    "last": "19:16"
+   },
+   "UM:MX": {
+    "first": "05:20",
+    "last": "19:45"
+   },
+   "UM:NES": {
+    "first": "06:15",
+    "last": "20:16"
+   },
+   "UM:NW": {
+    "first": "06:25",
+    "last": "26:34 (+1 day)"
+   },
+   "UM:NX": {
+    "first": "07:12",
+    "last": "13:13"
+   },
+   "UM:OS": {
+    "first": "19:00",
+    "last": "25:57 (+1 day)"
+   },
+   "UM:WS": {
+    "first": "06:00",
+    "last": "19:10"
+   },
+   "UM:WX": {
+    "first": "05:10",
+    "last": "25:14 (+1 day)"
+   }
+  },
+  "F": {
+   "AAATA:104": {
+    "first": "06:28",
+    "last": "18:41"
+   },
+   "AAATA:22": {
+    "first": "06:05",
+    "last": "24:10 (+1 day)"
+   },
+   "AAATA:23": {
+    "first": "05:48",
+    "last": "24:21 (+1 day)"
+   },
+   "AAATA:25": {
+    "first": "06:03",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:26": {
+    "first": "06:15",
+    "last": "23:57"
+   },
+   "AAATA:27": {
+    "first": "06:15",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:28": {
+    "first": "05:49",
+    "last": "23:36"
+   },
+   "AAATA:3": {
+    "first": "06:15",
+    "last": "24:39 (+1 day)"
+   },
+   "AAATA:30": {
+    "first": "06:00",
+    "last": "23:52"
+   },
+   "AAATA:31": {
+    "first": "06:24",
+    "last": "23:40"
+   },
+   "AAATA:32": {
+    "first": "06:15",
+    "last": "24:11 (+1 day)"
+   },
+   "AAATA:33": {
+    "first": "06:15",
+    "last": "23:56"
+   },
+   "AAATA:34": {
+    "first": "06:11",
+    "last": "18:26"
+   },
+   "AAATA:4": {
+    "first": "06:02",
+    "last": "24:24 (+1 day)"
+   },
+   "AAATA:42": {
+    "first": "05:56",
+    "last": "23:54"
+   },
+   "AAATA:43": {
+    "first": "06:00",
+    "last": "23:25"
+   },
+   "AAATA:44": {
+    "first": "06:15",
+    "last": "23:56"
+   },
+   "AAATA:45": {
+    "first": "06:00",
+    "last": "23:25"
+   },
+   "AAATA:46": {
+    "first": "06:00",
+    "last": "23:40"
+   },
+   "AAATA:47": {
+    "first": "06:00",
+    "last": "23:55"
+   },
+   "AAATA:5": {
+    "first": "06:08",
+    "last": "24:25 (+1 day)"
+   },
+   "AAATA:6": {
+    "first": "06:15",
+    "last": "24:38 (+1 day)"
+   },
+   "AAATA:61": {
+    "first": "06:15",
+    "last": "19:05"
+   },
+   "AAATA:62": {
+    "first": "06:04",
+    "last": "23:33"
+   },
+   "AAATA:63": {
+    "first": "06:46",
+    "last": "18:04"
+   },
+   "AAATA:64": {
+    "first": "06:24",
+    "last": "18:19"
+   },
+   "AAATA:65": {
+    "first": "06:35",
+    "last": "21:07"
+   },
+   "AAATA:66": {
+    "first": "06:05",
+    "last": "24:01 (+1 day)"
+   },
+   "AAATA:67": {
+    "first": "06:18",
+    "last": "23:59"
+   },
+   "AAATA:68": {
+    "first": "06:00",
+    "last": "23:56"
+   },
+   "UM:BB": {
+    "first": "07:15",
+    "last": "27:13 (+1 day)"
+   },
+   "UM:CN": {
+    "first": "05:30",
+    "last": "26:26 (+1 day)"
+   },
+   "UM:CS": {
+    "first": "05:30",
+    "last": "26:28 (+1 day)"
+   },
+   "UM:CSX": {
+    "first": "15:45",
+    "last": "19:04"
+   },
+   "UM:DD": {
+    "first": "12:56",
+    "last": "19:16"
+   },
+   "UM:MX": {
+    "first": "05:20",
+    "last": "19:45"
+   },
+   "UM:NES": {
+    "first": "06:15",
+    "last": "20:16"
+   },
+   "UM:NW": {
+    "first": "06:25",
+    "last": "27:14 (+1 day)"
+   },
+   "UM:NX": {
+    "first": "07:12",
+    "last": "13:13"
+   },
+   "UM:OS": {
+    "first": "19:00",
+    "last": "25:57 (+1 day)"
+   },
+   "UM:WS": {
+    "first": "06:00",
+    "last": "19:10"
+   },
+   "UM:WX": {
+    "first": "05:10",
+    "last": "25:14 (+1 day)"
+   }
+  },
+  "S": {
+   "AAATA:22": {
+    "first": "07:00",
+    "last": "23:56"
+   },
+   "AAATA:23": {
+    "first": "07:15",
+    "last": "24:18 (+1 day)"
+   },
+   "AAATA:25": {
+    "first": "07:00",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:26": {
+    "first": "07:15",
+    "last": "23:57"
+   },
+   "AAATA:27": {
+    "first": "07:05",
+    "last": "24:04 (+1 day)"
+   },
+   "AAATA:28": {
+    "first": "07:15",
+    "last": "23:38"
+   },
+   "AAATA:3": {
+    "first": "07:15",
+    "last": "24:39 (+1 day)"
+   },
+   "AAATA:30": {
+    "first": "07:00",
+    "last": "23:39"
+   },
+   "AAATA:31": {
+    "first": "07:15",
+    "last": "23:40"
+   },
+   "AAATA:32": {
+    "first": "07:15",
+    "last": "24:11 (+1 day)"
+   },
+   "AAATA:4": {
+    "first": "07:00",
+    "last": "24:24 (+1 day)"
+   },
+   "AAATA:42": {
+    "first": "06:56",
+    "last": "23:54"
+   },
+   "AAATA:43": {
+    "first": "07:00",
+    "last": "23:25"
+   },
+   "AAATA:44": {
+    "first": "07:15",
+    "last": "23:56"
+   },
+   "AAATA:45": {
+    "first": "07:00",
+    "last": "23:25"
+   },
+   "AAATA:46": {
+    "first": "07:00",
+    "last": "23:40"
+   },
+   "AAATA:47": {
+    "first": "07:00",
+    "last": "23:55"
+   },
+   "AAATA:5": {
+    "first": "07:00",
+    "last": "24:10 (+1 day)"
+   },
+   "AAATA:6": {
+    "first": "07:15",
+    "last": "24:38 (+1 day)"
+   },
+   "AAATA:66": {
+    "first": "07:05",
+    "last": "24:01 (+1 day)"
+   },
+   "AAATA:67": {
+    "first": "07:06",
+    "last": "24:02 (+1 day)"
+   },
+   "UM:BB": {
+    "first": "08:30",
+    "last": "27:13 (+1 day)"
+   },
+   "UM:CN": {
+    "first": "08:30",
+    "last": "26:26 (+1 day)"
+   },
+   "UM:CS": {
+    "first": "08:30",
+    "last": "26:28 (+1 day)"
+   },
+   "UM:NW": {
+    "first": "08:25",
+    "last": "27:14 (+1 day)"
+   },
+   "UM:OS": {
+    "first": "17:00",
+    "last": "21:57"
+   }
+  },
+  "U": {
+   "AAATA:22": {
+    "first": "08:00",
+    "last": "21:56"
+   },
+   "AAATA:23": {
+    "first": "08:15",
+    "last": "21:54"
+   },
+   "AAATA:25": {
+    "first": "08:00",
+    "last": "21:44"
+   },
+   "AAATA:26": {
+    "first": "07:58",
+    "last": "21:06"
+   },
+   "AAATA:27": {
+    "first": "08:05",
+    "last": "21:23"
+   },
+   "AAATA:28": {
+    "first": "07:57",
+    "last": "21:38"
+   },
+   "AAATA:3": {
+    "first": "08:15",
+    "last": "21:39"
+   },
+   "AAATA:30": {
+    "first": "08:00",
+    "last": "21:39"
+   },
+   "AAATA:31": {
+    "first": "08:15",
+    "last": "20:40"
+   },
+   "AAATA:32": {
+    "first": "08:15",
+    "last": "21:36"
+   },
+   "AAATA:4": {
+    "first": "08:00",
+    "last": "21:54"
+   },
+   "AAATA:42": {
+    "first": "07:56",
+    "last": "21:54"
+   },
+   "AAATA:43": {
+    "first": "08:00",
+    "last": "21:25"
+   },
+   "AAATA:44": {
+    "first": "07:57",
+    "last": "21:10"
+   },
+   "AAATA:45": {
+    "first": "08:00",
+    "last": "21:25"
+   },
+   "AAATA:46": {
+    "first": "08:00",
+    "last": "21:40"
+   },
+   "AAATA:47": {
+    "first": "08:00",
+    "last": "21:44"
+   },
+   "AAATA:5": {
+    "first": "08:00",
+    "last": "21:59"
+   },
+   "AAATA:6": {
+    "first": "08:15",
+    "last": "21:38"
+   },
+   "AAATA:67": {
+    "first": "07:58",
+    "last": "22:02"
+   },
+   "UM:BB": {
+    "first": "08:30",
+    "last": "26:43 (+1 day)"
+   },
+   "UM:CN": {
+    "first": "08:30",
+    "last": "26:26 (+1 day)"
+   },
+   "UM:CS": {
+    "first": "08:30",
+    "last": "26:28 (+1 day)"
+   },
+   "UM:NW": {
+    "first": "08:25",
+    "last": "26:34 (+1 day)"
+   },
+   "UM:OS": {
+    "first": "17:00",
+    "last": "21:57"
+   }
+  }
+ },
+ "artifact_mb": {
+  "labels.npz": 54.49,
+  "transit.npz": 1.19,
+  "walkgraph.npz": 2.18
+ },
+ "timings_s": {
+  "walk_graph_s": 1.26,
+  "gtfs_s": 3.38,
+  "building_walk_s": 1.4,
+  "labels_s": 9.6,
+  "total_s": 19.04
+ },
+ "attribution": [
+  "(c) OpenStreetMap contributors (ODbL) / Overture Maps Foundation",
+  "Transit scheduling, geographic, and real-time data provided by permission of AAATA/TheRide",
+  "University of Michigan Transportation Services GTFS"
+ ]
+}
