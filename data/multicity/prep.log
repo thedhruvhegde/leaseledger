@@ -1,0 +1,30 @@
+[annarbor prep    0.5s] 63 destinations ({np.str_('class'): np.int64(24), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(8), np.str_('job'): np.int64(20), np.str_('library'): np.int64(3)}), 4000 pool homes (from 20769 residential nodes)
+[annarbor prep    1.8s] access lists + walk matrix done; homes with a stop within 900 m: 92.8%
+[annarbor prep    7.7s] 3402 cost scans done
+[annarbor prep    9.1s] accessibility scans done
+[annarbor prep   19.7s] {"n_dest": 63, "n_pool": 4000, "residential_nodes": 20769, "n_scans": 3402, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.928, "share_homes_stop_within_400m": 0.63675, "median_headway_min_homes_with_service": 9.473684210526315, "share_trips_using_transit_ab": 0.8485960735171262, "prep_seconds": 19.7, "dest_kinds": {"class": 24, "errand": 8, "gym": 8, "job": 20, "library": 3}}
+[austin prep    0.5s] 63 destinations ({np.str_('class'): np.int64(24), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(8), np.str_('job'): np.int64(20), np.str_('library'): np.int64(3)}), 4000 pool homes (from 27710 residential nodes)
+[austin prep    2.3s] access lists + walk matrix done; homes with a stop within 900 m: 92.3%
+[austin prep    8.2s] 3402 cost scans done
+[austin prep   10.0s] accessibility scans done
+[austin prep   22.6s] {"n_dest": 63, "n_pool": 4000, "residential_nodes": 27710, "n_scans": 3402, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.92275, "share_homes_stop_within_400m": 0.70475, "median_headway_min_homes_with_service": 7.5, "share_trips_using_transit_ab": 0.8619822472848788, "prep_seconds": 22.6, "dest_kinds": {"class": 24, "errand": 8, "gym": 8, "job": 20, "library": 3}}
+[princeton prep    0.3s] 63 destinations ({np.str_('class'): np.int64(24), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(8), np.str_('job'): np.int64(20), np.str_('library'): np.int64(3)}), 4000 pool homes (from 10172 residential nodes)
+[princeton prep    1.0s] access lists + walk matrix done; homes with a stop within 900 m: 57.3%
+[princeton prep    5.8s] 3402 cost scans done
+[princeton prep    6.6s] accessibility scans done
+[princeton prep   14.5s] {"n_dest": 63, "n_pool": 4000, "residential_nodes": 10172, "n_scans": 3402, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.57275, "share_homes_stop_within_400m": 0.293, "median_headway_min_homes_with_service": 30.0, "share_trips_using_transit_ab": 0.23506098579782791, "prep_seconds": 14.5, "dest_kinds": {"class": 24, "errand": 8, "gym": 8, "job": 20, "library": 3}}
+[boston prep    0.6s] 63 destinations ({np.str_('class'): np.int64(24), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(8), np.str_('job'): np.int64(20), np.str_('library'): np.int64(3)}), 4000 pool homes (from 39000 residential nodes)
+[boston prep    3.1s] access lists + walk matrix done; homes with a stop within 900 m: 99.9%
+[boston prep    9.4s] 3402 cost scans done
+[boston prep   11.8s] accessibility scans done
+[boston prep   26.1s] {"n_dest": 63, "n_pool": 4000, "residential_nodes": 39000, "n_scans": 3402, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.99925, "share_homes_stop_within_400m": 0.91925, "median_headway_min_homes_with_service": 4.114285714285714, "share_trips_using_transit_ab": 0.919296574770259, "prep_seconds": 26.1, "dest_kinds": {"class": 24, "errand": 8, "gym": 8, "job": 20, "library": 3}}
+[sf prep    0.9s] 78 destinations ({np.str_('class'): np.int64(34), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(10), np.str_('job'): np.int64(20), np.str_('library'): np.int64(6)}), 4000 pool homes (from 47995 residential nodes)
+[sf prep    3.6s] access lists + walk matrix done; homes with a stop within 900 m: 99.4%
+[sf prep   13.8s] 4212 cost scans done
+[sf prep   16.1s] accessibility scans done
+[sf prep   37.2s] {"n_dest": 78, "n_pool": 4000, "residential_nodes": 47995, "n_scans": 4212, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.9935, "share_homes_stop_within_400m": 0.95, "median_headway_min_homes_with_service": 2.508710801393728, "share_trips_using_transit_ab": 0.9759104251012146, "prep_seconds": 37.2, "dest_kinds": {"class": 34, "errand": 8, "gym": 10, "job": 20, "library": 6}}
+[nyc prep    1.7s] 80 destinations ({np.str_('class'): np.int64(36), np.str_('errand'): np.int64(8), np.str_('gym'): np.int64(10), np.str_('job'): np.int64(20), np.str_('library'): np.int64(6)}), 4000 pool homes (from 54565 residential nodes)
+[nyc prep    5.6s] access lists + walk matrix done; homes with a stop within 900 m: 89.8%
+[nyc prep   15.3s] 4320 cost scans done
+[nyc prep   17.7s] accessibility scans done
+[nyc prep   37.3s] {"n_dest": 80, "n_pool": 4000, "residential_nodes": 54565, "n_scans": 4320, "n_deadlines": 19, "n_departs": 35, "share_homes_stop_within_900m": 0.89825, "share_homes_stop_within_400m": 0.594, "median_headway_min_homes_with_service": 1.5126050420168067, "share_trips_using_transit_ab": 0.8738361842105263, "prep_seconds": 37.3, "dest_kinds": {"class": 36, "errand": 8, "gym": 10, "job": 20, "library": 6}}

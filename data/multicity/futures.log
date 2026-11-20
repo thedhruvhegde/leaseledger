@@ -1,0 +1,11 @@
+annarbor {"futures_s": 3.4, "evpi_s": 6.0, "qmc_s": 7.7, "tau_s": 2.5, "total_s": 51.6}
+austin {"futures_s": 3.3, "evpi_s": 6.0, "qmc_s": 7.9, "tau_s": 3.7, "total_s": 48.7}
+uiuc {"futures_s": 3.3, "evpi_s": 6.0, "qmc_s": 8.0, "tau_s": 3.3, "total_s": 48.6}
+princeton {"futures_s": 3.2, "evpi_s": 6.0, "qmc_s": 7.7, "tau_s": 0.5, "total_s": 45.1}
+boston {"futures_s": 3.2, "evpi_s": 6.0, "qmc_s": 7.9, "tau_s": 8.9, "total_s": 54.2}
+nyc {"futures_s": 3.9, "evpi_s": 6.1, "qmc_s": 8.1, "tau_s": 27.4, "total_s": 73.2}
+sf {"futures_s": 3.8, "evpi_s": 6.4, "qmc_s": 8.0, "tau_s": 17.0, "total_s": 64.9}
+
+real	6m28.257s
+user	6m21.051s
+sys	0m4.143s

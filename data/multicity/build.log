@@ -1,0 +1,22 @@
+[annarbor    1.2s] walk graph 100201 nodes, 120339 edges, largest component 98150
+[annarbor    2.0s] feed UM: 2026-12-01 (current), 1668 trips in bbox
+[annarbor    3.0s] feed AA: 2026-12-01 (current), 1636 trips in bbox
+[annarbor    3.5s] done: {'stops': 870, 'stops_walkable': 856, 'routes': 42, 'trips': 3304, 'connections': 57486, 'footpaths_directed': 3040}
+[austin    1.4s] walk graph 108468 nodes, 136608 edges, largest component 106659
+[austin    7.6s] feed CM: 2026-07-21 (expired), 3789 trips in bbox
+[austin    8.3s] done: {'stops': 1109, 'stops_walkable': 890, 'routes': 72, 'trips': 3789, 'connections': 76765, 'footpaths_directed': 3148}
+[princeton    0.7s] walk graph 39787 nodes, 46201 edges, largest component 38745
+[princeton   10.9s] feed NJB: 2026-11-03 (expired), 198 trips in bbox
+[princeton   11.6s] feed NJR: 2026-11-03 (expired), 94 trips in bbox
+[princeton   11.9s] done: {'stops': 166, 'stops_walkable': 131, 'routes': 279, 'trips': 292, 'connections': 3812, 'footpaths_directed': 302}
+[boston    1.5s] walk graph 118977 nodes, 155490 edges, largest component 116905
+[boston   38.4s] feed MBTA: 2026-09-01 (expired), 11785 trips in bbox
+[boston   39.2s] done: {'stops': 1731, 'stops_walkable': 1247, 'routes': 382, 'trips': 11785, 'connections': 170945, 'footpaths_directed': 8836}
+[sf    1.7s] walk graph 150417 nodes, 190308 edges, largest component 149157
+[sf    9.6s] feed MUNI: 2026-05-19 (expired), 9510 trips in bbox
+[sf   10.4s] feed BART: 2026-06-16 (expired), 505 trips in bbox
+[sf   11.7s] done: {'stops': 3256, 'stops_walkable': 3251, 'routes': 84, 'trips': 10015, 'connections': 343937, 'footpaths_directed': 26242}
+[nyc    2.5s] walk graph 231916 nodes, 305307 edges, largest component 206864
+[nyc    5.4s] feed SUB: 2026-12-01 (current), 8091 trips in bbox
+[nyc   12.5s] feed MB: 2026-12-01 (current), 8575 trips in bbox
+[nyc   14.2s] done: {'stops': 2238, 'stops_walkable': 2119, 'routes': 336, 'trips': 16666, 'connections': 380426, 'footpaths_directed': 17006}

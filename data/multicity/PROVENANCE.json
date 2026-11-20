@@ -1,0 +1,359 @@
+{
+ "austin": {
+  "overture_segment": {
+   "path": "data/multicity/austin/segment.parquet",
+   "rows": 36257,
+   "seconds": 10,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -97.79,
+    30.24,
+    -97.68,
+    30.33
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/austin/place.parquet",
+   "rows": 31298,
+   "seconds": 3,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -97.79,
+    30.24,
+    -97.68,
+    30.33
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "CM",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-texas-capital-metro-gtfs-150.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/austin_capmetro.zip",
+    "calendar_start": "2026-05-07",
+    "calendar_end": "2026-08-15",
+    "feed_version": "260507_1240",
+    "week_monday": "2026-07-20",
+    "service_date": "2026-07-21",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 13611889
+   }
+  ]
+ },
+ "uiuc": {
+  "overture_segment": {
+   "path": "data/multicity/uiuc/segment.parquet",
+   "rows": 27685,
+   "seconds": 8,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -88.3,
+    40.07,
+    -88.17,
+    40.145
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/uiuc/place.parquet",
+   "rows": 7368,
+   "seconds": 2,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -88.3,
+    40.07,
+    -88.17,
+    40.145
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "MTD",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-illinois-champaign-urbana-mass-transit-district-mtd-gtfs-388.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/uiuc_cumtd.zip",
+    "calendar_start": "2026-05-17",
+    "calendar_end": "2026-08-08",
+    "feed_version": "GTFS Feed 17/05/2026 \u2013 08/08/2026 (Generated: 17/05/2026 12:21:59)",
+    "week_monday": "2026-08-03",
+    "service_date": "2026-08-04",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 1951514
+   }
+  ]
+ },
+ "princeton": {
+  "overture_segment": {
+   "path": "data/multicity/princeton/segment.parquet",
+   "rows": 10418,
+   "seconds": 7,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -74.72,
+    40.305,
+    -74.6,
+    40.385
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/princeton/place.parquet",
+   "rows": 4765,
+   "seconds": 2,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -74.72,
+    40.305,
+    -74.6,
+    40.385
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "NJB",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-new-jersey-new-jersey-transit-nj-transit-gtfs-508.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/princeton_njt_bus.zip",
+    "calendar_start": "2026-05-13",
+    "calendar_end": "2026-11-08",
+    "feed_version": null,
+    "week_monday": "2026-11-02",
+    "service_date": "2026-11-03",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 52749673
+   },
+   {
+    "key": "NJR",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-new-jersey-new-jersey-transit-nj-transit-gtfs-509.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/princeton_njt_rail.zip",
+    "calendar_start": "2026-05-13",
+    "calendar_end": "2026-11-08",
+    "feed_version": null,
+    "week_monday": "2026-11-02",
+    "service_date": "2026-11-03",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 5524371
+   }
+  ]
+ },
+ "boston": {
+  "overture_segment": {
+   "path": "data/multicity/boston/segment.parquet",
+   "rows": 47594,
+   "seconds": 8,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -71.15,
+    42.33,
+    -71.04,
+    42.4
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/boston/place.parquet",
+   "rows": 48432,
+   "seconds": 3,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -71.15,
+    42.33,
+    -71.04,
+    42.4
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "MBTA",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-massachusetts-massachusetts-bay-transportation-authority-mbta-gtfs-437.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/boston_mbta.zip",
+    "calendar_start": "2026-05-27",
+    "calendar_end": "2026-09-05",
+    "feed_version": "Summer 2026, 2026-06-03T21:18:15+00:00, version D",
+    "week_monday": "2026-08-31",
+    "service_date": "2026-09-01",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 40046536
+   }
+  ]
+ },
+ "nyc": {
+  "overture_segment": {
+   "path": "data/multicity/nyc/segment.parquet",
+   "rows": 77656,
+   "seconds": 8,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -74.025,
+    40.68,
+    -73.9,
+    40.825
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/nyc/place.parquet",
+   "rows": 324377,
+   "seconds": 4,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -74.025,
+    40.68,
+    -73.9,
+    40.825
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "SUB",
+    "url": "https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip",
+    "mirror": "MTA developer feed (rrgtfsfeeds S3)",
+    "feed_file": "data/multicity/gtfs/nyc_subway.zip",
+    "calendar_start": "2026-11-01",
+    "calendar_end": "2027-05-15",
+    "feed_version": "20261028-fall-2026-pick-with-long-term-supplements",
+    "week_monday": "2026-11-30",
+    "service_date": "2026-12-01",
+    "status": "current",
+    "downloaded": "2026-11-20",
+    "bytes": 5606305
+   },
+   {
+    "key": "MB",
+    "url": "https://rrgtfsfeeds.s3.amazonaws.com/gtfs_m.zip",
+    "mirror": "MTA developer feed (rrgtfsfeeds S3)",
+    "feed_file": "data/multicity/gtfs/nyc_manhattan_bus.zip",
+    "calendar_start": "2026-10-08",
+    "calendar_end": "2027-01-02",
+    "feed_version": "20261009",
+    "week_monday": "2026-11-30",
+    "service_date": "2026-12-01",
+    "status": "current",
+    "downloaded": "2026-11-20",
+    "bytes": 8322100
+   }
+  ]
+ },
+ "sf": {
+  "overture_segment": {
+   "path": "data/multicity/sf/segment.parquet",
+   "rows": 54397,
+   "seconds": 8,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=transportation/type=segment/",
+   "bbox": [
+    -122.52,
+    37.705,
+    -122.355,
+    37.812
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "overture_place": {
+   "path": "data/multicity/sf/place.parquet",
+   "rows": 76837,
+   "seconds": 3,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -122.52,
+    37.705,
+    -122.355,
+    37.812
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "MUNI",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-california-san-francisco-municipal-transportation-agency-sfmta-gtfs-2886.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/sf_muni.zip",
+    "calendar_start": "2026-05-09",
+    "calendar_end": "2026-06-05",
+    "feed_version": null,
+    "week_monday": "2026-05-18",
+    "service_date": "2026-05-19",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 8564714
+   },
+   {
+    "key": "BART",
+    "url": "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-california-bay-area-rapid-transit-bart-gtfs-53.zip?alt=media",
+    "mirror": "MobilityDatabase mdb-latest mirror (storage.googleapis.com)",
+    "feed_file": "data/multicity/gtfs/sf_bart.zip",
+    "calendar_start": "2026-01-12",
+    "calendar_end": "2026-08-09",
+    "feed_version": "72",
+    "week_monday": "2026-06-15",
+    "service_date": "2026-06-16",
+    "status": "expired",
+    "downloaded": "2026-11-20",
+    "bytes": 1047999
+   }
+  ]
+ },
+ "annarbor": {
+  "overture_place": {
+   "path": "data/multicity/annarbor/place.parquet",
+   "rows": 10252,
+   "seconds": 3,
+   "source": "s3://overturemaps-us-west-2/release/2026-11-18.0/theme=places/type=place/",
+   "bbox": [
+    -83.795,
+    42.225,
+    -83.675,
+    42.325
+   ],
+   "downloaded": "2026-11-20"
+  },
+  "gtfs": [
+   {
+    "key": "UM",
+    "url": "https://webapps.fo.umich.edu/transit_uploads/google_transit.zip",
+    "mirror": "team member (official URL)",
+    "feed_file": "data/raw/gtfs_live/um_gtfs.zip",
+    "calendar_start": "2026-08-23",
+    "calendar_end": "2027-01-02",
+    "feed_version": "S1000100",
+    "week_monday": "2026-11-30",
+    "service_date": "2026-12-01",
+    "status": "current",
+    "downloaded": "2026-11-20",
+    "bytes": 1120764
+   },
+   {
+    "key": "AA",
+    "url": "https://www.theride.org/sites/default/files/google/google_transit.zip",
+    "mirror": "team member (official URL)",
+    "feed_file": "data/raw/gtfs_live/aaata_gtfs.zip",
+    "calendar_start": "2026-11-15",
+    "calendar_end": "2027-01-23",
+    "feed_version": "S1000304",
+    "week_monday": "2026-11-30",
+    "service_date": "2026-12-01",
+    "status": "current",
+    "downloaded": "2026-11-20",
+    "bytes": 3058269
+   }
+  ]
+ },
+ "_catalog": {
+  "url": "https://storage.googleapis.com/storage/v1/b/mdb-csv/o/sources.csv?alt=media",
+  "file": "data/multicity/catalog/sources.csv",
+  "downloaded": "2026-11-20",
+  "note": "agency hosts (cdn.mbta.com, developer.cumtd.com, data.texas.gov, muni-gtfs.apps.sfmta.com, bart.gov, njtransit.com) returned proxy 403; mdb-latest mirror used; MTA from rrgtfsfeeds S3"
+ }
+}
