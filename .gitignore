@@ -12,3 +12,4 @@ data/cache/*
 presentation/dist-artifact/
 data/artifacts/labels_mmap/
 presentation/dist-deck/
+release/
