@@ -1,0 +1,9 @@
+[project]
+name = "lease-ledger"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "pydantic>=2", "fastapi", "uvicorn", "pyarrow", "httpx", "numba"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
