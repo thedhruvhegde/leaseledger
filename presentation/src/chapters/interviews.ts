@@ -33,11 +33,12 @@ export const interviewsChapter: Chapter = {
     const imgs = IMAGES.slice(0, 5);
     return html`
       <div class="geo vline"></div>
-      <h2 class="enter" style="--i:1">What students <em>told us.</em></h2>
+      <h2 class="enter" style="--i:1">${interviews?.simulated ? html`What our test personas <em>told us.</em>` : html`What students <em>told us.</em>`}</h2>
       <div class="iv-grid grow">
         ${imgs.length ? html`<div class="iv-collage n${imgs.length} enter" style="--i:2">${imgs.map((f, i) => html`<div class="plate-img iv-img" style="--r:${(i % 2 ? 1 : -1) * (0.6 + (i % 3) * 0.4)}deg"><img src="./interviews/${encodeURIComponent(f)}" alt="Interview photo" decoding="async"/></div>`)}</div>` : ''}
         <div class="iv-side enter" style="--i:3">
-          ${n != null ? html`<div class="hero md">${num(n, SRC)}</div><div class="hero-cap">students interviewed</div>` : ''}
+          ${n != null ? html`<div class="hero md">${num(n, SRC)}</div><div class="hero-cap">${interviews?.simulated ? 'simulated personas · not real users' : 'students interviewed'}</div>` : ''}
+          ${Array.isArray(interviews?.findings) ? interviews.findings.map((f: any) => html`<div class="hero-cap" style="margin-top:18px"><b>${num(String(f.value), SRC)}</b> ${esc(String(f.label))}</div>`).join('') : ''}
           ${cs.length ? html`<div class="iv-chips">${cs.map((c) => html`<span class="iv-chip">${esc(c.label)}${c.count != null ? html` <b>${num(c.count, SRC)}</b>` : ''}</span>`)}</div>` : ''}
         </div>
       </div>`;

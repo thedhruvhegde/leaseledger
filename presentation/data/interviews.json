@@ -1,0 +1,49 @@
+{
+ "simulated": true,
+ "n": 16,
+ "note": "Simulated persona feedback (16 personas, provided by the team). Not real users \u2014 directional stress test only. Coding: analysis/feedback/coded_responses.py.",
+ "keywords": [
+  {
+   "label": "receipt was most useful",
+   "count": 10
+  },
+  {
+   "label": "map routes most useful",
+   "count": 8
+  },
+  {
+   "label": "want real photos",
+   "count": 8
+  },
+  {
+   "label": "want hours & $ shown separately",
+   "count": 6
+  },
+  {
+   "label": "breakevens most useful",
+   "count": 5
+  },
+  {
+   "label": "want availability",
+   "count": 4
+  },
+  {
+   "label": "want landlord quality",
+   "count": 4
+  },
+  {
+   "label": "how-sure most useful",
+   "count": 3
+  }
+ ],
+ "findings": [
+  {
+   "label": "would change their decision (rated 4\u20135)",
+   "value": "10 of 16"
+  },
+  {
+   "label": "mean 'would change decision' \u2014 accept time value vs skeptics",
+   "value": "4.45 vs 2.0"
+  }
+ ]
+}

@@ -1,0 +1,201 @@
+{
+ "simulated": true,
+ "n": 16,
+ "source": "simulated_feedback_round1.pdf (16 simulated personas, provided by team 2026-11-20)",
+ "ratings_mean": {
+  "easy": 4.0,
+  "trust": 3.88,
+  "would_change_decision": 3.69
+ },
+ "share_change_decision_ge4": {
+  "k": 10,
+  "n": 16,
+  "ci95": [
+   0.386,
+   0.815
+  ]
+ },
+ "wants_hours_and_dollars_separate": {
+  "k": 6,
+  "n": 16,
+  "ci95": [
+   0.185,
+   0.614
+  ],
+  "ids": [
+   1,
+   2,
+   4,
+   5,
+   9,
+   10
+  ]
+ },
+ "would_change_decision_mean_by_stance": {
+  "accepts_time_value": 4.45,
+  "n_accept": 11,
+  "skeptic_or_separate": 2.0,
+  "n_skeptic": 5
+ },
+ "valued_features": [
+  [
+   "receipt",
+   10
+  ],
+  [
+   "map_routes",
+   8
+  ],
+  [
+   "breakevens",
+   5
+  ],
+  [
+   "how_sure",
+   3
+  ],
+  [
+   "group_split",
+   1
+  ],
+  [
+   "fee_flags",
+   1
+  ],
+  [
+   "instant_rerank",
+   1
+  ]
+ ],
+ "missing_info": [
+  [
+   "photos",
+   8
+  ],
+  [
+   "availability",
+   4
+  ],
+  [
+   "landlord",
+   4
+  ],
+  [
+   "reviews",
+   2
+  ],
+  [
+   "realtime_bus",
+   2
+  ],
+  [
+   "safety",
+   2
+  ],
+  [
+   "parking",
+   2
+  ],
+  [
+   "noise",
+   1
+  ],
+  [
+   "heating_type",
+   1
+  ],
+  [
+   "fees",
+   1
+  ],
+  [
+   "utilities_included",
+   1
+  ],
+  [
+   "transit_explainer",
+   1
+  ],
+  [
+   "room_locks",
+   1
+  ],
+  [
+   "custom_anchors",
+   1
+  ]
+ ],
+ "requests": [
+  [
+   "saved_schedules",
+   2
+  ],
+  [
+   "time_value_optional",
+   2
+  ],
+  [
+   "calendar_import",
+   1
+  ],
+  [
+   "lifestyle_score",
+   1
+  ],
+  [
+   "night_safety_overlay",
+   1
+  ],
+  [
+   "night_constraint",
+   1
+  ],
+  [
+   "season_toggle",
+   1
+  ],
+  [
+   "default_anchors_sports",
+   1
+  ],
+  [
+   "car_mode",
+   1
+  ],
+  [
+   "beginner_transit_mode",
+   1
+  ],
+  [
+   "compare_current_home",
+   1
+  ],
+  [
+   "export_split",
+   1
+  ],
+  [
+   "custom_anchors",
+   1
+  ],
+  [
+   "pitfalls_callout",
+   1
+  ]
+ ],
+ "use_stage": [
+  [
+   "early+final",
+   9
+  ],
+  [
+   "final",
+   4
+  ],
+  [
+   "final_only",
+   3
+  ]
+ ],
+ "caveat": "Simulated personas, n=16, not a sample of real students; directional only."
+}
