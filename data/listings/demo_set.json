@@ -1,0 +1,42 @@
+{
+ "description": "Diverse candidates for the live demo (chosen 2026-11-20 by the data engineer for spread of location/type/cost structure, NOT for any precomputed result). Observed listings are extract-only search snippets (see README); synthetic ids start with syn-.",
+ "ids": [
+  "six11-4br",
+  "landmark-4br",
+  "courtyards-4x4",
+  "um-northwood-1br",
+  "501-n-5th-1br",
+  "322-n-state-1br",
+  "icc-escher-single",
+  "1540-packard-room",
+  "603-gott-2br",
+  "hillcrest-2br",
+  "1141-s-forest-5br",
+  "syn-burns-park-house-6br-11",
+  "syn-old-west-side-house-3br-06",
+  "icc-escher-double",
+  "university-towers-2br"
+ ],
+ "why": {
+  "six11-4br": "pricey Central tower, per-bed, furnished, in-unit laundry",
+  "landmark-4br": "Central tower with stated admin + utility-billing fees (fees push all-in above rent)",
+  "courtyards-4x4": "North-Campus-adjacent per-bed complex (1780 Broadway); stated fees incl. a $75 application fee that would exceed the city's $50 cap",
+  "um-northwood-1br": "university-owned North Campus comparator; utilities included",
+  "501-n-5th-1br": "Kerrytown 1BR, utilities not stated",
+  "322-n-state-1br": "Kerrytown/State St 1BR with heat + water included",
+  "icc-escher-single": "co-op on North Campus; charge includes food/board and all utilities (rent ranking vs all-in ranking should differ)",
+  "1540-packard-room": "cheap room with ALL utilities included, walkable to Central",
+  "603-gott-2br": "cheap-rent-but-far duplex (Water Hill, 2BR/1BA)",
+  "hillcrest-2br": "cheapest per-person rent but far west (Pauline Blvd)",
+  "1141-s-forest-5br": "whole-house Burns Park group lease with driveway parking included",
+  "syn-burns-park-house-6br-11": "SYNTHETIC old gas-heated house: rent looks moderate, winter heat cost high",
+  "syn-old-west-side-house-3br-06": "SYNTHETIC 1900s Old West Side house: far-ish walk, old stock"
+ },
+ "group_week_candidates": [
+  "the-george-3br",
+  "cabrio-211-e-kingsley-3br",
+  "1006-packard-3br",
+  "syn-oxbridge-house-3br-14",
+  "syn-old-west-side-house-3br-06"
+ ]
+}

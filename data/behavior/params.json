@@ -1,0 +1,163 @@
+{
+  "value_of_time": {
+    "fraction_of_wage": {
+      "value": 0.5,
+      "low": 0.35,
+      "high": 0.6,
+      "provenance": "observed",
+      "source": "USDOT Office of the Secretary, Departmental Guidance on Valuation of Travel Time in Economic Analysis (1997; Rev.1 2003; Rev.2 2016): local personal travel = 50% of hourly income, plausible range 35-60%",
+      "note": "Government guidance value (not a student-specific estimate). 'observed' = taken verbatim from published guidance. 2016 PDF host blocked this session; 50% and the 35-60% band confirmed via search extracts of the guidance series."
+    },
+    "default_student_wage_usd_h": {
+      "value": 15.0,
+      "low": 13.73,
+      "high": 18.75,
+      "provenance": "observed",
+      "source": "U-M Student Employment Office: $15/h floor for all on-campus temporary and student positions since 2022-08-21 (SEO newsletter fall 2022); Michigan minimum wage $13.73 from 2026-01-01 (michigan.gov/leo), $15.00 from 2027-01-01; postings seen up to ~$18.75",
+      "note": "Low = state minimum 2026; high = upper end of student postings seen (job-aggregator, weak). U-M floor not re-verified for AY2026-27."
+    },
+    "default_vot_usd_h": {
+      "value": 7.5,
+      "low": 4.8,
+      "high": 15.0,
+      "provenance": "estimated",
+      "source": "Computed 0.5 x $15/h (USDOT share x U-M student wage floor). Range: 0.35 x $13.73 = $4.81 to 1.0 x $15 (full wage: student who would otherwise work). Student VOT studies span roughly EUR1.4-18/h (Trieste RP/SP) and $6-23/h (US SP studies)",
+      "note": "Dominant input; the app should show hours first and let the user set VOT; Monte Carlo over [low, high]."
+    }
+  },
+  "time_multipliers": {
+    "in_vehicle": {
+      "value": 1.0,
+      "low": 1.0,
+      "high": 1.0,
+      "provenance": "observed",
+      "source": "Definition (numeraire)",
+      "note": "All other time components are expressed as in-vehicle-minute equivalents."
+    },
+    "walk": {
+      "value": 1.75,
+      "low": 1.5,
+      "high": 2.0,
+      "provenance": "estimated",
+      "source": "Wardman et al. worldwide meta-analysis of time multipliers (2872 multipliers, 606 studies, 52 countries, 1963-2023; indexed TRID 2026): supports reducing the conventional 2.0 to 1.75 (RP emphasis) or 1.50 (SP emphasis). USDOT guidance: walk/wait/transfer at 100% of wage vs 50% for in-vehicle => 2.0. Abrantes & Wardman (2011) UK meta-analysis: walk/wait ratio 'substantially lower than two'.",
+      "note": "Applies to access/egress walks of transit trips and to pure-walk trips. Bad-weather adjustment applied on top (weather.bad_day_walk_multiplier)."
+    },
+    "wait": {
+      "value": 1.75,
+      "low": 1.5,
+      "high": 2.0,
+      "provenance": "estimated",
+      "source": "Same sources as walk (Wardman worldwide meta-analysis 1.5-1.75; USDOT 2.0; Abrantes & Wardman 2011 <2)",
+      "note": "Applies to time actually standing at the stop (incl. outdoor exposure). Forced early arrival at destination is NOT wait; use schedule_delay_early_per_min."
+    },
+    "bike": {
+      "value": 1.0,
+      "low": 0.8,
+      "high": 1.5,
+      "provenance": "assumed",
+      "source": "No verified cycling-time multiplier found this session; set equal to in-vehicle time",
+      "note": "Exercise co-benefit vs effort/exposure roughly offset by assumption. Winter cycling handled by weather; consider disabling bike on snow-cover days."
+    },
+    "transfer_penalty_min": {
+      "value": 10.0,
+      "low": 5.0,
+      "high": 18.0,
+      "provenance": "estimated",
+      "source": "Garcia-Martinez et al. (2018) Transp. Res. A 114:52-66, Madrid SP: pure transfer penalty = 15.2-17.7 in-vehicle minutes (excluding walk/wait). Currie (2005) J. Public Transp. 8(1): review avg bus-bus transfer penalty ~22 min (range 5-50), not netting out walk/wait",
+      "note": "Added per transfer, in in-vehicle minutes, on top of the transfer walk and wait already charged at walk/wait multipliers. Scaled below Madrid metro commuters' value because campus trips are short and UM/AAATA transfers are mostly same-stop or short walks; this scaling is our assumption."
+    },
+    "schedule_delay_early_per_min": {
+      "value": 0.5,
+      "low": 0.3,
+      "high": 0.8,
+      "provenance": "estimated",
+      "source": "Small (1982) AER 72(3):467-479 scheduling model; Small's own bottleneck review summarizes his estimates as approx beta/alpha = 0.5 (early) and gamma/alpha = 2 (late). Wardman, Chintakayala & de Jong (2016) Transp. Res. A 94:93-111 also meta-analyse schedule-delay-early/late values",
+      "note": "DIMENSIONLESS multiplier on VOT: each minute of forced early arrival beyond arrival_buffer_min costs 0.5 x VOT/60 dollars. Early time on campus is partly usable (study), hence < in-vehicle."
+    }
+  },
+  "weather": {
+    "monthly_snow_cover_days": {
+      "1": 20.9,
+      "2": 17.0,
+      "3": 7.2,
+      "4": 0.5,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0,
+      "9": 0.0,
+      "10": 0.0,
+      "11": 1.7,
+      "12": 11.7
+    },
+    "monthly_days_below_freezing": {
+      "1": 28.0,
+      "2": 25.3,
+      "3": 22.1,
+      "4": 8.8,
+      "5": 0.5,
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0,
+      "9": 0.1,
+      "10": 3.7,
+      "11": 15.7,
+      "12": 25.9
+    },
+    "bad_day_walk_multiplier": {
+      "value": 1.3,
+      "low": 1.1,
+      "high": 1.7,
+      "provenance": "estimated",
+      "source": "Physical slowdown: Fossum (winter pavement, Norway) ~+1 min/km on best winter surface, ~+2 min/km on clean ice vs bare pavement (~+8-17% at 12 min/km); computer-vision study in a cold region: speed -0.102 m/s on snow cover (~-8% at 1.3 m/s). Discomfort: 2026 preprint DCE finds per-minute WTP for time savings rises ~1.66x in rain vs sun (rain, not snow; unreviewed)",
+      "note": "A 'bad day' = day with snow depth >= 1 in (NOAA SNWD normals). Multiplies walk and outdoor wait minutes on those days; expected monthly factor = 1 + (m-1) * snow_cover_days/days_in_month * Profile.winter_aversion. Value combines ~10-15% slower walking with a modest discomfort premium; not a single-study estimate."
+    }
+  },
+  "late_night": {
+    "start_min": 1320,
+    "usd_per_outdoor_min": {
+      "value": 0.1,
+      "low": 0.0,
+      "high": 0.3,
+      "provenance": "assumed",
+      "source": "No study found that prices walking after dark in $/min. Context: Gallup (2023 release) 40% of US adults afraid to walk alone at night within a mile of home; women 53% vs men 26%. Lighting/reassurance literature (Fotios et al.) shows route avoidance after dark but no time-equivalent",
+      "note": "Extra $ per outdoor minute (walking or waiting) after 22:00, scaled by Profile.late_night_weight. $0.10/min = $6/h, i.e. ~+45% on a walk minute at default VOT ($7.50 x 1.75 = $13.1/h). Wide range on purpose; show it as a user slider."
+    }
+  },
+  "schedule": {
+    "home_return_min_gap": {
+      "value": 30.0,
+      "low": 15.0,
+      "high": 60.0,
+      "provenance": "assumed",
+      "source": "Project day-tour rule (concepts/final-recommendation.md v2): go home between events only if gap > round trip + this slack",
+      "note": "Minutes of at-home time needed to make a trip home worthwhile. Kobus et al. (2015) show long-commute students visit campus fewer days but stay longer: consistent with chaining."
+    },
+    "arrival_buffer_min": {
+      "value": 5.0,
+      "low": 2.0,
+      "high": 10.0,
+      "provenance": "assumed",
+      "source": "Project rule (final-recommendation.md v2). Theory: with schedule-delay costs beta (early) and gamma (late), the cost-minimizing on-time probability is gamma/(beta+gamma) ~= 2/(0.5+2) = 0.8 (Small 1982; Noland & Small 1995)",
+      "note": "Deterministic buffer used with GTFS times. If ride-time noise is modeled, replace by the 80th-percentile travel time (see literature-review.md, upgrade U4)."
+    }
+  },
+  "calendar": {
+    "weeks_per_month": {
+      "value": 4.348,
+      "low": 4.0,
+      "high": 4.429,
+      "provenance": "observed",
+      "source": "Arithmetic: 365.25 days / 12 months / 7 days",
+      "note": "Low = February (28 d), high = 31-day month."
+    },
+    "academic_weeks_per_year": {
+      "value": 30.0,
+      "low": 28.0,
+      "high": 32.0,
+      "provenance": "estimated",
+      "source": "U-M Board of Regents, proposed Ann Arbor calendar 2026-27 (regents.umich.edu meeting 09-2025, via search extract): fall classes begin Mon 2026-08-31; 69 class days in fall and 69 in winter. 69/5 = 13.8 class weeks + ~1 week of exams/study days per term",
+      "note": "Weeks a student commutes on the term schedule (fall + winter, incl. exam weeks, excl. breaks). Registrar PDF not reachable; exact exam end dates unverified."
+    }
+  }
+}

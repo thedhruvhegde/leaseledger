@@ -1,0 +1,607 @@
+{
+ "_note": "Example inputs for demos/tests. 'profile' validates as ledger.schemas.Profile; group.members as list[Member] (and group as GroupRequest). Events are team-authored examples (provenance 'user' = as if entered by the student).",
+ "profiles": [
+  {
+   "id": "north-engineer",
+   "name": "North Campus engineer",
+   "description": "EECS junior; classes and labs on North, two Central classes; walks or rides the Blue Bus; solo lease budget.",
+   "profile": {
+    "events": [
+     {
+      "label": "EECS 281 lecture",
+      "building_id": "eecs",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 600,
+      "end_min": 690,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "EECS 370 lecture",
+      "building_id": "bbb",
+      "days": [
+       "M",
+       "W"
+      ],
+      "start_min": 780,
+      "end_min": 870,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Math 214",
+      "building_id": "ggbl",
+      "days": [
+       "M",
+       "W",
+       "F"
+      ],
+      "start_min": 570,
+      "end_min": 630,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "EECS 270 lab",
+      "building_id": "eecs",
+      "days": [
+       "W"
+      ],
+      "start_min": 870,
+      "end_min": 1050,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Econ 101",
+      "building_id": "lsa",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 870,
+      "end_min": 960,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Project team",
+      "building_id": "duderstadt",
+      "days": [
+       "M",
+       "R"
+      ],
+      "start_min": 1140,
+      "end_min": 1350,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Gym",
+      "building_id": "nccrb",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 1050,
+      "end_min": 1110,
+      "fixed": true,
+      "provenance": "user"
+     }
+    ],
+    "template_id": "eng-north",
+    "modes": [
+     "walk",
+     "bus"
+    ],
+    "rent_cap": 1400,
+    "household_size": 1,
+    "hourly_wage": 16,
+    "preferences": {
+     "in_unit_laundry": 0.6,
+     "gym": 0.3
+    },
+    "season": "winter",
+    "month": 1
+   }
+  },
+  {
+   "id": "ross-kerrytown-job",
+   "name": "Ross + Kerrytown job",
+   "description": "Ross BBA sophomore who works three evening/weekend shifts in Kerrytown.",
+   "profile": {
+    "events": [
+     {
+      "label": "Ross core (accounting)",
+      "building_id": "ross",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 510,
+      "end_min": 600,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Ross core (strategy)",
+      "building_id": "ross",
+      "days": [
+       "M",
+       "W"
+      ],
+      "start_min": 600,
+      "end_min": 690,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Stats 250",
+      "building_id": "angell",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 780,
+      "end_min": 870,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Team meeting",
+      "building_id": "ross",
+      "days": [
+       "M"
+      ],
+      "start_min": 1110,
+      "end_min": 1230,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Kerrytown shift",
+      "building_id": "kerrytown",
+      "days": [
+       "W",
+       "F"
+      ],
+      "start_min": 1020,
+      "end_min": 1260,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Kerrytown shift (Sat)",
+      "building_id": "kerrytown",
+      "days": [
+       "S"
+      ],
+      "start_min": 600,
+      "end_min": 960,
+      "fixed": true,
+      "provenance": "user"
+     }
+    ],
+    "template_id": "ross-bba",
+    "modes": [
+     "walk",
+     "bus",
+     "bike"
+    ],
+    "rent_cap": 1300,
+    "household_size": 1,
+    "hourly_wage": 15,
+    "preferences": {
+     "dishwasher": 0.4
+    },
+    "season": "fall"
+   }
+  },
+  {
+   "id": "late-night-studio",
+   "name": "Late-night studio (Art & Architecture until 01:00)",
+   "description": "Stamps/Taubman student with studio nights in the Art & Architecture building until 1 AM; late-night exposure weighted heavily.",
+   "profile": {
+    "events": [
+     {
+      "label": "Studio",
+      "building_id": "art_arch",
+      "days": [
+       "M",
+       "W",
+       "F"
+      ],
+      "start_min": 810,
+      "end_min": 1050,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Art history",
+      "building_id": "art_arch",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 600,
+      "end_min": 690,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Central requirement",
+      "building_id": "mlb",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 870,
+      "end_min": 960,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Late studio",
+      "building_id": "art_arch",
+      "days": [
+       "M",
+       "T",
+       "W",
+       "R"
+      ],
+      "start_min": 1140,
+      "end_min": 1500,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Weekend studio",
+      "building_id": "art_arch",
+      "days": [
+       "U"
+      ],
+      "start_min": 720,
+      "end_min": 1080,
+      "fixed": true,
+      "provenance": "user"
+     }
+    ],
+    "template_id": "music-artdesign-north",
+    "modes": [
+     "walk",
+     "bus"
+    ],
+    "rent_cap": 1250,
+    "household_size": 1,
+    "late_night_weight": 2.5,
+    "winter_aversion": 1.5,
+    "season": "winter",
+    "month": 2
+   }
+  },
+  {
+   "id": "premed-hospital",
+   "name": "Pre-med with hospital shifts",
+   "description": "LSA neuroscience pre-med: chem/bio on Central, weekend volunteer shifts at University Hospital, late UgLi nights.",
+   "profile": {
+    "events": [
+     {
+      "label": "Chem 210",
+      "building_id": "chem",
+      "days": [
+       "M",
+       "W",
+       "F"
+      ],
+      "start_min": 570,
+      "end_min": 630,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Bio 305",
+      "building_id": "biosci",
+      "days": [
+       "T",
+       "R"
+      ],
+      "start_min": 690,
+      "end_min": 780,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Physics 135",
+      "building_id": "randall",
+      "days": [
+       "M",
+       "W"
+      ],
+      "start_min": 780,
+      "end_min": 870,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Chem 211 lab",
+      "building_id": "chem",
+      "days": [
+       "T"
+      ],
+      "start_min": 780,
+      "end_min": 1020,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Hospital volunteer shift",
+      "building_id": "uhosp",
+      "days": [
+       "S",
+       "U"
+      ],
+      "start_min": 420,
+      "end_min": 720,
+      "fixed": true,
+      "provenance": "user"
+     },
+     {
+      "label": "Late study",
+      "building_id": "ugli",
+      "days": [
+       "M",
+       "T",
+       "W",
+       "R"
+      ],
+      "start_min": 1200,
+      "end_min": 1470,
+      "fixed": true,
+      "provenance": "user"
+     }
+    ],
+    "template_id": "premed-lsa-sci",
+    "modes": [
+     "walk",
+     "bus"
+    ],
+    "rent_cap": 1350,
+    "household_size": 1,
+    "preferences": {
+     "study_rooms": 0.4,
+     "in_unit_laundry": 0.5
+    },
+    "season": "fall"
+   }
+  }
+ ],
+ "group": {
+  "id": "group-3-mixed",
+  "name": "Three roommates: engineer + Ross + nurse",
+  "description": "Example Group Week: three friends choosing a 3BR. Aliases only; budgets differ.",
+  "members": [
+   {
+    "alias": "A (engineer)",
+    "budget_cap": 1100,
+    "profile": {
+     "events": [
+      {
+       "label": "EECS 281 lecture",
+       "building_id": "eecs",
+       "days": [
+        "T",
+        "R"
+       ],
+       "start_min": 600,
+       "end_min": 690,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "EECS 370 lecture",
+       "building_id": "bbb",
+       "days": [
+        "M",
+        "W"
+       ],
+       "start_min": 780,
+       "end_min": 870,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Math 214",
+       "building_id": "ggbl",
+       "days": [
+        "M",
+        "W",
+        "F"
+       ],
+       "start_min": 570,
+       "end_min": 630,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "EECS 270 lab",
+       "building_id": "eecs",
+       "days": [
+        "W"
+       ],
+       "start_min": 870,
+       "end_min": 1050,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Econ 101",
+       "building_id": "lsa",
+       "days": [
+        "T",
+        "R"
+       ],
+       "start_min": 870,
+       "end_min": 960,
+       "fixed": true,
+       "provenance": "user"
+      }
+     ],
+     "template_id": "eng-north",
+     "household_size": 3,
+     "rent_cap": 1100,
+     "hourly_wage": 16
+    }
+   },
+   {
+    "alias": "B (Ross)",
+    "budget_cap": 1300,
+    "profile": {
+     "events": [
+      {
+       "label": "Ross core (accounting)",
+       "building_id": "ross",
+       "days": [
+        "T",
+        "R"
+       ],
+       "start_min": 510,
+       "end_min": 600,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Ross core (strategy)",
+       "building_id": "ross",
+       "days": [
+        "M",
+        "W"
+       ],
+       "start_min": 600,
+       "end_min": 690,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Stats 250",
+       "building_id": "angell",
+       "days": [
+        "T",
+        "R"
+       ],
+       "start_min": 780,
+       "end_min": 870,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Team meeting",
+       "building_id": "ross",
+       "days": [
+        "M"
+       ],
+       "start_min": 1110,
+       "end_min": 1230,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Kerrytown shift",
+       "building_id": "kerrytown",
+       "days": [
+        "W",
+        "F"
+       ],
+       "start_min": 1020,
+       "end_min": 1260,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Kerrytown shift (Sat)",
+       "building_id": "kerrytown",
+       "days": [
+        "S"
+       ],
+       "start_min": 600,
+       "end_min": 960,
+       "fixed": true,
+       "provenance": "user"
+      }
+     ],
+     "template_id": "ross-bba",
+     "household_size": 3,
+     "rent_cap": 1300,
+     "hourly_wage": 15
+    }
+   },
+   {
+    "alias": "C (nursing)",
+    "budget_cap": 950,
+    "profile": {
+     "events": [
+      {
+       "label": "Nursing lecture",
+       "building_id": "nursing",
+       "days": [
+        "M",
+        "W"
+       ],
+       "start_min": 510,
+       "end_min": 600,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Pharmacology",
+       "building_id": "medsci",
+       "days": [
+        "T",
+        "R"
+       ],
+       "start_min": 780,
+       "end_min": 870,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Clinical shift",
+       "building_id": "uhosp",
+       "days": [
+        "R"
+       ],
+       "start_min": 405,
+       "end_min": 915,
+       "fixed": true,
+       "provenance": "user"
+      },
+      {
+       "label": "Sim lab",
+       "building_id": "nursing",
+       "days": [
+        "F"
+       ],
+       "start_min": 480,
+       "end_min": 720,
+       "fixed": true,
+       "provenance": "user"
+      }
+     ],
+     "template_id": "nursing-clinical",
+     "household_size": 3,
+     "rent_cap": 950,
+     "hourly_wage": 14
+    }
+   }
+  ],
+  "listing_ids": [
+   "the-george-3br",
+   "cabrio-211-e-kingsley-3br",
+   "1006-packard-3br",
+   "syn-oxbridge-house-3br-14",
+   "syn-old-west-side-house-3br-06"
+  ]
+ }
+}

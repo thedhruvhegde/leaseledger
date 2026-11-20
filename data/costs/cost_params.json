@@ -1,0 +1,191 @@
+{
+ "_meta": {
+  "built": "2026-11-20",
+  "builder": "data/costs/tools/build_cost_params.py",
+  "leaf_format": "P = {value, low, high, provenance, source, note}",
+  "annual_hdd_base65": 6500.4,
+  "caveat": "Primary utility/government hosts were blocked from the build environment; most web facts are search-result extracts. Re-verify before relying on them."
+ },
+ "electricity_usd_per_kwh": {
+  "value": 0.22,
+  "low": 0.19,
+  "high": 0.25,
+  "provenance": "estimated",
+  "source": "EIA Electric Power Monthly Table 5.6.A Michigan residential: 21.20 c/kWh (Mar 2026), 22.99 c/kWh (Aug 2026), 2026 YTD avg 21.73 c (via electricity-cost.pages.dev and greencalculus.com citing EIA, extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20); DTE cross-check: MPSC-approved DTE Electric increase 'typical residential customer using 500 kWh per month will see an increase of $4.93, or 4.6%' -> implied bill ~$112/500 kWh = $0.224/kWh all-in incl. customer charge (extract-only (search-result text; page not fetched from this environment))",
+  "note": "All-in average incl. delivery, PSCR and the ~$8.50/mo customer charge spread over usage. DTE D1 tariff sheet (MPSC rate book) not retrieved. Low/high cover summer-peak vs off-peak and month-to-month variation."
+ },
+ "gas_usd_per_therm": {
+  "value": 1.1,
+  "low": 0.85,
+  "high": 1.4,
+  "provenance": "estimated",
+  "source": "MPSC news release 2026-09-10 'MPSC approves DTE Gas Co. infrastructure investments' (michigan.gov/mpsc): typical residential customer using 75 ccf/month bill rises by $2.87, or 3.34% -> implied bill $88.80/75 ccf = $1.18/ccf = ~$1.14/therm (1 ccf ~ 1.037 therm) incl. customer charge; GCR ~$0.39/ccf (Jan 2026, utilitiesformyhome.com) and MPSC max GCR $3.84/Mcf (12 mo to 2026-03-31). extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20",
+  "note": "Marginal cost per extra therm is lower (~$0.85-0.95) because the fixed customer charge is in the all-in figure; high band covers GCR spikes such as January 2026 and the 68-cent/mo IRM charge from Jan 1."
+ },
+ "monthly_hdd": {
+  "1": 1269.3,
+  "2": 1076.5,
+  "3": 908.7,
+  "4": 525.7,
+  "5": 226.3,
+  "6": 43.7,
+  "7": 7.8,
+  "8": 15.3,
+  "9": 118.3,
+  "10": 426.6,
+  "11": 772.5,
+  "12": 1109.7
+ },
+ "monthly_cdd": {
+  "1": 0.0,
+  "2": 0.0,
+  "3": 0.5,
+  "4": 3.7,
+  "5": 40.3,
+  "6": 133.7,
+  "7": 221.6,
+  "8": 178.0,
+  "9": 68.8,
+  "10": 6.6,
+  "11": 0.0,
+  "12": 0.0
+ },
+ "monthly_hdd_source": {
+  "value": 6500.4,
+  "low": 6500.4,
+  "high": 6500.4,
+  "provenance": "observed",
+  "source": "NOAA NCEI U.S. Climate Normals 1991-2020, station USC00200230 (ANN ARBOR UNIV OF MICH), monthly MLY-HTDD-NORMAL / MLY-CLDD-NORMAL (base 65F); file data/raw/noaa_normals/USC00200230_monthly_1991-2020.csv (from NOAA open-data S3 bucket)",
+  "note": "value = annual sum; monthly values in monthly_hdd"
+ },
+ "heating_therms_per_hdd_per_1000sqft": {
+  "house_pre1950": {
+   "value": 0.07,
+   "low": 0.05,
+   "high": 0.1,
+   "provenance": "estimated",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "748 therms/(6200 HDD x 1.75 ksf) = 0.0689; band widened for drafty student rentals (upper) and weatherized units (lower)"
+  },
+  "house_1950_1990": {
+   "value": 0.058,
+   "low": 0.042,
+   "high": 0.078,
+   "provenance": "estimated",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "~Michigan all-home average 727 therms/(6500 HDD x 1.9 ksf) = 0.0589"
+  },
+  "house_post1990": {
+   "value": 0.04,
+   "low": 0.028,
+   "high": 0.055,
+   "provenance": "estimated",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "post-2010 Midwest 489 therms/(6200 x 2.3 ksf) = 0.0343; 1990-2009 stock assumed between this and the 1950-1990 value"
+  },
+  "apartment": {
+   "value": 0.035,
+   "low": 0.02,
+   "high": 0.055,
+   "provenance": "assumed",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "shared walls/floors: assumed ~40% below 1950-1990 detached intensity"
+  },
+  "tower": {
+   "value": 0.022,
+   "low": 0.012,
+   "high": 0.035,
+   "provenance": "assumed",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "modern high-rise envelope, interior units; many towers heat electrically -> convert with 29.3 kWh/therm x furnace efficiency ratio (0.8 gas AFUE vs 1.0 resistance, ~2.5 COP heat pump)"
+  },
+  "duplex": {
+   "value": 0.055,
+   "low": 0.04,
+   "high": 0.075,
+   "provenance": "assumed",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "one shared wall; typically pre-1960 Ann Arbor stock"
+  },
+  "coop": {
+   "value": 0.065,
+   "low": 0.045,
+   "high": 0.09,
+   "provenance": "assumed",
+   "source": "EIA RECS 2020 via EIA Today in Energy #57321 (eia.gov/todayinenergy/detail.php?id=57321), extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20; floor areas and regional HDD assumed (see README)",
+   "note": "large pre-1940 houses; ICC charges include utilities so this rarely reaches a member's ledger"
+  }
+ },
+ "base_kwh_per_person_month": {
+  "value": 180,
+  "low": 120,
+  "high": 260,
+  "provenance": "assumed",
+  "source": "Team assumption anchored to EIA RECS 2020 Midwest household electricity use for lighting/appliances/electronics (not retrieved this session); students in shared units share fridge/range",
+  "note": "Excludes electric space heating/cooling (model those from HDD/CDD). Add ~0.8 kWh per CDD per 1000 sqft for window/central AC (assumed)."
+ },
+ "internet_usd_unit_month": {
+  "value": 55,
+  "low": 35,
+  "high": 75,
+  "provenance": "estimated",
+  "source": "Ann Arbor plan prices via broadbandnow.com / internetproviders.ai / reviews.org: AT&T Fiber 300 Mbps ~$35-40/mo, Xfinity base tiers ~$30-40/mo promotional (extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20)",
+  "note": "Value assumes post-promotional price plus equipment/taxes; low = promo price."
+ },
+ "water_sewer_trash_usd_person_month": {
+  "value": 30,
+  "low": 18,
+  "high": 45,
+  "provenance": "estimated",
+  "source": "City of Ann Arbor FY27 rate schedule (a2gov.org/media/usphkox3/water-rates-fy27.pdf, effective 2026-07-01): water customer charge $36.26/quarter and sewer customer charge $17.94/quarter for a 3/4-inch meter; stormwater billed separately (tier 1 $39.17/quarter per city stormwater page) (extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20); WEMU 2025-04-21/2026-04-06 on rate increases",
+  "note": "Per-person = fixed charges (~$31/mo/household incl. stormwater) / 3 persons + volumetric water+sewer for ~2 ccf/person-month at an ASSUMED ~$11/ccf combined (FY27 volumetric rates not retrieved). Curbside trash is not separately billed to Ann Arbor residents (assumed: city solid-waste millage) -> $0. Usually landlord-paid in apartments/towers."
+ },
+ "renters_insurance_usd_month": {
+  "value": 15,
+  "low": 10,
+  "high": 27,
+  "provenance": "estimated",
+  "source": "insure.com 'average renters insurance cost in Ann Arbor, MI' (~$13/mo), lainsurance.com (~$24/mo MI), Michigan guides $15-30/mo (extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20)",
+  "note": "Per person; standard $20-30k personal property policy. Often lease-required in towers."
+ },
+ "um_parking_permit_usd_year": {
+  "value": 188,
+  "low": 96,
+  "high": 268,
+  "provenance": "observed",
+  "source": "U-M Logistics, Transportation & Parking, 'New campus parking permit rates effective July 1, 2026' (ltp.umich.edu/2026/04/29/...) and permit pages: FY27 Student Yellow $188/yr; Student Orange $96/yr (juniors/seniors/grad; North, Ross Athletic, West Side Orange lots); Student Yellow w/After Hours $268 (July 1-14 price) (extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20)",
+  "note": "Campus permit only; does NOT include parking at home (see Listing.parking_monthly). Orange prices decline through the year."
+ },
+ "bus_fare_student": {
+  "value": 0.0,
+  "low": 0.0,
+  "high": 0.0,
+  "provenance": "observed",
+  "source": "U-M LTP rider guide (ltp.umich.edu/campus-transit/rider-guide): Blue Bus free, no ID needed; LTP MRide page and TheRide: active U-M students ride TheRide fixed routes free with a valid MCard ('U-M pays fares for U-M riders') (extract-only (search-result text; page not fetched from this environment), accessed 2026-11-20)",
+  "note": "MCard not accepted on TheRide FootballRide. No 2026 policy change found."
+ },
+ "default_sqft_per_bedroom": {
+  "value": 375,
+  "low": 300,
+  "high": 450,
+  "provenance": "computed",
+  "source": "Median of observed listings with stated sqft and >=2 bedrooms in data/listings/listings.json (Six11 4BR 1209 sqft, Landmark 2BR 1095, Varsity 2BR 750, Arbor Blu 2BR 741, 1313 S State 2BR 800, Huron Towers 2BR 742, 1323 Cambridge 6BR 2645)",
+  "note": "Includes the bedroom's share of common space. Used only when Listing.sqft is null."
+ },
+ "security_deposit_max_months": {
+  "value": 1.5,
+  "low": 1.5,
+  "high": 1.5,
+  "provenance": "observed",
+  "source": "Michigan Security Deposit Act, MCL 554.602 (max 1.5 months' rent); UM Off-Campus Housing deposit page offcampus.umich.edu/node/2728 (via research/ann-arbor-market.md A4, extract-only (search-result text; page not fetched from this environment))",
+  "note": "Prepaid rent beyond the first month counts toward the cap (UM OCH)."
+ },
+ "application_fee_cap_usd": {
+  "value": 50,
+  "low": 50,
+  "high": 50,
+  "provenance": "observed",
+  "source": "Ann Arbor City Code 8:532 (effective 2025-01-26): application fees capped at $50, refundable within 60 days if no unit offered; pre-tenancy (waitlist/holding/option) fees banned. Via research/ann-arbor-market.md A3 (extract-only (search-result text; page not fetched from this environment); a2gov.org blocked)",
+  "note": "ORD-26-04 (effective 2026-08-01) fee-transparency scope not verified."
+ }
+}
