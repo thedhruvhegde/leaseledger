@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { currentRoute, navigate, type Route } from './lib/route';
-import { resolveClient } from './api/client';
+import { resolveClient, watchLive } from './api/client';
 import { SCREENS, useApp, type Screen } from './store/app';
 import { useBuildings, useDemoProfiles, useDiff, useListingMap } from './api/hooks';
 import { parseSchedule as localParse } from './api/mockNlp';
@@ -25,8 +25,13 @@ export function App() {
 
   useEffect(() => {
     let alive = true;
-    void resolveClient().then(({ api, fellBack, health }) => alive && setApi(api, fellBack, health));
-    return () => { alive = false; };
+    let stop: (() => void) | undefined;
+    void resolveClient().then(({ api, fellBack, health }) => {
+      if (!alive) return;
+      setApi(api, fellBack, health);
+      if (fellBack) stop = watchLive((liveApi, h) => alive && setApi(liveApi, false, h));
+    });
+    return () => { alive = false; stop?.(); };
   }, [setApi]);
 
   const [route, setRoute] = useState<Route>(currentRoute);
@@ -146,9 +151,14 @@ function Shell() {
     <div className="min-h-screen bg-bg">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2">Skip to content</a>
       <Header />
+      {!api && (
+        <div role="status" className="border-b border-line bg-raised px-4 py-1.5 text-center text-[13px] text-charcoal">
+          Connecting to the live server… the first visit after a quiet spell can take up to a minute.
+        </div>
+      )}
       {fellBack && (
         <div role="status" className="border-b border-line bg-raised px-4 py-1.5 text-center text-[13px] text-charcoal">
-          API offline — showing mock data. Travel times are simplified and all listings are synthetic.
+          Live server not reachable yet — showing sample data (simplified travel, synthetic listings). It reconnects automatically.
         </div>
       )}
       {full ? (

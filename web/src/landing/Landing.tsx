@@ -76,7 +76,7 @@ export default function Landing() {
     <div className="landing min-h-screen bg-bg text-ink">
       <a href="#hero" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-full focus:bg-surface focus:px-4 focus:py-2">Skip to content</a>
       <Nav />
-      {fellBack && <div role="status" className="border-b border-line bg-raised px-4 py-2 text-center text-[13px] text-charcoal">API offline: showing mock data. Every listing is synthetic.</div>}
+      {fellBack && <div role="status" className="border-b border-line bg-raised px-4 py-2 text-center text-[13px] text-charcoal">Live server not reachable yet: showing sample data (every listing synthetic). It reconnects automatically.</div>}
       <main>
         <Hero />
         <Vignettes />

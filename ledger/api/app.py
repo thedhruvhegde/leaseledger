@@ -530,7 +530,9 @@ def prewarm_demo(state: AppState, engine, provider) -> int:
             do_evaluate(EvaluateRequest(profile=prof), state, engine, provider)
             # The Homes page ranks every observed listing by default: warm that request too (same id order as /api/listings).
             ids = [l.id for l in state.data.observed_listings()]
-            if ids:
+            # On the 0.1-CPU free instance, warming every profile x 69 listings starves request handling for minutes:
+            # warm only the first demo profile (the one the deck and landing page use).
+            if ids and (n == 0 or os.environ.get("LOW_MEMORY", "0") != "1"):
                 do_evaluate(EvaluateRequest(profile=prof, listing_ids=ids), state, engine, provider)
             n += 1
         except Exception as e:

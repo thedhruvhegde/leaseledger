@@ -108,7 +108,7 @@ export class LiveApi implements ApiClient {
     return this.req<T>(path, { method: 'POST', body: JSON.stringify(body), timeoutMs });
   }
 
-  health() { return this.req<Health>('/health', { timeoutMs: 2500 }); }
+  health() { return this.req<Health>('/health', { timeoutMs: 8000 }); }
   manifest() { return this.req<Manifest>('/manifest'); }
   async buildings() { return asList<Building>(await this.req<unknown>('/buildings'), 'buildings'); }
   async listings(includeSynthetic = true) { return asList<Listing>(await this.req<unknown>(`/listings?include_synthetic=${includeSynthetic}`), 'listings'); }
@@ -142,11 +142,25 @@ export async function resolveClient(): Promise<{ api: ApiClient; fellBack: boole
     return { api: m, fellBack: false, health: await m.health() };
   }
   const live = new LiveApi();
-  try {
-    const h = await live.health();
-    return { api: live, fellBack: false, health: h };
-  } catch {
-    const m = new MockApi();
-    return { api: m, fellBack: true, health: await m.health() };
+  // A sleeping or busy server (free hosting wakes in ~1 min) must not flip the app to mock data:
+  // retry the health check for up to ~75 s before falling back.
+  const deadline = Date.now() + 75000;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const h = await live.health();
+      return { api: live, fellBack: false, health: h };
+    } catch {
+      if (Date.now() > deadline) break;
+      await new Promise((r) => setTimeout(r, Math.min(2000 + attempt * 1000, 6000)));
+    }
   }
+  const m = new MockApi();
+  return { api: m, fellBack: true, health: await m.health() };
+}
+
+/** After a fallback, keep checking the live API and switch back as soon as it answers. */
+export function watchLive(onLive: (api: ApiClient, health: Health) => void): () => void {
+  const live = new LiveApi();
+  const id = setInterval(() => { live.health().then((h) => { clearInterval(id); onLive(live, h); }).catch(() => {}); }, 10000);
+  return () => clearInterval(id);
 }
