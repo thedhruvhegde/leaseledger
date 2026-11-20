@@ -15,6 +15,8 @@ import type { Campus, EvaluationResult, Infeasibility, Listing, ListingEvaluatio
 import { hours, titleCase, usd, usdRate } from '../lib/format';
 import { legLines } from '../lib/legs';
 import { useDesktop } from '../lib/media';
+import { CATEGORIES, categoryOf, displayName } from '../lib/category';
+import type { CategoryFilter } from '../store/app';
 
 const SearchMap = lazy(() => import('../components/SearchMap'));
 
@@ -58,20 +60,31 @@ export function ResultsScreen() {
   const pane = useRef<HTMLDivElement>(null);
   const listScroll = useRef(0);
 
-  const evals = useMemo(() => data?.evaluations ?? [], [data]);
+  const category = useApp((s) => s.category);
+  const allEvals = useMemo(() => data?.evaluations ?? [], [data]);
+  const evals = useMemo(() => (category === 'all' ? allEvals : allEvals.filter((e) => categoryOf(lmap.get(e.listing_id)) === category)), [allEvals, category, lmap]);
+  const counts = useMemo(() => {
+    const c: Record<CategoryFilter, number> = { all: allEvals.length, apartments: 0, houses: 0, coops: 0 };
+    for (const e of allEvals) c[categoryOf(lmap.get(e.listing_id))]++;
+    return c;
+  }, [allEvals, lmap]);
   const sorted = useMemo(() => sortEvals(evals, sort), [evals, sort]);
   const portalRank = useMemo(() => new Map((data?.baseline_ranking ?? []).map((id, i) => [id, i + 1])), [data]);
-  const lines = useMemo(() => new Map(evals.map((e) => [e.listing_id, legLines(e)])), [evals]);
-  const open = selected ? evals.find((e) => e.listing_id === selected) : undefined;
-  const top = evals.find((e) => e.rank === 1);
-  const lowest = useMemo(() => [...evals].filter((e) => rentOf(e) != null).sort((a, b) => rentOf(a)! - rentOf(b)!)[0], [evals]);
+  const lines = useMemo(() => new Map(allEvals.map((e) => [e.listing_id, legLines(e)])), [allEvals]);
+  const open = selected ? allEvals.find((e) => e.listing_id === selected) : undefined;
+  const top = allEvals.find((e) => e.rank === 1);
+  const lowest = useMemo(() => [...allEvals].filter((e) => rentOf(e) != null).sort((a, b) => rentOf(a)! - rentOf(b)!)[0], [allEvals]);
   const nFit = evals.filter((e) => e.feasible).length;
 
   // Map data
-  const pins: PricePin[] = useMemo(() => evals.map((e) => {
-    const l = lmap.get(e.listing_id);
-    return { id: e.listing_id, lat: l?.lat ?? 0, lon: l?.lon ?? 0, rank: e.feasible ? e.rank ?? null : null, price: e.all_in_total, feasible: e.feasible, name: l?.name ?? e.listing_id };
-  }).filter((p) => p.lat !== 0), [evals, lmap]);
+  // Price pins for the 12 best in view; the rest are small dots that open to a price on hover (portal convention).
+  const pins: PricePin[] = useMemo(() => {
+    const shown = new Set(sortEvals(evals, 'best').filter((e) => e.feasible).slice(0, 12).map((e) => e.listing_id));
+    return evals.map((e) => {
+      const l = lmap.get(e.listing_id);
+      return { id: e.listing_id, lat: l?.lat ?? 0, lon: l?.lon ?? 0, rank: e.feasible ? e.rank ?? null : null, price: e.all_in_total, feasible: e.feasible, name: l?.name ?? e.listing_id, dot: !shown.has(e.listing_id) };
+    }).filter((p) => p.lat !== 0);
+  }, [evals, lmap]);
   const others = useMemo(() => {
     const ranked = new Set(evals.map((e) => e.listing_id));
     return listings.filter((l) => !ranked.has(l.id)).map((l) => ({ lat: l.lat, lon: l.lon, label: `${l.name} (not in this ranking)` }));
@@ -95,7 +108,8 @@ export function ResultsScreen() {
     }
     return Array.from(acc.entries()).map(([k, v]) => ({ lat: v.lat / v.n, lon: v.lon / v.n, label: CAMPUS_LABEL[k]! }));
   }, [buildings]);
-  const routeId = hover ?? selected ?? top?.listing_id ?? null;
+  const firstInView = sorted.find((e) => e.feasible) ?? sorted[0];
+  const routeId = hover ?? selected ?? firstInView?.listing_id ?? top?.listing_id ?? null;
   const routes: MapLine[] = useMemo(() => (routeId ? lines.get(routeId) ?? [] : []), [routeId, lines]);
   const focus = useMemo(() => {
     if (!open) return null;
@@ -132,7 +146,7 @@ export function ResultsScreen() {
     <ListView data={data} sorted={sorted} lmap={lmap} lines={lines} view={view} setView={setView} sort={sort} setSort={setSort}
       selected={selected} hover={hover} setHover={setHover} onOpen={openHome} compare={compare} toggleCompare={toggleCompare}
       deltas={diff.data?.deltas} beforeRank={(id) => before.data?.evaluations.find((e) => e.listing_id === id)?.rank ?? null}
-      top={top} lowest={lowest} nFit={nFit} isFetching={isFetching} profile={profile} desktop={desktop} />
+      top={top} lowest={lowest} nFit={nFit} isFetching={isFetching} profile={profile} desktop={desktop} counts={counts} />
   );
   const detailBody = open && data ? <HomeDetail key={open.listing_id} e={open} l={lmap.get(open.listing_id)} result={data} onClose={closeHome} portalRank={portalRank.get(open.listing_id)} />
     : compareOpen && compare.length === 2 && data ? <ComparePanel a={compare[0]} b={compare[1]} result={data} onClose={closeHome} portalRank={portalRank} /> : null;
@@ -150,11 +164,11 @@ export function ResultsScreen() {
         <div className="flex min-h-0 flex-1">
           <div ref={pane} className="results-pane relative min-h-0 overflow-y-auto border-r border-line bg-surface">
             {detailBody ?? listBody}
-            <CompareTray lmap={lmap} evals={evals} />
+            <CompareTray lmap={lmap} evals={allEvals} />
           </div>
           <div className="relative min-w-0 flex-1">
             {map}
-            <MapLegend routeName={routeId ? splitName(lmap.get(routeId)?.name).title : null} hasPlaces={places.length > 0} />
+            <MapLegend routeName={routeId ? displayName(lmap.get(routeId)?.name).building : null} hasPlaces={places.length > 0} />
           </div>
         </div>
       </div>
@@ -175,7 +189,7 @@ export function ResultsScreen() {
           {mobileView === 'list' ? 'Map' : 'List'}
         </button>
       )}
-      <CompareTray lmap={lmap} evals={evals} mobile />
+      <CompareTray lmap={lmap} evals={allEvals} mobile />
       {detailBody && (
         <div className="fixed inset-0 z-[55]" role="dialog" aria-modal="true" aria-label="Home details">
           <button className="absolute inset-0 bg-ink/30" aria-label="Close details" onClick={closeHome} />
@@ -204,13 +218,15 @@ function FilterBar({ isFetching }: { isFetching: boolean }) {
   );
 }
 
-function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, selected, hover, setHover, onOpen, compare, toggleCompare, deltas, beforeRank, top, lowest, nFit, profile, desktop }: {
+function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, selected, hover, setHover, onOpen, compare, toggleCompare, deltas, beforeRank, top, lowest, nFit, profile, desktop, counts }: {
   data: EvaluationResult; sorted: ListingEvaluation[]; lmap: Map<string, Listing>; lines: Map<string, MapLine[]>; view: 'cards' | 'table'; setView: (v: 'cards' | 'table') => void;
   sort: SortKey; setSort: (s: SortKey) => void; selected: string | null; hover: string | null; setHover: (id: string | null) => void; onOpen: (id: string) => void;
   compare: string[]; toggleCompare: (id: string) => void; deltas?: Record<string, import('../types').DiffDelta>; beforeRank: (id: string) => number | null;
-  top?: ListingEvaluation; lowest?: ListingEvaluation; nFit: number; isFetching: boolean; profile: Profile; desktop: boolean;
+  top?: ListingEvaluation; lowest?: ListingEvaluation; nFit: number; isFetching: boolean; profile: Profile; desktop: boolean; counts: Record<CategoryFilter, number>;
 }) {
   const setProfile = useApp((s) => s.setProfile);
+  const category = useApp((s) => s.category);
+  const cat = CATEGORIES.find((c) => c.id === category);
   const max = Math.max(1, ...sorted.map((e) => e.all_in_total));
   const showInsight = top && lowest && top.listing_id !== lowest.listing_id && lowest.all_in_total - top.all_in_total >= 10;
   return (
@@ -220,6 +236,7 @@ function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, sel
           <h1 className="font-sans text-[1.125rem] font-semibold tracking-normal">Ann Arbor homes for your week</h1>
           <div className="num text-[13px] text-faint">
             <b className="font-semibold text-ink">{nFit}</b> of {sorted.length} fit · ranked by all-in monthly cost{data.value_of_time_used > 0 ? <> with time at {usdRate(data.value_of_time_used)}/h</> : <>, cash only</>}
+            {' · '}<ScopeSelect />
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -227,9 +244,10 @@ function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, sel
           {desktop && <Segmented size="xs" label="View" value={view} onChange={setView} options={[{ value: 'cards', label: 'Cards' }, { value: 'table', label: 'Table' }]} />}
         </div>
       </div>
+      <CategoryTabs counts={counts} />
 
       {data.infeasibility && <div className="mt-3"><InfeasibleBanner inf={data.infeasibility} profile={profile} onRelax={(p) => setProfile(p)} /></div>}
-      {showInsight && (
+      {showInsight && category === 'all' && (
         <div className="mt-3 rounded-xl border border-line bg-raised px-4 py-3 text-[13px] leading-relaxed text-charcoal" data-testid="insight">
           <b className="font-semibold text-ink">Lowest rent isn’t the cheapest week.</b>{' '}
           {splitName(lmap.get(lowest!.listing_id)?.name).title} has the lowest rent{rentOf(lowest!) != null && <> (<span className="num">{usd(rentOf(lowest!))}</span>)</>} but {lowest!.feasible ? <>ranks #{lowest!.rank}</> : <>fails your constraints</>}: <b className="num font-semibold text-ink">{usd(lowest!.all_in_total - top!.all_in_total)}/mo</b> more all-in than #1.
@@ -237,6 +255,8 @@ function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, sel
       )}
       <div className="mt-2"><Notes warnings={data.warnings.filter((w) => !w.startsWith('MOCK'))} /></div>
 
+      {cat && <SectionHead title={cat.label} count={sorted.length} blurb={cat.blurb} />}
+      {sorted.length === 0 && <div className="mt-4 rounded-xl border border-dashed border-line-strong px-4 py-6 text-center text-[13px] text-faint">No {cat?.label.toLowerCase()} in this ranking.</div>}
       {view === 'table' ? (
         <div className="mt-3"><DenseTable evals={sorted} lmap={lmap} max={max} selected={selected ?? undefined} onSelect={onOpen} /></div>
       ) : (
@@ -253,8 +273,52 @@ function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, sel
       )}
       <p className="mt-6 text-[12px] leading-relaxed text-faint">
         Prices are per person per month. All-in adds the value of your travel time and late-night exposure to the cash you pay; it is a ranking, not a bill.
-        Not legal or financial advice. Synthetic listings are fictional and labeled.
+        Not legal or financial advice. Synthetic listings are fictional and labeled. Photos appear only where the team has the right to show them; other homes show a street map.
       </p>
+    </div>
+  );
+}
+
+/** Category tabs with counts: All · Towers & apartments · Houses & rooms · Co-ops, plus which homes are ranked. */
+function CategoryTabs({ counts }: { counts: Record<CategoryFilter, number> }) {
+  const category = useApp((s) => s.category);
+  const setCategory = useApp((s) => s.setCategory);
+  const tabs: { id: CategoryFilter; label: string }[] = [{ id: 'all', label: 'All homes' }, ...CATEGORIES.map((c) => ({ id: c.id, label: c.label }))];
+  return (
+    <div className="mt-3 border-b border-line">
+      <div role="tablist" aria-label="Home type" className="no-scrollbar -mb-px flex min-w-0 gap-1 overflow-x-auto">
+        {tabs.map((t) => {
+          const on = category === t.id;
+          return (
+            <button key={t.id} role="tab" aria-selected={on} onClick={() => setCategory(t.id)} disabled={t.id !== 'all' && counts[t.id] === 0}
+              className={`cat-tab inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-2.5 text-[13px] font-medium transition-colors disabled:opacity-40 ${on ? 'border-ink text-ink' : 'border-transparent text-faint hover:text-ink'}`}>
+              {t.label}<span className={`num rounded-full px-1.5 text-[11px] leading-[18px] ${on ? 'bg-ink text-bg' : 'bg-soft text-charcoal'}`}>{counts[t.id]}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ScopeSelect() {
+  const scope = useApp((s) => s.scope);
+  const setScope = useApp((s) => s.setScope);
+  return (
+    <select aria-label="Which homes to rank" value={scope} onChange={(e) => setScope(e.target.value as 'all' | 'shortlist')}
+      className="cursor-pointer appearance-none bg-transparent pr-1 text-[13px] text-faint underline decoration-line-strong underline-offset-2 hover:text-ink">
+      <option value="all">all observed homes</option>
+      <option value="shortlist">demo shortlist</option>
+    </select>
+  );
+}
+
+function SectionHead({ title, count, blurb }: { title: string; count: number; blurb: string }) {
+  return (
+    <div className="mt-4 flex flex-wrap items-baseline gap-x-2">
+      <h2 className="text-[15px] font-semibold">{title}</h2>
+      <span className="num text-[13px] text-faint">{count} home{count === 1 ? '' : 's'}</span>
+      <p className="w-full text-[12.5px] text-faint">{blurb}</p>
     </div>
   );
 }
@@ -295,33 +359,45 @@ function CompareTray({ lmap, evals, mobile = false }: { lmap: Map<string, Listin
   if (compare.length === 0 || compareOpen) return null;
   const ev = (id: string) => evals.find((e) => e.listing_id === id);
   return (
-    <div className={`${mobile ? 'fixed inset-x-2 z-30 compare-tray-m' : 'sticky bottom-3 mx-4 sm:mx-5'} flex items-center gap-2 rounded-xl border border-line-strong bg-surface p-2 pl-3`} role="region" aria-label="Compare tray">
-      <span className="text-[12px] font-medium text-faint">Compare</span>
-      <div className="flex min-w-0 flex-1 gap-1.5">
-        {compare.map((id) => (
-          <span key={id} className="inline-flex min-w-0 items-center gap-1 rounded-full bg-soft py-1 pl-2.5 pr-1 text-[12px]">
-            <span className="truncate font-medium">{splitName(lmap.get(id)?.name ?? id).title}</span>
-            <span className="num text-faint">{usd(ev(id)?.all_in_total)}</span>
-            <button className="flex h-5 w-5 items-center justify-center rounded-full hover:bg-line" onClick={() => toggle(id)} aria-label={`Remove ${lmap.get(id)?.name ?? id} from compare`}><IconX size={12} /></button>
-          </span>
-        ))}
-        {compare.length < 2 && <span className="self-center truncate text-[12px] text-faint">Pick one more home</span>}
+    <div className={`${mobile ? 'fixed inset-x-2 z-30 compare-tray-m' : 'sticky bottom-3 mx-4 sm:mx-5'} compare-tray rounded-2xl border border-line-strong bg-surface p-2`} role="region" aria-label="Compare tray">
+      <div className={`flex gap-2 ${mobile ? 'flex-col' : 'items-center'}`}>
+        <div className="grid min-w-0 flex-1 grid-cols-2 gap-1.5">
+          {[0, 1].map((i) => {
+            const id = compare[i];
+            if (!id) return <div key={i} className="flex h-11 items-center justify-center rounded-xl border border-dashed border-line-strong px-2 text-[12px] text-faint">Add a second home</div>;
+            const e = ev(id);
+            const { building, plan } = displayName(lmap.get(id)?.name ?? id);
+            return (
+              <div key={id} className="flex h-11 min-w-0 items-center gap-2 rounded-xl bg-soft pl-2 pr-1">
+                <span className="num inline-flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-surface px-1.5 text-[11px] font-semibold ring-1 ring-line">{e?.rank ? `#${e.rank}` : '–'}</span>
+                <span className="min-w-0 flex-1 leading-tight">
+                  <span className="block truncate text-[12.5px] font-semibold">{building}</span>
+                  <span className="num block truncate text-[11px] text-faint">{usd(e?.all_in_total)}/mo{plan ? ` · ${plan}` : ''}</span>
+                </span>
+                <button className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-faint hover:bg-line hover:text-ink" onClick={() => toggle(id)} aria-label={`Remove ${lmap.get(id)?.name ?? id} from compare`}><IconX size={13} /></button>
+              </div>
+            );
+          })}
+        </div>
+        <div className={`flex shrink-0 items-center gap-1 ${mobile ? 'flex-row-reverse' : ''}`}>
+          <button className={`btn-primary h-9 px-4 text-[13px] ${mobile ? 'flex-1' : ''}`} disabled={compare.length < 2} onClick={() => { setSelected(null); setCompareOpen(true); }}>Compare{compare.length === 2 ? ' 2 homes' : ''}</button>
+          <button className="btn-ghost h-9 px-3 text-[12px]" onClick={clear}>Clear</button>
+        </div>
       </div>
-      <button className="btn-ghost h-8 px-2 text-[12px]" onClick={clear}>Clear</button>
-      <button className="btn-primary h-8 px-3.5 text-[13px]" disabled={compare.length < 2} onClick={() => { setSelected(null); setCompareOpen(true); }}>Compare</button>
     </div>
   );
 }
 
 function MapLegend({ routeName, hasPlaces }: { routeName: string | null; hasPlaces: boolean }) {
   return (
-    <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg border border-line bg-surface/95 px-3 py-2 text-[11px] text-charcoal">
+    <div className="map-legend pointer-events-none absolute bottom-3 left-3 rounded-lg border border-line bg-surface/95 px-3 py-2 text-[11px] text-charcoal">
       {routeName && <div className="mb-1 font-medium text-ink">Routes from {routeName}</div>}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span className="inline-flex items-center gap-1.5"><span className="h-[3px] w-5 rounded-full bg-bus" />Bus</span>
         <span className="inline-flex items-center gap-1.5"><span className="h-0 w-5 border-t-2 border-dotted border-ink" />Walk</span>
         {hasPlaces && <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-ink bg-surface" />Your places</span>}
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-mute" />Other listings</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-surface bg-charcoal ring-1 ring-line-strong" />More ranked homes</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-mute" />Not ranked</span>
       </div>
     </div>
   );

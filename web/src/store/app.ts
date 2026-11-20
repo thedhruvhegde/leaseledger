@@ -17,6 +17,21 @@ export const SCREENS: { id: Screen; label: string; short: string }[] = [
 
 const BURST_MS = 1500;
 
+export type HomeScope = 'all' | 'shortlist';
+export type CategoryFilter = 'all' | 'apartments' | 'houses' | 'coops';
+
+function initialCategory(): CategoryFilter {
+  if (typeof window === 'undefined') return 'all';
+  const q = new URLSearchParams(window.location.search).get('type');
+  return q === 'apartments' || q === 'houses' || q === 'coops' ? q : 'all';
+}
+
+function initialScope(): HomeScope {
+  if (typeof window === 'undefined') return 'all';
+  const q = new URLSearchParams(window.location.search).get('scope');
+  return q === 'shortlist' ? 'shortlist' : 'all';
+}
+
 interface AppState {
   api: ApiClient | null;
   fellBack: boolean;
@@ -76,6 +91,13 @@ interface AppState {
   /** Text typed into the landing page's week pill, handed to "Your week" to parse on arrival. */
   weekDraft: string | null;
   setWeekDraft: (t: string | null) => void;
+
+  /** Which homes the Homes page ranks: every observed listing (default) or the 15-home demo shortlist. */
+  scope: HomeScope;
+  setScope: (s: HomeScope) => void;
+  /** Category tab on Homes (client-side filter of the ranked list; ranks are unchanged). */
+  category: CategoryFilter;
+  setCategory: (c: CategoryFilter) => void;
 
   members: Member[];
   setMembers: (m: Member[] | ((m: Member[]) => Member[])) => void;
@@ -190,6 +212,11 @@ export const useApp = create<AppState>((set, get) => ({
 
   weekDraft: null,
   setWeekDraft: (weekDraft) => set({ weekDraft }),
+
+  scope: initialScope(),
+  setScope: (scope) => set({ scope, selected: null, compare: [], compareOpen: false }),
+  category: initialCategory(),
+  setCategory: (category) => set({ category }),
 
   members: [],
   setMembers: (m) => set({ members: typeof m === 'function' ? m(get().members) : m }),

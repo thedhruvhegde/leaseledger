@@ -1,0 +1,38 @@
+{
+  "university-towers-1br": [
+    {
+      "file": "university-towers/exterior.jpg",
+      "credit": "Photo provided by the team · original source to be confirmed",
+      "source_url": "",
+      "license": "provided by team",
+      "position": "center 30%"
+    }
+  ],
+  "university-towers-2br": [
+    {
+      "file": "university-towers/exterior.jpg",
+      "credit": "Photo provided by the team · original source to be confirmed",
+      "source_url": "",
+      "license": "provided by team",
+      "position": "center 30%"
+    }
+  ],
+  "foundry-lofts-3br": [
+    {
+      "file": "foundry-lofts/exterior.jpg",
+      "credit": "Photo provided by the team · original source to be confirmed",
+      "source_url": "",
+      "license": "provided by team",
+      "position": "center 35%"
+    }
+  ],
+  "foundry-lofts-studio": [
+    {
+      "file": "foundry-lofts/exterior.jpg",
+      "credit": "Photo provided by the team · original source to be confirmed",
+      "source_url": "",
+      "license": "provided by team",
+      "position": "center 35%"
+    }
+  ]
+}

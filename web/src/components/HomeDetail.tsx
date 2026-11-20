@@ -7,6 +7,9 @@ import { Compare, VsRow, keyFacts } from './WhyPanel';
 import { humanize } from './Breakeven';
 import { LedgerChart } from './LedgerChart';
 import { MapThumb } from './MapThumb';
+import { Gallery, ListingVisual } from './Photo';
+import { photosOf } from '../lib/photos';
+import { categoryLabel, categoryOf, displayName } from '../lib/category';
 import { ProvenanceLegend, splitName } from './ui/Badge';
 import { Segmented } from './ui/Controls';
 import { IconChevron, IconX } from './ui/Icons';
@@ -54,7 +57,7 @@ export function HomeDetail({ e, l, result, onClose, portalRank }: { e: ListingEv
   const lmap = useListingMap();
   const [tab, setTab] = useState<'visual' | 'list'>('visual');
   const root = useRef<HTMLDivElement>(null);
-  const { title, sub } = splitName(l?.name ?? e.listing_id);
+  const { building: title, plan: sub } = displayName(l?.name ?? e.listing_id);
   const c = e.commute;
   const facts = keyFacts(e.explanation_facts, 4);
   const feasible = result.evaluations.filter((x) => x.feasible && x.listing_id !== e.listing_id);
@@ -77,7 +80,8 @@ export function HomeDetail({ e, l, result, onClose, portalRank }: { e: ListingEv
         <button className="btn-ghost w-9 px-0 lg:hidden" onClick={onClose} aria-label="Close details"><IconX /></button>
       </div>
 
-      {l && <MapThumb lat={l.lat} lon={l.lon} lines={legLines(e)} label={l.name} className="h-44 border-b border-line lg:hidden" />}
+      {l && photosOf(l).length > 0 ? <Gallery l={l} />
+        : l && <MapThumb lat={l.lat} lon={l.lon} lines={legLines(e)} label={l.name} className="h-44 border-b border-line lg:hidden" />}
 
       <header className="px-5 pb-5 pt-5 sm:px-6">
         <div className="flex flex-col gap-x-6 gap-y-3 sm:flex-row sm:items-start sm:justify-between">
@@ -85,7 +89,7 @@ export function HomeDetail({ e, l, result, onClose, portalRank }: { e: ListingEv
             <div className="text-[13px] text-faint">{e.feasible ? <>Ranked <b className="font-semibold text-ink">#{e.rank}</b> for your week{portalRank ? <> · a typical portal would rank it #{portalRank}</> : null}</> : 'Doesn’t fit your constraints'}</div>
             <h2 className="mt-1 text-[1.625rem] font-semibold leading-tight">{title}</h2>
             {sub && <div className="text-[15px] text-charcoal">{sub}</div>}
-            <div className="mt-1 text-[13px] text-faint">{[l?.address, l?.neighborhood].filter(Boolean).join(' · ')}</div>
+            <div className="mt-1 text-[13px] text-faint">{[l?.address?.replace(/, Ann Arbor, MI$/, ''), l?.neighborhood, l ? categoryLabel(categoryOf(l)) : null].filter(Boolean).join(' · ')}</div>
           </div>
           <div className="sm:text-right">
             <div className="num text-[2rem] font-semibold leading-none tracking-tight">{usd(e.all_in_total)}<span className="ml-1 text-sm font-normal text-faint">/mo all-in</span></div>
@@ -237,7 +241,7 @@ export function ComparePanel({ a, b, result, onClose, portalRank }: { a: string;
           const l = lmap.get(id);
           return (
             <div key={id} className="overflow-hidden rounded-xl border border-line">
-              {l && <MapThumb lat={l.lat} lon={l.lon} lines={legLines(e)} label={l.name} className="aspect-[16/9] border-b border-line" />}
+              <div className="relative aspect-[16/9] border-b border-line"><ListingVisual l={l} lines={legLines(e)} className="absolute inset-0" /></div>
               <div className="p-3">
                 <div className="text-[11px] font-medium text-faint">Home {i === 0 ? 'A' : 'B'} · {e?.rank ? `#${e.rank} for your week` : 'doesn’t fit'}{portalRank.get(id) ? ` · portal #${portalRank.get(id)}` : ''}</div>
                 <div className="mt-0.5 truncate text-[14px] font-semibold">{splitName(l?.name ?? id).title}</div>

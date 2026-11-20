@@ -4,7 +4,7 @@ import type { MapLine } from './MapView';
 import { useApp } from '../store/app';
 
 const W = 320;
-const H = 160;
+const H = 200;
 const HALF_M = 460; // half the thumbnail width in metres
 
 /**
@@ -12,8 +12,8 @@ const HALF_M = 460; // half the thumbnail width in metres
  * home's own week routes (street walk paths and bus legs from the engine) and a home marker. Never a picture of
  * the building; it is labelled as a map for screen readers.
  */
-export const MapThumb = memo(function MapThumb({ lat, lon, lines = [], label, className = '' }: {
-  lat: number; lon: number; lines?: MapLine[]; label: string; className?: string;
+export const MapThumb = memo(function MapThumb({ lat, lon, lines = [], label, className = '', chips = true }: {
+  lat: number; lon: number; lines?: MapLine[]; label: string; className?: string; chips?: boolean;
 }) {
   const roads = useRoads();
   const dark = useApp((s) => s.theme === 'dark');
@@ -66,7 +66,7 @@ export const MapThumb = memo(function MapThumb({ lat, lon, lines = [], label, cl
         <circle cx={W / 2} cy={H / 2} r={9} fill="rgb(var(--ink))" stroke={c.road} strokeWidth={3} />
         <path d={`M${W / 2 - 4} ${H / 2 + 0.5} L${W / 2} ${H / 2 - 3.5} L${W / 2 + 4} ${H / 2 + 0.5} M${W / 2 - 2.6} ${H / 2 - 0.5} V${H / 2 + 3.5} H${W / 2 + 2.6} V${H / 2 - 0.5}`} fill="none" stroke={c.road} strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" />
       </svg>
-      {busLabels.length > 0 && (
+      {chips && busLabels.length > 0 && (
         <div className="pointer-events-none absolute bottom-2 left-2 flex gap-1">
           {busLabels.map((b) => <span key={b} className="map-route-label !static">{b}</span>)}
         </div>

@@ -4,7 +4,7 @@
  * - navigations: network first, fall back to the cached shell (works offline, SPA routes).
  * - same-origin static files: cache first (hashed assets never change).
  * - the API (another origin in dev, or same-origin /api/* in production) is never intercepted: numbers are always live or clearly unavailable. */
-const VERSION = 'll-v3';
+const VERSION = 'll-v4';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/basemap.geojson', '/campus.geojson',
   '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable-512.png', '/icons/apple-touch-icon.png'];
 
@@ -49,7 +49,7 @@ self.addEventListener('fetch', (event) => {
     const hit = await caches.match(req);
     if (hit) return hit;
     const res = await fetch(req);
-    if (res.ok && (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/') || /\.(geojson|woff2?|png|svg|css|js)$/.test(url.pathname))) {
+    if (res.ok && (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/') || /\.(geojson|woff2?|png|jpe?g|webp|svg|css|js)$/.test(url.pathname))) {
       const cache = await caches.open(VERSION);
       cache.put(req, res.clone());
     }

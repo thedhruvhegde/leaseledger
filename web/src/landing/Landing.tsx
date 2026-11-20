@@ -1,9 +1,9 @@
 /**
- * Product homepage ("/"): a plain, credible front door in the portal convention — search field first, one real
- * screenshot of the results page, how it works in three steps, sources with live dates and counts, limits.
+ * Product homepage ("/"): a plain, credible front door in the portal convention — search field first, three crops
+ * of the running app, the homes in the index by type, how it works, sources with live dates and counts, limits.
  * No hype copy, testimonials, invented stats or stock photos. Counts and dates come from the API.
  */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useApp } from '../store/app';
 import { useDemoProfiles, useListings, useManifest } from '../api/hooks';
 import { Logo } from '../components/Header';
@@ -12,7 +12,11 @@ import { IconCalendar, IconMoon, IconSun } from '../components/ui/Icons';
 import { linkTo, navigate } from '../lib/route';
 import { SCREENS } from '../store/app';
 import { PRODUCT_NAME } from '../brand';
-import type { Provenance } from '../types';
+import type { Listing, Provenance } from '../types';
+import { ListingVisual } from '../components/Photo';
+import { CATEGORIES, categoryOf, displayName, type Category } from '../lib/category';
+import { photosOf } from '../lib/photos';
+import { usd } from '../lib/format';
 
 const DEMO_ID = 'north-engineer';
 const SAMPLE = `/app?demo=${DEMO_ID}#results`;
@@ -54,7 +58,8 @@ export default function Landing() {
       {fellBack && <div role="status" className="border-b border-line bg-raised px-4 py-2 text-center text-[13px] text-charcoal">API offline: showing mock data. Every listing is synthetic.</div>}
       <main>
         <Hero />
-        <Screenshot />
+        <Vignettes />
+        <Browse />
         <How />
         <Sources />
         <Limits />
@@ -67,7 +72,7 @@ export default function Landing() {
 function Nav() {
   const theme = useApp((s) => s.theme);
   const toggleTheme = useApp((s) => s.toggleTheme);
-  const links = [{ href: '#how', label: 'How it works' }, { href: '#sources', label: 'Sources' }, { href: '/app#group', label: 'Group Week', app: true }, { href: '/app#methods', label: 'Methods', app: true }];
+  const links = [{ href: '#homes', label: 'Homes' }, { href: '#how', label: 'How it works' }, { href: '#sources', label: 'Sources' }, { href: '/app#group', label: 'Group Week', app: true }, { href: '/app#methods', label: 'Methods', app: true }];
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg">
       <div className="ll-wrap flex h-14 items-center gap-6">
@@ -140,19 +145,109 @@ function Hero() {
   );
 }
 
-function Screenshot() {
+/** Three tidy product vignettes, each a crop of the running app (captured by scripts/screenshots-v4.mjs). */
+function Vignettes() {
+  const items = [
+    { src: '/product/receipt.png', title: 'One monthly number', body: 'Rent, utilities, fees and your travel time on a receipt you can read line by line.', alt: 'A Lease Ledger receipt: rent, insurance and meals offset add up to the cash you pay; travel time and late-night time are added to reach the all-in monthly cost.' },
+    { src: '/product/route.png', title: 'Your real week on the map', body: 'Every trip routed on the bus timetables and streets, from the home you pick.', alt: 'A map of Ann Arbor with numbered price pins and the selected home’s bus and walking routes to your places.' },
+    { src: '/product/sure.png', title: 'How sure the ranking is', body: 'Thousands of re-runs with uncertain prices and times show how often each home stays on top.', alt: 'The How sure are we screen: bars showing how often each home ranks first when prices and times vary.' },
+  ];
   return (
     <section className="ll-section" aria-labelledby="shot-h">
       <div className="ll-wide">
-        <h2 id="shot-h" className="sr-only">The results page</h2>
-        <figure>
-          <a href={SAMPLE} onClick={linkTo(SAMPLE)} className="block overflow-hidden rounded-xl border border-line-strong bg-raised" aria-label="Open the results page for the sample week">
-            <img src="/product-results.jpg" width={2160} height={1350} alt="The Lease Ledger results page: a ranked list of homes with all-in monthly prices on the left and a map with numbered price pins and the selected home's bus and walking routes on the right." className="block h-auto w-full" loading="lazy" />
-          </a>
-          <figcaption className="mt-3 text-[13px] text-faint">
-            The results page for the sample week “North Campus engineer”. Prices are per person per month; all-in adds travel time to the cash you pay. Screenshot of the running app.
-          </figcaption>
-        </figure>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <h2 id="shot-h" className="ll-h2">What you get for every home</h2>
+          <a href={SAMPLE} onClick={linkTo(SAMPLE)} className="ll-link text-[14px] font-medium">Open the sample week</a>
+        </div>
+        <ul className="mt-8 grid gap-5 md:grid-cols-3">
+          {items.map((it) => (
+            <li key={it.src}>
+              <a href={SAMPLE} onClick={linkTo(SAMPLE)} className="group block">
+                <div className="vignette relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-raised">
+                  <img src={it.src} alt={it.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.015]" />
+                </div>
+                <h3 className="mt-4 text-[16px] font-semibold">{it.title}</h3>
+                <p className="mt-1 text-[14px] leading-relaxed text-charcoal">{it.body}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-[12px] text-faint">Crops of the running app for the sample week “North Campus engineer”.</p>
+      </div>
+    </section>
+  );
+}
+
+/** Featured buildings first in each type, by clean building name; everything else follows by number of plans. */
+const FEATURED = ['University Towers', 'Vic Village North', 'The Standard', 'Six11', 'Foundry Lofts', 'Verve', 'The Yard', 'Zaragon Place', 'Landmark', 'The Varsity', 'Huron Towers', 'Beekman on Broadway', 'ICC Escher House', 'ICC Ella Baker House'];
+type Building = { name: string; l: Listing; plans: number; from: number; basis: 'bed' | 'unit'; beds: number; cat: Category };
+
+function useBuildingIndex(): Building[] {
+  const { data: listings = [] } = useListings();
+  return useMemo(() => {
+    const m = new Map<string, Building>();
+    for (const l of listings) {
+      if (l.provenance !== 'observed') continue;
+      const name = displayName(l.name).building;
+      const rent = l.rent_low ?? l.rent;
+      const b = m.get(name);
+      if (!b) m.set(name, { name, l, plans: 1, from: rent, basis: l.rent_basis, beds: l.bedrooms, cat: categoryOf(l) });
+      else { b.plans++; if (rent < b.from) { b.from = rent; b.basis = l.rent_basis; b.beds = l.bedrooms; } if (!photosOf(b.l).length && photosOf(l).length) b.l = l; }
+    }
+    const rank = (n: string) => { const i = FEATURED.indexOf(n); return i < 0 ? 99 : i; };
+    return Array.from(m.values()).sort((a, b) => rank(a.name) - rank(b.name) || (photosOf(b.l).length - photosOf(a.l).length) || b.plans - a.plans || a.name.localeCompare(b.name));
+  }, [listings]);
+}
+
+function Browse() {
+  const all = useBuildingIndex();
+  const [cat, setCat] = useState<Category>('apartments');
+  const { data: listings = [] } = useListings();
+  if (all.length === 0) return null;
+  const count = (c: Category) => listings.filter((l) => l.provenance === 'observed' && categoryOf(l) === c).length;
+  const shown = all.filter((b) => b.cat === cat).slice(0, 8);
+  const href = `/app?demo=${DEMO_ID}&type=${cat}#results`;
+  return (
+    <section id="homes" className="ll-section" aria-labelledby="browse-h">
+      <div className="ll-wide">
+        <div className="grid items-end gap-6 md:grid-cols-[1fr_minmax(0,26rem)]">
+          <div>
+            <h2 id="browse-h" className="ll-h2">Homes in the index</h2>
+            <p className="mt-2 max-w-[36rem] text-[14.5px] leading-relaxed text-charcoal">Real Ann Arbor buildings and houses, read from public listing pages and dated. Each one is ranked against your week, from downtown towers to rooms in Burns Park houses.</p>
+          </div>
+          <figure className="min-w-0">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-line bg-raised">
+              <img src="/photos/_unassigned/hub-storefront.webp" alt="Street-level entrance of a student apartment building on East William Street, Ann Arbor" loading="lazy" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: 'center 40%' }} />
+            </div>
+            <figcaption className="mt-1.5 truncate text-[11.5px] text-faint">Student housing on E William St, Ann Arbor (not a listing here). Photo provided by the team · original source to be confirmed</figcaption>
+          </figure>
+        </div>
+        <div role="tablist" aria-label="Home type" className="no-scrollbar mt-6 flex gap-1 overflow-x-auto border-b border-line">
+          {CATEGORIES.map((c) => (
+            <button key={c.id} role="tab" aria-selected={cat === c.id} onClick={() => setCat(c.id)}
+              className={`-mb-px inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-3 text-[14px] font-medium transition-colors ${cat === c.id ? 'border-ink text-ink' : 'border-transparent text-faint hover:text-ink'}`}>
+              {c.label}<span className={`num rounded-full px-1.5 text-[11px] leading-[18px] ${cat === c.id ? 'bg-ink text-bg' : 'bg-soft text-charcoal'}`}>{count(c.id)}</span>
+            </button>
+          ))}
+        </div>
+        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4">
+          {shown.map((b) => (
+            <li key={b.name}>
+              <a href={href} onClick={linkTo(href)} className="group block">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line">
+                  <ListingVisual l={b.l} className="absolute inset-0" />
+                </div>
+                <div className="mt-2.5 truncate text-[14.5px] font-semibold group-hover:underline">{b.name}</div>
+                <div className="truncate text-[13px] text-faint">{b.l.neighborhood}</div>
+                <div className="num mt-0.5 truncate text-[13px] text-charcoal">From {usd(b.from)}{b.basis === 'bed' ? '/bed' : `/mo${b.beds > 1 ? ` · ${b.beds} bd` : b.beds === 0 ? ' · studio' : ''}`} · {b.plans} plan{b.plans === 1 ? '' : 's'}</div>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-[13px] text-faint">
+          <span>Rent as listed, before utilities, fees and travel. Photos only where we have the right to show them; otherwise a street map of the block.</span>
+          <a href={href} onClick={linkTo(href)} className="btn-outline h-9 shrink-0">See all {CATEGORIES.find((c) => c.id === cat)?.label.toLowerCase()}</a>
+        </div>
       </div>
     </section>
   );
@@ -192,7 +287,7 @@ function Sources() {
   if (listings.length) rows.push({ k: 'Listings', v: <>{n0(observed.length)} observed {fmtDate(obsDate)} from public listing text; {n0(synthetic.length)} synthetic (fictional), labeled on every card. Availability is not verified.</> });
   if (feeds.um) rows.push({ k: 'U-M buses', v: <>GTFS timetable valid {fmtDate(feeds.um.calendar_start)} to {fmtDate(feeds.um.calendar_end)}{feeds.um.weekday_trips_in_week ? <>; {n0(feeds.um.weekday_trips_in_week)} weekday trips in the modeled week</> : null}.</> });
   if (feeds.aaata) rows.push({ k: 'TheRide buses', v: <>GTFS timetable valid {fmtDate(feeds.aaata.calendar_start)} to {fmtDate(feeds.aaata.calendar_end)}{feeds.aaata.weekday_trips_in_week ? <>; {n0(feeds.aaata.weekday_trips_in_week)} weekday trips</> : null}.</> });
-  rows.push({ k: 'Streets & map', v: <>Overture Maps segments derived from OpenStreetMap (ODbL), served offline. Listing thumbnails are drawn from these streets; there are no photos.</> });
+  rows.push({ k: 'Streets & map', v: <>Overture Maps segments derived from OpenStreetMap (ODbL), served offline. Listing thumbnails are drawn from these streets unless the team has added a licensed photo, which is credited where it appears.</> });
   const kinds: Provenance[] = ['observed', 'estimated', 'assumed', 'computed', 'synthetic', 'user'];
   return (
     <section id="sources" className="ll-section" aria-labelledby="sources-h">

@@ -7,7 +7,7 @@ import { MAP_INK, addStreetLayers } from '../lib/basemap';
 import { usd } from '../lib/format';
 import type { MapLine } from './MapView';
 
-export interface PricePin { id: string; lat: number; lon: number; rank: number | null; price: number; feasible: boolean; name: string }
+export interface PricePin { id: string; lat: number; lon: number; rank: number | null; price: number; feasible: boolean; name: string; /** shown as a small dot until hovered/selected (keeps a 60-home map legible) */ dot?: boolean }
 export interface Place { lat: number; lon: number; label: string }
 export interface Anchor { lat: number; lon: number; label: string }
 
@@ -115,14 +115,16 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
         b.addEventListener('focus', () => cb.current.onHover(p.id));
         b.addEventListener('blur', () => cb.current.onHover(null));
         b.addEventListener('click', (ev) => { ev.stopPropagation(); cb.current.onOpen(p.id); });
-        x = { el: b, m: new maplibregl.Marker({ element: b, anchor: 'bottom' }).setLngLat([p.lon, p.lat]).addTo(m) };
+        x = { el: b, m: new maplibregl.Marker({ element: b, anchor: 'center' }).setLngLat([p.lon, p.lat]).addTo(m) };
         markers.current.set(p.id, x);
       }
       x.m.setLngLat([p.lon, p.lat]);
-      x.el.className = `price-pin${p.feasible ? '' : ' is-out'}`;
+      // keep MapLibre's own marker classes (they position the element); replace only ours
+      const own = Array.from(x.el.classList).filter((c) => c.startsWith('maplibregl-'));
+      x.el.className = [...own, 'price-pin', p.feasible ? '' : 'is-out', p.dot ? 'is-dot' : ''].filter(Boolean).join(' ');
       x.el.innerHTML = `${p.rank != null ? `<span class="pin-rank">${p.rank}</span>` : ''}<span>${usd(p.price)}</span>`;
       x.el.setAttribute('aria-label', `${p.rank != null ? `Rank ${p.rank}, ` : 'Does not fit, '}${p.name}, ${usd(p.price)} a month all-in`);
-      x.el.style.zIndex = String(p.rank != null ? 100 - p.rank : 1);
+      x.el.style.zIndex = String(p.dot ? 1 : p.rank != null ? 200 - p.rank : 2);
     }
   }, [pins, ready]);
 
@@ -136,6 +138,7 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
       x.el.style.zIndex = String(on ? 1000 + base : base);
     }
   }, [activeId, hoverId, pins]);
+
 
   // Routes for the selected (or hovered) home
   useEffect(() => {
@@ -166,7 +169,7 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
     pts.forEach((p) => b.extend(p));
     m.resize();
     const w = el.current?.clientWidth ?? 800;
-    const pad = w < 600 ? { top: 40, bottom: 80, left: 24, right: 56 } : { top: 70, bottom: 90, left: 70, right: 110 };
+    const pad = w < 600 ? { top: 40, bottom: 80, left: 24, right: 56 } : { top: 70, bottom: 110, left: 80, right: 150 };
     m.fitBounds(b, { padding: pad, maxZoom: 15.2, duration: animate ? 500 : 0 });
     el.current?.classList.toggle('z-low', m.getZoom() < 13.4);
   };

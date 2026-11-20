@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useApp } from '../store/app';
 import type { ApiClient } from './client';
 import type { Building, Listing, Member, Profile } from '../types';
+import { loadPhotoManifest, mergePhotos } from '../lib/photos';
 
 function useApi(): ApiClient {
   const api = useApp((s) => s.api);
@@ -22,7 +23,10 @@ export function useBuildings() {
 export function useListings() {
   const api = useApi();
   const custom = useApp((s) => s.customIds);
-  return useQuery({ queryKey: ['listings', api.kind, custom], queryFn: () => api.listings(true), placeholderData: keepPreviousData, ...REF });
+  return useQuery({ queryKey: ['listings', api.kind, custom], queryFn: async () => {
+    const [ls, manifest] = await Promise.all([api.listings(true), loadPhotoManifest()]);
+    return mergePhotos(ls, manifest);
+  }, placeholderData: keepPreviousData, ...REF });
 }
 export function useTemplates() {
   const api = useApi();
@@ -50,15 +54,32 @@ export function useBuildingMap(): Map<string, Building> {
   return useMemo(() => new Map((data ?? []).map((b) => [b.id, b])), [data]);
 }
 
+/**
+ * The listing ids the Homes page ranks. `null` = the API's default (the demo shortlist). Scope "all" ranks every
+ * observed listing plus any added by the user; `ready` is false until the listing index has loaded.
+ */
+export function useScopeIds(): { ids: string[] | null; ready: boolean } {
+  const scope = useApp((s) => s.scope);
+  const custom = useApp((s) => s.customIds);
+  const { data } = useListings();
+  return useMemo(() => {
+    if (scope === 'shortlist') return { ids: null, ready: true };
+    if (!data) return { ids: null, ready: false };
+    const ids = data.filter((l) => l.provenance === 'observed' || custom.includes(l.id)).map((l) => l.id);
+    return ids.length ? { ids, ready: true } : { ids: null, ready: true };
+  }, [scope, custom, data]);
+}
+
 /** Main evaluation, driven by the debounced committed profile; keeps previous data to avoid flicker. */
 export function useEvaluation() {
   const api = useApi();
   const committed = useApp((s) => s.committed);
   const custom = useApp((s) => s.customIds);
+  const scope = useScopeIds();
   return useQuery({
-    queryKey: ['evaluate', api.kind, committed, custom],
-    queryFn: () => api.evaluate(committed, null),
-    enabled: hasWeek(committed),
+    queryKey: ['evaluate', api.kind, committed, custom, scope.ids],
+    queryFn: () => api.evaluate(committed, scope.ids),
+    enabled: hasWeek(committed) && scope.ready,
     placeholderData: keepPreviousData,
     staleTime: 60_000,
   });
@@ -70,10 +91,11 @@ export function useDiff() {
   const diffBase = useApp((s) => s.diffBase);
   const pinned = useApp((s) => s.pinned);
   const before = pinned ?? diffBase;
+  const scope = useScopeIds();
   return useQuery({
-    queryKey: ['diff', api.kind, before, committed],
-    queryFn: () => api.diff(before!, committed, null),
-    enabled: hasWeek(before) && hasWeek(committed) && before !== committed,
+    queryKey: ['diff', api.kind, before, committed, scope.ids],
+    queryFn: () => api.diff(before!, committed, scope.ids),
+    enabled: hasWeek(before) && hasWeek(committed) && before !== committed && scope.ready,
     placeholderData: keepPreviousData,
     staleTime: 60_000,
   });
@@ -85,10 +107,11 @@ export function useBeforeEvaluation() {
   const pinned = useApp((s) => s.pinned);
   const custom = useApp((s) => s.customIds);
   const before = pinned ?? diffBase;
+  const scope = useScopeIds();
   return useQuery({
-    queryKey: ['evaluate', api.kind, before, custom],
-    queryFn: () => api.evaluate(before!, null),
-    enabled: hasWeek(before),
+    queryKey: ['evaluate', api.kind, before, custom, scope.ids],
+    queryFn: () => api.evaluate(before!, scope.ids),
+    enabled: hasWeek(before) && scope.ready,
     staleTime: 60_000,
   });
 }
@@ -97,10 +120,11 @@ export function useRobustness(samples = 2000, seed = 42) {
   const api = useApi();
   const committed = useApp((s) => s.committed);
   const custom = useApp((s) => s.customIds);
+  const scope = useScopeIds();
   return useQuery({
-    queryKey: ['robustness', api.kind, committed, samples, seed, custom],
-    queryFn: () => api.robustness(committed, samples, seed, null),
-    enabled: hasWeek(committed),
+    queryKey: ['robustness', api.kind, committed, samples, seed, custom, scope.ids],
+    queryFn: () => api.robustness(committed, samples, seed, scope.ids),
+    enabled: hasWeek(committed) && scope.ready,
     placeholderData: keepPreviousData,
     staleTime: 5 * 60_000,
   });

@@ -98,6 +98,16 @@ export interface ListingRoom {
   [k: string]: unknown;
 }
 
+/** A photo the team has the right to show (property's own site with permission, or their own). */
+export interface ListingPhoto {
+  src: string;
+  credit: string;
+  source_url?: string;
+  license?: string;
+  /** CSS object-position for the 16:10 crop, e.g. "center 30%" for tall towers */
+  position?: string;
+}
+
 export interface Listing {
   id: string;
   name: string;
@@ -136,6 +146,8 @@ export interface Listing {
   member_labor_hours_week?: number | null;
   /** how an observed listing was verified; search_extract = copied from search-engine text, page not loaded */
   verification?: ListingVerification | null;
+  /** Licensed photos (API field, merged with /photos/manifest.json client-side). Empty → map thumbnail. */
+  photos?: ListingPhoto[];
 }
 
 export type ListingVerification = 'page_fetched' | 'search_extract' | 'user_verified';

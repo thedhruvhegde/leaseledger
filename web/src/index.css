@@ -280,6 +280,11 @@ header.sticky { padding-top: env(safe-area-inset-top); }
 .price-pin:hover, .price-pin.is-active { background: rgb(var(--ink)); color: rgb(var(--bg)); border-color: rgb(var(--ink)); transform: scale(1.06); }
 .price-pin:hover .pin-rank, .price-pin.is-active .pin-rank { background: rgb(var(--bg) / .18); }
 .price-pin.is-out { color: rgb(var(--faint)); border-style: dashed; padding-left: 9px; }
+.price-pin.is-dot { width: 12px; height: 12px; min-width: 0; padding: 0; gap: 0; justify-content: center; background: rgb(var(--charcoal)); border: 2px solid rgb(var(--surface)); box-shadow: 0 0 0 1px rgb(var(--line-strong)); }
+.price-pin.is-dot.is-out { background: rgb(var(--mute)); border-style: solid; }
+.price-pin.is-dot > span { display: none; }
+.price-pin.is-dot:hover, .price-pin.is-dot.is-active, .price-pin.is-dot:focus-visible { width: auto; height: 26px; padding: 0 9px 0 4px; gap: 5px; border: 1px solid rgb(var(--ink)); box-shadow: none; }
+.price-pin.is-dot:hover > span, .price-pin.is-dot.is-active > span, .price-pin.is-dot:focus-visible > span { display: inline-flex; }
 .price-pin:focus-visible { outline: 2px solid rgb(var(--focus) / .6); outline-offset: 2px; }
 .map-anchor { font: 600 10.5px/1 'Inter Variable', ui-sans-serif, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: rgb(var(--faint)); pointer-events: none; white-space: nowrap; text-shadow: 0 0 3px rgb(var(--bg)), 0 0 3px rgb(var(--bg)); }
 .ll-pop .maplibregl-popup-content { padding: 6px 10px; border-radius: 8px; border: 1px solid rgb(var(--line-strong)); box-shadow: none; font-size: 12px; background: rgb(var(--surface)); color: rgb(var(--ink)); }
