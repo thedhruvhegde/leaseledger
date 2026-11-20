@@ -80,3 +80,21 @@ Every number is still bound to its source with `data-src` (API, snapshot or `fac
 - The parameter ledger is the one deliberately denser slide: nine rows, 28px values in tabular figures, right-aligned value and range columns, and a basis column (filled dot = observed, half = estimated, hollow + italic = assumed).
 - Time for the two slides (36 s) came from the demo (−5), how it works (−7), the decision (−3), the week (−2), evidence (−3), same city (−3), seven cities (−10; 1.5 s per city) and Group Week (−3). Total stays 5:00.
 - Interviews are real (16 students, Nov 20; see `analysis/feedback/PROVENANCE.md`). With no photos the slide is count + findings + a keyword ledger with bars; with photos the collage takes the left side in one, two or three rows (1–3, 4–6, 7–9 images) and the ledger shortens.
+
+## v5 additions
+
+- **Canvas** moves from stone `#EDE8E0` to a warm near-white `#F7F5F0`; the old stone becomes `--bg2` (plate mats), hairlines lighten to `#C4BBAE`, body/accent darken a touch to keep contrast.
+- **Bottom glow**: one fixed `.glow` band (130px at 1080p) along the bottom edge of every slide: three soft radial hues (blue `#8FB8FF`, violet `#D7A8F0`, peach `#FFD3A1`) at ≤0.44 alpha, blurred and masked to 0 at the top of the band, drifting ±6% over 26 s (static under reduced motion). It sits under all presenter chrome (z 5 vs 20).
+- **Explainer loops** (`public/video/*.mp4`, copied from `media/videos/fast/`; 4–6 s, 10× speed, silent; posters `*.jpg`): framed like the image plates (hairline, stone mat, no shadow) via `loop()` in `src/lib.ts`, each with one digit-free caption chip on the frame's top-right corner and a top-down unveil on entry.
+
+| Slide | Loop | Placement |
+|---|---|---|
+| Cover | `one-week` | plate above the title panel |
+| How it works · One total | `the-receipt` | replaces the static receipt screenshot |
+| Live demo | `walkthrough` | recorded mode: the laptop frame (replaces `demo/lease-ledger-demo.mp4`); live mode: stands in on the laptop if the app is unreachable |
+| The engine | `connection-scan` | new reveal (→): the six-stage flow fades, the loop takes its place |
+| How sure | `how-sure`, then `the-flip` | replace the 100-mark array and the breakeven number line; the hero numbers stay |
+| Seven cities | `seven-cities` | replaces the per-city GIF rapid fire (runs once, ~6 s), then the catalogue |
+
+- Playback: `syncMedia()` (called on every chapter change, reveal step and multi-city advance) plays only the loops on the visible slide and step, rewinds them on re-entry, and pauses everything else. Under `prefers-reduced-motion` nothing plays and the poster frame (85% through each loop) stands in.
+- **Listing scope** now matches the app's Homes page: every `/evaluate`, `/diff` and `/robustness` request sends `listing_ids` = all observed listings in `GET /listings` order (`scopeIds()` in `src/requests.js`, same as `useScopeIds` 'all' in the web app). All three flips still flip to University Towers on that set; the hospital flip leads by about $2/mo (knife edge).

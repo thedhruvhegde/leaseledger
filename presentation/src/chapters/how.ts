@@ -3,7 +3,7 @@
 import katex from 'katex';
 import type { Chapter } from '../deck';
 import { plan } from '../api';
-import { html, num, esc, fmt } from '../lib';
+import { html, num, esc, fmt, loop } from '../lib';
 import { F } from '../facts';
 import { citeTag } from '../citations';
 import { base, loadBase, bboxOf, routeLayer, streets } from '../routemap';
@@ -47,7 +47,7 @@ const STEPS: Step[] = [
   { name: 'Felt minutes', cite: 'wardman',
     vis: () => html`<div class="hw-num"><div class="hero">${F('param_time_multipliers.walk', { suffix: '×' })}</div><div class="hero-cap">a minute walking or waiting, counted against a minute on the bus</div></div>`,
     line: () => html`Walking, waiting and snow days <b>weigh more.</b>` },
-  { name: 'One total', cite: 'usdot', vis: () => shot('05-results-receipt-scrolled.png', 'The receipt in the app', '50% top'),
+  { name: 'One total', cite: 'usdot', vis: () => html`<div class="hw-left-vid">${loop('the-receipt', 'the receipt, line by line')}</div>`,
     line: () => html`Hours × your value of time, next to rent: <b>one dollar total.</b>` },
 ];
 
@@ -96,6 +96,6 @@ export const how: Chapter = {
       <p>2 · Rehearsed line: "For every campus building and every 5-minute arrival deadline we scan the day's real bus connections backwards once (Connection Scan, Dibbelt et al. 2018). That gives the latest time you can leave any stop; add the walk from each apartment and we have door-to-door minutes for every listing at once."</p>
       <p>3 · Day tours (Kobus 2015): the map is one real weekday of the #1 home, chained home → events → home.</p>
       <p>4 · Generalized cost: walking/waiting 1.75×, snow days heavier (NOAA normals), timetable-forced early arrival 0.5× (Small 1982; Wardman 2016).</p>
-      <p>5 · Receipt: hours × your value of time (USDOT: half the wage) next to rent, fees, a seasonal utility band and insurance. No arbitrary weights.</p>`;
+      <p>5 · Receipt (the loop is media/videos/fast/the-receipt.mp4: the generalized-minute equation filled in for the #1 home and the lowest-rent home): hours × your value of time (USDOT: half the wage) next to rent, fees, a seasonal utility band and insurance. No arbitrary weights.</p>`;
   },
 };

@@ -76,3 +76,32 @@ export const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X
 export const icon = (mark: string, cls = ''): string => `<span class="card-icon ${cls}">${esc(mark)}</span>`;
 /** The one small honesty tag a slide may carry, e.g. "simulated · travel-only". Legible (22px), never decorative. */
 export const tag = (text: string, cls = ''): string => `<span class="tag ${cls}">${esc(text)}</span>`;
+
+// ---------- explainer loops (public/video/*.mp4: 4–6 s, sped up, silent) ----------
+/**
+ * A framed, muted, looping explainer video (hairline plate like the image plates, no shadow) with an optional
+ * one-line caption chip. Playback is owned by syncMedia(): a loop plays only while its chapter is active and its
+ * reveal step is shown; under prefers-reduced-motion it never plays and the poster frame stands in.
+ * Captions must not contain digits (slide-copy rule).
+ */
+export const loop = (name: string, caption = '', cls = ''): string => {
+  const rm = reducedMotion();
+  return `<figure class="vplate ${cls}"><div class="plate-img"><video data-loop src="./video/${name}.mp4" poster="./video/${name}.jpg" muted loop playsinline ${rm ? 'preload="none"' : 'preload="auto" autoplay'} disablepictureinpicture aria-hidden="true"></video></div>${caption ? `<figcaption class="vcap"><i></i>${esc(caption)}</figcaption>` : ''}</figure>`;
+};
+
+/** Play the loops on the visible slide/step, pause (and rewind on next show) every other one. */
+const loopVisible = (v: HTMLVideoElement) => !!v.closest('.chapter.active')
+  && !v.closest('[data-step]:not(.shown), .dim, .mc-slide:not(.on)')
+  && (!v.classList.contains('vid-fallback') || !!v.closest('.viewport.down'));
+export function syncMedia(): void {
+  const rm = reducedMotion();
+  document.querySelectorAll<HTMLVideoElement>('video[data-loop]').forEach((v) => {
+    v.muted = true;
+    // the autoplay attribute can start a loop once it has buffered, even off-slide: veto that
+    if (!v.dataset.guard) { v.dataset.guard = '1'; v.addEventListener('play', () => { if (reducedMotion() || !loopVisible(v)) v.pause(); }); }
+    const on = loopVisible(v);
+    if (!on || rm) { if (!v.paused) v.pause(); v.dataset.on = ''; return; }
+    if (v.dataset.on !== '1') { v.dataset.on = '1'; try { v.currentTime = 0; } catch { /* not loaded yet */ } }
+    if (v.paused) v.play().catch(() => { /* autoplay refused: poster stays */ });
+  });
+}

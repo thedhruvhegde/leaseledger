@@ -1,6 +1,6 @@
 # Lease Ledger — showcase deck (`presentation/`)
 
-This is a cross-fading slide deck built with Vite and TypeScript. It uses the Cartesian palette (`design/CARTESIAN.md`: stone canvas, ink, 1px hairlines, no shadows) with the v3 type and layout rules in **`design/DECK-NOTES.md`**:
+This is a cross-fading slide deck built with Vite and TypeScript. v5 adds a warm near-white canvas, a faint three-hue glow along the bottom edge and short explainer video loops (`public/video/`; see the v5 section of `design/DECK-NOTES.md`). It uses the Cartesian palette (`design/CARTESIAN.md`: stone canvas, ink, 1px hairlines, no shadows) with the v3 type and layout rules in **`design/DECK-NOTES.md`**:
 - **Fraunces** headlines and **Inter Tight** body and numbers (tabular figures), both bundled through `@fontsource-variable` (Fraunces 5.2.8, Inter Tight 5.2.7). KaTeX is bundled too; nothing loads from a CDN.
 - Each slide has one headline, one hero image or number, and at most one supporting line.
 - Nothing on a slide is smaller than 22px, except the live/snapshot indicator.
@@ -21,7 +21,7 @@ The deck runs fully offline. It embeds the real app and calls the real API.
 - **`npm run snapshot`** captures every API response the deck uses into `public/snapshot.json`. The API must be up. The script also checks that the three scripted flips still flip the way `execution/demo-flips.md` says, and exits non-zero if they don't. Re-run it after any engine or data change.
 - **`npm run build`** runs the honesty checks (below), then `tsc`, then `vite build` into `dist/`. Serve the result with `npm run preview`, also on :4400.
 - **`npm run screenshots`** (the deck must be running) does two things:
-  - writes every chapter at 1920×1080 to `screenshots/v4/` (plus extra states: each how-it-works step, the demo before the flip, the first city plate, the pre-reveal states; `--out=` and `--only=` override);
+  - writes every chapter at 1920×1080 to `screenshots/v5/` (plus extra states: each how-it-works step, the demo before the flip, the first city plate, the pre-reveal states; `--out=` and `--only=` override);
   - checks that every visible number on a slide carries `data-src`.
 - **`npm run check`** runs the honesty checks and only warns about placeholders.
 - **`npm run export`** (the deck must be running) writes a backup PDF of every slide, every multi-city plate and the catalogue to `export/lease-ledger-deck.pdf`.

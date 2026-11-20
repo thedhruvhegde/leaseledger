@@ -1,7 +1,7 @@
 // Deck controller: chapters, 0.6 s cross-fade navigation (keys, wheel, nav dots, arrow buttons), reveal steps,
 // Cartesian chrome (right-edge dots, bottom-left square arrows, bottom-right counter), presenter timer (T),
 // speaker-notes window (S) over BroadcastChannel, appendix mode (A).
-import { reducedMotion, runCountUps } from './lib';
+import { reducedMotion, runCountUps, syncMedia } from './lib';
 import { onPlan, onStatus, status } from './api';
 
 export interface Chapter {
@@ -127,6 +127,7 @@ function renderChapter(s: St) {
 function applySteps(s: St) {
   s.stage.querySelectorAll<HTMLElement>('[data-step]').forEach((node) => node.classList.toggle('shown', Number(node.dataset.step) <= s.step));
   s.ch.step?.(s.stage, s.step);
+  syncMedia();
   broadcast();
 }
 
@@ -146,6 +147,7 @@ function setCurrent(i: number) {
   s.el.classList.add('active');
   runCountUps(s.stage);
   s.ch.enter?.(s.stage);
+  syncMedia();
   paintRail();
   if (history.replaceState) history.replaceState(null, '', `${location.pathname}${location.search}#${s.ch.id}`);
   broadcast();
@@ -206,6 +208,9 @@ export function openNotes() {
 
 // ---- chrome (Cartesian: right-edge dots, bottom-left square arrows, bottom-right counter; no top bar) ----
 function buildChrome() {
+  // bottom-edge glow: three soft hues, very low opacity, below every piece of chrome
+  const glow = document.createElement('div'); glow.className = 'glow'; glow.setAttribute('aria-hidden', 'true'); document.body.append(glow);
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change', syncMedia);
   const rail = document.createElement('nav');
   rail.className = 'rail';
   rail.setAttribute('aria-label', 'Chapters');

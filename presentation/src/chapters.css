@@ -272,7 +272,7 @@
 
 /* appendix: a revealed equation lands as a band across the foot of its card */
 .math-grid .card { position: relative; }
-.math-grid .card > .eq { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 14px 28px 12px; background: #F2EEE8; border-top: 1px solid var(--line); font-size: 20px; z-index: 2; }
+.math-grid .card > .eq { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 14px 28px 12px; background: var(--bg2); border-top: 1px solid var(--line); font-size: 20px; z-index: 2; }
 
 /* export mode (PDF backup): no interactive chrome */
 html.export .navbtns, html.export .rail, html.export .status, html.export .mc-ticks { display: none !important; }
@@ -309,3 +309,18 @@ html.export .navbtns, html.export .rail, html.export .status, html.export .mc-ti
 .pl-src { font-size: 24px !important; color: var(--body) !important; width: 100%; }
 .pl-src .cite { font-size: 24px; }
 .pl-crit { margin-top: 30px; font-size: 28px; color: var(--body); }
+
+/* ---------- v5 video placements ---------- */
+.cv-vid { position: absolute !important; left: calc(var(--pad-l) - 52px); top: 120px; width: 789px; z-index: 2; }
+.hw-left-vid { width: 100%; }
+.en-wrap { position: relative; }
+.en-flow { transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.en-flow.dim { opacity: 0; transform: translateY(-14px); pointer-events: none; }
+.en-vid { position: absolute !important; left: var(--pad-l); top: 250px; width: 1240px; }
+.en-vid .vcap { top: -1px; right: -1px; }
+.rb-wrap { position: relative; margin-top: 30px; }
+.rb-wrap > .rb-grid, .rb-wrap > .rb-be { position: absolute !important; inset: 0; margin: 0; display: grid; grid-template-columns: 820px 1fr; gap: 100px; align-items: center; }
+.rb-be .hero.sm { font-size: 150px; }
+.rb-be .hero-cap { margin-top: 22px; }
+.mc-vslide { grid-template-columns: 1220px 1fr !important; }
+.mc-vslide .vplate { width: 1220px; }

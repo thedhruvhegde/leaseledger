@@ -1,7 +1,7 @@
 import type { Chapter } from '../deck';
 import { call, plan, ranked, type Evaluation, sname } from '../api';
-import { FLIPS, applyFlip } from '../requests.js';
-import { html, num, said, esc, fmt, DAY_NAME, minToClock, reducedMotion, icon, ROMAN, tag } from '../lib';
+import { FLIPS, applyFlip, scopeIds } from '../requests.js';
+import { html, num, said, esc, fmt, DAY_NAME, minToClock, reducedMotion, icon, ROMAN, tag, syncMedia } from '../lib';
 
 const qs = new URLSearchParams(location.search);
 /** The real app. Override with ?app=http://host:5173 */
@@ -9,7 +9,8 @@ export const APP = (qs.get('app') ?? 'http://localhost:5173').replace(/\/$/, '')
 /** Recorded mode (static hosting, no app server): play the recorded run of the real app instead of iframes.
  *  On with ?app=recorded or a build with VITE_DEMO_MODE=recorded. */
 export const RECORDED = qs.get('app') === 'recorded' || (import.meta as any).env?.VITE_DEMO_MODE === 'recorded';
-const LAP = { w: 1280, h: 1040, s: 0.55 };
+// recorded mode: the laptop frame takes the walkthrough loop's 16:9 so the loop fills it edge to edge
+const LAP = { w: 1280, h: RECORDED ? 720 : 1040, s: 0.55 };
 const PHN = { w: 390, h: 950, s: 0.6 };
 const ROW = 64;
 
@@ -25,6 +26,13 @@ function flipLabel(f: any, before: any): string {
   return esc(f.verb);
 }
 
+/** The app walkthrough loop (public/video/walkthrough.mp4, 10× speed): the laptop's recorded run, and its stand-in
+ *  when the live app is unreachable. Playback is owned by syncMedia() (pauses off-slide, poster under reduced motion). */
+const walk = (cls = '') => {
+  const rm = reducedMotion();
+  return `<video data-loop class="${cls}" src="./video/walkthrough.mp4" poster="./video/walkthrough.jpg" muted loop playsinline ${rm ? 'preload="none"' : 'preload="auto" autoplay'} disablepictureinpicture aria-hidden="true" style="width:100%;height:100%;object-fit:contain;object-position:center;background:var(--bg2)"></video>`;
+};
+
 function frame(kind: 'laptop' | 'phone', src: string) {
   const d = kind === 'laptop' ? LAP : PHN;
   return html`<figure class="device device-${kind}">
@@ -32,9 +40,9 @@ function frame(kind: 'laptop' | 'phone', src: string) {
       <div class="viewport" style="width:${d.w * d.s}px;height:${d.h * d.s}px">
         ${RECORDED
           ? (kind === 'laptop'
-              ? html`<video src="./demo/lease-ledger-demo.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:contain;object-position:center;background:#E2DBD1"></video>`
+              ? walk()
               : html`<img src="./demo/phone-results.png" alt="Phone layout of the app (recorded run)" style="width:100%;height:100%;object-fit:cover;object-position:top" />`)
-          : html`<iframe title="${kind} view of the app" loading="eager" src="${src}" style="width:${d.w}px;height:${d.h}px;transform:scale(${d.s})"></iframe>`}
+          : html`<iframe title="${kind} view of the app" loading="eager" src="${src}" style="width:${d.w}px;height:${d.h}px;transform:scale(${d.s})"></iframe>${kind === 'laptop' ? walk('vid-fallback') : ''}`}
         <div class="offline"><span class="label">App not reachable</span><span class="small" data-ok>${esc(APP)} — start it with <code>make web</code>. The ledger on the right calls the API directly and keeps working.</span></div>
       </div>
     </div>
@@ -76,7 +84,7 @@ export const demo: Chapter = {
   },
   mount(el) {
     // app reachability: probe once; mark both frames down if the app isn't there
-    if (!RECORDED) fetch(APP, { mode: 'no-cors', signal: AbortSignal.timeout(2500) }).catch(() => el.querySelectorAll('.viewport').forEach((v) => v.classList.add('down')));
+    if (!RECORDED) fetch(APP, { mode: 'no-cors', signal: AbortSignal.timeout(2500) }).catch(() => { el.querySelectorAll('.viewport').forEach((v) => v.classList.add('down')); syncMedia(); });
     el.querySelectorAll<HTMLButtonElement>('.flip-btn').forEach((b) => b.addEventListener('click', (ev) => { ev.stopPropagation(); runFlip(el, b.dataset.flip!); }));
   },
   notes() {
@@ -85,6 +93,8 @@ export const demo: Chapter = {
       <li>Button 1 (VOT): "If I value my time at $20/h instead of $8, the tower wins — the breakeven is on the next slide."</li>
       <li>Button 2 (hospital shift): adds T/R 7–12 at University Hospital → #1 changes. <b>Knife-edge</b>: the margin is tiny; say so if asked.</li>
       <li>Button 3 (exclude co-ops): a hard constraint, the next-best home takes over.</li></ol>
+      <p>Recorded mode (static build): the laptop plays the app walkthrough loop (media/videos/fast/walkthrough.mp4, 10× speed); the same loop stands in on the laptop if the live app is unreachable.</p>
+      <p>Lead over #2 on the hospital flip is about $2/mo on the app's scope (all observed listings): a knife edge — say so.</p>
       <p>If the iframe is blank: the buttons call the API directly (or the snapshot) — keep talking. All three flips are from execution/demo-flips.md, recomputed live.</p>`;
   },
 };
@@ -107,12 +117,13 @@ async function runFlip(el: HTMLElement, id: string) {
   title.textContent = 'Computing…';
   cause.textContent = '';
   const after = applyFlip(p, f);
+  const ids = scopeIds(plan.listings); // same scope as the app's Homes page: all observed listings
   try {
     const t0 = performance.now();
     const [b, a, d] = await Promise.all([
-      call('POST', '/evaluate', { profile: p }),
-      call('POST', '/evaluate', { profile: after }),
-      call('POST', '/diff', { before: p, after }).catch(() => null),
+      call('POST', '/evaluate', { profile: p, listing_ids: ids }),
+      call('POST', '/evaluate', { profile: after, listing_ids: ids }),
+      call('POST', '/diff', { before: p, after, listing_ids: ids }).catch(() => null),
     ]);
     if (token !== running) return;
     const ms = Math.round(performance.now() - t0);

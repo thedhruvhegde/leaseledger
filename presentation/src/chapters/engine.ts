@@ -4,7 +4,7 @@
 // so the KaTeX is data-bound too; the right column carries one measured number per stage.
 import type { Chapter } from '../deck';
 import { plan } from '../api';
-import { html, num, esc, fmt } from '../lib';
+import { html, num, esc, fmt, loop } from '../lib';
 import { citeTag } from '../citations';
 import { tex } from './how';
 
@@ -67,6 +67,7 @@ export const engine: Chapter = {
   id: 'engine',
   title: 'The engine',
   budget: 22,
+  steps: 1,
   deps: ['methods', 'manifest', 'robustness'],
   render() {
     return html`
@@ -77,11 +78,13 @@ export const engine: Chapter = {
             <div class="en-name"><i class="en-dot"></i><div><span>${esc(s.name)}</span>${s.cite ? html`<div class="en-cite">${citeTag(s.cite)}</div>` : s.sub ? html`<div class="en-cite"><span class="cite">${esc(s.sub)}</span></div>` : ''}</div></div>
             <div class="en-body"><div class="en-eq" data-src="${MP}">${tex(s.eq(), false)}</div><div class="en-stat">${s.stat()}</div></div>
           </li>`)}
-      </ol>`;
+      </ol>
+      <div class="en-vid hide-until" data-step="1">${loop('connection-scan', 'one backward scan')}</div>`;
   },
+  step(el, n) { el.querySelector('.en-flow')?.classList.toggle('dim', n >= 1); },
   notes() {
     const lb = plan.manifest?.provider?.labels;
-    return `<p><b>The engine (22 s) — attention to detail.</b> Read it top to bottom; don't read the equations aloud.</p>
+    return `<p><b>The engine (22 s) — attention to detail.</b> Read it top to bottom; don't read the equations aloud. Then → shows the Connection Scan loop (media/videos/fast/connection-scan.mp4, 10× speed): one backward scan labelling every stop, latest connections first — "one scan serves every home".</p>
       <p>1 · Connection Scan (Dibbelt et al. 2018), run <i>backwards</i>: for every campus building and every 5-minute arrive-by slot one pass over the day's connections gives, for every stop, the latest time you can board and still make it. Adding the walk from each apartment gives door-to-door minutes for <b>every home at once</b>${lb ? ` — ${lb.scans.toLocaleString('en-US')} scans at ${lb.ms_per_scan} ms each` : ''}.</p>
       <p>2 · Day tours: home → events → home; go home between events only when that is cheaper in felt minutes and leaves at least ${g(pv('schedule.home_return_min_gap'))} min at home (Kobus et al. 2015).</p>
       <p>3 · Generalized cost: ride minutes 1×, walk and wait ${g(pv('time_multipliers.walk'))}× (Wardman meta-analysis), ×φ(month) on snow-cover days (NOAA), +${g(pv('time_multipliers.transfer_penalty_min'))} min per transfer, ${g(pv('time_multipliers.schedule_delay_early_per_min'))}× for timetable-forced early arrival (Small 1982).</p>

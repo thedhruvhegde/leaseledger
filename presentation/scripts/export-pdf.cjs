@@ -29,16 +29,13 @@ fs.mkdirSync(path.dirname(OUT), { recursive: true });
     if (id === 'demo') { await page.waitForTimeout(2500); await page.click('.flip-btn[data-flip="vot"]'); await page.waitForTimeout(3000); }
     if (id === 'multicity') {
       await page.evaluate(() => document.querySelector('#multicity .mc-full')?.dispatchEvent(new MouseEvent('click', { bubbles: true }))); // pause
-      const n = await page.evaluate(() => document.querySelectorAll('#multicity .mc-index span').length);
-      for (let k = 0; k < n; k++) {
-        await page.evaluate((kk) => {
-          document.querySelectorAll('#multicity .mc-index span')[kk].dispatchEvent(new MouseEvent('click', { bubbles: true }));
-          document.querySelectorAll('#multicity .mc-slide.on .plate img').forEach((im) => { if (im.dataset.still) im.src = im.dataset.still; });
-          document.querySelectorAll('#multicity .plate-tick b').forEach((b) => { b.style.animation = 'none'; b.style.width = '100%'; });
-        }, k);
-        await page.waitForTimeout(1300);
+      // v5: the seven-cities loop (mid-run frame), then the catalogue
+      for (let k = 0; k < 2; k++) {
+        await page.evaluate((kk) => document.querySelectorAll('#multicity .mc-ticks i')[kk]?.dispatchEvent(new MouseEvent('click', { bubbles: true })), k);
+        await page.waitForTimeout(k === 0 ? 2600 : 1300);
         await snap();
       }
+      process.stdout.write(`${id} `);
       continue;
     }
     await page.waitForTimeout(2600);

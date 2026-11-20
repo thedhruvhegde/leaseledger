@@ -1,7 +1,7 @@
 // Cover: full-bleed Ann Arbor, with one student's real week of trips drawn on in ink.
 // Geometry: POST /compare (plan.routes) — every leg the engine routed for the #1 home, on the real timetable.
 import type { Chapter } from '../deck';
-import { html } from '../lib';
+import { html, loop } from '../lib';
 import { plan } from '../api';
 import { base, loadBase, bboxOf, routeLayer, streets } from '../routemap';
 
@@ -27,6 +27,7 @@ export const cover: Chapter = {
   render() {
     return html`
       <div class="geo cv-map">${cityMap('cv-svg')}</div>
+      <div class="cv-vid enter" style="--i:2">${loop('one-week', 'one week, routed')}</div>
       <div class="cv-panel enter" style="--i:1">
         <h1 class="cv-title">Lease Ledger</h1>
         <p class="cv-sub">What a home costs <em>the week you live&nbsp;it.</em></p>
@@ -37,6 +38,7 @@ export const cover: Chapter = {
     if (!base) loadBase().then((b) => b && el.dispatchEvent(new CustomEvent('deck:rerender', { bubbles: true })));
   },
   notes() {
-    return `<p><b>Cover (≈8 s).</b> "We're Lease Ledger." Press T as you start talking. The ink lines are one North Campus engineer's real week of trips from the home our engine ranks #1 — every bus leg is a scheduled trip on this fall's UM + TheRide timetables.</p>`;
+    return `<p><b>Cover (≈8 s).</b> "We're Lease Ledger." Press T as you start talking. The ink lines are one North Campus engineer's real week of trips from the home our engine ranks #1 — every bus leg is a scheduled trip on this fall's UM + TheRide timetables.</p>
+      <p>The plate above the title is the one-week explainer loop (media/videos/fast/one-week.mp4, 10× speed): the same #1 home's day tours, routed trip by trip. Don't narrate it; it's atmosphere.</p>`;
   },
 };

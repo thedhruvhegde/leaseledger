@@ -12,8 +12,20 @@ export const PROFILE = {
 };
 
 /**
- * Demo flips. ONLY changes listed in execution/demo-flips.md. The deck evaluates on the API's DEFAULT listing set
- * (data/listings/demo_set.json — exactly what the app shows); the snapshot script re-verifies every flip there.
+ * Listing scope: the app's Homes page ranks ALL observed listings by default (web/src/api/hooks.ts useScopeIds
+ * 'all': GET /listings filtered to provenance === 'observed', in API order). The deck sends the same ids with
+ * every /evaluate, /diff and /robustness request so its numbers and ranks match what the website shows.
+ * @param {any} listings GET /listings response
+ * @returns {string[] | null}
+ */
+export function scopeIds(listings) {
+  const ids = (listings?.listings ?? []).filter((l) => l.provenance === 'observed').map((l) => l.id);
+  return ids.length ? ids : null;
+}
+
+/**
+ * Demo flips. ONLY changes listed in execution/demo-flips.md. The deck evaluates on the app's default scope
+ * (all observed listings, see scopeIds); the snapshot script re-verifies every flip there.
  * `expect` is the documented new #1; the snapshot script warns loudly if the live engine disagrees.
  * Numbers in labels are request parameters and are rendered from these fields, never typed into slide copy.
  */
@@ -110,23 +122,24 @@ export async function runPlan(call, group, onResult = (_n, _d) => {}) {
   ]);
   if (!profiles || !listings) return out;
   const P = Object.fromEntries(profiles.map((d) => [d.id, d.profile]));
+  const ids = scopeIds(listings);
 
-  // one evaluation per demo profile on the API's default listing set (what the app shows)
-  await Promise.all(Object.keys(P).map((id) => get(`eval:${id}`, 'POST', '/evaluate', { profile: P[id] })));
+  // one evaluation per demo profile on the app's default scope (all observed listings)
+  await Promise.all(Object.keys(P).map((id) => get(`eval:${id}`, 'POST', '/evaluate', { profile: P[id], listing_ids: ids })));
 
   // scripted flips: after-evaluation + engine diff
   await Promise.all(FLIPS.map(async (f) => {
     const after = applyFlip(P[f.profile], f);
     await Promise.all([
-      get(`flip:${f.id}`, 'POST', '/evaluate', { profile: after }),
-      get(`diff:${f.id}`, 'POST', '/diff', { before: P[f.profile], after }),
+      get(`flip:${f.id}`, 'POST', '/evaluate', { profile: after, listing_ids: ids }),
+      get(`diff:${f.id}`, 'POST', '/diff', { before: P[f.profile], after, listing_ids: ids }),
     ]);
   }));
 
   // robustness + breakevens between the top two
   const rp = PROFILE.robustness;
   const ev = out[`eval:${rp}`];
-  const jobs = [get('robustness', 'POST', '/robustness', { profile: P[rp], samples: ROBUSTNESS_SAMPLES, seed: ROBUSTNESS_SEED })];
+  const jobs = [get('robustness', 'POST', '/robustness', { profile: P[rp], samples: ROBUSTNESS_SAMPLES, seed: ROBUSTNESS_SEED, listing_ids: ids })];
   if (ev) {
     const top = ev.evaluations.filter((e) => e.feasible).sort((a, b) => a.rank - b.rank);
     if (top.length > 1) jobs.push(get('compare', 'POST', '/compare', { profile: P[rp], a: top[0].listing_id, b: top[1].listing_id }));
