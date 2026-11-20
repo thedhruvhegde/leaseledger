@@ -16,6 +16,7 @@ RUN npm run build
 FROM node:22-slim AS deck
 WORKDIR /repo
 COPY web/public/basemap.geojson web/public/campus.geojson web/public/
+COPY data/templates/demo_profiles.json data/templates/
 COPY presentation/package.json presentation/package-lock.json presentation/
 RUN cd presentation && npm ci --no-audit --no-fund
 COPY presentation/ presentation/
