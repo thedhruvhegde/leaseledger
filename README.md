@@ -4,7 +4,7 @@
 
 ### Ann Arbor rentals, ranked by what your *week* actually costs
 
-**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Videos](#-videos) · [The math](#-the-math) · [Evidence](#-evidence) · [Run it locally](#-run-it-locally)
+**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Videos](#videos) · [The math](#the-math) · [Evidence](#evidence) · [Run it locally](#run-it-locally)
 
 ![Hack the Lease 2026](https://img.shields.io/badge/Hack%20the%20Lease-2026-1A1A1A?style=flat-square)
 ![University of Michigan](https://img.shields.io/badge/University%20of%20Michigan-Ann%20Arbor-00274C?style=flat-square)
@@ -21,35 +21,33 @@
 
 </div>
 
-> **Note on the live demo:** it runs on Render's free tier. The first visit after 15 minutes of inactivity takes about a minute to wake up; after that, sample weeks answer in well under a second.
-
 ---
 
 ## Contents
 
-- [The problem](#-the-problem)
-- [What it does](#-what-it-does)
-- [Videos](#-videos)
-- [Screenshots](#-screenshots)
-- [How it works](#-how-it-works)
-- [The math](#-the-math)
-- [Parameters](#-parameters-every-home-is-ranked-on)
-- [Evidence](#-evidence)
-- [Student interviews](#-student-interviews)
-- [Architecture](#-architecture)
-- [Data sources](#-data-sources)
-- [API](#-api)
-- [Run it locally](#-run-it-locally)
-- [Deploy](#-deploy)
-- [Testing](#-testing)
-- [Limitations](#-limitations)
-- [Repository map](#-repository-map)
-- [Hack the Lease submission](#-hack-the-lease-submission)
-- [References](#-references)
+- [The problem](#the-problem)
+- [What it does](#what-it-does)
+- [Videos](#videos)
+- [Screenshots](#screenshots)
+- [How it works](#how-it-works)
+- [The math](#the-math)
+- [Parameters](#parameters-every-home-is-ranked-on)
+- [Evidence](#evidence)
+- [Student interviews](#student-interviews)
+- [Architecture](#architecture)
+- [Data sources](#data-sources)
+- [API](#api)
+- [Run it locally](#run-it-locally)
+- [Deploy](#deploy)
+- [Testing](#testing)
+- [Limitations](#limitations)
+- [Repository map](#repository-map)
+- [Hack the Lease submission](#hack-the-lease-submission)
+- [References](#references)
 
 ---
 
-## 🏠 The problem
+## The problem
 
 Every rental site shows rent, bedrooms and maybe "12 minutes to campus". Students then sign a lease and live a completely different week: an 8:30 lecture on North Campus, a lab in GG Brown, a Saturday shift in Kerrytown, and the UgLi until midnight. The cheapest-looking apartment can quietly cost hours every week on buses and on foot, plus utilities and fees nobody mentioned.
 
@@ -62,7 +60,7 @@ For a North Campus engineering student, the listing with the **lowest rent ($666
 
 ---
 
-## ✨ What it does
+## What it does
 
 | | |
 |---|---|
@@ -79,22 +77,20 @@ For a North Campus engineering student, the listing with the **lowest rent ($666
 
 ---
 
-## 🎬 Videos
+## Videos
 
-Every number in these videos comes straight from the engine. Each video has a matching `.json` file recording where its numbers came from. Click a poster to open the MP4.
+Every number in these clips comes straight from the engine.
 
 | | |
 |---|---|
-| [<img src="media/videos/the-receipt.png" width="420"/>](media/videos/the-receipt.mp4) <br/>**The receipt** (53 s): the full monthly calculation for the #1 home and the lowest-rent home, side by side, every formula filled in. | [<img src="media/videos/the-flip.png" width="420"/>](media/videos/the-flip.mp4) <br/>**The flip** (46 s): value of time swept $0→$25/h; the two homes cross at the closed-form breakeven $v^\*$. |
-| [<img src="media/videos/one-week.png" width="420"/>](media/videos/one-week.mp4) <br/>**One week** (55 s): a student's week fills in, then every day's tour draws onto Ann Arbor with real bus and walk legs. | [<img src="media/videos/how-sure.png" width="420"/>](media/videos/how-sure.mp4) <br/>**How sure** (41 s): 2,000 plausible semesters drop in; the share for #1 converges as its standard error shrinks. |
-| [<img src="media/videos/connection-scan.png" width="420"/>](media/videos/connection-scan.mp4) <br/>**Connection Scan** (58 s): the backward timetable scan on real UM stops; one scan serves every home. | [<img src="media/videos/seven-cities.png" width="420"/>](media/videos/seven-cities.mp4) <br/>**Seven cities** (57 s): 14,000 simulated semesters on seven real transit networks. |
-| [<img src="media/videos/walkthrough.png" width="420"/>](media/videos/walkthrough.mp4) <br/>**Walkthrough** (49 s): typing a week, seeing ranked homes and routes, opening a receipt, flipping the answer. | [<img src="presentation/screenshots/v4/07-engine.png" width="420"/>](presentation/) <br/>**Presentation deck**: scroll-driven HTML deck with a live API demo (`presentation/`); PowerPoint versions are attached to the GitHub release. |
-
-Regenerate every video with `media/scripts/render_all.sh`; details are in [`media/videos/README.md`](media/videos/README.md).
+| <img src="media/videos/fast/the-receipt.gif" width="420"/><br/>**The receipt**: the full monthly calculation for the #1 home and the lowest-rent home, every formula filled in. | <img src="media/videos/fast/the-flip.gif" width="420"/><br/>**The flip**: value of time swept $0 to $25/h; the two homes cross at the closed-form breakeven. |
+| <img src="media/videos/fast/one-week.gif" width="420"/><br/>**One week**: a student's week fills in, then every day's tour draws onto Ann Arbor with real bus and walk legs. | <img src="media/videos/fast/how-sure.gif" width="420"/><br/>**How sure**: 2,000 plausible semesters drop in and the share for #1 converges. |
+| <img src="media/videos/fast/connection-scan.gif" width="420"/><br/>**Connection Scan**: the backward timetable scan on real UM stops; one scan serves every home. | <img src="media/videos/fast/seven-cities.gif" width="420"/><br/>**Seven cities**: 14,000 simulated semesters on seven real transit networks. |
+| <img src="media/videos/fast/walkthrough.gif" width="420"/><br/>**Walkthrough**: typing a week, seeing ranked homes and routes, opening a receipt, flipping the answer. | <img src="presentation/screenshots/v4/07-engine.png" width="420"/><br/>**Presentation deck**: scroll-driven HTML deck with a live API demo (`presentation/`). |
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 | Homes: ranked list + map with real routes | Detail: the monthly receipt |
 |---|---|
@@ -110,7 +106,7 @@ The app is mobile-ready and installable as a PWA:
 
 ---
 
-## ⚙️ How it works
+## How it works
 
 ```text
  "MWF 9 EECS, TTh 2:30 Ross,      ┌──────────────┐   ┌─────────────────────┐   ┌──────────────┐
@@ -134,7 +130,7 @@ The app is mobile-ready and installable as a PWA:
 
 ---
 
-## 🧮 The math
+## The math
 
 All of it is deterministic, tested, and explained in [`ledger/engine/README.md`](ledger/engine/README.md), [`ledger/pipeline/README.md`](ledger/pipeline/README.md) and [`ledger/engine/advanced/README.md`](ledger/engine/advanced/README.md). Hand-checked worked examples are in [`ledger/engine/WORKED_EXAMPLES.md`](ledger/engine/WORKED_EXAMPLES.md).
 
@@ -233,7 +229,7 @@ where each roommate's valuations include their own commute cost from that apartm
 
 ---
 
-## 📊 Parameters every home is ranked on
+## Parameters every home is ranked on
 
 | Parameter | Value | Range | Basis | Source |
 |---|---|---|---|---|
@@ -251,7 +247,7 @@ Ranked on **cash · weekly hours · late-night minutes · fit**, combined into o
 
 ---
 
-## 🔬 Evidence
+## Evidence
 
 ### Does modelling the whole week change the decision? (Ann Arbor, real listings)
 
@@ -291,7 +287,7 @@ Ann Arbor with real rents: the cheapest-rent pick differs from the best all-in p
 
 ---
 
-## 🗣 Student interviews
+## Student interviews
 
 **16 University of Michigan students** were interviewed on Nov 20, 2026 (FaceTime and in person). The questions are in [`execution/feedback-brief.md`](execution/feedback-brief.md); coding is in [`analysis/feedback/`](analysis/feedback/), and the collection method is in [`PROVENANCE.md`](analysis/feedback/PROVENANCE.md).
 
@@ -307,7 +303,7 @@ Biggest product takeaway: valuing time in dollars is the main barrier for budget
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 | Layer | Tech | Where |
 |---|---|---|
@@ -325,7 +321,7 @@ The LLM never ranks anything and never invents numbers; the whole app works with
 
 ---
 
-## 🗂 Data sources
+## Data sources
 
 | Data | Source | Date / validity |
 |---|---|---|
@@ -340,7 +336,7 @@ The LLM never ranks anything and never invents numbers; the whole app works with
 
 ---
 
-## 🔌 API
+## API
 
 All endpoints are under `/api` and typed with Pydantic; OpenAPI is in [`ledger/api/openapi.json`](ledger/api/openapi.json).
 
@@ -356,7 +352,7 @@ All endpoints are under `/api` and typed with Pydantic; OpenAPI is in [`ledger/a
 
 ---
 
-## 💻 Run it locally
+## Run it locally
 
 ```bash
 pip install -e .            # numpy, scipy, numba, pyarrow, fastapi, pydantic, httpx, shapely
@@ -376,7 +372,7 @@ New GTFS feeds: drop the zips in `data/raw/gtfs_live/` and run `make data`.
 
 ---
 
-## 🚀 Deploy
+## Deploy
 
 **Live:** https://lease-ledger.onrender.com (Render, auto-deploys from `main`).
 
@@ -384,7 +380,7 @@ Render Blueprint (`render.yaml`): **New → Blueprint → this repo → Apply**.
 
 ---
 
-## ✅ Testing
+## Testing
 
 ```bash
 python3 -m pytest          # 199 passed, 1 skipped (routing, engine, advanced, multicity, API, AI, scraper)
@@ -395,7 +391,7 @@ Highlights: CSA vs independent Dijkstra; trip invariants (walk + wait + ride = t
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 - Listing prices come from public listing text captured on Nov 20, 2026, and may be stale; availability is not checked. Synthetic listings are labeled everywhere.
 - One representative service week; no real-time bus delays.
@@ -406,7 +402,7 @@ Highlights: CSA vs independent Dijkstra; trip invariants (walk + wait + ride = t
 
 ---
 
-## 🗺 Repository map
+## Repository map
 
 ```text
 ledger/          schemas, routing pipeline, decision engine (+ advanced), API, AI parsing, scraper, multicity
@@ -421,7 +417,7 @@ concepts/ architecture/ decisions/ execution/   design process, plans, demo scri
 
 ---
 
-## 🏆 Hack the Lease submission
+## Hack the Lease submission
 
 | | |
 |---|---|
@@ -436,7 +432,7 @@ concepts/ architecture/ decisions/ execution/   design process, plans, demo scri
 
 ---
 
-## 📚 References
+## References
 
 - Dibbelt, Pajor, Strasser & Wagner (2018). Connection Scan Algorithm. *ACM J. Exp. Algorithmics*.
 - Gal, Mash, Procaccia & Zick (2017). Which is the fairest (rent division) of them all? *J. ACM*.
