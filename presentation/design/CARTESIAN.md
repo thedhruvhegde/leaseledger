@@ -1,0 +1,4 @@
+(Design system "Cartesian" provided by the user on 2026-11-20 — full text in the lead's conversation; key tokens below. The presentation agent received the full spec in its prompt.)
+colors: bg-primary #EDE8E0 · bg-secondary #E2DBD1 · text-primary #1A1A1A · text-secondary #5A5A5A · accent #8A8178 · line #B8B0A4 · white-overlay rgba(255,255,255,0.3)
+type: Playfair Display 400 (all headlines, stats, numerals, quote marks) + Inter 400/500 (body, uppercase tracked labels 2–3px)
+rules: 1px taupe hairlines only; no shadows/gradients/rounded rects (radius 0 or 50%); geometric compass rings (solid + dashed, 20–50% opacity, ≤2 per slide); vertical hairline at 8vw; ink horizontal-accent 20vw rule sparingly; charts ink primary + dashed taupe (5,5) comparison; right-edge nav dots, bottom-left 40px square nav arrows, bottom-right zero-padded counter; sparse, one idea per slide; 0.6s fade transitions.

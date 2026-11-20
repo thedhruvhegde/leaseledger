@@ -1,0 +1,791 @@
+{
+ "_note": "Single source of truth for numbers in the deck. Regenerate with `PYTHONPATH=. python3 analysis/evidence/build_facts.py`. Each fact: value, unit, source, how, caveat (ci95 where relevant).",
+ "generated_at": "2026-11-20T03:17:17",
+ "missing_inputs": [
+  "analysis/evidence/field_results.json"
+ ],
+ "facts": [
+  {
+   "id": "listings_observed",
+   "value": 69,
+   "unit": "listings",
+   "source": "data/listings/listings.json",
+   "how": "count of records (provenance observed)",
+   "caveat": "All are search-extract: facts transcribed from search-engine text of the cited public page on 2026-11-20; pages not loaded; availability not verified; some prices may be stale."
+  },
+  {
+   "id": "listings_observed_verification",
+   "value": {
+    "search_extract": 69
+   },
+   "unit": "listings",
+   "source": "data/listings/listings.json",
+   "how": "count by Listing.verification",
+   "caveat": ""
+  },
+  {
+   "id": "listings_observed_by_type",
+   "value": {
+    "tower": 20,
+    "apartment": 26,
+    "house": 17,
+    "duplex": 2,
+    "coop": 3,
+    "other": 1
+   },
+   "unit": "listings",
+   "source": "data/listings/listings.json",
+   "how": "count by building_type",
+   "caveat": ""
+  },
+  {
+   "id": "listings_observed_by_basis",
+   "value": {
+    "bed": 20,
+    "unit": 49
+   },
+   "unit": "listings",
+   "source": "data/listings/listings.json",
+   "how": "count by rent_basis (unit vs bed)",
+   "caveat": "Basis sometimes inferred (see notes field)."
+  },
+  {
+   "id": "listings_observed_on",
+   "value": [
+    "2026-11-20"
+   ],
+   "unit": "date",
+   "source": "data/listings/listings.json",
+   "how": "distinct observed_on dates",
+   "caveat": ""
+  },
+  {
+   "id": "listings_source_hosts",
+   "value": 22,
+   "unit": "sites",
+   "source": "data/listings/listings.json",
+   "how": "distinct source_url hosts",
+   "caveat": "No site was crawled or fetched."
+  },
+  {
+   "id": "listings_synthetic",
+   "value": 30,
+   "unit": "listings",
+   "source": "data/listings/synthetic_listings.json",
+   "how": "count (seeded generator, seed 20261120)",
+   "caveat": "Fictional; labeled 'Synthetic:' everywhere."
+  },
+  {
+   "id": "demo_set_size",
+   "value": 15,
+   "unit": "listings",
+   "source": "data/listings/demo_set.json",
+   "how": "len(ids)",
+   "caveat": ""
+  },
+  {
+   "id": "feed_UM_validity",
+   "value": [
+    "2026-08-23",
+    "2027-01-02"
+   ],
+   "unit": "dates",
+   "source": "data/artifacts/manifest.json",
+   "how": "feeds.<agency>.calendar_start/end",
+   "caveat": "current UM schedule (feed valid 2026-08-23..2027-01-02); version S1000100; source live"
+  },
+  {
+   "id": "feed_UM_week",
+   "value": "2026-11-30",
+   "unit": "date",
+   "source": "data/artifacts/manifest.json",
+   "how": "representative week chosen",
+   "caveat": "Week with most weekday trips; Thanksgiving week skipped. One service date per day type."
+  },
+  {
+   "id": "feed_UM_weekday_trips",
+   "value": 8348,
+   "unit": "trips/week",
+   "source": "data/artifacts/manifest.json",
+   "how": "feeds.<agency>.weekday_trips_in_week",
+   "caveat": ""
+  },
+  {
+   "id": "feed_AAATA_validity",
+   "value": [
+    "2026-11-15",
+    "2027-01-23"
+   ],
+   "unit": "dates",
+   "source": "data/artifacts/manifest.json",
+   "how": "feeds.<agency>.calendar_start/end",
+   "caveat": "current AAATA schedule (feed valid 2026-11-15..2027-01-23); version S1000304; source live"
+  },
+  {
+   "id": "feed_AAATA_week",
+   "value": "2026-11-30",
+   "unit": "date",
+   "source": "data/artifacts/manifest.json",
+   "how": "representative week chosen",
+   "caveat": "Week with most weekday trips; Thanksgiving week skipped. One service date per day type."
+  },
+  {
+   "id": "feed_AAATA_weekday_trips",
+   "value": 10315,
+   "unit": "trips/week",
+   "source": "data/artifacts/manifest.json",
+   "how": "feeds.<agency>.weekday_trips_in_week",
+   "caveat": ""
+  },
+  {
+   "id": "feed_provenance",
+   "value": "2026-11-20 Provided by team member, downloaded from official URLs (UM webapps.fo.umich.edu / theride.org)",
+   "unit": "text",
+   "source": "data/artifacts/manifest.json",
+   "how": "feeds.UM.provenance",
+   "caveat": ""
+  },
+  {
+   "id": "last_departure_UM_BB_MonThu",
+   "value": "26:28 (+1 day)",
+   "unit": "clock (service day)",
+   "source": "data/artifacts/manifest.json",
+   "how": "late_night.MTWR[route].last (last boardable departure)",
+   "caveat": "Scheduled; times past 24:00 are after midnight. Week of 2026-11-30."
+  },
+  {
+   "id": "last_departure_UM_CN_MonThu",
+   "value": "26:26 (+1 day)",
+   "unit": "clock (service day)",
+   "source": "data/artifacts/manifest.json",
+   "how": "late_night.MTWR[route].last (last boardable departure)",
+   "caveat": "Scheduled; times past 24:00 are after midnight. Week of 2026-11-30."
+  },
+  {
+   "id": "last_departure_UM_CS_MonThu",
+   "value": "26:28 (+1 day)",
+   "unit": "clock (service day)",
+   "source": "data/artifacts/manifest.json",
+   "how": "late_night.MTWR[route].last (last boardable departure)",
+   "caveat": "Scheduled; times past 24:00 are after midnight. Week of 2026-11-30."
+  },
+  {
+   "id": "last_departure_UM_NW_MonThu",
+   "value": "26:34 (+1 day)",
+   "unit": "clock (service day)",
+   "source": "data/artifacts/manifest.json",
+   "how": "late_night.MTWR[route].last (last boardable departure)",
+   "caveat": "Scheduled; times past 24:00 are after midnight. Week of 2026-11-30."
+  },
+  {
+   "id": "last_departure_UM_OS_MonThu",
+   "value": "25:57 (+1 day)",
+   "unit": "clock (service day)",
+   "source": "data/artifacts/manifest.json",
+   "how": "late_night.MTWR[route].last (last boardable departure)",
+   "caveat": "Scheduled; times past 24:00 are after midnight. Week of 2026-11-30."
+  },
+  {
+   "id": "weekday_connections",
+   "value": 70325,
+   "unit": "connections",
+   "source": "data/artifacts/manifest.json",
+   "how": "daytypes[MTWR].connections",
+   "caveat": ""
+  },
+  {
+   "id": "transit_stops",
+   "value": 1192,
+   "unit": "stops",
+   "source": "data/artifacts/manifest.json",
+   "how": "network.stops (UM + AAATA)",
+   "caveat": ""
+  },
+  {
+   "id": "transit_routes",
+   "value": 42,
+   "unit": "routes",
+   "source": "data/artifacts/manifest.json",
+   "how": "network.routes",
+   "caveat": ""
+  },
+  {
+   "id": "walk_graph_nodes",
+   "value": 100196,
+   "unit": "nodes",
+   "source": "data/artifacts/manifest.json",
+   "how": "walk_graph.nodes",
+   "caveat": "Overture Maps transportation 2026-11-18.0 (ODbL, (c) OpenStreetMap contributors)"
+  },
+  {
+   "id": "walk_graph_edges",
+   "value": 120334,
+   "unit": "edges",
+   "source": "data/artifacts/manifest.json",
+   "how": "walk_graph.edges",
+   "caveat": ""
+  },
+  {
+   "id": "artifact_build_s",
+   "value": 19.04,
+   "unit": "s",
+   "source": "data/artifacts/manifest.json",
+   "how": "timings_s.total_s",
+   "caveat": "One build on the dev container."
+  },
+  {
+   "id": "buildings",
+   "value": 47,
+   "unit": "buildings",
+   "source": "data/campus/buildings.json",
+   "how": "count",
+   "caveat": "2 placed by hand (approximate)."
+  },
+  {
+   "id": "schedule_templates",
+   "value": 8,
+   "unit": "templates",
+   "source": "data/templates/schedules.json",
+   "how": "count",
+   "caveat": "Team-authored ('assumed') program templates, not registrar data."
+  },
+  {
+   "id": "param_value_of_time.fraction_of_wage",
+   "value": 0.5,
+   "unit": "share of wage",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 0.35-0.6), provenance observed",
+   "caveat": "USDOT Office of the Secretary, Departmental Guidance on Valuation of Travel Time in Economic Analysis (1997; Rev.1 2003; Rev.2 2016): local personal travel = 50% of hourly income, plausible range 35-60%"
+  },
+  {
+   "id": "param_value_of_time.default_student_wage_usd_h",
+   "value": 15.0,
+   "unit": "USD/h",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 13.73-18.75), provenance observed",
+   "caveat": "U-M Student Employment Office: $15/h floor for all on-campus temporary and student positions since 2022-08-21 (SEO newsletter fall 2022); Michigan minimum wage $13.73 from 2026-01-01 (michigan.gov/leo), $15.00 from 2027-01-01; postings seen up to ~$18.75"
+  },
+  {
+   "id": "param_value_of_time.default_vot_usd_h",
+   "value": 7.5,
+   "unit": "USD/h",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 4.8-15.0), provenance estimated",
+   "caveat": "Computed 0.5 x $15/h (USDOT share x U-M student wage floor). Range: 0.35 x $13.73 = $4.81 to 1.0 x $15 (full wage: student who would otherwise work). Student VOT studies span roughly EUR1.4-18/h (Trieste RP/SP) and $6-23/h (US SP studies)"
+  },
+  {
+   "id": "param_time_multipliers.in_vehicle",
+   "value": 1.0,
+   "unit": "x in-vehicle minute (dimensionless)",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 1.0-1.0), provenance observed",
+   "caveat": "Definition (numeraire)"
+  },
+  {
+   "id": "param_time_multipliers.walk",
+   "value": 1.75,
+   "unit": "x in-vehicle minute (dimensionless)",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 1.5-2.0), provenance estimated",
+   "caveat": "Wardman et al. worldwide meta-analysis of time multipliers (2872 multipliers, 606 studies, 52 countries, 1963-2023; indexed TRID 2026): supports reducing the conventional 2.0 to 1.75 (RP emphasis) or 1.50 (SP emphasis). USDOT guidance: walk/wait/transfer at 100% of wage vs 50% for in-vehicle => 2.0."
+  },
+  {
+   "id": "param_time_multipliers.wait",
+   "value": 1.75,
+   "unit": "x in-vehicle minute (dimensionless)",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 1.5-2.0), provenance estimated",
+   "caveat": "Same sources as walk (Wardman worldwide meta-analysis 1.5-1.75; USDOT 2.0; Abrantes & Wardman 2011 <2)"
+  },
+  {
+   "id": "param_time_multipliers.bike",
+   "value": 1.0,
+   "unit": "x in-vehicle minute (dimensionless)",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 0.8-1.5), provenance assumed",
+   "caveat": "No verified cycling-time multiplier found this session; set equal to in-vehicle time"
+  },
+  {
+   "id": "param_time_multipliers.transfer_penalty_min",
+   "value": 10.0,
+   "unit": "min",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 5.0-18.0), provenance estimated",
+   "caveat": "Garcia-Martinez et al. (2018) Transp. Res. A 114:52-66, Madrid SP: pure transfer penalty = 15.2-17.7 in-vehicle minutes (excluding walk/wait). Currie (2005) J. Public Transp. 8(1): review avg bus-bus transfer penalty ~22 min (range 5-50), not netting out walk/wait"
+  },
+  {
+   "id": "param_time_multipliers.schedule_delay_early_per_min",
+   "value": 0.5,
+   "unit": "min",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 0.3-0.8), provenance estimated",
+   "caveat": "Small (1982) AER 72(3):467-479 scheduling model; Small's own bottleneck review summarizes his estimates as approx beta/alpha = 0.5 (early) and gamma/alpha = 2 (late). Wardman, Chintakayala & de Jong (2016) Transp. Res. A 94:93-111 also meta-analyse schedule-delay-early/late values"
+  },
+  {
+   "id": "param_weather.bad_day_walk_multiplier",
+   "value": 1.3,
+   "unit": "x in-vehicle minute (dimensionless)",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 1.1-1.7), provenance estimated",
+   "caveat": "Physical slowdown: Fossum (winter pavement, Norway) ~+1 min/km on best winter surface, ~+2 min/km on clean ice vs bare pavement (~+8-17% at 12 min/km); computer-vision study in a cold region: speed -0.102 m/s on snow cover (~-8% at 1.3 m/s). Discomfort: 2026 preprint DCE finds per-minute WTP for tim"
+  },
+  {
+   "id": "param_late_night.usd_per_outdoor_min",
+   "value": 0.1,
+   "unit": "USD/outdoor min",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 0.0-0.3), provenance assumed",
+   "caveat": "No study found that prices walking after dark in $/min. Context: Gallup (2023 release) 40% of US adults afraid to walk alone at night within a mile of home; women 53% vs men 26%. Lighting/reassurance literature (Fotios et al.) shows route avoidance after dark but no time-equivalent"
+  },
+  {
+   "id": "param_schedule.home_return_min_gap",
+   "value": 30.0,
+   "unit": "min",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 15.0-60.0), provenance assumed",
+   "caveat": "Project day-tour rule (concepts/final-recommendation.md v2): go home between events only if gap > round trip + this slack"
+  },
+  {
+   "id": "param_schedule.arrival_buffer_min",
+   "value": 5.0,
+   "unit": "min",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 2.0-10.0), provenance assumed",
+   "caveat": "Project rule (final-recommendation.md v2). Theory: with schedule-delay costs beta (early) and gamma (late), the cost-minimizing on-time probability is gamma/(beta+gamma) ~= 2/(0.5+2) = 0.8 (Small 1982; Noland & Small 1995)"
+  },
+  {
+   "id": "param_calendar.weeks_per_month",
+   "value": 4.348,
+   "unit": "weeks",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 4.0-4.429), provenance observed",
+   "caveat": "Arithmetic: 365.25 days / 12 months / 7 days"
+  },
+  {
+   "id": "param_calendar.academic_weeks_per_year",
+   "value": 30.0,
+   "unit": "weeks",
+   "source": "data/behavior/params.json",
+   "how": "value (plausible 28.0-32.0), provenance estimated",
+   "caveat": "U-M Board of Regents, proposed Ann Arbor calendar 2026-27 (regents.umich.edu meeting 09-2025, via search extract): fall classes begin Mon 2026-08-31; 69 class days in fall and 69 in winter. 69/5 = 13.8 class weeks + ~1 week of exams/study days per term"
+  },
+  {
+   "id": "ablation_full_ne_baseline",
+   "value": 96.8,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "week model #1 differs from portal baseline #1; 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall; Wilson 95% CI",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    96.0,
+    97.4
+   ]
+  },
+  {
+   "id": "ablation_full_ne_single_dest",
+   "value": 8.1,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "week model #1 differs from single-destination model #1; 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall; Wilson 95% CI",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    7.1,
+    9.2
+   ]
+  },
+  {
+   "id": "ablation_full_ne_both",
+   "value": 8.1,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "week model #1 differs from both; 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall; Wilson 95% CI",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    7.1,
+    9.2
+   ]
+  },
+  {
+   "id": "ablation_regret_baseline_median",
+   "value": 555,
+   "unit": "USD/mo/person",
+   "source": "analysis/evidence/ablation.json",
+   "how": "all_in(baseline #1) - all_in(week #1) under the full model, median over semesters",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty. Mostly rent (cash)."
+  },
+  {
+   "id": "ablation_regret_baseline_p90",
+   "value": 672,
+   "unit": "USD/mo/person",
+   "source": "analysis/evidence/ablation.json",
+   "how": "same, 90th percentile",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty."
+  },
+  {
+   "id": "ablation_regret_single_dest_mean",
+   "value": 7.9,
+   "unit": "USD/mo/person",
+   "source": "analysis/evidence/ablation.json",
+   "how": "all_in(single-dest #1) - all_in(week #1), mean",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty."
+  },
+  {
+   "id": "ablation_regret_cash_only_median",
+   "value": 91,
+   "unit": "USD/mo/person",
+   "source": "analysis/evidence/ablation.json",
+   "how": "all_in(cheapest-cash #1, i.e. VOT=$0) - all_in(week #1) under the full model, median",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty. Valued at $7.50/h."
+  },
+  {
+   "id": "ablation_kendall_discordant_full_vs_single_dest",
+   "value": 5.4,
+   "unit": "% of listing pairs",
+   "source": "analysis/evidence/ablation.json",
+   "how": "mean share of feasible listing pairs ordered differently by week vs single-destination model",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty."
+  },
+  {
+   "id": "ablation_kerrytown_regret_single_dest_mean",
+   "value": 62.4,
+   "unit": "USD/mo/person",
+   "source": "analysis/evidence/ablation.json",
+   "how": "LSA + Kerrytown job template: mean all-in regret of the single-destination pick",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty."
+  },
+  {
+   "id": "ablation_flip_no_early_arrival",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "#1 changes when component 'no_early_arrival' is removed (engine re-run); 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "id": "ablation_flip_no_weather_jan",
+   "value": 0.4,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "#1 changes when component 'no_weather_jan' is removed (engine re-run); 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.2,
+    0.7
+   ]
+  },
+  {
+   "id": "ablation_flip_vot_zero",
+   "value": 62.9,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "#1 changes when component 'vot_zero' is removed (engine re-run); 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    61.0,
+    64.8
+   ]
+  },
+  {
+   "id": "ablation_flip_walk_wait_mult_1",
+   "value": 0.6,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "#1 changes when component 'walk_wait_mult_1' is removed (engine re-run); 300 sampled semesters x 8 templates, 69 observed listings, rent cap $1400/person, VOT $7.50/h, fall",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.4,
+    1.0
+   ]
+  },
+  {
+   "id": "ablation_band_le1000_full_ne_single_dest",
+   "value": 8.1,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "within rent band le1000: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    7.1,
+    9.2
+   ]
+  },
+  {
+   "id": "ablation_band_1000-1200_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "within rent band 1000-1200: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "id": "ablation_band_1200-1400_full_ne_single_dest",
+   "value": 20.9,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "within rent band 1200-1400: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    19.3,
+    22.5
+   ]
+  },
+  {
+   "id": "ablation_runtime_s",
+   "value": 592.6,
+   "unit": "s",
+   "source": "analysis/evidence/ablation.json",
+   "how": "wall clock of ablation.py",
+   "caveat": ""
+  },
+  {
+   "id": "ablation_eng-north_full_ne_single_dest",
+   "value": 4.3,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    2.5,
+    7.3
+   ]
+  },
+  {
+   "id": "ablation_lsa-humanities_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_ross-bba_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_premed-lsa-sci_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_music-artdesign-north_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_nursing-clinical_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_grad-lab-north_full_ne_single_dest",
+   "value": 0.0,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    0.0,
+    1.3
+   ]
+  },
+  {
+   "id": "ablation_lsa-kerrytown-job_full_ne_single_dest",
+   "value": 60.3,
+   "unit": "% of semesters",
+   "source": "analysis/evidence/ablation.json",
+   "how": "per-template: week #1 differs from single-destination #1",
+   "caveat": "Templates are assumed; listings are search extracts; CI covers semester sampling only, not listing or template uncertainty.",
+   "ci95": [
+    54.7,
+    65.7
+   ]
+  },
+  {
+   "id": "surface_north-engineer_usd_p10_p50_p90",
+   "value": [
+    467,
+    752,
+    1165
+   ],
+   "unit": "USD/mo travel",
+   "source": "analysis/evidence/surface.json",
+   "how": "quantiles over 1407 250 m cells of travel cost (time value + late-night)",
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times; no delays. Cells are 250 m; homes inside a cell can differ."
+  },
+  {
+   "id": "surface_ross-kerrytown-job_usd_p10_p50_p90",
+   "value": [
+    94,
+    155,
+    207
+   ],
+   "unit": "USD/mo travel",
+   "source": "analysis/evidence/surface.json",
+   "how": "quantiles over 1407 250 m cells of travel cost (time value + late-night)",
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times; no delays. Cells are 250 m; homes inside a cell can differ."
+  },
+  {
+   "id": "surface_premed-hospital_usd_p10_p50_p90",
+   "value": [
+    369,
+    761,
+    1162
+   ],
+   "unit": "USD/mo travel",
+   "source": "analysis/evidence/surface.json",
+   "how": "quantiles over 1407 250 m cells of travel cost (time value + late-night)",
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times; no delays. Cells are 250 m; homes inside a cell can differ."
+  },
+  {
+   "id": "surface_rank_corr_north_vs_ross",
+   "value": 0.42,
+   "unit": "Spearman rho",
+   "source": "analysis/evidence/surface.json",
+   "how": "rank correlation of travel cost across cells, north-engineer vs ross-kerrytown-job",
+   "caveat": "Two demo profiles only."
+  },
+  {
+   "id": "surface_cheapest_decile_overlap",
+   "value": 27.9,
+   "unit": "%",
+   "source": "analysis/evidence/surface.json",
+   "how": "share of north-engineer's cheapest-10% cells that are also in ross-kerrytown-job's cheapest 10%",
+   "caveat": "Two demo profiles only."
+  },
+  {
+   "id": "surface_cells_rank_gap_ge_half",
+   "value": 12.2,
+   "unit": "% of cells",
+   "source": "analysis/evidence/surface.json",
+   "how": "cells whose cost percentile differs by >= 0.5 between the two profiles",
+   "caveat": "Two demo profiles only."
+  },
+  {
+   "id": "surface_cells",
+   "value": 1407,
+   "unit": "cells",
+   "source": "analysis/evidence/surface.json",
+   "how": "250 m cells within 150 m of the walk graph",
+   "caveat": ""
+  },
+  {
+   "id": "desk_bus_legs_matched",
+   "value": "11/11",
+   "unit": "legs",
+   "source": "analysis/evidence/desk_check.json",
+   "how": "bus legs whose in-vehicle time was matched to a scheduled GTFS trip (independent csv parse)",
+   "caveat": "Consistency with the published timetable, not with real-world punctuality."
+  },
+  {
+   "id": "desk_max_ivt_diff_min",
+   "value": 0.0,
+   "unit": "min",
+   "source": "analysis/evidence/desk_check.json",
+   "how": "max |provider IVT - GTFS scheduled IVT|",
+   "caveat": ""
+  },
+  {
+   "id": "desk_walk_ratio_range",
+   "value": [
+    0.87,
+    1.3
+   ],
+   "unit": "ratio",
+   "source": "analysis/evidence/desk_check.json",
+   "how": "network walk min / (haversine x 1.3 / 1.34 m/s) over 12 trips",
+   "caveat": ""
+  },
+  {
+   "id": "ugli_to_bbb_bus_total_min",
+   "value": 22.4,
+   "unit": "min",
+   "source": "analysis/evidence/desk_check.json",
+   "how": "provider, Tue arrive by 10:00, walk+bus",
+   "caveat": "Scheduled; no delays."
+  },
+  {
+   "id": "ugli_to_bbb_walk_min",
+   "value": 44.6,
+   "unit": "min",
+   "source": "analysis/evidence/desk_check.json",
+   "how": "network walk at 1.34 m/s",
+   "caveat": ""
+  },
+  {
+   "id": "tests",
+   "value": {
+    "passed": 138,
+    "skipped": 1
+   },
+   "unit": "tests",
+   "source": "analysis/evidence/pytest.txt",
+   "how": "last line of `python3 -m pytest` output (pyproject addopts already sets -q)",
+   "caveat": "Run at Fri Nov 20 03:15:57 2026; other agents may add tests later."
+  },
+  {
+   "id": "api_evaluate_cached_ms",
+   "value": 14,
+   "unit": "ms",
+   "source": "analysis/evidence/api_latency.json",
+   "how": "POST /api/evaluate, repeated demo request (response cache hit), median over 4 demo profiles",
+   "caveat": "localhost; machine load varies"
+  },
+  {
+   "id": "api_evaluate_uncached_ms",
+   "value": 100,
+   "unit": "ms",
+   "source": "analysis/evidence/api_latency.json",
+   "how": "POST /api/evaluate with a new profile variant (response-cache miss; provider caches warm), 13 demo listings",
+   "caveat": "worst profile median 127 ms; localhost"
+  },
+  {
+   "id": "api_robustness_uncached_ms",
+   "value": 32,
+   "unit": "ms",
+   "source": "analysis/evidence/api_latency.json",
+   "how": "POST /api/robustness (2000 samples) response-cache miss",
+   "caveat": "worst profile median 34 ms; localhost"
+  }
+ ]
+}

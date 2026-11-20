@@ -1,0 +1,4 @@
+{
+  "_doc": "Regexes for digit-bearing tokens allowed in slide copy because they are labels, not data. Keep this list tiny.",
+  "tokens": ["#1\\b", "#2\\b", "\\bS<sub>i</sub>", "\\bIJCAI-11\\b"]
+}

@@ -1,0 +1,27 @@
+{
+  "_doc": "Evidence the deck needs from presentation/data/ (owned by the evidence agent). `npm run build` FAILS while any of this is unresolved; `npm run dev` shows a visible PLACEHOLDER instead. facts.json = {facts:[{id,value,unit,source,how,caveat,ci95?}]}; each id below must exist.",
+  "facts_file": "facts.json",
+  "facts_required": [
+    { "id": "ablation_full_ne_baseline", "why": "chapter 6: how often the week model's #1 differs from the portal baseline" },
+    { "id": "ablation_regret_baseline_median", "why": "chapter 6: cost of the portal pick" },
+    { "id": "ablation_full_ne_single_dest", "why": "chapter 6: week vs single-destination model" },
+    { "id": "ablation_lsa-kerrytown-job_full_ne_single_dest", "why": "chapter 6: the template where the week matters most" },
+    { "id": "ablation_kerrytown_regret_single_dest_mean", "why": "chapter 6: its cost" },
+    { "id": "ablation_flip_vot_zero", "why": "chapter 6 ablation bars" },
+    { "id": "ablation_flip_walk_wait_mult_1", "why": "chapter 6 ablation bars" },
+    { "id": "ablation_flip_no_weather_jan", "why": "chapter 6 ablation bars" },
+    { "id": "ablation_flip_no_early_arrival", "why": "chapter 6 ablation bars" },
+    { "id": "desk_bus_legs_matched", "why": "chapter 6 validation" },
+    { "id": "desk_max_ivt_diff_min", "why": "chapter 6 validation" },
+    { "id": "ugli_to_bbb_bus_total_min", "why": "chapter 6 validation" },
+    { "id": "ugli_to_bbb_walk_min", "why": "chapter 6 validation" },
+    { "id": "tests", "why": "chapter 6 validation (test suite)" },
+    { "id": "surface_rank_corr_north_vs_ross", "why": "map chapter statistic" },
+    { "id": "surface_cheapest_decile_overlap", "why": "map chapter statistic" }
+  ],
+  "surface_glob": "surface-*.geojson",
+  "surfaces_min": 2,
+  "optional": {
+    "interviews.json": "chapter 2 interview tallies; absent => slide says interviews are in progress (never invented)"
+  }
+}
