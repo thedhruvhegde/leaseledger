@@ -1,0 +1,114 @@
+id,definition,category,dtype,units,domain,provenance,source,confidence,role,sensitivity,effect,acq_effort,compute,privacy,concept_families
+S01,Primary campus (Central/North/Medical/South),student,enum,,"{C,N,M,S}",U,user,H,CTX,H,Anchors commute geometry,L,none,L,"SCHED,TCO"
+S02,"Weekly fixed-location events (class/lab/work) with day,time,location",student,list[event],"min,ISO time",0-40 events,U,user,H,CTX,H,Primary driver of commute minutes,M,O(E*N) routing,L,"SCHED,TCO,GROUP"
+S03,"Late-night recurring destinations (library, studio) with end time",student,list[event],,0-10,U,user,M,CTX,M,Safety/transit-availability after bus service ends,M,time-dependent routing,M,"SCHED,ROBUST"
+S04,Preferred modes (walk/bike/bus/car/scooter),student,set[enum],,subset,U,user,H,HARD,H,Determines feasible paths,L,graph choice,L,SCHED
+S05,Max acceptable single-trip time,student,float,min,5-60,U,user,M,HARD,H,Prunes listings,L,filter,L,SCHED
+S06,"Mobility constraints (stairs, long walks)",student,bool/enum,,optional,U,user,H,HARD,M,Excludes walk-heavy or walk-up units,L,filter,"H(sensitive; consent, optional)","SCHED,FIT"
+S07,Car ownership / parking need,student,bool,,T/F,U,user,H,HARD,M,Adds parking cost; changes mode,L,cost term,L,"TCO,SCHED"
+S08,Monthly housing budget (rent share cap),student,float,USD/mo,400-2500,U,user,H,HARD,H,Primary filter,L,filter,M,"TCO,GROUP"
+S09,All-in monthly budget incl. utilities/transport,student,float,USD/mo,500-3000,U,user,M,HARD,H,TCO filter,L,filter,M,TCO
+S10,Financial flexibility (stretch tolerance),student,float,USD/mo,0-300,U,user,L,SOFT,M,Soft budget penalty slope,L,penalty fn,M,"TCO,ROBUST"
+S11,Value of time,student,float,USD/hr,0-30,U/E,user or default,L,CTX,H,Converts minutes into dollars; flips rankings,L,scalar,L,"TCO,SCHED"
+S12,Household size desired,student,int,people,1-8,U,user,H,HARD,H,Bedroom count; per-person rent,L,filter,L,"GROUP,FIT"
+S13,Roommate budget vector,group,list[float],USD/mo,k values,U,each roommate,H,HARD,H,Joint feasibility; fair split,M,LP,M (share within group only),GROUP
+S14,Roommate room valuations,group,matrix,USD/mo,k x r,U,each roommate,M,SOFT,H,Envy-free assignment,M,LP O(k r),L,GROUP
+S15,Roommate schedules,group,list[S02],,k,U,each roommate,H,CTX,H,Joint commute burden,M,k*routing,L,"GROUP,SCHED"
+S16,Study environment need (quiet at home),student,ordinal,,1-5,U,user,M,SOFT,M,Penalizes party-street/high-density,L,weight,L,FIT
+S17,Noise tolerance,student,ordinal,,1-5,U,user,M,SOFT,M,Interacts with location density,L,weight,L,FIT
+S18,Lease duration need (12mo/academic yr/summer sublet),student,enum,,"{8,10,12}",U,user,H,HARD,M,Excludes or adds sublet risk,L,filter,L,"TCO,TIMING"
+S19,Move-in date,student,date,,Aug-Sep typical,U,user,H,HARD,M,Availability match,L,filter,L,"FIT,TIMING"
+S20,Pet,student,bool,,T/F,U,user,H,HARD,L,Excludes listings; pet fees,L,filter,L,"FIT,TCO"
+S21,Laundry/in-unit preference,student,ordinal,,1-5,U,user,M,SOFT,L,Amenity utility,L,weight,L,FIT
+S22,Furnished preference,student,ordinal,,1-5,U,user,M,SOFT,L,Amenity utility; furniture cost avoided,L,weight,L,"FIT,TCO"
+S23,Gym/fitness destination,student,event,,optional,U,user,M,CTX,L,Adds trips,L,routing,L,SCHED
+S24,Work/job location & shifts,student,event,,optional,U,user,H,CTX,M,"Off-campus anchor (e.g., Kerrytown)",L,routing,M,SCHED
+S25,Winter walking aversion,student,ordinal,,1-5,U,user,M,SOFT,M,Seasonal walk penalty multiplier,L,scalar,L,"SCHED,ROBUST"
+S26,Safety priority for late-night walks,student,ordinal,,1-5,U,user,M,SOFT,M,Penalize long late walks,L,weight,L,SCHED
+S27,Preference weights (latent),student,simplex,unitless,Δ^m,E,elicited,L,SOFT,H,Determines ranking; poorly known by student,M,Bayesian posterior,L,"PREF,ROBUST"
+S28,Pairwise choices answered,student,"list[(a,b,pick)]",,0-15,U,user,H,CTX,H,Updates weight posterior,L,MCMC/importance sampling,L,PREF
+S29,Trade-off tolerance (risk aversion),student,float,,0-1,U,user,L,SOFT,M,Mean vs CVaR objective,L,scalar,L,ROBUST
+S30,Preference uncertainty self-report,student,ordinal,,1-5,U,user,L,CTX,L,Prior concentration,L,prior,L,PREF
+S31,Social proximity to friends,student,location,,optional,U,user,M,SOFT,L,Extra destination,L,routing,M,SCHED
+S32,Accessibility needs beyond mobility,student,text,,optional,U,user,M,HARD,M,Filter,M,filter,"H(sensitive, opt-in only)",FIT
+H01,Listing coordinates,housing,lat/lon,deg,Ann Arbor bbox,O,listing/geocode,H,CTX,H,All routing,L,geocode once,L,ALL
+H02,Advertised rent (unit or per-bed),housing,float,USD/mo,500-6000,O,listing,M,HARD,H,Primary cost,M,scalar,L,"TCO,GROUP"
+H03,Rent basis (per-bed vs per-unit),housing,enum,,"{bed,unit}",O,listing,M,CTX,M,Joint vs several liability; split rules,M,logic,L,"GROUP,FIT"
+H04,Bedrooms,housing,int,,0-8,O,listing,H,HARD,H,Group fit,L,filter,L,"GROUP,FIT"
+H05,Bathrooms,housing,float,,1-5,O,listing,H,SOFT,M,Shared-bath valuations,L,weight,L,"GROUP,FIT"
+H06,Room sizes (sq ft per bedroom),housing,list[float],sqft,70-250,O/E,floorplan,L,SOFT,M,Room valuation inputs,H,LP coefficients,L,GROUP
+H07,"Fees (admin, amenity, application, trash, tech)",housing,list[float],USD,0-1000,O,listing/lease,L,CTX,M,Hidden TCO,M,sum,L,"TCO,FIT"
+H08,Utilities included set,housing,set,,"{heat,elec,water,internet,gas}",O,listing,M,CTX,H,Shifts TCO by $50-200/mo/person (est.),M,logic,L,TCO
+H09,Heating fuel & building age,housing,enum/int,year,1890-2026,O/E,city data/listing,L,CTX,M,Winter utility variance,M,regression,L,"TCO,ROBUST"
+H10,Estimated monthly utilities by month,housing,vector[12],USD,0-400,E,model (EIA/DTE+HDD),L,CTX,H,Seasonal cost,M,model,L,"TCO,ROBUST"
+H11,Security deposit,housing,float,USD,0-1.5x rent,O,listing; MI law cap 1.5x,M,CTX,L,Cash-flow upfront,L,scalar,L,TCO
+H12,Parking availability & cost,housing,float,USD/mo,0-200,O,listing,M,CTX,M,TCO for car owners,L,scalar,L,TCO
+H13,Lease term & start date,housing,date range,,12mo Sept typical,O,listing,M,HARD,M,Summer gap/sublet need,L,filter,L,"TIMING,TCO"
+H14,Furnished,housing,bool,,T/F,O,listing,M,SOFT,L,Amenity,L,weight,L,FIT
+H15,In-unit laundry,housing,bool,,T/F,O,listing,M,SOFT,L,Amenity,L,weight,L,FIT
+H16,Pet policy & fees,housing,enum/float,,n/a,O,listing,M,HARD,L,Filter/cost,L,filter,L,FIT
+H17,Building type (tower/house/co-op/duplex),housing,enum,,n/a,O,listing,H,SOFT,M,"Noise, management style",L,weight,L,FIT
+H18,Floor / elevator,housing,int/bool,,n/a,O,listing,M,HARD(if mobility),L,Mobility filter,L,filter,L,FIT
+H19,Availability status,housing,enum,,"{avail,waitlist,leased}",O,listing (volatile),L,HARD,H,Infeasible if leased,M,filter,L,TIMING
+H20,Landlord/management entity,housing,string,,,O,listing,M,CTX,M,Reputation linkage,L,join,L,FIT
+H21,Landlord review signal,housing,float+n,"stars,count",,O,public reviews (biased),L,SOFT,M,Risk prior; small-n,H,Bayesian shrinkage,L,"FIT,ROBUST"
+H22,Rental certificate/inspection status,housing,enum,,,O,A2 city data (if accessible),L,CTX,L,Quality proxy,H,join,L,FIT
+H23,Street-level noise proxy (party density/bar proximity),housing,float,index,,E,OSM POIs,L,SOFT,M,Study fit,M,spatial count,L,FIT
+H24,Nearest grocery distance,housing,float,min walk,,E,OSM,M,SOFT,M,Errand trips,L,routing,L,"SCHED,TCO"
+H25,Joint and several liability clause,housing,bool,,,O,lease text,L,CTX,M,Roommate financial risk,M,extraction,L,"GROUP,FIT"
+H26,Renewal / early-termination terms,housing,text,,,O,lease text,L,CTX,L,Flexibility,M,extraction,L,TIMING
+T01,Walk network graph,transport,graph,m,~50k edges (est.),O,OSM,H,CTX,H,Walk times,M,Dijkstra O(E log V),L,SCHED
+T02,Bike network graph,transport,graph,m,,O,OSM,M,CTX,M,Bike times,M,Dijkstra,L,SCHED
+T03,UM Blue Bus timetable (GTFS),transport,timetable,,,O,UM PTS (verify),M,CTX,H,Central-North link,M,CSA/RAPTOR,L,SCHED
+T04,TheRide AAATA timetable (GTFS),transport,timetable,,,O,AAATA GTFS,H,CTX,M,Off-campus links (free w/ MCard - verify),M,CSA,L,SCHED
+T05,Headway by route/time-of-day,transport,float,min,3-60,O,GTFS derived,M,CTX,H,Wait time distribution,L,derived,L,"SCHED,ROBUST"
+T06,Service span (last bus time),transport,time,,,O,GTFS,M,HARD(late trips),H,Late-night feasibility,L,derived,L,SCHED
+T07,Bus reliability (delay distribution),transport,dist,min,,E,no public data likely; assumption,L,CTX,M,Commute variance,M,Monte Carlo,L,ROBUST
+T08,Walking speed,transport,float,m/s,1.1-1.5,E,literature default 1.34,M,CTX,M,Scales walk times,L,scalar,L,SCHED
+T09,Winter speed/discomfort multiplier,transport,float,x,1.0-1.5,E,assumption,L,CTX,M,Seasonal routing,L,scalar,L,"SCHED,ROBUST"
+T10,Snow/precip days per month,transport,int,days,0-15,O,NOAA normals,M,CTX,L,Scenario weights,L,lookup,L,ROBUST
+T11,Bike parking/scooter availability,transport,bool,,,O/E,OSM,L,CTX,L,Mode feasibility,M,lookup,L,SCHED
+T12,Parking permit cost (UM),transport,float,USD/yr,,O,UM Parking,M,CTX,L,TCO car,L,scalar,L,TCO
+T13,Transit pass cost,transport,float,USD,0,O,MCard free fare (verify),M,CTX,L,TCO,L,scalar,L,TCO
+C01,Campus destination coordinates (buildings),campus,lat/lon,,,O,UM maps/OSM,H,CTX,H,Routing endpoints,L,lookup,L,SCHED
+C02,"Academic calendar (term dates, breaks)",campus,dates,,,O,UM Registrar,H,CTX,L,Weeks of commuting/year,L,scalar,L,"SCHED,TCO"
+C03,24h study spaces & hours,campus,hours,,,O,UM Library,M,CTX,L,Late-night trips,L,lookup,L,SCHED
+C04,Off-campus housing allowance (COA),campus,float,USD/yr,,O,UM Financial Aid,M,CTX,L,Benchmark budget,L,scalar,L,TCO
+M01,Neighborhood median rent by bedrooms,market,float,USD,,O,ACS/HUD FMR,M,CTX,L,Price-reasonableness check,L,lookup,L,"TCO,FIT"
+M02,Inventory depletion over leasing season,market,curve,% leased by month,,E,weak public data,L,CTX,M,Sign-now-vs-wait,H,model,L,TIMING
+M03,Price change over leasing season,market,float,%/mo,,E,weak data,L,CTX,M,Timing decision,H,model,L,TIMING
+M04,Lease-signing ordinance timing rules,market,rule,,,O,A2 city code (verify),M,CTX,M,Earliest legal showing/signing,L,rule,L,TIMING
+M05,Sublet market price (summer),market,float,USD/mo,,E,forums,L,CTX,M,Recover summer rent,M,scalar,L,"TCO,TIMING"
+M06,Electricity price,market,float,USD/kWh,0.15-0.25,O,DTE/EIA,M,CTX,M,Utilities model,L,scalar,L,TCO
+M07,Natural gas price,market,float,USD/Ccf,,O,DTE/EIA,M,CTX,M,Heating model,L,scalar,L,TCO
+M08,Heating degree days by month,market,int,HDD,,O,NOAA,H,CTX,M,Heating model,L,lookup,L,TCO
+D01,Hard-constraint feasibility set size,decision,int,count,0-N,S,computed,H,CTX,H,0 => infeasible explanation needed,L,filter,L,ALL
+D02,Pareto frontier size,decision,int,count,1-N,S,computed,H,CTX,H,Small frontier => clear choice,L,O(N^2 m),L,"ROBUST,PREF"
+D03,Rank acceptability (prob. listing is #1),decision,float,prob,0-1,S,SMAA Monte Carlo,M,CTX,H,Robustness of recommendation,M,O(S*N*m),L,"ROBUST,PREF"
+D04,Weight-stability region (sensitivity radius),decision,float,,0-1,S,computed,M,CTX,H,How much prefs must change to flip,M,LP,L,ROBUST
+D05,Expected value of information per question,decision,float,USD-equiv,,S,computed,M,CTX,M,Which question to ask next,M,O(Q*S*N),L,PREF
+D06,Regret vs best alternative,decision,float,USD/mo,,S,computed,M,CTX,M,Minimax-regret choice,L,O(S*N),L,ROBUST
+D07,Envy-freeness of rent split,decision,bool,,,S,LP check,H,HARD,H,Group fairness guarantee,M,LP,L,GROUP
+D08,Explanation counterfactual (minimal change to flip),decision,vector,,,S,computed,M,CTX,M,"Actionable ""why not B""",M,LP/search,L,ALL
+D09,Weekly commute minutes per listing,decision,float,min/wk,0-1000,S,computed,M,CTX,H,Core schedule metric,M,routing,L,SCHED
+D10,Commute time variance / P90,decision,float,min,,S,Monte Carlo,L,CTX,M,Reliability,M,MC,L,"SCHED,ROBUST"
+D11,Annual total cost of occupancy,decision,float,USD/yr,,S,computed,M,CTX,H,Core cost metric,L,sum,L,TCO
+D12,Late-night unsafe-walk exposure,decision,float,min/wk,,S,computed,L,CTX,M,Safety metric,M,routing,L,SCHED
+DA1,Data freshness,data,days,,0-365,O,metadata,H,CTX,M,Trust in availability/price,L,none,L,ALL
+DA2,Listing data coverage (% of market),data,float,%,,E,unknown,L,CTX,H,Recommendation completeness,H,none,L,ALL
+DA3,Source licensing permits use,data,bool,,,O,ToS,M,HARD,H,Legal feasibility,M,none,L,ALL
+DA4,GTFS validity for current date,data,bool,,,O,feed calendar,M,HARD,H,Routing correctness,L,check,L,SCHED
+DA5,Geocode precision,data,float,m,5-200,O,geocoder,M,CTX,L,Walk-time error,L,none,L,SCHED
+TE1,Routing precompute time,technical,float,s,1-600,S,benchmark,M,CTX,M,Demo latency,M,-,L,SCHED
+TE2,Interactive re-rank latency,technical,float,ms,<200 target,S,benchmark,M,HARD(UX),H,Slider responsiveness,M,-,L,ALL
+TE3,LLM dependency in critical path,technical,bool,,,S,design,H,CTX,H,Demo fragility,L,-,L,"FIT,PREF"
+TE4,Determinism of outputs,technical,bool,,,S,design,H,HARD,H,Reproducible demo,L,seeds,L,ALL
+PR1,Onboarding questions count,product,int,,3-20,S,design,M,CTX,H,Friction vs model fidelity,L,-,L,ALL
+PR2,Time to first insight,product,float,s,<90 target,S,design,M,CTX,H,Judge comprehension,L,-,L,ALL
+PR3,Explanation comprehensibility,product,ordinal,,1-5,E,user testing,L,CTX,H,Trust,L,-,L,ALL
+PR4,Visual clarity of trade-off,product,ordinal,,1-5,E,design,L,CTX,M,Demo impact,L,-,L,ALL
+CO1,Feature overlap with Zillow/Apartments.com,competition,ordinal,,1-5,E,competitive research,M,CTX,H,Differentiation,L,-,L,ALL
+CO2,Replicability by incumbent,competition,ordinal,,1-5,E,judgment,L,CTX,M,Defensibility,L,-,L,ALL
+HK1,Hours to working vertical slice,hackathon,float,h,4-20,E,estimate,L,HARD,H,Completion risk,L,-,L,ALL
+HK2,Demo sensitivity visibility,hackathon,ordinal,,1-5,E,judgment,M,CTX,H,R3 compliance,L,-,L,ALL
+HK3,External service count in demo path,hackathon,int,,0-5,S,design,H,CTX,H,Failure risk,L,-,L,ALL
