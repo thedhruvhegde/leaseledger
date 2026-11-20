@@ -199,5 +199,5 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
   }, [ready]);
 
   if (failed) return <div className="flex h-full items-center justify-center bg-raised text-sm text-faint">Map unavailable in this browser (WebGL off). Every fact on the map is also in the list.</div>;
-  return <div ref={el} className="h-full w-full" role="region" aria-label="Map of ranked homes, your places and the selected home's routes" />;
+  return <div ref={el} className="isolate h-full w-full" role="region" aria-label="Map of ranked homes, your places and the selected home's routes" />;
 }

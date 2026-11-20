@@ -1,48 +1,44 @@
 {
  "_provenance": {
-  "recorded": "2026-11-20T18:05:14.938Z",
-  "app": "http://localhost:4173/app",
+  "recorded": "2026-11-20T19:43:01.398Z",
+  "app": "http://localhost:5173",
   "api": "http://localhost:8000/api (LLM_MODE=cached)",
-  "web_build": "current web/ (vite build)",
-  "note": "Numbers on screen are the running app's own output for the typed week (no demo template, wage $16/h, rent cap $1,400)."
+  "web_build": "current web/ (vite build + preview)",
+  "note": "Typed week first (landing search bar), then the \"North Campus engineer\" sample week ranked against all observed listings (the Homes default).",
+  "cut_from": "full-demo recording (media/scripts/record_full_demo.mjs \u2192 make_demo_cuts.py)"
  },
- "typed_week": "EECS 281 Tue/Thu 10-11:30 in EECS. EECS 370 Mon/Wed 1-2:30pm in BBB. Math 214 MWF 9:30-10:30 in GG Brown. Econ 101 Tue/Thu 2:30-4pm in LSA. Gym Tue/Thu 5:30-6:30pm at NCRB. Project team Mon/Thu 7-10:30pm at the Duderstadt.",
- "frames": 916,
- "duration_s": 46.81479501724243,
- "steps": [
-  {
-   "step": "parsed",
-   "t": 10.816234827041626,
-   "head": "Your week",
-   "cards": []
-  },
-  {
-   "step": "results",
-   "t": 22.01578688621521,
-   "head": "Ann Arbor homes for your week",
-   "cards": [
-    "DD | CS | 65 | #1 | $1,077/mo all-in | $684 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · double room (co-op) | 1 bd · co-op · North Campus | +$24 ",
-    "BB | CS | DD | #2 | $1,137/mo all-in | $824 cash | | | 5.4 h/wk | | | 19 min late | University Towers · 2BR shared (up to 4 people) | 2 bd · high-rise · Central",
-    "DD | CS | 65 | #3 | $1,266/mo all-in | $873 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · single room (co-op) | 1 bd · co-op · North Campus | +$24 ",
-    "5 | 23 | NW | #4 | $1,490/mo all-in | $878 cash | | | 9.0 h/wk | | | 122 min late | 1540 Packard St · room in 4BR, all utilities included | 4 bd · house · Burns"
-   ]
-  },
-  {
-   "step": "receipt",
-   "t": 30.465447902679443,
-   "head": "ICC Escher House",
-   "cards": []
-  },
-  {
-   "step": "vot20",
-   "t": 42.71495795249939,
-   "head": "Ann Arbor homes for your week",
-   "cards": [
-    "BB | CS | DD | #1 | $1,593/mo all-in | 1 | $824 cash | | | 5.4 h/wk | | | 19 min late | University Towers · 2BR shared (up to 4 people) | 2 bd · high-rise · Cen",
-    "DD | CS | 65 | #2 | $1,649/mo all-in | 1 | $684 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · double room (co-op) | 1 bd · co-op · North Campus | +",
-    "DD | CS | 65 | #3 | $1,838/mo all-in | $873 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · single room (co-op) | 1 bd · co-op · North Campus | +$572",
-    "NX | DD | CS | #4 | $1,840/mo all-in | 3 | $1,354 cash | | | 3.3 h/wk | | | 21 min late | UM Northwood I/II · furnished 1BR (grad, Standard tier) | 1 bd · apart"
-   ]
-  }
- ]
+ "what": "North Campus engineer sample week, ranked against all observed listings (the Homes default): homes, #1 receipt, compare vs the lowest rent, value of time $8\u2192$20, how sure.",
+ "shown": {
+  "homes": [
+   "#1 | Compare | $1,166/mo all-in | $684 cash\u00b74.8 h/wk travel\u00b728 min late | ICC Escher House | Double room (co-op) | 1 bd \u00b7 Co-op \u00b7 North Camp",
+   "#2 | Compare | $1,231/mo all-in | $824 cash\u00b76.2 h/wk travel\u00b719 min late | University Towers | 2BR shared (up to 4 people) | 2 bd \u00b7 Tower \u00b7 C",
+   "#3 | Compare | $1,355/mo all-in | $873 cash\u00b74.8 h/wk travel\u00b728 min late | ICC Escher House | Single room (co-op) | 1 bd \u00b7 Co-op \u00b7 North Camp",
+   "#4 | Compare | $1,469/mo all-in | $918 cash\u00b78.1 h/wk travel\u00b777 min late | 211 E Kingsley St | 3BR house | 3 bd \u00b7 House \u00b7 Kerrytown | Observe",
+   "#5 | Compare | $1,531/mo all-in | $910 cash\u00b78.2 h/wk travel\u00b733 min late | 1116 Packard St | Private room, utilities + Wi-Fi included | 4 bd ",
+   "#6 | Compare | $1,620/mo all-in | $1,214 cash\u00b76.2 h/wk travel\u00b719 min late | University Towers | 1BR shared by 2 | 1 bd \u00b7 Tower \u00b7 Central/Sou",
+   "#7 | Compare | $1,631/mo all-in | $1,120 cash\u00b77.6 h/wk travel\u00b727 min late | 215 E Madison St | 4BR/2BA house | 4 bd \u00b7 2 ba \u00b7 House \u00b7 Main St",
+   "#8 | Compare | $1,634/mo all-in | $796 cash\u00b711.8 h/wk travel\u00b746 min late | Hillcrest Manor | 2BR | 2 bd \u00b7 Apartment \u00b7 West Side | Observed \u00b7",
+   "#9 | Compare | $1,634/mo all-in | $974 cash\u00b79.1 h/wk travel\u00b740 min late | 531 S 1st St | 6BR/2BA house | 6 bd \u00b7 2 ba \u00b7 House \u00b7 Old West Side"
+  ],
+  "receipt": "Monthly cost\nper person \u00b7 low\u2013high bands in gray\nreceipt \u00b7 per person / month\nlow\u2013high\nrent\nobs\n$919\nrenters insurance\nasm\n$15\n10\u202627\nmeals offset\nasm\n\u2212$250\n\u2212350\u2026\u2212200\ncash you pay\n$684\n+\ntravel time\ncmp\n$330\n127\u2026911\n+\nlate-night outdoors\nasm\n$12\n0\u202637\n+\nco-op work shifts\nasm\n$139\n52\u2026417\n=\nall-in /mo\n$1,166\nnot in all-in: missing preferences $36\n\nTravel time is valued at $8.00/h; it is not cash you pay. Change it under All filters.",
+  "compare": "All homes\nCompare 2 homes\nHome A \u00b7 #1 for your week \u00b7 portal #5\nICC Escher House\n$1,166/mo all-in\n$684 cash \u00b7 4.8 h/wk\nRemove\nHome B \u00b7 #8 for your week \u00b7 portal #40\nHillcrest Manor\n$1,634/mo all-in\n$796 cash \u00b7 11.8 h/wk\nRemove\nLine by line\nLine\t\nICC Escher House\n\t\nHillcrest Manor\n\tB \u2212 A\nRent\t$919\t$666\t\u2212$253\nUtilities (estimated)\t$0\t$115\t+$115\nRenters insurance\t$15\t$15\t\u00b1$0\nBus fares\t$0\t$0\t\u00b1$0\nMeals included (groceries offset)\t-$250\t$0\t+$250\nTravel time (valued)\t$330\t$817\t+$487\nLate-night outdoor exposure\t$12\t$20\t+$8\nCo-op work shifts (valued)\t$139\t$0\t\u2212$139\nMissing preferences\t$36\t$36\t\u00b1$0\nMon 14 min vs 53 min\u00b10\u2032\nThu 14 min vs 53 min\u00b10\u2032\nFri 7 min vs 53 min\u00b10\u2032\nTue 7 min vs 53 min\u00b10\u2032\nWed 7 min vs 53 min\u00b10\u2032\nThu 14 min vs 58 min\u00b10\u2032\nTue 14 min vs 58 min\u00b10\u2032\nFri 14 min vs 53 min\u00b10\u2032\nMon 14 min vs 53 min\u00b10\u2032\nWed 14 min vs 53 min\u00b10\u2032\nFri 6 min vs 6 min\u00b10\u2032\nFri 9 min vs 9 min\u00b10\u2032\nMon 4 min vs 4 min\u00b10\u2032\nMon 9 min vs 9 min\u00b10\u2032\nMon 4 min vs 4 min\u00b10\u2032\nMon 9 min vs 9 min\u00b10\u2032\nThu 26 min vs 26 min\u00b10\u2032\nThu 21 min vs 21 min\u00b10\u2032\nThu 9 min vs 9 min\u00b10\u2032\nThu 4 min vs 4 min\u00b10\u2032\nTue 26 min vs 26 min\u00b10\u2032\nTue 21 min vs 21 min\u00b10\u2032\nTue 4 min vs 4 min\u00b10\u2032\nWed 4 min vs 4 min\u00b10\u2032\nWed 4 min vs 4 min\u00b10\u2032\nWed 9 min vs 9 min\u00b10\u2032\nOn value ",
+  "vot20": [
+   "#1 | Compare | $1,828/mo all-in | 1 | $824 cash\u00b76.2 h/wk travel\u00b719 min late | University Towers | 2BR shared (up to 4 people) | 2 bd \u00b7 Tower",
+   "#2 | Compare | $1,870/mo all-in | 1 | $684 cash\u00b74.8 h/wk travel\u00b728 min late | ICC Escher House | Double room (co-op) | 1 bd \u00b7 Co-op \u00b7 North ",
+   "#3 | Compare | $2,059/mo all-in | $873 cash\u00b74.8 h/wk travel\u00b728 min late | ICC Escher House | Single room (co-op) | 1 bd \u00b7 Co-op \u00b7 North Camp",
+   "#4 | Compare | $2,078/mo all-in | 6 | $1,354 cash\u00b74.2 h/wk travel\u00b721 min late | UM Northwood I/II | Furnished 1BR (grad, Standard tier) | 1 ",
+   "#5 | Compare | $2,172/mo all-in | 13 | $1,443 cash\u00b74.2 h/wk travel\u00b722 min late | The Courtyards | 4BR/4BA (per bed) | 4 bd \u00b7 4 ba \u00b7 Apartmen",
+   "#6 | Compare | $2,217/mo all-in | $1,214 cash\u00b76.2 h/wk travel\u00b719 min late | University Towers | 1BR shared by 2 | 1 bd \u00b7 Tower \u00b7 Central/Sou",
+   "#7 | Compare | $2,246/mo all-in | 3 | $918 cash\u00b78.1 h/wk travel\u00b777 min late | 211 E Kingsley St | 3BR house | 3 bd \u00b7 House \u00b7 Kerrytown | +$7",
+   "#8 | Compare | $2,280/mo all-in | 16 | $1,437 cash\u00b74.8 h/wk travel\u00b729 min late | Upland Green | 2BR/1BA | 2 bd \u00b7 1 ba \u00b7 Apartment \u00b7 North Ca",
+   "#9 | Compare | $2,359/mo all-in | 19 | $1,457 cash\u00b75.2 h/wk travel\u00b725 min late | Huron Towers | 2BR | 2 bd \u00b7 742 sqft \u00b7 Tower \u00b7 North Campus"
+  ],
+  "drawer": "What changed\nCompared with before your last edit\nPin now\nYour #1 changed.\nChanged value of time: unset -> $20.00/h.\nValue of time used: $8.00/h -> $20.00/h; each listing's travel cost scales with its own hours.\nICC Escher House - double room (co-op): +$704/mo (travel time +$495, co-op work shifts +$209).\n3 more\nRanking\nBefore\nAfter\n1\nUniversity Towers\n1\n+$597 all-in\n2\nICC Escher House\n1\n+$704 all-in\n3\nICC Escher House\n+$704 all-in\n4\nUM Northwood I/II\n6\n+$429 all-in\n5\nThe Courtyards\n13\n+$432 all-in\n6\nUniversity Towers\n+$597 all-in\n7\n211 E Kingsley St\n3\n+$776 all-in\n8\nUpland Green\n16\n+$498 all-in",
+  "robustness": "How sure are we?\n\nYou don\u2019t know next semester\u2019s schedule, your utility bills, or exactly what an hour is worth to you. We replay your choice across thousands of plausible semesters drawn from the ranges below and count how often each home comes out cheapest.\n\n500\n2,000\n5,000\nValue of time range (assumed)\nto\n$/h\nUtilities (estimated)\n0.75\u00d7 to 1.35\u00d7 each home\u2019s estimate\nNext semester\u2019s schedule\nSampled from Engineering sophomore/junior (mostly North Campus) (assumed template) + your fixed blocks\nIn 1,605 of 2,000 plausible semesters, ICC Escher House is the cheapest week for you.\nEach house = 1 in 100 semesters. 80 of 100 filled.\nHow often each home is #1\nICC Escher House\n1,605 of 2,000\nUniversity Towers\n395 of 2,000\nICC Escher House\n0 of 2,000\n211 E Kingsley St\n0 of 2,000\n1116 Packard St\n0 of 2,000\nUniversity Towers\n0 of 2,000\n215 E Madison St\n0 of 2,000\n531 S 1st St\n0 of 2,000\nUM Northw"
+ },
+ "durations_s": {
+  "full-demo": 187.45,
+  "full-demo-60s": 60.0,
+  "walkthrough": 47.9
+ }
 }
