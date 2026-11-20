@@ -88,7 +88,7 @@ Every number in these videos comes straight from the engine. Each video has a ma
 | [<img src="media/videos/the-receipt.png" width="420"/>](media/videos/the-receipt.mp4) <br/>**The receipt** (53 s): the full monthly calculation for the #1 home and the lowest-rent home, side by side, every formula filled in. | [<img src="media/videos/the-flip.png" width="420"/>](media/videos/the-flip.mp4) <br/>**The flip** (46 s): value of time swept $0→$25/h; the two homes cross at the closed-form breakeven $v^\*$. |
 | [<img src="media/videos/one-week.png" width="420"/>](media/videos/one-week.mp4) <br/>**One week** (55 s): a student's week fills in, then every day's tour draws onto Ann Arbor with real bus and walk legs. | [<img src="media/videos/how-sure.png" width="420"/>](media/videos/how-sure.mp4) <br/>**How sure** (41 s): 2,000 plausible semesters drop in; the share for #1 converges as its standard error shrinks. |
 | [<img src="media/videos/connection-scan.png" width="420"/>](media/videos/connection-scan.mp4) <br/>**Connection Scan** (58 s): the backward timetable scan on real UM stops; one scan serves every home. | [<img src="media/videos/seven-cities.png" width="420"/>](media/videos/seven-cities.mp4) <br/>**Seven cities** (57 s): 14,000 simulated semesters on seven real transit networks. |
-| [<img src="media/videos/walkthrough.png" width="420"/>](media/videos/walkthrough.mp4) <br/>**Walkthrough** (49 s): typing a week, seeing ranked homes and routes, opening a receipt, flipping the answer. | [<img src="presentation/screenshots/v4/07-engine.png" width="420"/>](presentation/) <br/>**Presentation deck**: scroll-driven HTML deck with a live API demo (`presentation/`); PowerPoint exports in `presentation/export/`. |
+| [<img src="media/videos/walkthrough.png" width="420"/>](media/videos/walkthrough.mp4) <br/>**Walkthrough** (49 s): typing a week, seeing ranked homes and routes, opening a receipt, flipping the answer. | [<img src="presentation/screenshots/v4/07-engine.png" width="420"/>](presentation/) <br/>**Presentation deck**: scroll-driven HTML deck with a live API demo (`presentation/`); PowerPoint versions are attached to the GitHub release. |
 
 Regenerate every video with `media/scripts/render_all.sh`; details are in [`media/videos/README.md`](media/videos/README.md).
 
@@ -409,7 +409,7 @@ Highlights: CSA vs independent Dijkstra; trip invariants (walk + wait + ride = t
 ```text
 ledger/          schemas, routing pipeline, decision engine (+ advanced), API, AI parsing, scraper, multicity
 web/             React app, landing page, PWA, design docs, screenshots
-presentation/    HTML deck, PowerPoint exports, slide screenshots
+presentation/    HTML deck and slide screenshots
 media/           explainer videos (MP4 + posters + provenance JSON) and generator scripts
 analysis/        evidence studies, multicity study, interview coding, experiments, tools
 data/            GTFS feeds, streets, NOAA, listings, costs, templates, behaviour parameters
