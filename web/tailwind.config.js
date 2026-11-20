@@ -1,0 +1,70 @@
+/** @type {import('tailwindcss').Config} */
+const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+export default {
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        bg: v('bg'),
+        surface: v('surface'),
+        raised: v('raised'),
+        soft: v('soft'),
+        'line-strong': v('line-strong'),
+        charcoal: v('charcoal'),
+        mute: v('mute'),
+        line: v('line'),
+        ink: v('ink'),
+        muted: v('muted'),
+        faint: v('faint'),
+        accent: v('accent'),
+        'accent-ink': v('accent-ink'),
+        'accent-soft': v('accent-soft'),
+        walk: v('walk'),
+        wait: v('wait'),
+        bus: v('bus'),
+        bike: v('bike'),
+        cash: v('cash'),
+        time: v('time'),
+        'time-ink': v('time-ink'),
+        night: v('night'),
+        good: v('good'),
+        bad: v('bad'),
+        warn: v('warn'),
+        p: {
+          observed: v('p-observed'),
+          estimated: v('p-estimated'),
+          assumed: v('p-assumed'),
+          computed: v('p-computed'),
+          synthetic: v('p-synthetic'),
+          user: v('p-user'),
+        },
+      },
+      fontFamily: {
+        display: ['Nunito Variable', 'Inter Variable', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Inter Variable', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        mono: ['JetBrains Mono Variable', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
+      },
+      fontSize: {
+        '2xs': ['0.6875rem', { lineHeight: '1rem' }],
+      },
+      borderRadius: { xl: '12px', '2xl': '12px' },
+      boxShadow: {
+        card: 'none',
+        pop: 'none',
+      },
+      keyframes: {
+        'slide-up': { from: { transform: 'translateY(16px)', opacity: '0' }, to: { transform: 'none', opacity: '1' } },
+        'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } },
+        shimmer: { '100%': { transform: 'translateX(100%)' } },
+        pulse2: { '0%,100%': { opacity: '1' }, '50%': { opacity: '.45' } },
+      },
+      animation: {
+        'slide-up': 'slide-up 240ms cubic-bezier(.2,.8,.2,1)',
+        'fade-in': 'fade-in 160ms ease-out',
+        pulse2: 'pulse2 1.4s ease-in-out infinite',
+      },
+    },
+  },
+  plugins: [],
+};

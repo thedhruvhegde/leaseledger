@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lease Ledger design system: paper-white canvas, black ink, three neutral grays, 1px hairlines,
+   no shadows, no gradients. Pills for everything interactive; 12px cards. Dark theme is the inversion.
+   Colour appears only inside charts, timelines and maps (walk / wait / bus / bike, better / worse). */
+:root {
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --raised: 250 250 250;
+  --soft: 245 245 245;
+  --line: 229 229 229;
+  --line-strong: 212 212 212;
+  --ink: 0 0 0;
+  --charcoal: 82 82 82;
+  --muted: 82 82 82;
+  --faint: 115 115 115;
+  --mute: 163 163 163;
+  --accent: 0 0 0;
+  --accent-ink: 255 255 255;
+  --accent-soft: 245 245 245;
+  --walk: 115 115 115;
+  --wait: 202 138 4;
+  --bus: 37 99 235;
+  --bike: 22 163 74;
+  --cash: 0 0 0;
+  --time: 163 163 163;
+  --time-ink: 82 82 82;
+  --night: 82 82 82;
+  --good: 21 128 61;
+  --bad: 185 28 28;
+  --warn: 82 82 82;
+  --p-observed: 0 0 0;
+  --p-estimated: 82 82 82;
+  --p-assumed: 82 82 82;
+  --p-computed: 115 115 115;
+  --p-synthetic: 0 0 0;
+  --p-user: 0 0 0;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --ease-enter: cubic-bezier(.22,1,.36,1);
+  --focus: 59 130 246;
+  color-scheme: light;
+}
+.dark {
+  --bg: 10 10 10;
+  --surface: 23 23 23;
+  --raised: 28 28 28;
+  --soft: 38 38 38;
+  --line: 38 38 38;
+  --line-strong: 64 64 64;
+  --ink: 255 255 255;
+  --charcoal: 212 212 212;
+  --muted: 212 212 212;
+  --faint: 163 163 163;
+  --mute: 115 115 115;
+  --accent: 255 255 255;
+  --accent-ink: 0 0 0;
+  --accent-soft: 38 38 38;
+  --walk: 163 163 163;
+  --wait: 234 179 8;
+  --bus: 96 165 250;
+  --bike: 74 222 128;
+  --cash: 255 255 255;
+  --time: 115 115 115;
+  --time-ink: 212 212 212;
+  --night: 163 163 163;
+  --good: 74 222 128;
+  --bad: 248 113 113;
+  --warn: 212 212 212;
+  --p-observed: 255 255 255;
+  --p-estimated: 212 212 212;
+  --p-assumed: 212 212 212;
+  --p-computed: 163 163 163;
+  --p-synthetic: 255 255 255;
+  --p-user: 255 255 255;
+  color-scheme: dark;
+}
+/* The one inverted "look here" surface per page (the #1 home in the app; the hero result on the landing). */
+.surface-invert {
+  --bg: 10 10 10;
+  --surface: 23 23 23;
+  --raised: 28 28 28;
+  --soft: 38 38 38;
+  --line: 38 38 38;
+  --line-strong: 64 64 64;
+  --ink: 255 255 255;
+  --charcoal: 212 212 212;
+  --muted: 212 212 212;
+  --faint: 163 163 163;
+  --mute: 115 115 115;
+  --accent: 255 255 255;
+  --accent-ink: 0 0 0;
+  --accent-soft: 38 38 38;
+  --walk: 163 163 163;
+  --wait: 234 179 8;
+  --bus: 96 165 250;
+  --bike: 74 222 128;
+  --cash: 255 255 255;
+  --time: 115 115 115;
+  --time-ink: 212 212 212;
+  --night: 163 163 163;
+  --good: 74 222 128;
+  --bad: 248 113 113;
+  --warn: 212 212 212;
+  --p-observed: 255 255 255;
+  --p-estimated: 212 212 212;
+  --p-assumed: 212 212 212;
+  --p-computed: 163 163 163;
+  --p-synthetic: 255 255 255;
+  --p-user: 255 255 255;
+  background-color: rgb(var(--surface)); color: rgb(var(--ink)); color-scheme: dark;
+}
+.dark .surface-invert {
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --raised: 250 250 250;
+  --soft: 245 245 245;
+  --line: 229 229 229;
+  --line-strong: 212 212 212;
+  --ink: 0 0 0;
+  --charcoal: 82 82 82;
+  --muted: 82 82 82;
+  --faint: 115 115 115;
+  --mute: 163 163 163;
+  --accent: 0 0 0;
+  --accent-ink: 255 255 255;
+  --accent-soft: 245 245 245;
+  --walk: 115 115 115;
+  --wait: 202 138 4;
+  --bus: 37 99 235;
+  --bike: 22 163 74;
+  --cash: 0 0 0;
+  --time: 163 163 163;
+  --time-ink: 82 82 82;
+  --night: 82 82 82;
+  --good: 21 128 61;
+  --bad: 185 28 28;
+  --warn: 82 82 82;
+  --p-observed: 0 0 0;
+  --p-estimated: 82 82 82;
+  --p-assumed: 82 82 82;
+  --p-computed: 115 115 115;
+  --p-synthetic: 0 0 0;
+  --p-user: 0 0 0;
+  background-color: rgb(var(--surface)); color: rgb(var(--ink)); color-scheme: light;
+}
+
+html { font-size: 16px; }
+html.present { font-size: 20px; }
+html.present .secondary-chrome { display: none !important; }
+
+body {
+  @apply bg-bg text-ink antialiased;
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-feature-settings: 'cv11' 1;
+}
+h1, h2, h3, .font-display { font-family: 'Nunito Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif; text-wrap: balance; }
+.num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+.mono { font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
+::selection { background: rgb(var(--ink) / 0.12); }
+:focus-visible { outline: 2px solid rgb(var(--focus) / 0.55); outline-offset: 2px; }
+
+@layer components {
+  .card { @apply rounded-xl border border-line bg-surface; }
+  .btn { @apply inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50; transition: background-color 150ms var(--ease), color 150ms var(--ease), border-color 150ms var(--ease), transform 90ms var(--ease); }
+  .btn:focus-visible { outline: 2px solid rgb(var(--focus) / 0.55); outline-offset: 2px; }
+  .btn:not(:disabled):active { transform: scale(.97); }
+  .btn-primary { @apply btn bg-accent text-accent-ink; }
+  .btn-primary:not(:disabled):hover { background-color: rgb(var(--ink) / 0.82); }
+  .btn-ghost { @apply btn text-muted hover:bg-soft hover:text-ink; }
+  .btn-outline { @apply btn border border-line-strong bg-surface text-ink hover:bg-soft; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full border border-line px-3 py-1 text-xs font-medium; }
+  .tag { font-family: 'JetBrains Mono Variable', ui-monospace, monospace; @apply inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-soft px-2 py-px text-[0.6875rem] leading-[1.125rem] text-charcoal; }
+  .label { @apply text-sm font-medium text-faint; }
+  .lift { transition: border-color 150ms var(--ease), transform 90ms var(--ease); }
+  .lift:active { transform: scale(.995); }
+  .disclosure > summary { list-style: none; cursor: pointer; }
+  .disclosure > summary::-webkit-details-marker { display: none; }
+  .disclosure > summary .chev { transition: transform 150ms var(--ease); }
+  .disclosure[open] > summary .chev { transform: rotate(90deg); }
+  .input { @apply w-full max-w-full rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink placeholder:text-faint focus:border-ink focus:outline-none; }
+  textarea.input { border-radius: 12px; }
+  .h-section { @apply text-lg font-semibold; }
+}
+
+/* Synthetic: dashed outline + gray hatch, never colour */
+.hatch-synthetic {
+  background-image: repeating-linear-gradient(135deg, rgb(var(--ink) / 0.08) 0 4px, transparent 4px 8px);
+}
+
+input[type='range'] { accent-color: rgb(var(--ink)); }
+
+.skeleton { position: relative; overflow: hidden; background: rgb(var(--soft)); border-radius: 12px; }
+.skeleton::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(var(--surface) / 0.6), transparent); animation: shimmer 1.2s infinite; }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+@media (hover: hover) and (pointer: fine) {
+  .lift:hover { border-color: rgb(var(--line-strong)); }
+}
+
+/* Hero entrance: once on load, transform/opacity only. */
+@keyframes rise { from { transform: translateY(0.6em); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes settle { from { transform: scale(.985); opacity: .001; } to { transform: none; opacity: 1; } }
+.enter-rise { animation: rise 700ms var(--ease-enter) both; }
+.enter-fade { animation: rise 520ms var(--ease-enter) both; }
+.enter-settle { animation: settle 900ms var(--ease-enter) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-rise, .enter-fade, .enter-settle { animation: none !important; }
+  .lift:active, .btn:active { transform: none !important; }
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+
+.maplibregl-ctrl-attrib { font-size: 10px; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Signature input: the week, typed into one soft-gray mono pill */
+.week-pill { field-sizing: content; min-height: 56px; max-height: 12rem; resize: none; border-radius: 28px; }
+
+/* Receipt: dotted leaders */
+.leader { flex: 1 1 auto; min-width: 1rem; border-bottom: 1.5px dotted rgb(var(--mute)); transform: translateY(-0.3em); margin: 0 0.5rem; }
+
+/* ---------------------------------------------------------------- landing ("/")
+   A Markdown-like page: 720px reading column, 1080px for product visuals, 88px section rhythm, equal edges. */
+.landing { scroll-padding-top: 56px; }
+.ll-wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.ll-col { width: 100%; max-width: calc(720px + 48px); margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+.ll-wide { width: 100%; max-width: calc(1080px + 48px); margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+.ll-wide > *, .ll-col > * { min-width: 0; }
+.ll-hero { padding-top: 88px; padding-bottom: 44px; }
+.ll-section { padding-top: 88px; padding-bottom: 0; }
+.landing main > :last-child { padding-bottom: 88px; }
+@media (max-width: 1023px) { .ll-hero { padding-top: 64px; } .ll-section { padding-top: 64px; } }
+@media (max-width: 639px) { .ll-hero { padding-top: 48px; } .ll-section { padding-top: 48px; } }
+.ll-h1 { font-size: 36px; line-height: 1.11; font-weight: 500; }
+@media (min-width: 1536px) { .ll-h1 { font-size: 44px; } }
+@media (max-width: 639px) { .ll-h1 { font-size: 28px; line-height: 1.15; } }
+.ll-h2 { font-size: 30px; line-height: 1.2; font-weight: 500; }
+@media (max-width: 639px) { .ll-h2 { font-size: 24px; line-height: 1.25; } }
+.ll-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: text-decoration-color 150ms var(--ease); }
+.ll-link:hover { text-decoration-thickness: 2px; }
+
+.map-route-label { font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-size: 11px; font-weight: 600; line-height: 1; padding: 3px 7px; border-radius: 9999px; background: rgb(var(--bus)); color: #fff; border: 1.5px solid rgb(var(--surface)); pointer-events: none; }
+
+/* Phone app chrome: bottom tab bar + safe areas (installed PWA, standalone) */
+.tabbar { padding-bottom: env(safe-area-inset-bottom); }
+.drawer { bottom: calc(64px + env(safe-area-inset-bottom)); }
+@media (min-width: 1024px) { .drawer { bottom: 1rem; } }
+@media (max-width: 1023px) { .app-foot { padding-bottom: calc(88px + env(safe-area-inset-bottom)); } }
+header.sticky { padding-top: env(safe-area-inset-top); }
