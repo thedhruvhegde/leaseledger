@@ -62,7 +62,9 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
       m.addSource('others', { type: 'geojson', data: fc([]) });
       m.addLayer({ id: 'others', type: 'circle', source: 'others', paint: { 'circle-radius': 3.5, 'circle-color': css('mute'), 'circle-stroke-width': 1, 'circle-stroke-color': dark ? '#000' : '#fff' } });
       m.addSource('routes', { type: 'geojson', data: fc([]) });
-      const color = ['match', ['get', 'kind'], 'bus', css('bus'), 'bike', css('bike'), 'wait', css('wait'), css('ink')] as unknown as string;
+      // one home: colour by mode; two homes (compare): colour by home, A blue / B orange, with a legend
+      const color = ['case', ['==', ['get', 'home'], 'a'], css('cmp-a'), ['==', ['get', 'home'], 'b'], css('cmp-b'),
+        ['match', ['get', 'kind'], 'bus', css('bus'), 'bike', css('bike'), 'wait', css('wait'), css('ink')]] as unknown as string;
       m.addLayer({ id: 'route-case', type: 'line', source: 'routes', filter: ['==', ['get', 'kind'], 'bus'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': dark ? '#000' : '#fff', 'line-width': 8 } });
       m.addLayer({ id: 'route-bus', type: 'line', source: 'routes', filter: ['!=', ['get', 'kind'], 'walk'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': color, 'line-width': 4.5 } });
       m.addLayer({ id: 'route-walk', type: 'line', source: 'routes', filter: ['==', ['get', 'kind'], 'walk'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': color, 'line-width': 2.5, 'line-opacity': 0.8, 'line-dasharray': [0.6, 1.8] } });
@@ -144,16 +146,17 @@ export default function SearchMap({ pins, others, places, anchors, routes, activ
   useEffect(() => {
     const m = map.current;
     if (!m || !ready) return;
-    (m.getSource('routes') as GeoJSONSource | undefined)?.setData(fc(routes.map((l) => ({ type: 'Feature', properties: { kind: l.kind }, geometry: { type: 'LineString', coordinates: l.coords } }))));
+    (m.getSource('routes') as GeoJSONSource | undefined)?.setData(fc(routes.map((l) => ({ type: 'Feature', properties: { kind: l.kind, home: l.home ?? '' }, geometry: { type: 'LineString', coordinates: l.coords } }))));
     routeLabels.current.forEach((x) => x.remove());
     routeLabels.current = [];
     const seen = new Set<string>();
     for (const l of routes) {
-      if (!l.label || seen.has(l.label) || l.coords.length < 2) continue;
-      seen.add(l.label);
+      const key = `${l.home ?? ''}${l.label}`;
+      if (!l.label || seen.has(key) || l.coords.length < 2) continue;
+      seen.add(key);
       const d = document.createElement('div');
-      d.className = 'map-route-label';
-      d.textContent = l.label;
+      d.className = `map-route-label${l.home ? ` is-${l.home}` : ''}`;
+      d.textContent = l.home ? `${l.home.toUpperCase()} · ${l.label}` : l.label;
       routeLabels.current.push(new maplibregl.Marker({ element: d }).setLngLat(l.coords[Math.floor(l.coords.length / 2)]).addTo(m));
     }
   }, [routes, ready]);

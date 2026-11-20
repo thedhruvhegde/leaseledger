@@ -110,14 +110,22 @@ export function ResultsScreen() {
   }, [buildings]);
   const firstInView = sorted.find((e) => e.feasible) ?? sorted[0];
   const routeId = hover ?? selected ?? firstInView?.listing_id ?? top?.listing_id ?? null;
-  const routes: MapLine[] = useMemo(() => (routeId ? lines.get(routeId) ?? [] : []), [routeId, lines]);
+  const comparing = compareOpen && compare.length === 2 && !selected ? compare : null;
+  const routes: MapLine[] = useMemo(() => {
+    if (comparing) return [...(lines.get(comparing[1]) ?? []).map((l) => ({ ...l, home: 'b' as const })), ...(lines.get(comparing[0]) ?? []).map((l) => ({ ...l, home: 'a' as const }))];
+    return routeId ? lines.get(routeId) ?? [] : [];
+  }, [routeId, lines, comparing]);
   const focus = useMemo(() => {
-    if (!open) return null;
-    const l = lmap.get(open.listing_id);
-    const pts: [number, number][] = (lines.get(open.listing_id) ?? []).flatMap((x) => x.coords);
-    if (l) pts.push([l.lon, l.lat]);
+    const ids = open ? [open.listing_id] : comparing ?? [];
+    if (!ids.length) return null;
+    const pts: [number, number][] = [];
+    for (const id of ids) {
+      const l = lmap.get(id);
+      pts.push(...(lines.get(id) ?? []).flatMap((x) => x.coords));
+      if (l) pts.push([l.lon, l.lat]);
+    }
     return pts;
-  }, [open, lmap, lines]);
+  }, [open, comparing, lmap, lines]);
   const fitKey = `${evals.map((e) => e.listing_id).join('|')}#${places.length}#${selected ? 'd' : 'l'}`;
 
   const openHome = (id: string) => {
@@ -168,7 +176,8 @@ export function ResultsScreen() {
           </div>
           <div className="relative min-w-0 flex-1">
             {map}
-            <MapLegend routeName={routeId ? displayName(lmap.get(routeId)?.name).building : null} hasPlaces={places.length > 0} />
+            <MapLegend routeName={routeId ? displayName(lmap.get(routeId)?.name).building : null} hasPlaces={places.length > 0}
+              pair={comparing ? [displayName(lmap.get(comparing[0])?.name).building, displayName(lmap.get(comparing[1])?.name).building] : null} />
           </div>
         </div>
       </div>
@@ -388,12 +397,18 @@ function CompareTray({ lmap, evals, mobile = false }: { lmap: Map<string, Listin
   );
 }
 
-function MapLegend({ routeName, hasPlaces }: { routeName: string | null; hasPlaces: boolean }) {
+function MapLegend({ routeName, hasPlaces, pair = null }: { routeName: string | null; hasPlaces: boolean; pair?: [string, string] | null }) {
   return (
-    <div className="map-legend pointer-events-none absolute bottom-3 left-3 rounded-lg border border-line bg-surface/95 px-3 py-2 text-[11px] text-charcoal">
-      {routeName && <div className="mb-1 font-medium text-ink">Routes from {routeName}</div>}
+    <div className="map-legend pointer-events-none absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)] rounded-lg border border-line bg-surface/95 px-3 py-2 text-[11px] text-charcoal">
+      {pair ? (
+        <div className="mb-1 space-y-0.5" data-testid="compare-legend">
+          <div className="flex items-center gap-1.5 font-medium text-ink"><span className="h-[3px] w-5 shrink-0 rounded-full" style={{ background: 'rgb(var(--cmp-a))' }} /><span className="truncate">A · Routes from {pair[0]}</span></div>
+          <div className="flex items-center gap-1.5 font-medium text-ink"><span className="h-[3px] w-5 shrink-0 rounded-full" style={{ background: 'rgb(var(--cmp-b))' }} /><span className="truncate">B · Routes from {pair[1]}</span></div>
+        </div>
+      ) : routeName && <div className="mb-1 font-medium text-ink">Routes from {routeName}</div>}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span className="inline-flex items-center gap-1.5"><span className="h-[3px] w-5 rounded-full bg-bus" />Bus</span>
+        {pair ? <span className="inline-flex items-center gap-1.5"><span className="h-[3px] w-5 rounded-full bg-charcoal" />Bus (solid)</span>
+          : <span className="inline-flex items-center gap-1.5"><span className="h-[3px] w-5 rounded-full bg-bus" />Bus</span>}
         <span className="inline-flex items-center gap-1.5"><span className="h-0 w-5 border-t-2 border-dotted border-ink" />Walk</span>
         {hasPlaces && <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-ink bg-surface" />Your places</span>}
         <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-surface bg-charcoal ring-1 ring-line-strong" />More ranked homes</span>

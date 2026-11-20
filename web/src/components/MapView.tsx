@@ -7,7 +7,7 @@ import { MAP_INK, addStreetLayers } from '../lib/basemap';
 
 export interface MapPoint { id: string; lat: number; lon: number; label: string; kind: 'home' | 'listing' | 'building' | 'pick' }
 /** coords are [lon, lat]. `exact` = real geometry (street path / bus stops); otherwise a straight schematic line. */
-export interface MapLine { coords: [number, number][]; kind: 'walk' | 'bus' | 'bike' | 'wait'; exact?: boolean; label?: string | null }
+export interface MapLine { coords: [number, number][]; kind: 'walk' | 'bus' | 'bike' | 'wait'; exact?: boolean; label?: string | null; /** set when two homes' routes are drawn together (compare): colour by home, not by mode */ home?: 'a' | 'b' }
 
 const css = (name: string) => {
   const v = getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();

@@ -241,9 +241,9 @@ export function ComparePanel({ a, b, result, onClose, portalRank }: { a: string;
           const l = lmap.get(id);
           return (
             <div key={id} className="overflow-hidden rounded-xl border border-line">
-              <div className="relative aspect-[16/9] border-b border-line"><ListingVisual l={l} lines={legLines(e)} className="absolute inset-0" /></div>
+              <div className="relative aspect-[16/9] border-b border-line"><ListingVisual l={l} lines={legLines(e).map((x) => ({ ...x, home: i === 0 ? 'a' as const : 'b' as const }))} className="absolute inset-0" /></div>
               <div className="p-3">
-                <div className="text-[11px] font-medium text-faint">Home {i === 0 ? 'A' : 'B'} · {e?.rank ? `#${e.rank} for your week` : 'doesn’t fit'}{portalRank.get(id) ? ` · portal #${portalRank.get(id)}` : ''}</div>
+                <div className="flex items-center gap-1.5 text-[11px] font-medium text-faint"><span className="h-[3px] w-4 shrink-0 rounded-full" style={{ background: `rgb(var(--cmp-${i === 0 ? 'a' : 'b'}))` }} aria-hidden />Home {i === 0 ? 'A' : 'B'} · {e?.rank ? `#${e.rank} for your week` : 'doesn’t fit'}{portalRank.get(id) ? ` · portal #${portalRank.get(id)}` : ''}</div>
                 <div className="mt-0.5 truncate text-[14px] font-semibold">{splitName(l?.name ?? id).title}</div>
                 <div className="num mt-1 text-[1.25rem] font-semibold">{usd(e?.all_in_total)}<span className="text-xs font-normal text-faint">/mo all-in</span></div>
                 <div className="num text-[12px] text-faint">{usd(e?.cash_total)} cash · {hours(e?.commute?.weekly_min)}/wk</div>

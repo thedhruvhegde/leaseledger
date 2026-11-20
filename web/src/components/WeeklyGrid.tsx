@@ -60,6 +60,32 @@ export function applyDrag(e: Event, kind: DragKind, deltaMin: number, fromDay: D
   return patch;
 }
 
+/**
+ * Pure helper (unit-tested): calendar-style side-by-side layout for one day column. Events that overlap in time
+ * (transitively, as a cluster) share the column width; each gets the first free lane. Returns index -> lane info.
+ */
+export function layoutDay(items: { i: number; start: number; end: number }[]): Map<number, { col: number; cols: number }> {
+  const out = new Map<number, { col: number; cols: number }>();
+  const sorted = [...items].sort((a, b) => a.start - b.start || b.end - a.end || a.i - b.i);
+  let cluster: { i: number; col: number }[] = [];
+  let lanes: number[] = []; // end time of the last event in each lane
+  let clusterEnd = -Infinity;
+  const flush = () => {
+    for (const c of cluster) out.set(c.i, { col: c.col, cols: lanes.length });
+    cluster = [];
+    lanes = [];
+  };
+  for (const it of sorted) {
+    if (it.start >= clusterEnd) { flush(); clusterEnd = -Infinity; }
+    let col = lanes.findIndex((end) => end <= it.start);
+    if (col < 0) { col = lanes.length; lanes.push(it.end); } else lanes[col] = it.end;
+    cluster.push({ i: it.i, col });
+    clusterEnd = Math.max(clusterEnd, it.end);
+  }
+  flush();
+  return out;
+}
+
 export function WeeklyGrid({ events, buildings, onChange, onAdd, onSelect, onDelete, selected = null, needsConfirm = {}, pxPerMin = 0.7, readOnly = false, label = 'Weekly schedule' }: GridProps) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const [drag, setDrag] = useState<Drag | null>(null);
@@ -147,10 +173,15 @@ export function WeeklyGrid({ events, buildings, onChange, onAdd, onSelect, onDel
           {ALL_DAYS.map((day) => (
             <div key={day} className={`relative border-l border-line/60 ${readOnly ? '' : 'cursor-copy'}`} onClick={(ev) => { if (ev.target === ev.currentTarget) onEmptyClick(ev, day); }}
               data-testid={`grid-col-${day}`}>
-              {events.map((e0, i) => {
+              {(() => {
+                const shown = events.map((e0, i) => (drag?.index === i && preview ? { ...e0, ...preview } : e0));
+                const lanes = layoutDay(shown.flatMap((e, i) => (e.days.includes(day) ? [{ i, start: e.start_min, end: Math.max(e.end_min, e.start_min + 14 / pxPerMin) }] : [])));
+                return events.map((_e0, i) => {
                 const isDrag = drag?.index === i && preview;
-                const e = isDrag ? { ...e0, ...preview } : e0;
+                const e = shown[i];
                 if (!e.days.includes(day)) return null;
+                const lane = lanes.get(i) ?? { col: 0, cols: 1 };
+                const narrow = lane.cols > 1;
                 const top = (Math.max(GRID_START, e.start_min) - GRID_START) * pxPerMin;
                 const h = Math.max(14, (Math.min(GRID_END, e.end_min) - Math.max(GRID_START, e.start_min)) * pxPerMin);
                 const b = e.building_id ? buildings.get(e.building_id) : undefined;
@@ -169,14 +200,15 @@ export function WeeklyGrid({ events, buildings, onChange, onAdd, onSelect, onDel
                     data-testid="grid-event"
                     onPointerDown={(ev) => onPointerDown(ev, i, day, 'move')}
                     onKeyDown={(ev) => onKey(ev, i)}
-                    className={`group absolute inset-x-0.5 overflow-hidden rounded-md border-l-[3px] px-1.5 py-0.5 text-left text-2xs leading-tight shadow-sm transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${readOnly ? '' : 'cursor-grab active:cursor-grabbing'} ${isSel ? 'ring-2 ring-accent' : ''} ${isDrag ? 'z-20 opacity-90 shadow-pop' : 'z-10'} ${!e.fixed ? 'border-dashed' : ''}`}
-                    style={{ top, height: h, background: `rgb(${color} / 0.16)`, borderLeftColor: `rgb(${color})`, color: 'rgb(var(--ink))' }}
+                    className={`group absolute overflow-hidden rounded-md border-l-[3px] ${narrow ? 'px-1' : 'px-1.5'} py-0.5 text-left text-2xs leading-tight shadow-sm transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${readOnly ? '' : 'cursor-grab active:cursor-grabbing'} ${isSel ? 'ring-2 ring-accent' : ''} ${isDrag ? 'z-20 opacity-90 shadow-pop' : 'z-10'} ${!e.fixed ? 'border-dashed' : ''}`}
+                    data-lane={`${lane.col + 1}/${lane.cols}`}
+                    style={{ top, height: h, left: `calc(${(lane.col / lane.cols) * 100}% + 2px)`, width: `calc(${100 / lane.cols}% - 4px)`, background: `rgb(${color} / 0.16)`, borderLeftColor: `rgb(${color})`, color: 'rgb(var(--ink))' }}
                   >
                     <div className="flex items-start justify-between gap-1">
-                      <span className="truncate font-semibold">{e.label}</span>
+                      <span className={narrow ? 'min-w-0 font-semibold [overflow-wrap:anywhere]' : 'truncate font-semibold'}>{e.label}</span>
                       {nc?.length ? <span className="mt-px inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-warn text-[9px] font-bold text-white" aria-hidden>?</span> : e.source_quote ? <span className="mt-px shrink-0 text-[9px] font-bold text-p-estimated" aria-hidden>AI</span> : null}
                     </div>
-                    {h > 26 && <div className="num truncate text-faint">{clock(e.start_min, { compact: true })}–{clock(e.end_min, { compact: true })}{b ? ` · ${b.aliases[0] ?? b.name}` : ''}</div>}
+                    {h > 26 && !narrow && <div className="num truncate text-faint">{clock(e.start_min, { compact: true })}–{clock(e.end_min, { compact: true })}{b ? ` · ${b.aliases[0] ?? b.name}` : ''}</div>}
                     {!readOnly && (
                       <div
                         className="absolute inset-x-0 bottom-0 h-1.5 cursor-ns-resize opacity-0 group-hover:opacity-100"
@@ -187,7 +219,8 @@ export function WeeklyGrid({ events, buildings, onChange, onAdd, onSelect, onDel
                     )}
                   </div>
                 );
-              })}
+                });
+              })()}
             </div>
           ))}
         </div>

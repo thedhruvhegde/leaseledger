@@ -4,6 +4,7 @@
  * No hype copy, testimonials, invented stats or stock photos. Counts and dates come from the API.
  */
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useApp } from '../store/app';
 import { useDemoProfiles, useListings, useManifest } from '../api/hooks';
 import { Logo } from '../components/Header';
@@ -16,7 +17,7 @@ import type { Listing, Provenance } from '../types';
 import { ListingVisual } from '../components/Photo';
 import { CATEGORIES, categoryOf, displayName, type Category } from '../lib/category';
 import { photosOf } from '../lib/photos';
-import { usd } from '../lib/format';
+import { frequency, usd } from '../lib/format';
 
 const DEMO_ID = 'north-engineer';
 const SAMPLE = `/app?demo=${DEMO_ID}#results`;
@@ -36,6 +37,26 @@ function fmtDate(iso?: string | null): string {
   return d ? `${MONTHS[m - 1]} ${d}, ${y}` : `${MONTHS[m - 1]} ${y}`;
 }
 const n0 = (v: number) => v.toLocaleString('en-US');
+
+/**
+ * The canonical demo numbers: the "North Campus engineer" sample week ranked against ALL observed listings (exactly
+ * what /app?demo=north-engineer#results ranks by default, and what the deck and videos show), robustness at
+ * 2,000 samples, seed 42. The vignette crops are captured from that same state (scripts/screenshots-v5.mjs).
+ */
+export function useCanonicalDemo() {
+  const api = useApp((s) => s.api);
+  const { data: demos } = useDemoProfiles();
+  const { data: listings } = useListings();
+  const profile = demos?.find((d) => d.id === DEMO_ID)?.profile;
+  const ids = useMemo(() => (listings ?? []).filter((l) => l.provenance === 'observed').map((l) => l.id), [listings]);
+  const enabled = !!api && !!profile && ids.length > 0;
+  const ev = useQuery({ queryKey: ['landing-canon-eval', api?.kind, profile, ids], queryFn: () => api!.evaluate(profile!, ids), enabled, staleTime: Infinity });
+  const rb = useQuery({ queryKey: ['landing-canon-rob', api?.kind, profile, ids], queryFn: () => api!.robustness(profile!, 2000, 42, ids), enabled, staleTime: Infinity });
+  const top = ev.data?.evaluations.find((e) => e.rank === 1);
+  const name = top ? displayName(listings?.find((l) => l.id === top.listing_id)?.name).building : null;
+  const p = top && rb.data ? rb.data.p_rank1[top.listing_id] : undefined;
+  return { n: ids.length, top, name, share: p, samples: 2000 };
+}
 
 export default function Landing() {
   const fellBack = useApp((s) => s.fellBack);
@@ -172,9 +193,19 @@ function Vignettes() {
             </li>
           ))}
         </ul>
-        <p className="mt-4 text-[12px] text-faint">Crops of the running app for the sample week “North Campus engineer”.</p>
+        <CanonCaption />
       </div>
     </section>
+  );
+}
+
+function CanonCaption() {
+  const c = useCanonicalDemo();
+  return (
+    <p className="mt-4 text-[12px] text-faint" data-testid="canon-caption">
+      Crops of the running app for the sample week “North Campus engineer”{c.n > 0 && <>, ranked against all {n0(c.n)} observed listings</>}
+      {c.top && c.name ? <>: #1 is {c.name} at <span className="num">{usd(c.top.all_in_total)}</span>/mo all-in{c.share != null && <>, cheapest in <span className="num">{frequency(c.share, c.samples)}</span> plausible semesters</>}.</> : '.'}
+    </p>
   );
 }
 
@@ -199,6 +230,33 @@ function useBuildingIndex(): Building[] {
   }, [listings]);
 }
 
+/** A typographic summary of the index in place of a photo: counts straight from the listing data. */
+function IndexFacts() {
+  const all = useBuildingIndex();
+  const { data: listings = [] } = useListings();
+  const obs = listings.filter((l) => l.provenance === 'observed');
+  const hoods = new Set(obs.map((l) => l.neighborhood).filter(Boolean)).size;
+  const date = obs.map((l) => l.observed_on).filter(Boolean).sort().pop();
+  const rows: [string, string][] = [
+    ['Buildings', n0(all.length)],
+    ['Floor plans', n0(obs.length)],
+    ['Neighborhoods', n0(hoods)],
+  ];
+  return (
+    <div className="rounded-xl border border-line bg-raised p-5" data-testid="index-facts">
+      <dl className="grid grid-cols-3 gap-4">
+        {rows.map(([k, v]) => (
+          <div key={k} className="flex min-w-0 flex-col-reverse justify-end">
+            <dt className="mt-1.5 truncate text-[12px] leading-snug text-faint">{k}</dt>
+            <dd className="num text-[1.75rem] font-semibold leading-none tracking-tight text-ink">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      {date && <p className="mt-4 border-t border-line pt-3 text-[12px] text-faint">Read from public listing pages, observed {fmtDate(date)}.</p>}
+    </div>
+  );
+}
+
 function Browse() {
   const all = useBuildingIndex();
   const [cat, setCat] = useState<Category>('apartments');
@@ -215,12 +273,7 @@ function Browse() {
             <h2 id="browse-h" className="ll-h2">Homes in the index</h2>
             <p className="mt-2 max-w-[36rem] text-[14.5px] leading-relaxed text-charcoal">Real Ann Arbor buildings and houses, read from public listing pages and dated. Each one is ranked against your week, from downtown towers to rooms in Burns Park houses.</p>
           </div>
-          <figure className="min-w-0">
-            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-line bg-raised">
-              <img src="/photos/_unassigned/hub-storefront.webp" alt="Street-level entrance of a student apartment building on East William Street, Ann Arbor" loading="lazy" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: 'center 40%' }} />
-            </div>
-            <figcaption className="mt-1.5 truncate text-[11.5px] text-faint">Student housing on E William St, Ann Arbor (not a listing here). Photo provided by the team · original source to be confirmed</figcaption>
-          </figure>
+          <IndexFacts />
         </div>
         <div role="tablist" aria-label="Home type" className="no-scrollbar mt-6 flex gap-1 overflow-x-auto border-b border-line">
           {CATEGORIES.map((c) => (
@@ -245,7 +298,7 @@ function Browse() {
           ))}
         </ul>
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-[13px] text-faint">
-          <span>Rent as listed, before utilities, fees and travel. Photos only where we have the right to show them; otherwise a street map of the block.</span>
+          <span>Rent as listed, before utilities, fees and travel. Each tile is a street map of the block, drawn from open map data.</span>
           <a href={href} onClick={linkTo(href)} className="btn-outline h-9 shrink-0">See all {CATEGORIES.find((c) => c.id === cat)?.label.toLowerCase()}</a>
         </div>
       </div>
@@ -287,7 +340,7 @@ function Sources() {
   if (listings.length) rows.push({ k: 'Listings', v: <>{n0(observed.length)} observed {fmtDate(obsDate)} from public listing text; {n0(synthetic.length)} synthetic (fictional), labeled on every card. Availability is not verified.</> });
   if (feeds.um) rows.push({ k: 'U-M buses', v: <>GTFS timetable valid {fmtDate(feeds.um.calendar_start)} to {fmtDate(feeds.um.calendar_end)}{feeds.um.weekday_trips_in_week ? <>; {n0(feeds.um.weekday_trips_in_week)} weekday trips in the modeled week</> : null}.</> });
   if (feeds.aaata) rows.push({ k: 'TheRide buses', v: <>GTFS timetable valid {fmtDate(feeds.aaata.calendar_start)} to {fmtDate(feeds.aaata.calendar_end)}{feeds.aaata.weekday_trips_in_week ? <>; {n0(feeds.aaata.weekday_trips_in_week)} weekday trips</> : null}.</> });
-  rows.push({ k: 'Streets & map', v: <>Overture Maps segments derived from OpenStreetMap (ODbL), served offline. Listing thumbnails are drawn from these streets unless the team has added a licensed photo, which is credited where it appears.</> });
+  rows.push({ k: 'Streets & map', v: <>Overture Maps segments derived from OpenStreetMap (ODbL), served offline. Listing thumbnails are drawn from these streets; we show no listing photos.</> });
   const kinds: Provenance[] = ['observed', 'estimated', 'assumed', 'computed', 'synthetic', 'user'];
   return (
     <section id="sources" className="ll-section" aria-labelledby="sources-h">

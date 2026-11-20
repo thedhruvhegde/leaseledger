@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { WeeklyGrid, applyDrag } from '../components/WeeklyGrid';
+import { WeeklyGrid, applyDrag, layoutDay } from '../components/WeeklyGrid';
 import { MOCK_BUILDINGS } from '../api/mockData';
 import type { Event } from '../types';
 
@@ -47,5 +47,29 @@ describe('WeeklyGrid', () => {
     rerender(<WeeklyGrid events={[lab]} buildings={bmap} onDelete={onDelete} onChange={onChange} readOnly />);
     fireEvent.keyDown(screen.getByRole('button', { name: /Lab/ }), { key: 'ArrowDown' });
     expect(onChange).not.toHaveBeenCalled();
+  });
+});
+
+describe('layoutDay (overlapping blocks side by side)', () => {
+  it('gives non-overlapping events the full width', () => {
+    const m = layoutDay([{ i: 0, start: 540, end: 600 }, { i: 1, start: 600, end: 660 }]);
+    expect(m.get(0)).toEqual({ col: 0, cols: 1 });
+    expect(m.get(1)).toEqual({ col: 0, cols: 1 });
+  });
+  it('splits a cluster of overlapping events into lanes and reuses freed lanes', () => {
+    const m = layoutDay([{ i: 0, start: 540, end: 720 }, { i: 1, start: 600, end: 660 }, { i: 2, start: 660, end: 700 }, { i: 3, start: 800, end: 860 }]);
+    expect(m.get(0)).toEqual({ col: 0, cols: 2 });
+    expect(m.get(1)).toEqual({ col: 1, cols: 2 });
+    expect(m.get(2)).toEqual({ col: 1, cols: 2 });
+    expect(m.get(3)).toEqual({ col: 0, cols: 1 });
+  });
+  it('renders overlapping template events in separate lanes', () => {
+    const a: Event = { ...lec, label: 'A', days: ['M'] };
+    const b: Event = { ...lec, label: 'B', days: ['M'], start_min: 570, end_min: 660 };
+    render(<WeeklyGrid events={[a, b]} buildings={bmap} readOnly />);
+    const [ea, eb] = screen.getAllByTestId('grid-event');
+    expect(ea.getAttribute('data-lane')).toBe('1/2');
+    expect(eb.getAttribute('data-lane')).toBe('2/2');
+    expect(ea.style.left).not.toBe(eb.style.left);
   });
 });

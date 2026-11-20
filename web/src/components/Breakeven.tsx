@@ -12,15 +12,28 @@ export function humanize(text: string, names: Map<string, Listing> | Record<stri
   return s;
 }
 
-export function breakevenSide(b: Breakeven): 'below' | 'above' | null {
+/**
+ * Which side of the tie value B wins on. The engine's text names the LOW-side winner first
+ * ("<A> wins if value_of_time < $15.28/h; <B> wins above it"), and that can be either home, so read the name instead
+ * of assuming B is the low-side winner (that bug showed "University Towers wins … so it wins for you now" while
+ * ICC Escher House was #1). Without names, fall back to: A is the currently better home, so B wins on the far side.
+ */
+export function breakevenSide(b: Breakeven, names: { a?: string; b?: string; vot?: number } = {}): 'below' | 'above' | null {
+  const m = /^(.*?) wins if .*?(?:<|below|under)/.exec(b.direction);
+  if (m) {
+    const low = m[1].trim();
+    if (names.b && low === names.b) return 'below';
+    if (names.a && low === names.a) return 'above';
+  }
+  if (b.value != null && names.vot != null) return names.vot < b.value ? 'above' : 'below';
   if (/<|under|below/.test(b.direction)) return 'below';
   if (/>|over|above/.test(b.direction)) return 'above';
   return null;
 }
 
 /** Number line for a value-of-time breakeven: shaded region = where B wins; marker = you. */
-export function BreakevenLine({ b, vot, aName, bName }: { b: Breakeven; vot: number; aName: string; bName: string }) {
-  const side = breakevenSide(b);
+export function BreakevenLine({ b, vot, aName, bName, aFull, bFull }: { b: Breakeven; vot: number; aName: string; bName: string; aFull?: string; bFull?: string }) {
+  const side = breakevenSide(b, { a: aFull, b: bFull, vot });
   const v = b.value;
   const max = Math.max(40, (v ?? 0) * 1.25, vot * 1.25);
   const x = (n: number) => `${(Math.max(0, Math.min(max, n)) / max) * 100}%`;

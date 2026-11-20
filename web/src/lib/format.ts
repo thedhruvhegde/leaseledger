@@ -123,3 +123,30 @@ export function pluralize(n: number, one: string, many = `${one}s`): string {
 export function titleCase(s: string): string {
   return s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
+
+/** Human label for an extracted listing field: "fee:application_fee" -> "Application fee". */
+export function factLabel(field: string): string {
+  const f = field.replace(/^fee:/, '');
+  const special: Record<string, string> = { in_unit_laundry: 'In-unit laundry', rent_basis: 'Rent is per', lease_term_months: 'Lease term', sqft: 'Size (sq ft)', joint_and_several: 'Joint and several' };
+  if (special[f]) return special[f];
+  const s = f.replace(/_/g, ' ');
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/** Human value for an extracted fact: money as dollars, booleans as Yes/No, months with a unit. */
+export function factValue(field: string, v: unknown): string {
+  if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+  if (v === 'true' || v === 'false') return v === 'true' ? 'Yes' : 'No';
+  const n = typeof v === 'number' ? v : typeof v === 'string' && /^\d+(\.\d+)?$/.test(v) ? Number(v) : null;
+  if (n != null && /^fee:|rent$|deposit|_fee$/.test(field)) return `$${n.toLocaleString('en-US')}`;
+  if (n != null && field === 'lease_term_months') return `${n} months`;
+  if (Array.isArray(v)) return v.join(', ');
+  return String(v);
+}
+
+/** Engine rule ids ("a2_application_fee_over_50") as words; free-text rules pass through. */
+export function ruleLabel(rule: string): string {
+  if (!/^[a-z0-9_]+$/.test(rule)) return rule;
+  const s = rule.replace(/^[a-z]\d+_/, '').replace(/_over_(\d+)/, (_m, d: string) => ` over $${d}`).replace(/_/g, ' ');
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

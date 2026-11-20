@@ -6,7 +6,7 @@ import { Callout, SectionTitle, Skeleton } from '../components/ui/Misc';
 import { ProvenanceBadge } from '../components/ui/Badge';
 import { IconAlert, IconCheck, IconPin } from '../components/ui/Icons';
 import type { ExtractListingResult, ExtractedFact, Listing } from '../types';
-import { titleCase } from '../lib/format';
+import { factLabel, factValue, ruleLabel } from '../lib/format';
 
 const MapView = lazy(() => import('../components/MapView'));
 
@@ -80,7 +80,7 @@ export function AddListingScreen() {
               {res.flags.map((f, i) => (
                 <div key={i} className="card flex gap-3 border-warn/40 bg-warn/5 p-3">
                   <IconAlert className="mt-0.5 shrink-0 text-warn" />
-                  <div className="text-sm"><div className="font-semibold text-ink">{f.rule}</div><div className="text-muted">{f.advice}</div></div>
+                  <div className="text-sm"><div className="font-semibold text-ink">{ruleLabel(f.rule)}</div><div className="text-muted">{f.advice}</div></div>
                 </div>
               ))}
             </div>
@@ -93,17 +93,22 @@ export function AddListingScreen() {
               <ul className="divide-y divide-line">
                 {res.facts.map((f, i) => (
                   <li key={i} onMouseEnter={() => setHi(i)} onMouseLeave={() => setHi(null)} className={`flex items-center gap-2 py-1.5 text-sm ${hi === i ? 'bg-accent-soft/50' : ''}`}>
-                    <span className="w-40 shrink-0 text-muted">{titleCase(f.field)}</span>
-                    <span className="num font-semibold text-ink">{String(f.value)}</span>
+                    <span className="w-40 shrink-0 text-muted">{factLabel(f.field)}</span>
+                    <span className="num font-semibold text-ink">{factValue(f.field, f.value)}</span>
                     <ProvenanceBadge p="observed" compact className="ml-auto" />
                   </li>
                 ))}
               </ul>
               {res.not_stated.length > 0 && (
-                <div className="mt-3 text-xs text-muted"><b className="text-ink">Not stated</b> (ask the landlord; we’ll estimate meanwhile): {res.not_stated.map(titleCase).join(', ')}</div>
+                <div className="mt-3 text-xs text-muted"><b className="text-ink">Not stated</b> (ask the landlord; we’ll estimate meanwhile): {res.not_stated.map(factLabel).join(', ')}</div>
               )}
             </div>
-          ) : <Skeleton className="h-40 opacity-50" />}
+          ) : extract.isPending ? <Skeleton className="h-40 opacity-50" /> : (
+            <div className="rounded-xl border border-dashed border-line-strong p-4 text-sm text-faint">
+              <div className="label mb-1">Extracted facts</div>
+              Rent, beds, fees, utilities and lease terms appear here, each linked to the words it came from. Anything the text doesn’t say is listed as “not stated”.
+            </div>
+          )}
           <div className="card p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold"><IconPin size={16} /> Click the map to place it</div>
             <Suspense fallback={<Skeleton className="h-72" />}>
@@ -148,7 +153,7 @@ function Highlighted({ text, facts, hi, setHi }: { text: string; facts: Extracte
     <p className="whitespace-pre-wrap text-sm leading-7 text-ink">
       {parts.map((p, k) => p.i == null ? <span key={k}>{p.t}</span> : (
         <mark key={k} tabIndex={0} onMouseEnter={() => setHi(p.i)} onMouseLeave={() => setHi(null)} onFocus={() => setHi(p.i)} onBlur={() => setHi(null)}
-          title={`${titleCase(facts[p.i].field)}: ${String(facts[p.i].value)}`}
+          title={`${factLabel(facts[p.i].field)}: ${factValue(facts[p.i].field, facts[p.i].value)}`}
           className={`rounded px-0.5 text-ink transition-colors ${hi === p.i ? 'bg-accent/30 ring-1 ring-accent' : 'bg-p-observed/15'}`}>{p.t}</mark>
       ))}
     </p>

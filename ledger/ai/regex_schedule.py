@@ -17,7 +17,7 @@ from ledger.schemas import Day, Event, ParseScheduleResult, Provenance
 MAX_EVENTS = 40
 DEFAULT_START_BEFORE_END = 120   # "till 1am" with no start: assume a 2 h block, flagged
 
-_SPLIT = re.compile(r"[;\n•|]+|,(?!\d)|(?<!\.[mMpPaA])(?<![ap]\.m)\.(?=\s)|\.$")
+_SPLIT = re.compile(r"[;\n•·|]+|,(?!\d)|(?<!\.[mMpPaA])(?<![ap]\.m)\.(?=\s)|\.$")
 _AND = re.compile(r"\s+(?:and|&|plus|then|\+)\s+", re.I)
 _STOP = {"at", "in", "on", "from", "till", "until", "til", "to", "@", "every", "each", "the", "and", "&",
          "from", "around", "about", "by", "starting", "also", "i", "have", "go", "usually", "my", "a", "an",
@@ -147,7 +147,11 @@ def parse_items(src: str, places: PlaceIndex) -> list[ParsedItem]:
             for i in range(h.start, h.end):
                 lab[i] = " "
         if th:
-            for i in range(th.start, th.end):
+            # the time hit was found on text with places masked to spaces; its span can swallow that padding, so
+            # trim it to the time's own characters ("MWF 9 EECS in BBB" keeps "EECS" in the label)
+            ts = th.start + (len(mt[th.start:th.end]) - len(mt[th.start:th.end].lstrip()))
+            te = th.start + len(mt[th.start:th.end].rstrip())
+            for i in range(ts, te):
                 lab[i] = " "
         words = [w for w in re.split(r"\s+", "".join(lab)) if w]
         while words and words[0].lower().strip(",.:") in _STOP:
@@ -158,8 +162,11 @@ def parse_items(src: str, places: PlaceIndex) -> list[ParsedItem]:
         place_words = [w for w in words if w.lower().strip(",.:") not in _STOP
                        and not any(w.lower() in p.text.lower() for p in pm)]
 
+        decisive = True
         if len({p.building_id for p in pm}) > 1:
-            pm = sorted(pm, key=lambda p: -(p.end - p.start))   # most specific (longest) name wins, flagged below
+            # explicit "in/at <place>" beats a bare name beats a course prefix ("EECS 370 in BBB" -> BBB);
+            # ties go to the most specific (longest) name and are flagged below
+            pm, decisive = places.choose(text, pm)
         bid = pm[0].building_id if pm else None
         if bid is None:
             # inherit a place from the neighbouring clause of the same sentence when this one is bare
@@ -189,7 +196,7 @@ def parse_items(src: str, places: PlaceIndex) -> list[ParsedItem]:
         if item.reason:
             items.append(item)
             continue
-        if len({p.building_id for p in pm}) > 1:
+        if len({p.building_id for p in pm}) > 1 and not decisive:
             item.flags.append({"field": "building_id", "reason": "several places named: " + ", ".join(
                 dict.fromkeys(p.text for p in pm)) + f"; chose '{pm[0].text}'"})
         if start_min is None and end_min is not None:

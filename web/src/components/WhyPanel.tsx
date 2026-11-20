@@ -153,7 +153,7 @@ export function Compare({ a, b, vot }: { a: string; b: string; vot: number }) {
           })}
         </div>
       )}
-      {votBe && <BreakevenLine b={votBe} vot={vot} aName={splitName(an).title} bName={splitName(bn).title} />}
+      {votBe && <BreakevenLine b={votBe} vot={vot} aName={splitName(an).title} bName={splitName(bn).title} aFull={an} bFull={bn} />}
       <ul className="space-y-1 text-sm text-muted">
         {others.map((x) => <li key={x.parameter}>• {humanize(x.direction, lmap)}</li>)}
         {(cf.data?.alternative_changes ?? []).map((x) => <li key={x}>• {humanize(x, lmap)}</li>)}

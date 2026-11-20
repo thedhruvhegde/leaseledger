@@ -37,7 +37,7 @@ export const MapThumb = memo(function MapThumb({ lat, lon, lines = [], label, cl
     return { major: pick('major'), minor: pick('minor'), service: pick('service') };
   }, [roads, lat, lon, proj]);
 
-  const routes = useMemo(() => lines.map((l) => ({ kind: l.kind, label: l.label, d: 'M' + l.coords.map(([x, y]) => proj(x, y).map((v) => v.toFixed(1)).join(' ')).join('L') })), [lines, proj]);
+  const routes = useMemo(() => lines.map((l) => ({ kind: l.kind, label: l.label, home: l.home, d: 'M' + l.coords.map(([x, y]) => proj(x, y).map((v) => v.toFixed(1)).join(' ')).join('L') })), [lines, proj]);
   const busLabels = Array.from(new Set(lines.filter((l) => l.kind === 'bus' && l.label).map((l) => l.label as string))).slice(0, 3);
 
   return (
@@ -59,7 +59,7 @@ export const MapThumb = memo(function MapThumb({ lat, lon, lines = [], label, cl
           {routes.filter((r) => r.kind === 'bus').map((r, i) => (
             <g key={`b${i}`}>
               <path d={r.d} stroke={c.road} strokeWidth={6.5} />
-              <path d={r.d} stroke="rgb(var(--bus))" strokeWidth={3.5} />
+              <path d={r.d} stroke={r.home ? `rgb(var(--cmp-${r.home}))` : 'rgb(var(--bus))'} strokeWidth={3.5} />
             </g>
           ))}
         </g>

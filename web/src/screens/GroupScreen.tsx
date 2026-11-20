@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useBuildingMap, useBuildings, useGroup, useListingMap, useTemplates } from '../api/hooks';
+import { useBuildingMap, useBuildings, useDemoProfiles, useGroup, useListingMap, useTemplates } from '../api/hooks';
 import { useApp } from '../store/app';
 import { WeeklyGrid } from '../components/WeeklyGrid';
 import { EventEditor } from '../components/EventEditor';
@@ -22,12 +22,16 @@ export function GroupScreen() {
   const setMembers = useApp((s) => s.setMembers);
   const mine = useApp((s) => s.committed);
   const { data: templates = [] } = useTemplates();
+  const { data: demos } = useDemoProfiles();
   const { data, isLoading, error, refetch, isFetching } = useGroup(members);
   const lmap = useListingMap();
   const [sel, setSel] = useState<string | null>(null);
 
   useEffect(() => {
-    if (members.length === 0 && templates.length) {
+    // with ?demo=… wait for the demo week to load so Roommate A starts from it (not from a template)
+    const demoId = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('demo') : null;
+    const waitingForDemo = !!demoId && mine.events.length === 0 && (demos === undefined || demos.some((d) => d.id === demoId));
+    if (members.length === 0 && templates.length && !waitingForDemo) {
       const caps = [1100, 1000, 1200];
       setMembers([0, 1, 2].map((i) => ({
         alias: ALIASES[i],
@@ -36,7 +40,7 @@ export function GroupScreen() {
         profile: { ...DEFAULT_PROFILE, events: i === 0 && mine.events.length ? mine.events : fromTemplate(templates[i % templates.length]) },
       })));
     }
-  }, [members.length, templates, mine.events, setMembers]);
+  }, [members.length, templates, mine.events, setMembers, demos]);
 
   const update = (i: number, m: Partial<Member>) => setMembers((ms) => ms.map((x, j) => (j === i ? { ...x, ...m } : x)));
   const ranking = data?.ranking ?? [];
@@ -79,18 +83,38 @@ export function GroupScreen() {
                       className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${selected?.listing_id === id ? 'border-accent bg-accent-soft/60' : 'border-line hover:bg-raised'} ${s.feasible ? '' : 'opacity-60'}`}>
                       <span className="num w-5 font-bold text-accent">{s.feasible ? k + 1 : '—'}</span>
                       <span className="min-w-0 flex-1 truncate" title={lmap.get(id)?.name}>{splitName(lmap.get(id)?.name ?? id).title}</span>
-                      <span className="num text-xs text-muted">{tooSmall ? 'too small' : s.feasible ? `worst-off ${usd(s.maximin_utility)}` : 'over budget'}</span>
+                      <span className={`num text-xs ${s.feasible && (s.maximin_utility ?? 0) < 0 ? 'text-bad' : 'text-muted'}`} title={s.feasible ? 'Worst-off roommate’s surplus: the value they put on their room minus their rent share and their own travel cost, per month' : undefined}>{tooSmall ? 'too small' : s.feasible ? `worst-off ${signedUsd(s.maximin_utility ?? 0)}/mo` : 'over budget'}</span>
                     </button>
                   </li>
                 );
               })}
             </ol>
-            <p className="mt-3 text-xs text-faint">Ranked by the worst-off roommate’s surplus: room value − rent share − their own commute cost (USD-equiv/mo).</p>
+            <p className="mt-3 text-xs text-faint">Ranked by the worst-off roommate’s surplus = value they put on their room (their max rent, adjusted for room size and bath) − their rent share − their own travel cost, per month. Positive: everyone comes out ahead. Negative: someone pays more than the place is worth to them.</p>
           </div>
-          {selected ? <SplitDetail s={selected} members={members} /> : <EmptyState title="Pick an apartment" />}
+          {selected ? <SplitDetail s={selected} members={members} rank={ranking.indexOf(selected.listing_id)} next={nextBetter(data.splits, ranking, selected.listing_id)} /> : <EmptyState title="Pick an apartment" />}
         </div>
       )}
-      {data?.warnings.filter((w) => !w.startsWith('MOCK')).map((w) => <Callout key={w} tone="warn">{w}</Callout>)}
+      <GroupNotes warnings={data?.warnings ?? []} n={members.length} />
+    </div>
+  );
+}
+
+/** Engine notes: "<id>: 1 bedroom(s) < 3 members; skipped." lines collapse into one sentence with names. */
+function GroupNotes({ warnings, n }: { warnings: string[]; n: number }) {
+  const lmap = useListingMap();
+  const skip = /^([\w.-]+): \d+ bedroom\(s\) < \d+ members; skipped\.?$/;
+  const ws = warnings.filter((w) => !w.startsWith('MOCK'));
+  const skipped = ws.map((w) => skip.exec(w)?.[1]).filter((x): x is string => !!x);
+  const rest = ws.filter((w) => !skip.test(w));
+  if (!skipped.length && !rest.length) return null;
+  return (
+    <div className="space-y-2 text-[13px] text-charcoal">
+      {skipped.length > 0 && (
+        <p className="rounded-xl border border-line px-4 py-3" data-testid="group-skipped">
+          <b className="text-ink">{skipped.length} home{skipped.length === 1 ? '' : 's'} skipped</b> — fewer bedrooms than {n} roommates: {skipped.map((id) => splitName(lmap.get(id)?.name ?? id).title).join(', ')}.
+        </p>
+      )}
+      {rest.map((w) => <p key={w} className="rounded-xl border border-line px-4 py-3">{w}</p>)}
     </div>
   );
 }
@@ -172,11 +196,41 @@ export function EnvyMatrix({ E, aliases }: { E: number[][]; aliases: string[] })
   );
 }
 
-function SplitDetail({ s, members }: { s: GroupSplit; members: Member[] }) {
+/** "+$12" / "−$328": surplus is signed, so always show the sign (true minus sign). */
+export function signedUsd(v: number): string {
+  const r = Math.round(v);
+  return r < 0 ? `−${usd(-r)}` : r > 0 ? `+${usd(r)}` : usd(0);
+}
+
+/** The best-ranked feasible apartment whose worst-off surplus beats this one's (null if this is already the best). */
+function nextBetter(splits: GroupSplit[], ranking: string[], id: string): string | null {
+  const cur = splits.find((x) => x.listing_id === id);
+  const idx = ranking.indexOf(id);
+  for (const r of (idx < 0 ? ranking : ranking.slice(0, idx).reverse())) {
+    const x = splits.find((y) => y.listing_id === r);
+    if (x?.feasible && (x.maximin_utility ?? -Infinity) > (cur?.feasible ? cur.maximin_utility ?? -Infinity : -Infinity)) return r;
+  }
+  return null;
+}
+
+/**
+ * Plain-language reading of the worst-off surplus. Sign convention (engine/group.py): surplus_p = V_p − rent_p − travel_p
+ * where V_p is the value p puts on their room (max rent ± room adjustments). Negative = it costs them more than it is worth.
+ */
+export function surplusSentence(u: number, who: string, isBest: boolean, nextName: string | null): string {
+  if (u >= 0) return `Everyone comes out ahead: even ${who}, the worst-off roommate, values their room ${usd(Math.round(u))}/mo more than their rent share plus their own travel time.`;
+  const tail = nextName ? ` Consider ${nextName}, which leaves the worst-off roommate better off.`
+    : isBest ? ' Every apartment here leaves someone behind; this one is the least bad. Try higher max rents, fewer roommates or a cheaper home.' : '';
+  return `This apartment costs ${who} ${usd(Math.round(-u))}/mo more (rent share + their own travel time) than the value they put on it.${tail}`;
+}
+
+function SplitDetail({ s, members, rank, next }: { s: GroupSplit; members: Member[]; rank: number; next: string | null }) {
   const lmap = useListingMap();
   const l = lmap.get(s.listing_id);
   const aliases = members.map((m) => m.alias);
   const tooSmall = s.envy_matrix.length === 0;
+  const worst = s.maximin_utility != null ? aliases.reduce<string | null>((w, a) => (w == null || (s.utility[a] ?? Infinity) < (s.utility[w] ?? Infinity) ? a : w), null) : null;
+  const nextName = next ? splitName(lmap.get(next)?.name ?? next).title : null;
   return (
     <div className="card space-y-5 p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -185,8 +239,20 @@ function SplitDetail({ s, members }: { s: GroupSplit; members: Member[] }) {
           <div className="text-xl font-semibold tracking-tight"><ListingName name={l?.name ?? s.listing_id} subClassName="text-base font-normal" /></div>
           {l && <div className="mt-1"><ListingSourceBadge l={l} /></div>}
         </div>
-        {s.maximin_utility != null && <div className="text-right"><div className="label">Worst-off roommate</div><div className="num text-2xl font-bold">{usd(s.maximin_utility)}<span className="text-xs text-faint">/mo surplus</span></div></div>}
+        {s.maximin_utility != null && !tooSmall && (
+          <div className="text-right">
+            <div className="label">Worst-off roommate’s surplus</div>
+            <div className={`num text-2xl font-bold ${s.maximin_utility < 0 ? 'text-bad' : 'text-good'}`} data-testid="worst-off">{signedUsd(s.maximin_utility)}<span className="text-xs font-normal text-faint">/mo</span></div>
+            {worst && <div className="text-xs text-faint">{worst}</div>}
+          </div>
+        )}
       </div>
+      {s.maximin_utility != null && !tooSmall && worst && (
+        <p className={`rounded-lg border px-3 py-2 text-sm ${s.maximin_utility < 0 ? 'border-bad/40 text-ink' : 'border-line text-charcoal'}`} data-testid="worst-off-explainer">
+          {surplusSentence(s.maximin_utility, worst, rank === 0, nextName)}
+          <span className="mt-1 block text-xs text-faint">Surplus = value of their room (max rent, adjusted for size and bath) − rent share − their own travel cost, per month. The split maximises the lowest surplus among envy-free splits.</span>
+        </p>
+      )}
       {tooSmall ? <Callout tone="warn">{s.explanation_facts.join(' ')}</Callout> : (
         <>
           <div className="overflow-x-auto">
@@ -200,7 +266,7 @@ function SplitDetail({ s, members }: { s: GroupSplit; members: Member[] }) {
                       <td className="py-2 pr-3 font-sans font-semibold">{m.alias}</td>
                       <td className="py-2 pr-3 font-sans">{s.assignment[m.alias]}</td>
                       <td className="py-2 pr-3 text-right text-base font-semibold">{usd(s.rent[m.alias])}</td>
-                      <td className="py-2 pr-3 text-right">{usd(s.utility[m.alias])}</td>
+                      <td className={`py-2 pr-3 text-right ${s.utility[m.alias] < 0 ? 'text-bad' : ''}`}>{signedUsd(s.utility[m.alias])}</td>
                       <td className={`py-2 text-right ${over ? 'font-semibold text-bad' : 'text-muted'}`}>{over ? `+${usd(over)} needed` : m.budget_cap != null ? `≤ ${usd(m.budget_cap)} ✓` : '—'}</td>
                     </tr>
                   );
@@ -213,7 +279,9 @@ function SplitDetail({ s, members }: { s: GroupSplit; members: Member[] }) {
             <div className="space-y-3">
               <div className="rounded-lg border border-line p-3">
                 <div className="label mb-1">vs. splitting rent equally</div>
-                <div className="num text-sm text-ink">Equal split: someone envies another’s room by up to <b className="text-bad">{usd(s.equal_split_max_envy)}/mo</b>.</div>
+                <div className="num text-sm text-ink">{(s.equal_split_max_envy ?? 0) > 0.5
+                  ? <>Equal split: someone envies another’s room by up to <b className="text-bad">{usd(s.equal_split_max_envy)}/mo</b>.</>
+                  : <>An equal split would also be envy-free here (rooms are alike for everyone).</>}</div>
                 <div className="num text-sm text-ink">This split: max envy <b className="text-good">{usd(Math.max(0, ...s.envy_matrix.flat()))}</b>.</div>
               </div>
               {Object.keys(s.relaxation).length > 0 && (

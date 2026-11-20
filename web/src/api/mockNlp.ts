@@ -121,7 +121,9 @@ export function parseTimes(raw: string): { start?: number; end?: number; spans: 
 
 export function findBuilding(s: string, buildings: Building[]): { b: Building; span: [number, number] } | null {
   let best: { b: Building; span: [number, number]; len: number } | null = null;
-  const prep = (i: number) => /\b(in|at)\s+$/i.test(s.slice(Math.max(0, i - 4), i));
+  const prep = (i: number) => /(\b(in|at|inside)\s+(the\s+)?|@\s*)$/i.test(s.slice(Math.max(0, i - 12), i));
+  // "EECS 370", "CHEM 130": a subject code followed by a course number is a course, not where the class meets
+  const course = (end: number) => /^\s*-?\s*\d{3}[A-Za-z]?(?![0-9:])/.test(s.slice(end));
   for (const b of buildings) {
     for (const alias of [b.name, b.id, ...b.aliases]) {
       if (alias.length < 2) continue;
@@ -130,7 +132,7 @@ export function findBuilding(s: string, buildings: Building[]): { b: Building; s
       const m = re.exec(s);
       if (m) {
         const st = m.index + m[1].length;
-        const sc = alias.length + (prep(st) ? 10 : 0);
+        const sc = alias.length + (prep(st) ? 100 : 0) - (course(st + m[2].length) ? 100 : 0);
         if (!best || sc > best.len) best = { b, span: [st, st + m[2].length], len: sc };
       }
     }

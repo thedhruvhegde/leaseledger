@@ -125,7 +125,7 @@ function RobustBody({ data, lmap, vot }: { data: RobustnessResult; lmap: Map<str
           <ul className="space-y-2">
             {data.drivers.slice(0, 2).map((d) => <li key={d} className="flex gap-2.5 text-base leading-relaxed text-ink"><span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />{humanize(d, lmap)}</li>)}
           </ul>
-          {votBe && <div className="mt-6"><BreakevenLine b={votBe} vot={vot} aName={splitName(nm(votBe.a)).title} bName={splitName(nm(votBe.b)).title} /></div>}
+          {votBe && <div className="mt-6"><BreakevenLine b={votBe} vot={vot} aName={splitName(nm(votBe.a)).title} bName={splitName(nm(votBe.b)).title} aFull={nm(votBe.a)} bFull={nm(votBe.b)} /></div>}
           <details className="disclosure mt-5 rounded-xl border border-line">
             <summary className="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-raised">
               <span>Show every input tested <span className="text-muted">({data.drivers.length - Math.min(2, data.drivers.length) + data.breakevens.filter((b) => b !== votBe).length})</span></span>

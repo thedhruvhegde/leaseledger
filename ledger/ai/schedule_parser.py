@@ -86,6 +86,25 @@ def locate_quote(text: str, quote: str) -> Optional[tuple[int, int]]:
     return (m.start(), m.end()) if m else None
 
 
+def explicit_place_override(quote: str, bid: Optional[str], places: PlaceIndex) -> Optional[str]:
+    """Post-LLM validation: an explicit location in the user's own words wins over a building-like course prefix.
+
+    "EECS 370 in BBB" -> bbb even if the model picked eecs from the course code. Applied when the quote names one
+    building unambiguously in its best tier and that building is either an explicit "in/at <place>" or the model's
+    choice is only supported by a course prefix ("EECS 370", "CHEM 130") in the quote.
+    """
+    ordered, decisive = places.choose(quote)
+    if not ordered or not decisive:
+        return bid
+    best = ordered[0]
+    if bid == best.building_id:
+        return bid
+    kinds_for_bid = {places.match_kind(quote, m) for m in ordered if m.building_id == bid}
+    if places.match_kind(quote, best) == "explicit" or (kinds_for_bid and kinds_for_bid <= {"course"}):
+        return best.building_id
+    return bid
+
+
 def _llm_items(data: dict, text: str, places: PlaceIndex) -> tuple[list[ParsedItem], list[dict]]:
     items: list[ParsedItem] = []
     dropped: list[dict] = []
@@ -101,6 +120,7 @@ def _llm_items(data: dict, text: str, places: PlaceIndex) -> tuple[list[ParsedIt
         bid = raw.get("building_id")
         if bid not in places.buildings:
             bid = places.resolve(raw.get("place_text", "")) or places.resolve(q)
+        bid = explicit_place_override(q, bid, places)
         days = [_NAME_TO_DAY[d] for d in DAY_NAMES if d in (raw.get("days") or [])]
         s, e = hhmm_to_min(raw.get("start", "")), hhmm_to_min(raw.get("end", ""))
         label = (raw.get("label") or "").strip() or q
