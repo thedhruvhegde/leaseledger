@@ -62,7 +62,7 @@ function detail(i: number) {
 export const how: Chapter = {
   id: 'how',
   title: 'How it works',
-  budget: 35,
+  budget: 28,
   steps: STEPS.length - 1,
   deps: ['methods', 'manifest', 'routes'],
   render() {
@@ -91,7 +91,7 @@ export const how: Chapter = {
     if (panel) { panel.innerHTML = detail(n); panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap'); }
   },
   notes() {
-    return `<p><b>III · How it works (35 s) — the technical credibility beat.</b> → walks the five steps.</p>
+    return `<p><b>III · How it works (28 s) — the technical credibility beat.</b> → walks the five steps.</p>
       <p>1 · Your week: the AI only proposes events; code checks every building against the campus list and every quote against your text, and you confirm the grid. <b>The AI never ranks, prices or invents a number.</b> Switch it off and everything still works. Templates sample plausible semesters if you don't know next term yet.</p>
       <p>2 · Rehearsed line: "For every campus building and every 5-minute arrival deadline we scan the day's real bus connections backwards once (Connection Scan, Dibbelt et al. 2018). That gives the latest time you can leave any stop; add the walk from each apartment and we have door-to-door minutes for every listing at once."</p>
       <p>3 · Day tours (Kobus 2015): the map is one real weekday of the #1 home, chained home → events → home.</p>

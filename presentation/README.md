@@ -21,7 +21,7 @@ The deck runs fully offline. It embeds the real app and calls the real API.
 - **`npm run snapshot`** captures every API response the deck uses into `public/snapshot.json`. The API must be up. The script also checks that the three scripted flips still flip the way `execution/demo-flips.md` says, and exits non-zero if they don't. Re-run it after any engine or data change.
 - **`npm run build`** runs the honesty checks (below), then `tsc`, then `vite build` into `dist/`. Serve the result with `npm run preview`, also on :4400.
 - **`npm run screenshots`** (the deck must be running) does two things:
-  - writes every chapter at 1920×1080 to `screenshots/v3/` (plus extra states: each how-it-works step, the demo before the flip, the first city plate, the pre-reveal states; `--out=` and `--only=` override);
+  - writes every chapter at 1920×1080 to `screenshots/v4/` (plus extra states: each how-it-works step, the demo before the flip, the first city plate, the pre-reveal states; `--out=` and `--only=` override);
   - checks that every visible number on a slide carries `data-src`.
 - **`npm run check`** runs the honesty checks and only warns about placeholders.
 - **`npm run export`** (the deck must be running) writes a backup PDF of every slide, every multi-city plate and the catalogue to `export/lease-ledger-deck.pdf`.
@@ -47,18 +47,20 @@ The deck runs fully offline. It embeds the real app and calls the real API.
 | # | Chapter | Budget | Hero (source) |
 |---|---|---|---|
 | 1 | Cover — full-bleed Ann Arbor with one engineer's week of trips drawn on in ink | 0:08 | `POST /compare` trip legs over `basemap-paths.json` |
-| 2 | The decision — two homes, two route maps, two all-in totals | 0:29 | `POST /evaluate` north-engineer, `POST /compare` (`routes`) |
-| 3 | A whole week — the week grid plus one number (trips routed) and author-year chips | 0:25 | `/demo-profiles`, `/evaluate` |
-| — | *What students told us* — collage + keyword chips. **Only in the talk when `data/interviews.json` or `public/interviews/*.jpg\|png` exists**; then it takes 0:10 from chapter 3 | (0:10) | user-supplied only |
-| 4 | How it works — five steps, one picture or number each (app screenshot, timetable count, a real day tour, the walk/wait weight, the receipt) | 0:35 | `public/img/*`, `/manifest`, `/compare`, `facts.json` |
-| 5 | **Live demo** — app in hairline frames; three scripted flips with animated ranks | 1:15 | `/evaluate` + `/diff` (flips from `execution/demo-flips.md` only) |
-| 6 | How sure — 100-mark array and "n in 100", then → the breakeven number line | 0:28 | `/robustness`, `/compare` |
-| 7 | Evidence — two-anchor hero %, one-anchor %, then → validation | 0:25 | `data/facts.json` |
-| 8 | Same city, different map — two cost surfaces side by side, one overlap % | 0:15 | `data/surface-*.geojson`, `facts.json` |
-| 9 | Seven cities — rapid fire: each city's map + one %, then a catalogue of all seven (tag: simulated · travel-only) | 0:22 | `data/multicity.json`, `media/multicity/*` |
-| 10 | Group Week — app screenshot, fair rent each, largest envy | 0:18 | `POST /group` |
-| 11 | Limits & next — six short limits (the full API list is in the notes), then → the plan | 0:12 | `/methods` |
-| 12 | Close — the city again, one sentence, the ask | 0:08 | none |
+| 2 | The decision — two homes, two route maps, two all-in totals | 0:26 | `POST /evaluate` north-engineer, `POST /compare` (`routes`) |
+| 3 | A whole week — the week grid plus one number (trips routed) and author-year chips | 0:23 | `/demo-profiles`, `/evaluate` |
+| — | *What students told us* — 16 real interviews: count, two findings, keyword ledger, and a collage of `public/interviews/*` (layout adapts to 0–9 images). In the talk whenever `data/interviews.json` or images exist; takes 0:10 from chapter 3 | (0:10) | `data/interviews.json`, user images |
+| 4 | How it works — five steps, one picture or number each | 0:28 | `public/img/*`, `/manifest`, `/compare`, `facts.json` |
+| 5 | **Live demo** — app in hairline frames; three scripted flips with animated ranks | 1:10 | `/evaluate` + `/diff` |
+| 6 | **The engine** — six-stage pipeline (Connection Scan → day tours → generalized cost → monthly ledger → Monte Carlo + closed-form breakeven → envy-free maximin LP), KaTeX with every constant read from `/methods` | 0:22 | `/methods`, `/manifest` (scans, ms/scan), `/robustness` (samples) |
+| 7 | **What every home is ranked on** — nine-row parameter ledger: value, range, basis (observed/estimated/assumed), source | 0:14 | `/methods` `params`, `/evaluate` `weighted_criteria_view` |
+| 8 | How sure — 100-mark array and "n in 100", then → the breakeven number line | 0:28 | `/robustness`, `/compare` |
+| 9 | Evidence — two-anchor hero %, one-anchor %, then → validation | 0:22 | `data/facts.json` |
+| 10 | Same city, different map — two cost surfaces side by side, one overlap % | 0:12 | `data/surface-*.geojson`, `facts.json` |
+| 11 | Seven cities — rapid fire (1.5 s per city), then the catalogue (tag: simulated · travel-only) | 0:12 | `data/multicity.json`, `media/multicity/*` |
+| 12 | Group Week — app screenshot, fair rent each, largest envy | 0:15 | `POST /group` |
+| 13 | Limits & next — six short limits, then → the plan | 0:12 | `/methods` |
+| 14 | Close — the city again, one sentence, the ask | 0:08 | none |
 | A | Appendix: the math under the hood — Sobol, τ(t) sawtooth, CVaR, EVPI | Q&A | `/api/advanced/*` |
 
 The receipt lines, CIs, portal comparison, ablation, citations' findings and every caveat are in each chapter's speaker notes (`S`).

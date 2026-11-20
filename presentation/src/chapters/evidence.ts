@@ -11,7 +11,7 @@ const FIELD: any = Object.values(fieldFiles)[0] ?? null;
 export const evidence: Chapter = {
   id: 'evidence',
   title: 'Evidence',
-  budget: 25,
+  budget: 22,
   steps: 1,
   render() {
     const tests = factVal('tests');
@@ -36,7 +36,7 @@ export const evidence: Chapter = {
   },
   notes() {
     const f = (id: string) => { const x = getFact(id); return x ? `${typeof x.value === 'object' ? JSON.stringify(x.value) : x.value}${x.ci95 ? ` (95% CI ${x.ci95[0]}–${x.ci95[1]})` : ''}` : '…'; };
-    return `<p><b>VI · Evidence (25 s) — be precise, judges will probe.</b></p>
+    return `<p><b>VI · Evidence (22 s) — be precise, judges will probe.</b></p>
       <p>Headline: "If your week has one anchor, a commute filter is fine. If it has two, it picks the wrong home most of the time." Two-anchor week (classes + Kerrytown job): #1 differs from a single-destination commute model in ${f('ablation_lsa-kerrytown-job_full_ne_single_dest')}% of semesters; wrong pick costs ~$${f('ablation_kerrytown_regret_single_dest_mean')}/mo on average. One anchor, all templates: ${f('ablation_full_ne_single_dest')}%. Among homes renting $1,200–1,400 where options are close: ${f('ablation_band_1200-1400_full_ne_single_dest')}%.</p>
       <p>Portal comparison (rent cap + distance): #1 differs in ${f('ablation_full_ne_baseline')}%, median gap $${f('ablation_regret_baseline_median')}/mo — say it's <b>mostly per-person rent and all-in accounting, not routing</b>.</p>
       <p>Ablation: valuing time is the big lever (${f('ablation_flip_vot_zero')}% of #1s change at VOT = 0); walk/wait weights ${f('ablation_flip_walk_wait_mult_1')}%, January weather ${f('ablation_flip_no_weather_jan')}%, early-arrival ${f('ablation_flip_no_early_arrival')}% — precision, not drivers.</p>

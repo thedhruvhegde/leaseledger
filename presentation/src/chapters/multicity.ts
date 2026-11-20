@@ -9,7 +9,7 @@ const jsonFiles = import.meta.glob('../../data/multicity.json', { eager: true, i
 const mediaFiles = import.meta.glob('../../media/multicity/*.{gif,png}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
 const MC: any = Object.values(jsonFiles)[0] ?? null;
 const SRC = 'facts:multicity.json';
-const DWELL = 2600;
+const DWELL = 1500;
 const SHORT: Record<string, string> = { 'New York City': 'New York', 'Champaign-Urbana': 'Champaign', 'Cambridge-Boston': 'Boston', 'San Francisco': 'San Francisco' };
 
 const media = (file: string | undefined) => {
@@ -40,7 +40,7 @@ let timer = 0, idx = 0, paused = false;
 export const multicity: Chapter = {
   id: 'multicity',
   title: 'Seven cities',
-  budget: 22,
+  budget: 12,
   render() {
     const cs = slides();
     if (!cs.length) {
@@ -100,7 +100,7 @@ export const multicity: Chapter = {
     const cav: string[] = MC?.global_caveats ?? [];
     const ar = MC?.annarbor_real_listings?.rules?.d_cheapest_rent;
     return cs.length
-      ? `<p><b>VIII · Seven cities (22 s), rapid fire</b> — auto-advances (~2.6 s per city), click to pause, click a tick to jump. One line: "We simulated thousands of student-semesters on seven real transit networks: picking the home closest to campus is the wrong home in roughly a third to a half of futures, costing hours every semester."</p>
+      ? `<p><b>VIII · Seven cities (12 s), rapid fire</b> — auto-advances (~1.5 s per city, then rests on the catalogue), click to pause, click a tick to jump. One line: "We simulated thousands of student-semesters on seven real transit networks: picking the home closest to campus is the wrong home in roughly a third to a half of futures, costing hours every semester."</p>
          ${ar ? `<p>Ann Arbor with real rents: cheapest-rent pick ≠ best all-in in ${Math.round(ar.pick_differs.p * 100)}% of futures, ~$${Math.round(ar.regret_usd_month.mean)}/mo.</p>` : ''}
          <p><b>Say the caveat:</b> ${cav.map(esc).join(' ')}</p>`
       : `<p>Multi-city results not delivered — <b>skip this chapter</b>.</p>`;

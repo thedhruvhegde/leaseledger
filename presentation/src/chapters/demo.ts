@@ -46,7 +46,7 @@ export const demo: Chapter = {
   title: 'Live demo',
   numeral: 'IV',
   gist: 'Change one thing, watch the answer move',
-  budget: 75,
+  budget: 70,
   deps: ['demoProfiles', ...FLIPS.map((f: any) => `eval:${f.profile}`)],
   render() {
     const laptopSrc = `${APP}/app?demo=north-engineer#results`;
@@ -80,7 +80,7 @@ export const demo: Chapter = {
     el.querySelectorAll<HTMLButtonElement>('.flip-btn').forEach((b) => b.addEventListener('click', (ev) => { ev.stopPropagation(); runFlip(el, b.dataset.flip!); }));
   },
   notes() {
-    return `<p><b>IV · Live demo (75 s) — the required live sensitivity beat.</b> Laptop and phone both show the app for the North Campus engineer (same listings as the deck).</p>
+    return `<p><b>IV · Live demo (70 s) — the required live sensitivity beat.</b> Laptop and phone both show the app for the North Campus engineer (same listings as the deck).</p>
       <ol><li>In the app: show the receipt ranking, then open the diff drawer after a change.</li>
       <li>Button 1 (VOT): "If I value my time at $20/h instead of $8, the tower wins — the breakeven is on the next slide."</li>
       <li>Button 2 (hospital shift): adds T/R 7–12 at University Hospital → #1 changes. <b>Knife-edge</b>: the margin is tiny; say so if asked.</li>

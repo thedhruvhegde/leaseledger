@@ -73,3 +73,10 @@ There is one number per slide, set in Inter Tight Light:
 | Group Week | `$785` each, `$0` envy |
 
 Every number is still bound to its source with `data-src` (API, snapshot or `facts.json`). `npm run build` and the screenshot DOM check enforce this.
+
+## v4 additions
+
+- **The engine** and **What every home is ranked on** sit between the demo and "How sure", so the math is on screen before the statistics that rest on it. Equations are KaTeX at 34px; every constant inside them (1.75, 10, 0.5, ω, the scan count and ms per scan, the 2,000 samples) is interpolated from `GET /methods`, `/manifest` or `/robustness` at render time, never typed.
+- The parameter ledger is the one deliberately denser slide: nine rows, 28px values in tabular figures, right-aligned value and range columns, and a basis column (filled dot = observed, half = estimated, hollow + italic = assumed).
+- Time for the two slides (36 s) came from the demo (−5), how it works (−7), the decision (−3), the week (−2), evidence (−3), same city (−3), seven cities (−10; 1.5 s per city) and Group Week (−3). Total stays 5:00.
+- Interviews are real (16 students, Nov 20; see `analysis/feedback/PROVENANCE.md`). With no photos the slide is count + findings + a keyword ledger with bars; with photos the collage takes the left side in one, two or three rows (1–3, 4–6, 7–9 images) and the ledger shortens.

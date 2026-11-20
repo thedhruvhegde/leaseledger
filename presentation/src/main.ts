@@ -19,12 +19,14 @@ import { group } from './chapters/group';
 import { limits } from './chapters/limits';
 import { close } from './chapters/close';
 import { math } from './chapters/math';
+import { engine } from './chapters/engine';
+import { params } from './chapters/params';
 import { interviewsChapter, hasInterviews } from './chapters/interviews';
 import { missing } from './facts';
 
 // "What students told us" joins the talk only when real interview material exists (it borrows time from II).
 if (hasInterviews) problem.budget -= interviewsChapter.budget;
-export const CHAPTERS = [cover, hook, problem, ...(hasInterviews ? [interviewsChapter] : []), how, demo, robust, evidence, map, multicity, group, limits, close, math];
+export const CHAPTERS = [cover, hook, problem, ...(hasInterviews ? [interviewsChapter] : []), how, demo, engine, params, robust, evidence, map, multicity, group, limits, close, math];
 mountDeck(document.getElementById('deck')!, CHAPTERS);
 void start();
 // surfaced for the screenshot / digit checks

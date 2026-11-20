@@ -9,7 +9,7 @@ const fs = require('node:fs');
 
 const arg = (k, d) => (process.argv.find((a) => a.startsWith(`--${k}=`)) ?? `=${d}`).split('=').slice(1).join('=');
 const URL0 = arg('url', 'http://localhost:4400/');
-const OUT = path.resolve(__dirname, '..', arg('out', 'screenshots/v3'));
+const OUT = path.resolve(__dirname, '..', arg('out', 'screenshots/v4'));
 fs.mkdirSync(OUT, { recursive: true });
 
 (async () => {

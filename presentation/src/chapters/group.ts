@@ -9,7 +9,7 @@ const G = 'api:POST /group';
 export const group: Chapter = {
   id: 'group',
   title: 'Group Week',
-  budget: 18,
+  budget: 15,
   deps: ['group', 'listings'],
   render() {
     const g = plan.group;
@@ -39,7 +39,7 @@ export const group: Chapter = {
       </div>`;
   },
   notes() {
-    return `<p><b>IX · Group Week (18 s).</b> "Each roommate's own routine priced from each home. We rank homes by how well-off the worst-off roommate is, then split rent with the envy-free maximin LP (Gal et al. 2017)."</p>
+    return `<p><b>IX · Group Week (15 s).</b> "Each roommate's own routine priced from each home. We rank homes by how well-off the worst-off roommate is, then split rent with the envy-free maximin LP (Gal et al. 2017)."</p>
       <p>Honest point if asked: the demo homes have identical rooms, so envy-freeness forces equal rent; the commute changes <i>which home</i> wins. Not strategy-proof (Dufton & Larson 2011). The demo roommates are template-based examples, not real people.</p>`;
   },
 };

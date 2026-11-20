@@ -30,7 +30,7 @@ function side(e: Evaluation, ev: any, both: any[], best: boolean, i: number) {
 export const hook: Chapter = {
   id: 'hook',
   title: 'The decision',
-  budget: 29,
+  budget: 26,
   deps: ['listings', `eval:${PROFILE.hook}`, 'routes'],
   render() {
     const top = ranked(plan[`eval:${PROFILE.hook}`]);
@@ -67,7 +67,7 @@ export const hook: Chapter = {
     const top = ranked(plan[`eval:${PROFILE.hook}`]);
     const lines = (e?: Evaluation) => e ? e.ledger.filter((x) => Math.abs(x.usd_month) >= 0.5 && x.key !== 'amenity_gap').map((x) => `${x.label} ${fmt(x.usd_month, 'usd')}`).join(' · ') : '…';
     const cheap = [...top].sort((a, b) => rentOf(a) - rentOf(b))[0];
-    return `<p><b>I · The decision (29 s).</b> "Same student — a North Campus engineer — same listings, priced on this fall's real bus timetables." Left: the lowest rent on the list. Right: the cheapest actual week. The maps are each home's real week of trips (thick = bus, thin = walking).</p>
+    return `<p><b>I · The decision (26 s).</b> "Same student — a North Campus engineer — same listings, priced on this fall's real bus timetables." Left: the lowest rent on the list. Right: the cheapest actual week. The maps are each home's real week of trips (thick = bus, thin = walking).</p>
       <p>Land the two totals and the gap. Don't read the receipt lines; if asked:</p>
       <p><b>${cheap ? listingName(cheap.listing_id) : '…'}</b>: ${lines(cheap)}</p>
       <p><b>${top[0] ? listingName(top[0].listing_id) : '…'}</b> (#1): ${lines(top[0])}</p>

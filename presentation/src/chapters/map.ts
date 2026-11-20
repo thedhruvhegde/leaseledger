@@ -53,7 +53,7 @@ function layer(fc: any, key: string, b: Base, cls: string) {
 export const map: Chapter = {
   id: 'map',
   title: 'Same city, different map',
-  budget: 15,
+  budget: 12,
   render() {
     const P = pair();
     const ready = P.length === 2 && P.every((s) => loaded[s.name]) && base;
@@ -94,7 +94,7 @@ export const map: Chapter = {
     if (P.length >= 2 && !(P.every((s) => loaded[s.name]) && base)) load().then(() => el.dispatchEvent(new CustomEvent('deck:rerender', { bubbles: true })));
   },
   notes() {
-    return `<p><b>VII · Same city (15 s).</b> Left: the North Campus engineer. Right: the Ross student with a Kerrytown job. Every 250 m cell of Ann Arbor priced for that student's own week (travel cost only, no rent); each map is shaded within that student's own range, light = their cheapest places.</p>
+    return `<p><b>VII · Same city (12 s).</b> Left: the North Campus engineer. Right: the Ross student with a Kerrytown job. Every 250 m cell of Ann Arbor priced for that student's own week (travel cost only, no rent); each map is shaded within that student's own range, light = their cheapest places.</p>
       <p>Line: "Same city, different identity, different map — only ~28% of one student's cheapest tenth is the other's; rank correlation between the maps is only ~0.4."</p>
       <p>Caveat if asked: schedule = demo profile events + first template alternative per slot; scheduled GTFS times, no delays; homes inside a cell can differ.</p>`;
   },

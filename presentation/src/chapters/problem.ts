@@ -29,7 +29,7 @@ function weekStrip(events: any[]) {
 export const problem: Chapter = {
   id: 'problem',
   title: 'A whole week',
-  budget: 25,
+  budget: 23,
   deps: ['demoProfiles', `eval:${PROFILE.hook}`],
   render() {
     const p = profile(PROFILE.hook)?.profile;
@@ -48,7 +48,7 @@ export const problem: Chapter = {
       <div class="chips pb-chips enter" style="--i:4">${['stutzer', 'burzacchi', 'kobus'].map(citeTag)}</div>`;
   },
   notes() {
-    return `<p><b>II · A whole week (25 s).</b> One sentence on the grid: classes on North and Central, a project team at night. Then the number: every one of those trips is routed door-to-door at its own time of day on the real timetable.</p>
+    return `<p><b>II · A whole week (23 s; 13 s when the interviews slide is in).</b> One sentence on the grid: classes on North and Central, a project team at night. Then the number: every one of those trips is routed door-to-door at its own time of day on the real timetable.</p>
       <p>Research (chips at the bottom): long commutes lower life satisfaction and aren't compensated — the "commuting paradox" (Stutzer & Frey 2008); GPS-measured commute time lowers first-year engineering GPA (Burzacchi et al. 2024); students with long commutes chain trips into fewer, longer days (Kobus et al. 2015) — which is why we model day tours.</p>
       <p>Ann Arbor specifics if asked: hidden waitlist/application/admin fees (Michigan Daily; Ann Arbor Tenants Union 2024); winter heating shock in older houses (r/AnnArbor; Michigan Daily 2025).</p>
       <p>Interviews: only mention them if the "What students told us" slide is in the deck (it appears only once real interview data is in presentation/data/interviews.json or presentation/public/interviews/). Never estimate counts.</p>`;
