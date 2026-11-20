@@ -46,7 +46,7 @@ Example: for a North Campus engineering student, the listing with the **lowest r
 
 ## How to try it
 
-[link to the live site]. Takes about a minute: type your real (or a typical) week, set a budget, and look at the top three homes and their receipts.
+https://lease-ledger.onrender.com. Takes about a minute: type your real (or a typical) week, set a budget, and look at the top three homes and their receipts.
 
 ---
 

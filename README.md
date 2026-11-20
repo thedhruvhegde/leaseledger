@@ -13,7 +13,7 @@
 ![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![GTFS](https://img.shields.io/badge/GTFS-UM%20%2B%20AAATA%20live%20feeds-5A5A5A?style=flat-square)
 ![Tests](https://img.shields.io/badge/tests-199%20python%20%C2%B7%2030%20web-2E7D32?style=flat-square)
-![Deploy](https://img.shields.io/badge/deploy-Render-46E3B7?style=flat-square&logo=render&logoColor=black)
+[![Live demo](https://img.shields.io/badge/live%20demo-lease--ledger.onrender.com-46E3B7?style=flat-square&logo=render&logoColor=black)](https://lease-ledger.onrender.com)
 
 `student-housing` · `transit-routing` · `gtfs` · `connection-scan-algorithm` · `decision-support` · `monte-carlo` · `fair-division` · `ann-arbor` · `hackathon`
 
@@ -378,6 +378,8 @@ New GTFS feeds: drop the zips in `data/raw/gtfs_live/` and run `make data`.
 
 ## 🚀 Deploy
 
+**Live:** https://lease-ledger.onrender.com (Render, auto-deploys from `main`).
+
 Render Blueprint (`render.yaml`): **New → Blueprint → this repo → Apply**. One Docker web service serves `/api/*` and the built app. It fits the free tier (512 MB) with `LOW_MEMORY=1`; use **Starter** for no cold starts. Set `GROQ_API_KEY` and `LLM_MODE=live` for live AI parsing. Full steps: [`DEPLOY.md`](DEPLOY.md).
 
 ---
@@ -426,6 +428,7 @@ concepts/ architecture/ decisions/ execution/   design process, plans, demo scri
 | **Event** | Hack the Lease 2026, University of Michigan (Ann Arbor), Nov 19–20, 2026 |
 | **Challenge** | *Find the apartment that fits you*: help students identify, compare or make better-informed housing decisions based on their self-described needs and routines |
 | **Team** | Dhruv Hegde (dhegde@umich.edu) |
+| **Live product** | **https://lease-ledger.onrender.com** · app: https://lease-ledger.onrender.com/app |
 | **Decision supported** | Which home is cheapest for *your week* (rent, fees and utilities plus the time your schedule spends getting around), and how sure that answer is |
 | **Decision sensitivity** | Live: value of time $8→$20/h flips #1; adding a Tue/Thu hospital shift flips #1; excluding co-ops flips #1 |
 | **Technical execution** | GTFS Connection Scan routing, decision engine, 229 automated tests |
