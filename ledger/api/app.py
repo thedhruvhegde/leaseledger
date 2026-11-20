@@ -526,7 +526,12 @@ def prewarm_demo(state: AppState, engine, provider) -> int:
         if not p.get("valid"):
             continue
         try:
-            do_evaluate(EvaluateRequest(profile=Profile.model_validate(p["profile"])), state, engine, provider)
+            prof = Profile.model_validate(p["profile"])
+            do_evaluate(EvaluateRequest(profile=prof), state, engine, provider)
+            # The Homes page ranks every observed listing by default: warm that request too (same id order as /api/listings).
+            ids = [l.id for l in state.data.observed_listings()]
+            if ids:
+                do_evaluate(EvaluateRequest(profile=prof, listing_ids=ids), state, engine, provider)
             n += 1
         except Exception as e:
             log.info("prewarm %s skipped: %s", p.get("id"), getattr(e, "detail", e))
