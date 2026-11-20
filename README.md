@@ -408,7 +408,7 @@ Highlights: CSA vs independent Dijkstra; trip invariants (walk + wait + ride = t
 ledger/          schemas, routing pipeline, decision engine (+ advanced), API, AI parsing, scraper, multicity
 web/             React app, landing page, PWA, design docs, screenshots
 presentation/    HTML deck and slide screenshots
-media/           explainer videos (MP4 + posters + provenance JSON) and generator scripts
+media/           explainer videos (full-length and fast loops)
 analysis/        evidence studies, multicity study, interview coding, experiments, tools
 data/            GTFS feeds, streets, NOAA, listings, costs, templates, behaviour parameters
 research/        literature review, market research, competitive analysis, interview protocol
