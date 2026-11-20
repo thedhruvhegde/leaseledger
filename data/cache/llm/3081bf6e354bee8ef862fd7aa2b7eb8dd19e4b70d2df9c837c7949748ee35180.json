@@ -1,0 +1,53 @@
+{
+ "created": "2026-11-20T02:29:11Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "east_hall",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "14:00",
+    "label": "Math 215",
+    "place_text": "East Hall",
+    "source_quote": "Math 215 in East Hall MWF 1-2",
+    "start": "13:00"
+   },
+   {
+    "building_id": "randall",
+    "days": [
+     "Tue"
+    ],
+    "end": "17:50",
+    "label": "Physics lab",
+    "place_text": "Randall",
+    "source_quote": "Physics lab Randall Tuesday 3-5:50pm",
+    "start": "15:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1120.0,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.925178239,
+  "completion_tokens": 357,
+  "completion_tokens_details": {
+   "reasoning_tokens": 174
+  },
+  "prompt_time": 0.06510444,
+  "prompt_tokens": 1803,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.079720368,
+  "total_time": 0.990282679,
+  "total_tokens": 2160
+ }
+}

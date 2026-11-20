@@ -1,0 +1,55 @@
+{
+ "created": "2026-11-20T02:31:07Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "ugli",
+    "days": [
+     "Sun",
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu"
+    ],
+    "end": "00:00",
+    "label": "UGLI most nights",
+    "place_text": "UGLI",
+    "source_quote": "UGLI most nights Sun-Thu 8pm-midnight",
+    "start": "20:00"
+   },
+   {
+    "building_id": "ross",
+    "days": [
+     "Wed"
+    ],
+    "end": "20:00",
+    "label": "Ross recruiting events",
+    "place_text": "Ross",
+    "source_quote": "Ross recruiting events Wed 6-8pm",
+    "start": "18:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 425.6,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.280422057,
+  "completion_tokens": 260,
+  "completion_tokens_details": {
+   "reasoning_tokens": 132
+  },
+  "prompt_time": 0.020265458,
+  "prompt_tokens": 1801,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.076507297,
+  "total_time": 0.300687515,
+  "total_tokens": 2061
+ }
+}

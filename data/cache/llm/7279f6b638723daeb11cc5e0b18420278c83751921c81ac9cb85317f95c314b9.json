@@ -1,0 +1,76 @@
+{
+ "created": "2026-11-20T02:26:59Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$950 a month",
+    "value": "950"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "Basement studio",
+    "value": "unit"
+   },
+   {
+    "field": "utility_included",
+    "quote": "heat included",
+    "value": "heat"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "tenant pays electric",
+    "value": "electric"
+   },
+   {
+    "field": "deposit",
+    "quote": "$250 reservation deposit",
+    "value": "250"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "No pets",
+    "value": "false"
+   },
+   {
+    "field": "parking",
+    "quote": "Free parking",
+    "value": "included"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 100,
+    "label": "application fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "$100 application fee per applicant"
+   },
+   {
+    "amount": 250,
+    "label": "reservation deposit",
+    "per": "unit",
+    "period": "once",
+    "quote": "$250 reservation deposit to take it off the market"
+   }
+  ]
+ },
+ "latency_ms": 2755.5,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.39462532,
+  "completion_tokens": 368,
+  "completion_tokens_details": {
+   "reasoning_tokens": 183
+  },
+  "prompt_time": 0.036687568,
+  "prompt_tokens": 588,
+  "queue_time": 0.228507259,
+  "total_time": 0.431312888,
+  "total_tokens": 956
+ }
+}

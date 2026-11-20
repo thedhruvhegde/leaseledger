@@ -1,0 +1,54 @@
+{
+ "created": "2026-11-20T02:29:31Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "duderstadt",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "22:00",
+    "label": "Dude MW 7-10pm",
+    "place_text": "Dude",
+    "source_quote": "Dude MW 7-10pm",
+    "start": "19:00"
+   },
+   {
+    "building_id": "pierpont",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "13:15",
+    "label": "Pierpont lunch weekdays 12:30-1:15",
+    "place_text": "Pierpont",
+    "source_quote": "Pierpont lunch weekdays 12:30-1:15",
+    "start": "12:30"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 438.5,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.279317386,
+  "completion_tokens": 262,
+  "completion_tokens_details": {
+   "reasoning_tokens": 114
+  },
+  "prompt_time": 0.106458039,
+  "prompt_tokens": 1800,
+  "queue_time": 0.003277598,
+  "total_time": 0.385775425,
+  "total_tokens": 2062
+ }
+}

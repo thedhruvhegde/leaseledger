@@ -1,0 +1,89 @@
+{
+ "created": "2026-11-20T02:26:00Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$780/mo",
+    "value": "780"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$780/mo",
+    "value": "unit"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "heat"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "electric"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "water"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "gas"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "internet"
+   },
+   {
+    "field": "utility_included",
+    "quote": "all utilities included",
+    "value": "trash"
+   },
+   {
+    "field": "deposit",
+    "quote": "Deposit $780",
+    "value": "780"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "4-month lease",
+    "value": "4"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Cats ok",
+    "value": "true"
+   },
+   {
+    "field": "parking",
+    "quote": "Street parking",
+    "value": "street"
+   }
+  ],
+  "fees": []
+ },
+ "latency_ms": 1792.8,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 1.598439071,
+  "completion_tokens": 643,
+  "completion_tokens_details": {
+   "reasoning_tokens": 278
+  },
+  "prompt_time": 0.004930635,
+  "prompt_tokens": 601,
+  "prompt_tokens_details": {
+   "cached_tokens": 512
+  },
+  "queue_time": 0.14288755,
+  "total_time": 1.603369706,
+  "total_tokens": 1244
+ }
+}

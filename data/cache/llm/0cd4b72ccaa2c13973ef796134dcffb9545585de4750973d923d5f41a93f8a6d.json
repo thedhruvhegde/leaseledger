@@ -1,0 +1,44 @@
+{
+ "created": "2026-11-20T02:29:18Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "ross",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "17:00",
+    "label": "Ross 8:30am-5pm Mon-Fri",
+    "place_text": "Ross",
+    "source_quote": "Ross 8:30am-5pm Mon-Fri",
+    "start": "08:30"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1425.8,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.138776064,
+  "completion_tokens": 134,
+  "completion_tokens_details": {
+   "reasoning_tokens": 46
+  },
+  "prompt_time": 0.064683004,
+  "prompt_tokens": 1791,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.003080123,
+  "total_time": 0.203459068,
+  "total_tokens": 1925
+ }
+}

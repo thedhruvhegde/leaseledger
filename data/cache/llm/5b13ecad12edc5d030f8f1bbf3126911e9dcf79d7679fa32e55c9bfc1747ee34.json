@@ -1,0 +1,65 @@
+{
+ "created": "2026-11-20T02:29:03Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "angell",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "10:00",
+    "label": "TTh 8:30-10 Angell Hall",
+    "place_text": "Angell Hall",
+    "source_quote": "TTh 8:30-10 Angell Hall",
+    "start": "08:30"
+   },
+   {
+    "building_id": "chem",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "12:00",
+    "label": "MWF 11-12 Chem",
+    "place_text": "Chem",
+    "source_quote": "MWF 11-12 Chem",
+    "start": "11:00"
+   },
+   {
+    "building_id": "mlb",
+    "days": [
+     "Thu"
+    ],
+    "end": "18:00",
+    "label": "Thursday 4-6pm discussion in MLB",
+    "place_text": "MLB",
+    "source_quote": "Thursday 4-6pm discussion in MLB",
+    "start": "16:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 679.7,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.332167332,
+  "completion_tokens": 322,
+  "completion_tokens_details": {
+   "reasoning_tokens": 133
+  },
+  "prompt_time": 0.104118594,
+  "prompt_tokens": 1808,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.196932057,
+  "total_time": 0.436285926,
+  "total_tokens": 2130
+ }
+}

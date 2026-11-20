@@ -1,0 +1,38 @@
+{
+ "created": "2026-11-20T02:29:53Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "briarwood",
+    "days": [
+     "Sat",
+     "Sun"
+    ],
+    "end": "19:00",
+    "label": "Work",
+    "place_text": "Briarwood",
+    "source_quote": "Work at Briarwood Sat & Sun 11-7",
+    "start": "11:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 759.9,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.456927362,
+  "completion_tokens": 215,
+  "completion_tokens_details": {
+   "reasoning_tokens": 109
+  },
+  "prompt_time": 0.080385859,
+  "prompt_tokens": 1791,
+  "queue_time": 0.174133469,
+  "total_time": 0.537313221,
+  "total_tokens": 2006
+ }
+}

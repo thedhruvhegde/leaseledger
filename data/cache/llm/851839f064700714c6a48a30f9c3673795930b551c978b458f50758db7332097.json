@@ -1,0 +1,99 @@
+{
+ "created": "2026-11-20T02:26:26Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$2,550/month",
+    "value": "2550"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$2,550/month",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "3BR",
+    "value": "3"
+   },
+   {
+    "field": "baths",
+    "quote": "1.5BA",
+    "value": "1.5"
+   },
+   {
+    "field": "utility_included",
+    "quote": "Tenant responsible for all utilities",
+    "value": "false"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "Tenant responsible for all utilities",
+    "value": "true"
+   },
+   {
+    "field": "deposit",
+    "quote": "Security deposit $3,825",
+    "value": "3825"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "Lease term: 12 months",
+    "value": "12"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Dogs and cats are welcome",
+    "value": "true"
+   },
+   {
+    "field": "parking",
+    "quote": "Off-street parking included",
+    "value": "included"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "Washer/dryer in unit",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 40,
+    "label": "waitlist fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "Waitlist fee $40 to reserve a 2027 showing slot"
+   },
+   {
+    "amount": 25,
+    "label": "pet rent",
+    "per": "person",
+    "period": "monthly",
+    "quote": "Dogs and cats are welcome ($25/month pet rent per pet)"
+   }
+  ]
+ },
+ "latency_ms": 589.9,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.448220172,
+  "completion_tokens": 410,
+  "completion_tokens_details": {
+   "reasoning_tokens": 125
+  },
+  "prompt_time": 0.018012105,
+  "prompt_tokens": 628,
+  "prompt_tokens_details": {
+   "cached_tokens": 512
+  },
+  "queue_time": 0.074888926,
+  "total_time": 0.466232277,
+  "total_tokens": 1038
+ }
+}

@@ -1,0 +1,100 @@
+{
+ "created": "2026-11-20T02:28:28Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "chem",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "10:30",
+    "label": "Chem 210",
+    "place_text": "Chem Building",
+    "source_quote": "Chem 210 MWF 9:30-10:30 Chem Building",
+    "start": "09:30"
+   },
+   {
+    "building_id": "biosci",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "13:00",
+    "label": "Bio 305",
+    "place_text": "BSB",
+    "source_quote": "Bio 305 TTh 11:30-1 BSB",
+    "start": "11:30"
+   },
+   {
+    "building_id": "randall",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "14:30",
+    "label": "Physics 135",
+    "place_text": "Randall",
+    "source_quote": "Physics 135 MW 1-2:30 Randall",
+    "start": "13:00"
+   },
+   {
+    "building_id": "chem",
+    "days": [
+     "Tue"
+    ],
+    "end": "17:00",
+    "label": "Chem lab",
+    "place_text": "Chem lab",
+    "source_quote": "Chem lab Tue 1-5pm",
+    "start": "13:00"
+   },
+   {
+    "building_id": "uhosp",
+    "days": [
+     "Sat",
+     "Sun"
+    ],
+    "end": "12:00",
+    "label": "hospital volunteer shifts",
+    "place_text": "University Hospital",
+    "source_quote": "hospital volunteer shifts Sat and Sun 7am-noon at University Hospital",
+    "start": "07:00"
+   },
+   {
+    "building_id": "ugli",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu"
+    ],
+    "end": "00:30",
+    "label": "UgLi",
+    "place_text": "UgLi",
+    "source_quote": "UgLi Mon-Thu 8pm-12:30am",
+    "start": "20:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 2002.3,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 1.797532151,
+  "completion_tokens": 870,
+  "completion_tokens_details": {
+   "reasoning_tokens": 370
+  },
+  "prompt_time": 0.073865394,
+  "prompt_tokens": 1858,
+  "queue_time": 0.081218684,
+  "total_time": 1.871397545,
+  "total_tokens": 2728
+ }
+}

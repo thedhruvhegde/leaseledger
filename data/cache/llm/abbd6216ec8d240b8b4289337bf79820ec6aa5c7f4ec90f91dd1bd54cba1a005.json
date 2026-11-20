@@ -1,0 +1,52 @@
+{
+ "created": "2026-11-20T02:30:47Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "chem",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "09:00",
+    "label": "Chem lecture",
+    "place_text": "Chem",
+    "source_quote": "8am Chem lecture (till 9)",
+    "start": "08:00"
+   },
+   {
+    "building_id": "angell",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "11:00",
+    "label": "Angell",
+    "place_text": "Angell",
+    "source_quote": "Angell 10-11",
+    "start": "10:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 455.0,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.171433101,
+  "completion_tokens": 164,
+  "completion_tokens_details": {
+   "reasoning_tokens": 44
+  },
+  "prompt_time": 0.096630595,
+  "prompt_tokens": 1801,
+  "queue_time": 0.138202321,
+  "total_time": 0.268063696,
+  "total_tokens": 1965
+ }
+}

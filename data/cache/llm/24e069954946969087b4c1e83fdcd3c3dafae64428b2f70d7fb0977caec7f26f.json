@@ -1,0 +1,98 @@
+{
+ "created": "2026-11-20T02:26:31Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,295 per month",
+    "value": "1295"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "per month",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "1 bedroom",
+    "value": "1"
+   },
+   {
+    "field": "baths",
+    "quote": "1 bath",
+    "value": "1"
+   },
+   {
+    "field": "sqft",
+    "quote": "650 sq ft",
+    "value": "650"
+   },
+   {
+    "field": "utility_included",
+    "quote": "heat and water included",
+    "value": "heat"
+   },
+   {
+    "field": "utility_included",
+    "quote": "heat and water included",
+    "value": "water"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "No pets allowed",
+    "value": "false"
+   },
+   {
+    "field": "parking",
+    "quote": "Parking spots $85 per month",
+    "value": "85"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "Laundry on-site",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 50,
+    "label": "Application fee",
+    "per": "person",
+    "period": "once",
+    "quote": "Application fee: $50 per adult"
+   },
+   {
+    "amount": 200,
+    "label": "Administrative fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "Administrative fee $200"
+   },
+   {
+    "amount": 12,
+    "label": "Trash fee",
+    "per": "unit",
+    "period": "monthly",
+    "quote": "Monthly trash/recycling fee $12"
+   }
+  ]
+ },
+ "latency_ms": 882.1,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.426523261,
+  "completion_tokens": 383,
+  "completion_tokens_details": {
+   "reasoning_tokens": 123
+  },
+  "prompt_time": 0.164863987,
+  "prompt_tokens": 617,
+  "queue_time": 0.242695363,
+  "total_time": 0.591387248,
+  "total_tokens": 1000
+ }
+}

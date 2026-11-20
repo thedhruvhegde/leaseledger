@@ -1,0 +1,100 @@
+{
+ "created": "2026-11-20T02:25:54Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,489 per bed",
+    "value": "1489"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "per bed",
+    "value": "bed"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "4x4 suites",
+    "value": "4"
+   },
+   {
+    "field": "furnished",
+    "quote": "fully furnished",
+    "value": "true"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "in-unit washer and dryer",
+    "value": "true"
+   },
+   {
+    "field": "utility_included",
+    "quote": "electric included up to $40/month per person",
+    "value": "electric"
+   },
+   {
+    "field": "deposit",
+    "quote": "Security deposit $500",
+    "value": "500"
+   },
+   {
+    "field": "parking",
+    "quote": "Garage parking $175/mo",
+    "value": "175"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Pet friendly",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 300,
+    "label": "amenity fee",
+    "per": "unit",
+    "period": "annual",
+    "quote": "Amenity fee $300 per year"
+   },
+   {
+    "amount": 250,
+    "label": "admin fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "admin fee $250"
+   },
+   {
+    "amount": 150,
+    "label": "holding fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "$150 holding fee to reserve your bed"
+   },
+   {
+    "amount": 35,
+    "label": "pet rent",
+    "per": "person",
+    "period": "monthly",
+    "quote": "Pet friendly ($35/month pet rent)"
+   }
+  ]
+ },
+ "latency_ms": 710.6,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.51458099,
+  "completion_tokens": 480,
+  "completion_tokens_details": {
+   "reasoning_tokens": 201
+  },
+  "prompt_time": 0.069044085,
+  "prompt_tokens": 644,
+  "queue_time": 0.08154225,
+  "total_time": 0.583625075,
+  "total_tokens": 1124
+ }
+}

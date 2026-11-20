@@ -1,0 +1,116 @@
+{
+ "created": "2026-11-20T02:26:12Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$3,200 per month total",
+    "value": "3200"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$3,200 per month total",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "4 bed",
+    "value": "4"
+   },
+   {
+    "field": "baths",
+    "quote": "2 bath",
+    "value": "2"
+   },
+   {
+    "field": "sqft",
+    "quote": "1,400 sq ft",
+    "value": "1400"
+   },
+   {
+    "field": "utility_included",
+    "quote": "heat",
+    "value": "heat"
+   },
+   {
+    "field": "utility_included",
+    "quote": "water",
+    "value": "water"
+   },
+   {
+    "field": "utility_included",
+    "quote": "trash",
+    "value": "trash"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "electric",
+    "value": "electric"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "internet",
+    "value": "internet"
+   },
+   {
+    "field": "deposit",
+    "quote": "Security deposit of two months' rent",
+    "value": "2 months"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "No pets",
+    "value": "false"
+   },
+   {
+    "field": "parking",
+    "quote": "Parking $50/month",
+    "value": "50"
+   },
+   {
+    "field": "furnished",
+    "quote": "Unfurnished",
+    "value": "false"
+   },
+   {
+    "field": "joint_and_several",
+    "quote": "Joint and several lease",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 75,
+    "label": "application fee",
+    "per": "person",
+    "period": "once",
+    "quote": "Application fee $75 per applicant"
+   },
+   {
+    "amount": 500,
+    "label": "holding deposit",
+    "per": "unit",
+    "period": "once",
+    "quote": "$500 holding deposit"
+   }
+  ]
+ },
+ "latency_ms": 2086.1,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 1.870768965,
+  "completion_tokens": 907,
+  "completion_tokens_details": {
+   "reasoning_tokens": 358
+  },
+  "prompt_time": 0.027432074,
+  "prompt_tokens": 630,
+  "queue_time": 0.140247005,
+  "total_time": 1.898201039,
+  "total_tokens": 1537
+ }
+}

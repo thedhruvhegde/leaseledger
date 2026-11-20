@@ -1,0 +1,51 @@
+{
+ "created": "2026-11-20T02:31:13Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "ford_robotics",
+    "days": [
+     "Fri"
+    ],
+    "end": "16:30",
+    "label": "Lab at the Robotics building Fridays 1-4:30pm",
+    "place_text": "Robotics building",
+    "source_quote": "Lab at the Robotics building Fridays 1-4:30pm",
+    "start": "13:00"
+   },
+   {
+    "building_id": "duderstadt",
+    "days": [
+     "Thu"
+    ],
+    "end": "21:00",
+    "label": "Duderstadt Thursday evenings 7-9",
+    "place_text": "Duderstadt",
+    "source_quote": "Duderstadt Thursday evenings 7-9",
+    "start": "19:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 433.2,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.257549989,
+  "completion_tokens": 253,
+  "completion_tokens_details": {
+   "reasoning_tokens": 107
+  },
+  "prompt_time": 0.019941603,
+  "prompt_tokens": 1802,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.076311029,
+  "total_time": 0.277491592,
+  "total_tokens": 2055
+ }
+}

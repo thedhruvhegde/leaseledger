@@ -1,0 +1,56 @@
+{
+ "created": "2026-11-20T02:29:59Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "taubman_lib",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "23:00",
+    "label": "Taubman Library weeknights",
+    "place_text": "Taubman Library",
+    "source_quote": "Taubman Library weeknights 7-11pm",
+    "start": "19:00"
+   },
+   {
+    "building_id": "medsci",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "12:00",
+    "label": "Med Sci lectures",
+    "place_text": "Med Sci",
+    "source_quote": "Med Sci lectures MTWRF 8-12",
+    "start": "08:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 524.4,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.343026801,
+  "completion_tokens": 316,
+  "completion_tokens_details": {
+   "reasoning_tokens": 169
+  },
+  "prompt_time": 0.130215792,
+  "prompt_tokens": 1802,
+  "queue_time": 0.003081678,
+  "total_time": 0.473242593,
+  "total_tokens": 2118
+ }
+}

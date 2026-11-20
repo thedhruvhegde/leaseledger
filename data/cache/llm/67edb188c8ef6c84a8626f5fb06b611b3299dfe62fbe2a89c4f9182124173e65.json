@@ -1,0 +1,91 @@
+{
+ "created": "2026-11-20T02:28:20Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "art_arch",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "17:30",
+    "label": "Studio at A&A",
+    "place_text": "A&A",
+    "source_quote": "Studio at A&A",
+    "start": "13:30"
+   },
+   {
+    "building_id": "art_arch",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "11:30",
+    "label": "art history",
+    "place_text": "A&A",
+    "source_quote": "art history",
+    "start": "10:00"
+   },
+   {
+    "building_id": "mlb",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "16:00",
+    "label": "MLB",
+    "place_text": "MLB",
+    "source_quote": "MLB",
+    "start": "14:30"
+   },
+   {
+    "building_id": "art_arch",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu"
+    ],
+    "end": "01:00",
+    "label": "late studio",
+    "place_text": "Art & Architecture",
+    "source_quote": "late studio",
+    "start": "19:00"
+   },
+   {
+    "building_id": "art_arch",
+    "days": [
+     "Sun"
+    ],
+    "end": "18:00",
+    "label": "Sunday studio",
+    "place_text": "Art & Architecture",
+    "source_quote": "Sunday studio",
+    "start": "12:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 736.7,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.510659167,
+  "completion_tokens": 498,
+  "completion_tokens_details": {
+   "reasoning_tokens": 256
+  },
+  "prompt_time": 0.098015108,
+  "prompt_tokens": 1839,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.075080813,
+  "total_time": 0.608674275,
+  "total_tokens": 2337
+ }
+}

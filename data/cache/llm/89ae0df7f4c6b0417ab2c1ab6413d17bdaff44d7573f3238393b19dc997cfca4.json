@@ -1,0 +1,92 @@
+{
+ "created": "2026-11-20T02:28:36Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "eecs",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "10:30",
+    "label": "EECS",
+    "place_text": "EECS",
+    "source_quote": "MWF 9-10:30 EECS",
+    "start": "09:00"
+   },
+   {
+    "building_id": "ross",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "",
+    "label": "Ross",
+    "place_text": "Ross",
+    "source_quote": "TTh 2pm Ross",
+    "start": "14:00"
+   },
+   {
+    "building_id": "ugli",
+    "days": [
+     "Sun",
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu"
+    ],
+    "end": "01:00",
+    "label": "UgLi",
+    "place_text": "UgLi",
+    "source_quote": "UgLi Sun-Thu till 1am",
+    "start": ""
+   },
+   {
+    "building_id": "UNKNOWN",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "",
+    "label": "gym",
+    "place_text": "gym",
+    "source_quote": "gym 7pm CCRB MW",
+    "start": "19:00"
+   },
+   {
+    "building_id": "kerrytown",
+    "days": [
+     "Sat"
+    ],
+    "end": "16:00",
+    "label": "Kerrytown",
+    "place_text": "Kerrytown",
+    "source_quote": "work Kerrytown Sat 10-4",
+    "start": "10:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1402.6,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.55328962,
+  "completion_tokens": 540,
+  "completion_tokens_details": {
+   "reasoning_tokens": 283
+  },
+  "prompt_time": 0.656109746,
+  "prompt_tokens": 1824,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.136372763,
+  "total_time": 1.209399366,
+  "total_tokens": 2364
+ }
+}

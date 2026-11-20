@@ -1,0 +1,64 @@
+{
+ "created": "2026-11-20T02:26:43Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$900/mo",
+    "value": "900"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$900/mo",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "3 bedroom",
+    "value": "3"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "4-month lease",
+    "value": "4"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Cats OK",
+    "value": "true"
+   },
+   {
+    "field": "lease_start",
+    "quote": "Jan-Apr only",
+    "value": "Jan-Apr"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 300,
+    "label": "holding deposit",
+    "per": "unit",
+    "period": "once",
+    "quote": "Holding deposit of $300 required to hold the room"
+   }
+  ]
+ },
+ "latency_ms": 604.0,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.392659896,
+  "completion_tokens": 357,
+  "completion_tokens_details": {
+   "reasoning_tokens": 214
+  },
+  "prompt_time": 0.033478301,
+  "prompt_tokens": 603,
+  "queue_time": 0.074966233,
+  "total_time": 0.426138197,
+  "total_tokens": 960
+ }
+}

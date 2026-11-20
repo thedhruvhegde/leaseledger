@@ -1,0 +1,54 @@
+{
+ "created": "2026-11-20T02:28:57Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "hatcher",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri",
+     "Sat",
+     "Sun"
+    ],
+    "end": "24:00",
+    "label": "Hatcher daily till midnight",
+    "place_text": "Hatcher",
+    "source_quote": "Hatcher daily till midnight",
+    "start": ""
+   },
+   {
+    "building_id": "uhosp",
+    "days": [
+     "Sat"
+    ],
+    "end": "15:00",
+    "label": "shift at University Hospital Sat 7am-3pm",
+    "place_text": "University Hospital",
+    "source_quote": "shift at University Hospital Sat 7am-3pm",
+    "start": "07:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 914.8,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.697378086,
+  "completion_tokens": 333,
+  "completion_tokens_details": {
+   "reasoning_tokens": 139
+  },
+  "prompt_time": 0.082758308,
+  "prompt_tokens": 1796,
+  "queue_time": 0.085031406,
+  "total_time": 0.780136394,
+  "total_tokens": 2129
+ }
+}

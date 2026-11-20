@@ -1,0 +1,54 @@
+{
+ "created": "2026-11-20T02:29:25Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "law",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu"
+    ],
+    "end": "10:15",
+    "label": "Law School M-Th 9-10:15am",
+    "place_text": "Law School",
+    "source_quote": "Law School M-Th 9-10:15am",
+    "start": "09:00"
+   },
+   {
+    "building_id": "league",
+    "days": [
+     "Sun"
+    ],
+    "end": "17:00",
+    "label": "study at the League Sunday 1-5pm",
+    "place_text": "the League",
+    "source_quote": "study at the League Sunday 1-5pm",
+    "start": "13:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 524.8,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.445008119,
+  "completion_tokens": 255,
+  "completion_tokens_details": {
+   "reasoning_tokens": 115
+  },
+  "prompt_time": 0.023172482,
+  "prompt_tokens": 1801,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.004199782,
+  "total_time": 0.468180601,
+  "total_tokens": 2056
+ }
+}

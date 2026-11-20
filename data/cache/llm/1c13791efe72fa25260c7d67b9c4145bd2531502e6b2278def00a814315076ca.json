@@ -1,0 +1,49 @@
+{
+ "created": "2026-11-20T02:29:45Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "music",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "18:00",
+    "label": "School of Music Tue Thu 4-6pm",
+    "place_text": "School of Music",
+    "source_quote": "School of Music Tue Thu 4-6pm",
+    "start": "16:00"
+   },
+   {
+    "building_id": "music",
+    "days": [
+     "Sun"
+    ],
+    "end": "22:00",
+    "label": "rehearsal Moore Building Sunday 7-10 pm",
+    "place_text": "rehearsal Moore Building",
+    "source_quote": "rehearsal Moore Building Sunday 7-10 pm",
+    "start": "19:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 613.8,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.296376848,
+  "completion_tokens": 286,
+  "completion_tokens_details": {
+   "reasoning_tokens": 143
+  },
+  "prompt_time": 0.096498846,
+  "prompt_tokens": 1799,
+  "queue_time": 0.168638831,
+  "total_time": 0.392875694,
+  "total_tokens": 2085
+ }
+}

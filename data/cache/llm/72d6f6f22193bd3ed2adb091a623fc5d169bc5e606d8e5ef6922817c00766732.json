@@ -1,0 +1,113 @@
+{
+ "created": "2026-11-20T02:28:07Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "eecs",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "11:30",
+    "label": "EECS 281",
+    "place_text": "EECS",
+    "source_quote": "EECS 281 TTh 10-11:30 in EECS",
+    "start": "10:00"
+   },
+   {
+    "building_id": "bbb",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "14:30",
+    "label": "EECS 370",
+    "place_text": "BBB",
+    "source_quote": "EECS 370 MW 1-2:30pm BBB",
+    "start": "13:00"
+   },
+   {
+    "building_id": "ggbl",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "10:30",
+    "label": "Math 214",
+    "place_text": "GG Brown",
+    "source_quote": "Math 214 MWF 9:30-10:30 GG Brown",
+    "start": "09:30"
+   },
+   {
+    "building_id": "eecs",
+    "days": [
+     "Wed"
+    ],
+    "end": "17:30",
+    "label": "270 lab",
+    "place_text": "EECS",
+    "source_quote": "270 lab Wed 2:30-5:30 EECS",
+    "start": "14:30"
+   },
+   {
+    "building_id": "lsa",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "16:00",
+    "label": "Econ 101",
+    "place_text": "LSA",
+    "source_quote": "Econ 101 TTh 2:30-4 LSA",
+    "start": "14:30"
+   },
+   {
+    "building_id": "duderstadt",
+    "days": [
+     "Mon",
+     "Thu"
+    ],
+    "end": "22:30",
+    "label": "project team",
+    "place_text": "the Dude",
+    "source_quote": "project team at the Dude Mon & Thu 7-10:30pm",
+    "start": "19:00"
+   },
+   {
+    "building_id": "nccrb",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "18:30",
+    "label": "gym",
+    "place_text": "NCRB",
+    "source_quote": "gym NCRB TTh 5:30-6:30pm",
+    "start": "17:30"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1558.0,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 1.015755562,
+  "completion_tokens": 961,
+  "completion_tokens_details": {
+   "reasoning_tokens": 553
+  },
+  "prompt_time": 0.108420549,
+  "prompt_tokens": 1884,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.075154599,
+  "total_time": 1.124176111,
+  "total_tokens": 2845
+ }
+}

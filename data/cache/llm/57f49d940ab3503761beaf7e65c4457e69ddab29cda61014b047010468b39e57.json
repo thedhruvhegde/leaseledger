@@ -1,0 +1,47 @@
+{
+ "created": "2026-11-20T02:30:40Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "bbb",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "12:00",
+    "label": "EECS 370",
+    "place_text": "BBB",
+    "source_quote": "EECS 370 on Tuesdays and Thursdays from 10:30 to 12",
+    "start": "10:30"
+   },
+   {
+    "building_id": "pierpont",
+    "days": [],
+    "end": "",
+    "label": "Lunch",
+    "place_text": "Pierpont",
+    "source_quote": "lunch at Pierpont",
+    "start": ""
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 937.2,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.732138389,
+  "completion_tokens": 355,
+  "completion_tokens_details": {
+   "reasoning_tokens": 190
+  },
+  "prompt_time": 0.074215846,
+  "prompt_tokens": 1813,
+  "queue_time": 0.081634968,
+  "total_time": 0.806354235,
+  "total_tokens": 2168
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "created": "2026-11-20T02:28:50Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "union",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "13:00",
+    "label": "weekdays noon-1 at the Union",
+    "place_text": "the Union",
+    "source_quote": "weekdays noon-1 at the Union",
+    "start": "12:00"
+   },
+   {
+    "building_id": "ccrb",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "",
+    "label": "Mondays and Wednesdays at 6pm North Campus Rec",
+    "place_text": "North Campus Rec",
+    "source_quote": "Mondays and Wednesdays at 6pm North Campus Rec",
+    "start": "18:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 475.2,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.258969792,
+  "completion_tokens": 238,
+  "completion_tokens_details": {
+   "reasoning_tokens": 100
+  },
+  "prompt_time": 0.134524362,
+  "prompt_tokens": 1798,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.004400476,
+  "total_time": 0.393494154,
+  "total_tokens": 2036
+ }
+}

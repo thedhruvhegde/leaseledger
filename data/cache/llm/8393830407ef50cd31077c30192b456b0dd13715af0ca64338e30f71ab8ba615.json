@@ -1,0 +1,86 @@
+{
+ "created": "2026-11-20T02:26:39Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,650 per person",
+    "value": "1650"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "2 bed",
+    "value": "2"
+   },
+   {
+    "field": "baths",
+    "quote": "2 bath",
+    "value": "2"
+   },
+   {
+    "field": "utility_included",
+    "quote": "electric",
+    "value": "electric"
+   },
+   {
+    "field": "utility_included",
+    "quote": "internet",
+    "value": "internet"
+   },
+   {
+    "field": "deposit",
+    "quote": "one month's rent",
+    "value": "1 months"
+   },
+   {
+    "field": "parking",
+    "quote": "$150/mo",
+    "value": "150"
+   },
+   {
+    "field": "furnished",
+    "quote": "Furnished",
+    "value": "true"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Pets considered",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 60,
+    "label": "Utility package",
+    "per": "person",
+    "period": "monthly",
+    "quote": "$60/month per person"
+   },
+   {
+    "amount": 450,
+    "label": "Amenity fee",
+    "per": "unit",
+    "period": "annual",
+    "quote": "Amenity fee $450 annually"
+   }
+  ]
+ },
+ "latency_ms": 1877.5,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 1.727173901,
+  "completion_tokens": 828,
+  "completion_tokens_details": {
+   "reasoning_tokens": 463
+  },
+  "prompt_time": 0.025428078,
+  "prompt_tokens": 615,
+  "queue_time": 0.081746736,
+  "total_time": 1.752601979,
+  "total_tokens": 1443
+ }
+}

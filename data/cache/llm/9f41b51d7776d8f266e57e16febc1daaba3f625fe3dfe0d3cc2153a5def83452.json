@@ -1,0 +1,99 @@
+{
+ "created": "2026-11-20T02:28:14Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "ross",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "10:00",
+    "label": "Ross TTh 8:30-10",
+    "place_text": "Ross",
+    "source_quote": "Ross TTh 8:30-10",
+    "start": "08:30"
+   },
+   {
+    "building_id": "ross",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "11:30",
+    "label": "Ross MW 10-11:30",
+    "place_text": "Ross",
+    "source_quote": "MW 10-11:30",
+    "start": "10:00"
+   },
+   {
+    "building_id": "angell",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "14:30",
+    "label": "Stats 250 in Angell TTh 1-2:30",
+    "place_text": "Angell",
+    "source_quote": "Stats 250 in Angell TTh 1-2:30",
+    "start": "13:00"
+   },
+   {
+    "building_id": "ross",
+    "days": [
+     "Mon"
+    ],
+    "end": "20:30",
+    "label": "team meeting Mondays 6:30-8:30pm at Ross",
+    "place_text": "Ross",
+    "source_quote": "team meeting Mondays 6:30-8:30pm at Ross",
+    "start": "18:30"
+   },
+   {
+    "building_id": "UNKNOWN",
+    "days": [
+     "Wed",
+     "Fri"
+    ],
+    "end": "21:00",
+    "label": "shifts in Kerrytown Wed/Fri 5-9pm",
+    "place_text": "Kerrytown",
+    "source_quote": "shifts in Kerrytown Wed/Fri 5-9pm",
+    "start": "17:00"
+   },
+   {
+    "building_id": "UNKNOWN",
+    "days": [
+     "Sat"
+    ],
+    "end": "16:00",
+    "label": "shifts in Kerrytown Sat 10-4",
+    "place_text": "Kerrytown",
+    "source_quote": "shifts in Kerrytown Sat 10-4",
+    "start": "10:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 929.6,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.712772665,
+  "completion_tokens": 609,
+  "completion_tokens_details": {
+   "reasoning_tokens": 228
+  },
+  "prompt_time": 0.08675018,
+  "prompt_tokens": 1846,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.074886548,
+  "total_time": 0.799522845,
+  "total_tokens": 2455
+ }
+}

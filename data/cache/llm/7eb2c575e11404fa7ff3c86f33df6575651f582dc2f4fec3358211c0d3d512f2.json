@@ -1,0 +1,76 @@
+{
+ "created": "2026-11-20T02:26:52Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,099 per bed",
+    "value": "1099"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "per bed",
+    "value": "bed"
+   },
+   {
+    "field": "utility_included",
+    "quote": "WiFi and water",
+    "value": "WiFi, water"
+   },
+   {
+    "field": "deposit",
+    "quote": "$500",
+    "value": "500"
+   },
+   {
+    "field": "parking",
+    "quote": "$125 per month",
+    "value": "125"
+   },
+   {
+    "field": "furnished",
+    "quote": "Furnished",
+    "value": "true"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "In-unit laundry",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 199,
+    "label": "amenity fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "$199 amenity fee due at move-in"
+   },
+   {
+    "amount": 25,
+    "label": "valet trash",
+    "per": "unit",
+    "period": "monthly",
+    "quote": "$25/mo valet trash"
+   }
+  ]
+ },
+ "latency_ms": 466.5,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.312336718,
+  "completion_tokens": 310,
+  "completion_tokens_details": {
+   "reasoning_tokens": 119
+  },
+  "prompt_time": 0.031745146,
+  "prompt_tokens": 606,
+  "queue_time": 0.07492612,
+  "total_time": 0.344081864,
+  "total_tokens": 916
+ }
+}

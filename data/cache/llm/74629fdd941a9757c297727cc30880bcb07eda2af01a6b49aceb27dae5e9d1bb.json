@@ -1,0 +1,96 @@
+{
+ "created": "2026-11-20T02:26:21Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$725 a month",
+    "value": "725"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$725 a month",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "5-bedroom",
+    "value": "5"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "internet"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "heat"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "electric"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "water"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "gas"
+   },
+   {
+    "field": "utility_included",
+    "quote": "including all utilities and internet",
+    "value": "trash"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "8-month academic-year contract",
+    "value": "8"
+   },
+   {
+    "field": "lease_start",
+    "quote": "Available August 25, 2027",
+    "value": "2027-08-25"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "Shared laundry room",
+    "value": "true"
+   },
+   {
+    "field": "joint_and_several",
+    "quote": "Individual leases",
+    "value": "false"
+   },
+   {
+    "field": "parking",
+    "quote": "No parking",
+    "value": "none"
+   }
+  ],
+  "fees": []
+ },
+ "latency_ms": 773.9,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.497575182,
+  "completion_tokens": 471,
+  "completion_tokens_details": {
+   "reasoning_tokens": 206
+  },
+  "prompt_time": 0.036389606,
+  "prompt_tokens": 596,
+  "queue_time": 0.16805472,
+  "total_time": 0.533964788,
+  "total_tokens": 1067
+ }
+}

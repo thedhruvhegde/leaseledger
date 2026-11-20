@@ -1,0 +1,48 @@
+{
+ "created": "2026-11-20T02:30:33Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "uhosp",
+    "days": [
+     "Thu"
+    ],
+    "end": "15:00",
+    "label": "nursing clinicals at the hospital",
+    "place_text": "hospital",
+    "source_quote": "nursing clinicals at the hospital Thursdays 6:30am to 3pm",
+    "start": "06:30"
+   },
+   {
+    "building_id": "nursing",
+    "days": [
+     "Mon"
+    ],
+    "end": "07:00",
+    "label": "School of Nursing lecture",
+    "place_text": "School of Nursing",
+    "source_quote": "School of Nursing lecture Monday 5-7",
+    "start": "05:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 479.3,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.260648719,
+  "completion_tokens": 254,
+  "completion_tokens_details": {
+   "reasoning_tokens": 123
+  },
+  "prompt_time": 0.095195999,
+  "prompt_tokens": 1806,
+  "queue_time": 0.076274963,
+  "total_time": 0.355844718,
+  "total_tokens": 2060
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "created": "2026-11-20T02:30:06Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "blake_tc",
+    "days": [
+     "Mon"
+    ],
+    "end": "",
+    "label": "Blake Transit Center",
+    "place_text": "Blake Transit Center",
+    "source_quote": "Blake Transit Center Mon 6:45am",
+    "start": "06:45"
+   },
+   {
+    "building_id": "biosci",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "09:30",
+    "label": "BSB",
+    "place_text": "BSB",
+    "source_quote": "BSB 8-9:30 MW",
+    "start": "08:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 966.7,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.81122536,
+  "completion_tokens": 316,
+  "completion_tokens_details": {
+   "reasoning_tokens": 141
+  },
+  "prompt_time": 0.024738255,
+  "prompt_tokens": 1800,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.082056514,
+  "total_time": 0.835963615,
+  "total_tokens": 2116
+ }
+}

@@ -1,0 +1,81 @@
+{
+ "created": "2026-11-20T02:26:16Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,429/bed",
+    "value": "1429"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$1,429/bed",
+    "value": "bed"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "Electric not included",
+    "value": "electric"
+   },
+   {
+    "field": "deposit",
+    "quote": "$2,500",
+    "value": "2500"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "12 month lease",
+    "value": "12"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Pet friendly!",
+    "value": "true"
+   },
+   {
+    "field": "furnished",
+    "quote": "Fully furnished",
+    "value": "true"
+   },
+   {
+    "field": "in_unit_laundry",
+    "quote": "in-unit washer and dryer",
+    "value": "true"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 35,
+    "label": "Amenity fee",
+    "per": "unit",
+    "period": "monthly",
+    "quote": "Amenity fee $35/mo"
+   },
+   {
+    "amount": 250,
+    "label": "Admin fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "$250 admin fee"
+   }
+  ]
+ },
+ "latency_ms": 672.5,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.335970075,
+  "completion_tokens": 325,
+  "completion_tokens_details": {
+   "reasoning_tokens": 116
+  },
+  "prompt_time": 0.03255045,
+  "prompt_tokens": 605,
+  "queue_time": 0.199312152,
+  "total_time": 0.368520525,
+  "total_tokens": 930
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "created": "2026-11-20T02:31:00Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "kerrytown",
+    "days": [
+     "Sat"
+    ],
+    "end": "14:00",
+    "label": "Saturday shifts at Kerrytown Market 8 to 2",
+    "place_text": "Kerrytown Market",
+    "source_quote": "Saturday shifts at Kerrytown Market 8 to 2",
+    "start": "08:00"
+   },
+   {
+    "building_id": "league",
+    "days": [
+     "Sun"
+    ],
+    "end": "",
+    "label": "Sunday brunch at the League 11am",
+    "place_text": "the League",
+    "source_quote": "Sunday brunch at the League 11am",
+    "start": "11:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 575.4,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.251304851,
+  "completion_tokens": 232,
+  "completion_tokens_details": {
+   "reasoning_tokens": 98
+  },
+  "prompt_time": 0.019061527,
+  "prompt_tokens": 1800,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.137444472,
+  "total_time": 0.270366378,
+  "total_tokens": 2032
+ }
+}

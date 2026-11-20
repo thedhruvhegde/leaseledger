@@ -1,0 +1,84 @@
+{
+ "created": "2026-11-20T02:26:48Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$2,850/month",
+    "value": "2850"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$2,850/month",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "3 bed",
+    "value": "3"
+   },
+   {
+    "field": "baths",
+    "quote": "2 bath",
+    "value": "2"
+   },
+   {
+    "field": "sqft",
+    "quote": "1,250 sqft",
+    "value": "1250"
+   },
+   {
+    "field": "utility_included",
+    "quote": "utilities not included",
+    "value": "false"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "utilities not included",
+    "value": "true"
+   },
+   {
+    "field": "deposit",
+    "quote": "one and a half months' rent",
+    "value": "1.5 months"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "12-month lease",
+    "value": "12"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Pets: no",
+    "value": "false"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 45,
+    "label": "Application fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "Application fee $45"
+   }
+  ]
+ },
+ "latency_ms": 485.1,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.332141263,
+  "completion_tokens": 312,
+  "completion_tokens_details": {
+   "reasoning_tokens": 99
+  },
+  "prompt_time": 0.033438359,
+  "prompt_tokens": 606,
+  "queue_time": 0.00320175,
+  "total_time": 0.365579622,
+  "total_tokens": 918
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "created": "2026-11-20T02:28:43Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "bbb",
+    "days": [
+     "Mon",
+     "Wed"
+    ],
+    "end": "12:00",
+    "label": "BBB",
+    "place_text": "BBB",
+    "source_quote": "Mon/Wed 10:30-12 BBB",
+    "start": "10:30"
+   },
+   {
+    "building_id": "ggbl",
+    "days": [
+     "Tue",
+     "Thu"
+    ],
+    "end": "15:00",
+    "label": "GG Brown",
+    "place_text": "GG Brown",
+    "source_quote": "Tu/Th 1:30-3pm GG Brown",
+    "start": "13:30"
+   },
+   {
+    "building_id": "fxb",
+    "days": [
+     "Fri"
+    ],
+    "end": "17:00",
+    "label": "lab in FXB",
+    "place_text": "FXB",
+    "source_quote": "Fri 2-5 lab in FXB",
+    "start": "14:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1368.0,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 1.060325033,
+  "completion_tokens": 502,
+  "completion_tokens_details": {
+   "reasoning_tokens": 252
+  },
+  "prompt_time": 0.116376669,
+  "prompt_tokens": 1812,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.142944654,
+  "total_time": 1.176701702,
+  "total_tokens": 2314
+ }
+}

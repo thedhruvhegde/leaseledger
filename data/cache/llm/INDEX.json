@@ -1,0 +1,296 @@
+{
+ "eval-l0": {
+  "facts": 14,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l1": {
+  "facts": 18,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l10": {
+  "facts": 10,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l2": {
+  "facts": 11,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l3": {
+  "facts": 14,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l4": {
+  "facts": 11,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l5": {
+  "facts": 13,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l6": {
+  "facts": 13,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l7": {
+  "facts": 8,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l8": {
+  "facts": 9,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-l9": {
+  "facts": 10,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "eval-s0": {
+  "events": 5,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s1": {
+  "events": 3,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s10": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s11": {
+  "events": 1,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s12": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s13": {
+  "events": 2,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s14": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s15": {
+  "events": 3,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s16": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s17": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s18": {
+  "events": 1,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s19": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s2": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s20": {
+  "events": 1,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s21": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s22": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s23": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s3": {
+  "events": 2,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s4": {
+  "events": 3,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s5": {
+  "events": 2,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s6": {
+  "events": 1,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s7": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s8": {
+  "events": 2,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "eval-s9": {
+  "events": 2,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "late-night-studio": {
+  "events": 5,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "north-engineer": {
+  "events": 7,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "premed-hospital": {
+  "events": 6,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "ross-kerrytown-job": {
+  "events": 5,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "live",
+  "task": "parse_schedule"
+ },
+ "sample-house": {
+  "facts": 17,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "sample-sublet": {
+  "facts": 14,
+  "model": "openai/gpt-oss-120b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ },
+ "sample-tower": {
+  "facts": 14,
+  "model": "openai/gpt-oss-20b",
+  "recorded": "2026-11-20",
+  "source": "cached",
+  "task": "extract_listing"
+ }
+}

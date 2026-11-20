@@ -1,0 +1,59 @@
+{
+ "created": "2026-11-20T02:29:38Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "ioe",
+    "days": [
+     "Mon",
+     "Wed",
+     "Fri"
+    ],
+    "end": "",
+    "label": "IOE",
+    "place_text": "Industrial and Operations Engineering Building",
+    "source_quote": "IOE 10am MWF",
+    "start": "10:00"
+   },
+   {
+    "building_id": "bursley",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri",
+     "Sat",
+     "Sun"
+    ],
+    "end": "19:00",
+    "label": "Bursley dinner",
+    "place_text": "Bursley Hall",
+    "source_quote": "Bursley dinner daily 6-7pm",
+    "start": "18:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 1320.4,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.921276468,
+  "completion_tokens": 379,
+  "completion_tokens_details": {
+   "reasoning_tokens": 182
+  },
+  "prompt_time": 0.118193699,
+  "prompt_tokens": 1797,
+  "prompt_tokens_details": {
+   "cached_tokens": 256
+  },
+  "queue_time": 0.235170875,
+  "total_time": 1.039470167,
+  "total_tokens": 2176
+ }
+}

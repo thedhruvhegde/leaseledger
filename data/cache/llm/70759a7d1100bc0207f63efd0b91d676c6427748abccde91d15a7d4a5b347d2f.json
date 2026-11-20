@@ -1,0 +1,41 @@
+{
+ "created": "2026-11-20T02:30:54Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "imsb",
+    "days": [
+     "Mon",
+     "Tue",
+     "Wed",
+     "Thu",
+     "Fri"
+    ],
+    "end": "07:30",
+    "label": "Gym",
+    "place_text": "IM Building",
+    "source_quote": "Gym at the IM Building 6:30-7:30am every weekday",
+    "start": "06:30"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 686.3,
+ "model": "openai/gpt-oss-120b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.446371889,
+  "completion_tokens": 213,
+  "completion_tokens_details": {
+   "reasoning_tokens": 96
+  },
+  "prompt_time": 0.09959786,
+  "prompt_tokens": 1795,
+  "queue_time": 0.088979485,
+  "total_time": 0.545969749,
+  "total_tokens": 2008
+ }
+}

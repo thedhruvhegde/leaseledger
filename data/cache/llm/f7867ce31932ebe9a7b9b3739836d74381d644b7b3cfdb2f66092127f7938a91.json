@@ -1,0 +1,101 @@
+{
+ "created": "2026-11-20T02:26:04Z",
+ "data": {
+  "facts": [
+   {
+    "field": "rent",
+    "quote": "$1,850/mo",
+    "value": "1850"
+   },
+   {
+    "field": "rent_basis",
+    "quote": "$1,850/mo",
+    "value": "unit"
+   },
+   {
+    "field": "bedrooms",
+    "quote": "2BR",
+    "value": "2"
+   },
+   {
+    "field": "utility_included",
+    "quote": "Water and trash included",
+    "value": "water"
+   },
+   {
+    "field": "utility_included",
+    "quote": "Water and trash included",
+    "value": "trash"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "tenant pays DTE electric and gas",
+    "value": "electric"
+   },
+   {
+    "field": "utility_tenant_pays",
+    "quote": "tenant pays DTE electric and gas",
+    "value": "gas"
+   },
+   {
+    "field": "deposit",
+    "quote": "security deposit equal to 1.5 months rent",
+    "value": "1.5 months"
+   },
+   {
+    "field": "lease_term_months",
+    "quote": "12-month lease",
+    "value": "12"
+   },
+   {
+    "field": "lease_start",
+    "quote": "starting Sept 1",
+    "value": "Sept 1"
+   },
+   {
+    "field": "pets_allowed",
+    "quote": "Cats allowed with $300 non-refundable pet fee; no dogs",
+    "value": "cats"
+   },
+   {
+    "field": "parking",
+    "quote": "Street parking only",
+    "value": "street"
+   }
+  ],
+  "fees": [
+   {
+    "amount": 150,
+    "label": "admin fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "One-time admin fee $150"
+   },
+   {
+    "amount": 300,
+    "label": "pet fee",
+    "per": "unit",
+    "period": "once",
+    "quote": "Cats allowed with $300 non-refundable pet fee"
+   }
+  ]
+ },
+ "latency_ms": 795.2,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "listing_facts",
+ "task": "extract_listing",
+ "usage": {
+  "completion_time": 0.492162448,
+  "completion_tokens": 468,
+  "completion_tokens_details": {
+   "reasoning_tokens": 167
+  },
+  "prompt_time": 0.037775236,
+  "prompt_tokens": 625,
+  "queue_time": 0.219904765,
+  "total_time": 0.529937684,
+  "total_tokens": 1093
+ }
+}

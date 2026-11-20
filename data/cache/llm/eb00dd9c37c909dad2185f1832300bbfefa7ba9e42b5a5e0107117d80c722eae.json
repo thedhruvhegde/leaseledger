@@ -1,0 +1,48 @@
+{
+ "created": "2026-11-20T02:30:13Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "imsb",
+    "days": [
+     "Fri"
+    ],
+    "end": "23:00",
+    "label": "basketball",
+    "place_text": "IM building",
+    "source_quote": "IM building basketball Fri 9pm-11pm",
+    "start": "21:00"
+   },
+   {
+    "building_id": "crisler",
+    "days": [
+     "Sat"
+    ],
+    "end": "",
+    "label": "game",
+    "place_text": "Crisler",
+    "source_quote": "Crisler game Sat 2pm",
+    "start": "14:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 660.9,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.249057936,
+  "completion_tokens": 226,
+  "completion_tokens_details": {
+   "reasoning_tokens": 114
+  },
+  "prompt_time": 0.100121919,
+  "prompt_tokens": 1797,
+  "queue_time": 0.228462156,
+  "total_time": 0.349179855,
+  "total_tokens": 2023
+ }
+}

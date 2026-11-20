@@ -1,0 +1,51 @@
+{
+ "created": "2026-11-20T02:30:27Z",
+ "data": {
+  "events": [
+   {
+    "building_id": "UNKNOWN",
+    "days": [
+     "Sat"
+    ],
+    "end": "",
+    "label": "Coffee at Main & Liberty",
+    "place_text": "Main & Liberty",
+    "source_quote": "Coffee at Main & Liberty every Saturday 9am",
+    "start": "09:00"
+   },
+   {
+    "building_id": "sph",
+    "days": [
+     "Tue"
+    ],
+    "end": "16:00",
+    "label": "SPH Tuesdays 1-4",
+    "place_text": "SPH",
+    "source_quote": "SPH Tuesdays 1-4",
+    "start": "13:00"
+   }
+  ],
+  "unparsed": []
+ },
+ "latency_ms": 428.5,
+ "model": "openai/gpt-oss-20b",
+ "note": "real API response; prompt not stored",
+ "prompt_version": "v1",
+ "schema_name": "weekly_schedule",
+ "task": "parse_schedule",
+ "usage": {
+  "completion_time": 0.247175805,
+  "completion_tokens": 228,
+  "completion_tokens_details": {
+   "reasoning_tokens": 109
+  },
+  "prompt_time": 0.029887603,
+  "prompt_tokens": 1797,
+  "prompt_tokens_details": {
+   "cached_tokens": 1536
+  },
+  "queue_time": 0.004569846,
+  "total_time": 0.277063408,
+  "total_tokens": 2025
+ }
+}
