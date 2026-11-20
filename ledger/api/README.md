@@ -31,6 +31,12 @@ profile once so the first demo click hits the cache. Set `LEDGER_WARM=0` to skip
 | `LEDGER_CORS_ORIGINS` | localhost/127.0.0.1 on ports 5173 and 4173 | comma-separated |
 | `LEDGER_ENV` | `dev` | `prod` disables `POST /api/reload` |
 | `LEDGER_WARM` | `1` | startup warm-up (background thread): /evaluate + /robustness of every demo profile and the demo /group into the response cache, then engine.evaluate of each demo profile on demo set + all observed listings (provider trip/geometry caches). ~9.6 s after process start on the real provider; the API answers during it. Pre-demo smoke test: `python3 analysis/tools/demo_check.py` |
+| `WEB_DIST` | unset | path to a built web app (`web/dist`); when set, it is served at `/` with an SPA fallback (`/app`, deep links) after all `/api` routes (`ledger/api/static.py`). Used by the Docker image (DEPLOY.md) |
+| `LOW_MEMORY` | `0` | `1`: label tables memory-mapped from `data/artifacts/labels_mmap/` (made on first use or by `python -m ledger.pipeline.transit --export-mmap`), smaller provider and response caches, and no all-listings warm-up step. Measured 688 MB to 424 MB RSS; answers are identical |
+| `LEDGER_NO_NUMBA` | `0` | `1`: the server does not import numba (live scans run in pure Python, about 4 ms each) |
+| `GROQ_API_KEY` | unset | sent as `Authorization: Bearer` when set. Otherwise a dummy key is sent and the dev proxy injects the credential |
+
+Optional data: `data/listings/scraped.json` (written by `python -m ledger.scrape`, see `ledger/scrape/README.md`) is added to the observed listings when present.
 
 ## Conventions
 

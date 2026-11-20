@@ -26,6 +26,7 @@ FILES = {
     "buildings": "campus/buildings.json",
     "listings": "listings/listings.json",
     "synthetic_listings": "listings/synthetic_listings.json",
+    "scraped_listings": "listings/scraped.json",      # optional: python -m ledger.scrape (page_fetched)
     "demo_set": "listings/demo_set.json",
     "templates": "templates/schedules.json",
     "demo_profiles": "templates/demo_profiles.json",
@@ -123,7 +124,13 @@ class DataStore:
         return self._models("buildings", Building, ("buildings",))
 
     def observed_listings(self) -> list[Listing]:
-        return self._models("listings", Listing, ("listings",))
+        """listings.json, then any scraped.json entries (additive; an id already in listings.json wins)."""
+        base = self._models("listings", Listing, ("listings",))
+        scraped = self._models("scraped_listings", Listing, ("listings",))
+        if not scraped:
+            return base
+        have = {l.id for l in base}
+        return base + [l for l in scraped if l.id not in have and l.provenance == "observed"]
 
     def synthetic_listings(self) -> list[Listing]:
         return self._models("synthetic_listings", Listing, ("listings",))
