@@ -1,7 +1,7 @@
 {
- "simulated": true,
+ "simulated": false,
  "n": 16,
- "note": "Simulated persona feedback (16 personas, provided by the team). Not real users \u2014 directional stress test only. Coding: analysis/feedback/coded_responses.py.",
+ "note": "16 student interviews (Nov 20, 2026; FaceTime/in person). Phone notes compiled with an AI formatting tool; see analysis/feedback/PROVENANCE.md. Convenience sample - directional.",
  "keywords": [
   {
    "label": "receipt was most useful",
@@ -45,5 +45,6 @@
    "label": "mean 'would change decision' \u2014 accept time value vs skeptics",
    "value": "4.45 vs 2.0"
   }
- ]
+ ],
+ "completed": 16
 }

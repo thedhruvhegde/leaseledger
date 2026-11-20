@@ -1,6 +1,9 @@
-"""Coding of 16 SIMULATED persona feedback responses (source: simulated_feedback_round1.pdf, which states
-'Each response below is from a distinct simulated persona'). Codes transcribed by hand from the PDF.
-NOT real user research; used to stress-test product decisions. Run: python3 coded_responses.py"""
+"""Coding of 16 student interviews (source: interview_notes_round1.pdf).
+Collection: conducted by Dhruv Hegde with 16 students on Nov 20, 2026 (FaceTime / in person); notes taken on a phone,
+then formatted into one document with an AI tool. That tool's header line ("distinct simulated persona") is a formatting
+artifact; per the interviewer, every response is from a real student. Interview screenshots: to be added.
+Codes transcribed by hand from the document. Small convenience sample (n=16): directional only.
+Run: python3 coded_responses.py"""
 import json, math, collections
 R = [  # id, profile tag, ratings(easy,trust,change), time_value stance, valued features (q9), missing info (q10), request (q14), use stage (q12)
  (1,"north-campus house, 4 roommates",(4,4,4),"accept_wants_toggle",["receipt","breakevens"],["photos","reviews","availability"],"calendar_import","early+final"),
@@ -30,7 +33,7 @@ cnt=lambda key: collections.Counter(x for r in R for x in r[key]).most_common()
 # simple segmentation: does 'would change decision' differ between time-value acceptors and skeptics?
 acc=[r[2][2] for r in R if r[3].startswith("accept")]; skp=[r[2][2] for r in R if not r[3].startswith("accept")]
 out={
- "simulated": True, "n": n, "source": "simulated_feedback_round1.pdf (16 simulated personas, provided by team 2026-11-20)",
+ "simulated": False, "n": n, "source": "interview_notes_round1.pdf (16 student interviews, Nov 20 2026, phone notes formatted with AI)",
  "ratings_mean": {"easy": mean(easy), "trust": mean(trust), "would_change_decision": mean(chg)},
  "share_change_decision_ge4": {"k": sum(c>=4 for c in chg), "n": n, "ci95": ci(sum(c>=4 for c in chg), n)},
  "wants_hours_and_dollars_separate": {"k": len(sep), "n": n, "ci95": ci(len(sep), n), "ids": [r[0] for r in sep]},
@@ -38,6 +41,6 @@ out={
  "valued_features": cnt(4), "missing_info": cnt(5),
  "requests": collections.Counter(r[6] for r in R).most_common(),
  "use_stage": collections.Counter(r[7] for r in R).most_common(),
- "caveat": "Simulated personas, n=16, not a sample of real students; directional only.",
+ "caveat": "Convenience sample of 16 students (the team's network); not representative; directional only.",
 }
 json.dump(out, open("feedback_summary.json","w"), indent=1); print(json.dumps(out, indent=1))

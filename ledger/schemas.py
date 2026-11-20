@@ -185,6 +185,7 @@ class Listing(BaseModel):
     amenities: list[str] = []
     board_included: bool = False                    # co-ops: charge includes food (compare carefully)
     member_labor_hours_week: Optional[float] = None # co-ops: required work shifts (time cost; valued at VOT)
+    photos: list[dict] = []                         # [{"src": local path or URL, "credit": "...", "source_url": "...", "license": "..."}]
     # How an "observed" listing was checked: page_fetched = page loaded directly; search_extract = copied from
     # search-engine text for the cited URL (page itself not loaded); user_verified = a person checked the page.
     verification: Optional[Literal["page_fetched", "search_extract", "user_verified"]] = None

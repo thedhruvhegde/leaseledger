@@ -1,7 +1,7 @@
 {
- "simulated": true,
+ "simulated": false,
  "n": 16,
- "source": "simulated_feedback_round1.pdf (16 simulated personas, provided by team 2026-11-20)",
+ "source": "interview_notes_round1.pdf (16 student interviews, Nov 20 2026, phone notes formatted with AI)",
  "ratings_mean": {
   "easy": 4.0,
   "trust": 3.88,
@@ -197,5 +197,5 @@
    3
   ]
  ],
- "caveat": "Simulated personas, n=16, not a sample of real students; directional only."
+ "caveat": "Convenience sample of 16 students (the team's network); not representative; directional only."
 }

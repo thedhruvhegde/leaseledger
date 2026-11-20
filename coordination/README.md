@@ -25,3 +25,4 @@ Agents work concurrently in ONE working tree. Ownership is strict:
 - 2026-11-20: Profile.home_return ("auto"|"never"|"always"), Profile.excluded_building_types (hard), Listing.member_labor_hours_week (co-op work shifts), CommuteSummary.weekly_early_min, ListingEvaluation.extras added (engine requests 1–3 merged).
 - 2026-11-20: Listing.provenance accepts "user" (API R1 merged).
 - 2026-11-20: TripLeg.path [(lat,lon)] and Infeasibility.restores added (frontend requests 1-2).
+- Listing.photos [{src, credit, source_url, license}] added (web photos).
