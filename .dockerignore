@@ -1,0 +1,31 @@
+# Keep the build context and image lean: only what the API, the pipeline build and the web build need.
+.git
+.github
+.agents
+.claude
+.pytest_cache
+**/__pycache__
+**/*.pyc
+.env
+**/.env
+**/.env.local
+
+# Built inside the image (fresh from the committed feeds), never copied in
+data/artifacts
+data/cache/*
+!data/cache/llm
+web/dist
+**/node_modules
+
+# Not used at runtime
+data/multicity
+presentation
+execution
+analysis/multicity/results/*.npz
+web/screenshots
+web/design
+research
+concepts
+decisions
+architecture
+tests

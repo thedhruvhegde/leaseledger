@@ -131,9 +131,13 @@ def run_warmup(state: AppState) -> dict:
     step("load", load)
     prov, eng = holder.get("prov"), holder.get("eng")
     if prov is not None and eng is not None and not isinstance(eng, _NoEngine):
+        low_mem = os.environ.get("LOW_MEMORY", "0") == "1"
         step("evaluate_demo_profiles", lambda: prewarm_demo(state, eng, prov))
         step("robustness_demo_profiles", lambda: prewarm_robustness(state, eng, prov))
-        step("provider_all_observed", lambda: prewarm_provider(state, eng, prov))
+        if low_mem:   # 512 MB instance: skip warming the trip/geometry caches for every observed listing (~120 MB)
+            WARM["steps"]["provider_all_observed"] = {"ms": 0, "result": "skipped (LOW_MEMORY=1)"}
+        else:
+            step("provider_all_observed", lambda: prewarm_provider(state, eng, prov))
         step("group_demo", lambda: prewarm_group(state, eng, prov))
     WARM.update(state="done", ms=round((time.perf_counter() - t0) * 1000))
     log.info("warm-up done in %s ms: %s", WARM["ms"], {k: v.get("ms") for k, v in WARM["steps"].items()})
@@ -157,6 +161,8 @@ app = FastAPI(title="Lease Ledger API", version=API_VERSION, lifespan=lifespan,
 ORIGINS = [o.strip() for o in os.environ.get(
     "LEDGER_CORS_ORIGINS",
     "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4400,http://127.0.0.1:4400").split(",") if o.strip()]
+if os.environ.get("RENDER_EXTERNAL_URL") and os.environ["RENDER_EXTERNAL_URL"].rstrip("/") not in ORIGINS:
+    ORIGINS.append(os.environ["RENDER_EXTERNAL_URL"].rstrip("/"))   # Render sets this to the service's public URL
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_credentials=False, allow_methods=["GET", "POST", "OPTIONS"],
                    allow_headers=["*"], expose_headers=["X-Cache", "X-Response-Time-ms", "X-Request-ID", "Server-Timing"])
@@ -682,3 +688,8 @@ import ledger.api.advanced as _advanced  # noqa: E402  (if imported first, it re
 if hasattr(_advanced, "router") and not getattr(app.state, "advanced_included", False):
     app.include_router(_advanced.router)
     app.state.advanced_included = True
+
+# ------------------------------------------------------------------ built web app (single-service deploy)
+# Registered last so every /api route wins; a no-op unless env WEB_DIST points at a web build (see static.py).
+from ledger.api.static import mount_web  # noqa: E402
+mount_web(app)

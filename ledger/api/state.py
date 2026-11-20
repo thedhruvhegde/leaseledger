@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import threading
 import time
 import uuid
@@ -108,7 +109,8 @@ class Metrics:
 class AppState:
     def __init__(self, data: Optional[DataStore] = None):
         self.data = data or DataStore()
-        self.cache = LRUCache(256)
+        # LOW_MEMORY=1 (512 MB instance): fewer cached responses
+        self.cache = LRUCache(64 if os.environ.get("LOW_MEMORY", "0") == "1" else 256)
         self.custom = CustomListingStore()
         self.metrics = Metrics()
         self._provider = None

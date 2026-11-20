@@ -3,7 +3,8 @@
 Measured behaviour (analysis/ai-systems-analysis.md, re-verified 2026-11-20):
 - Groq's Cloudflare edge returns 403 "error code: 1010" without a User-Agent: we always send one.
 - `response_format: json_schema, strict: true` works on openai/gpt-oss-20b and -120b.
-- The network proxy injects the real credential for api.groq.com; we send a dummy key.
+- Credential: if env GROQ_API_KEY is set (e.g. on Render, set in the dashboard) it is sent as `Authorization: Bearer`.
+  Otherwise we send a dummy key and the development network proxy injects the real credential for api.groq.com.
 
 LLM_MODE (env):
   live    call the API (cache hits first); failures fall through the model chain, then to the caller's fallback

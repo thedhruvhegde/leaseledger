@@ -22,11 +22,14 @@ identical results), otherwise they run on Python lists. Scans are restricted to 
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 
 import numpy as np
 
 try:  # pragma: no cover - exercised implicitly
+    if os.environ.get("LEDGER_NO_NUMBA", "0") == "1":   # server on a small instance: skip numba/LLVM (~50 MB)
+        raise ImportError("LEDGER_NO_NUMBA=1")
     from numba import njit
     HAVE_NUMBA = True
 except ImportError:  # pragma: no cover

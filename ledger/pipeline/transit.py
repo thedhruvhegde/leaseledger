@@ -21,7 +21,9 @@ against a journey (a transfer must save >= 2 min to be preferred).
 from __future__ import annotations
 
 import json
+import logging
 import math
+import os
 from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
@@ -40,6 +42,42 @@ _MAX_TRACES = 6
 PATH_MAX_POINTS = 40        # TripLeg.path is simplified to at most this many (lat, lon) points
 _PATH_TOL_M = 5.0           # Douglas-Peucker tolerance (metres); then evenly thinned to <= PATH_MAX_POINTS
 _PRED_CACHE = 96            # Dijkstra predecessor arrays kept (one per anchor node x mode, ~400 KB each)
+LABELS_MMAP_DIR = "labels_mmap"   # uncompressed .npy copies of labels.npz, memory-mapped in low-memory mode
+log = logging.getLogger("ledger.pipeline")
+
+
+def low_memory() -> bool:
+    """LOW_MEMORY=1 (deployment on a 512 MB instance): memory-map the label tables instead of reading the 240 MB
+    into the heap, and keep smaller caches. Answers are identical; only memory residency changes."""
+    return os.environ.get("LOW_MEMORY", "0") == "1"
+
+
+def export_labels_mmap(artifact_dir: Path | None = None) -> Path:
+    """Write labels.npz as one uncompressed .npy per array (np.load(mmap_mode='r') needs uncompressed files).
+    Idempotent; called at image build time (`python -m ledger.pipeline.transit --export-mmap`) or lazily."""
+    d = Path(artifact_dir or C.ARTIFACT_DIR)
+    out = d / LABELS_MMAP_DIR
+    src = d / "labels.npz"
+    stamp = out / "SOURCE_MTIME"
+    if stamp.is_file() and stamp.read_text().strip() == str(src.stat().st_mtime_ns):
+        return out
+    out.mkdir(parents=True, exist_ok=True)
+    with np.load(src) as z:
+        for k in z.files:
+            np.save(out / f"{k}.npy", z[k])     # one array in memory at a time (largest ~110 MB)
+    stamp.write_text(str(src.stat().st_mtime_ns))
+    return out
+
+
+def _load_labels(d: Path) -> dict:
+    if low_memory():
+        try:
+            mdir = export_labels_mmap(d)
+            return {p.stem: np.load(p, mmap_mode="r") for p in sorted(mdir.glob("*.npy"))}
+        except OSError as e:  # read-only artifact dir and no export: fall back to the heap
+            log.warning("labels mmap unavailable (%s); loading labels.npz into memory", e)
+    with np.load(d / "labels.npz") as z:
+        return {k: z[k] for k in z.files}
 
 
 def simplify_path(pts: list[tuple[float, float]], max_points: int = PATH_MAX_POINTS) -> list[tuple[float, float]]:
@@ -135,8 +173,9 @@ class TransitProvider:
             self.net = TransitNetwork.from_arrays(z, self._manifest["daytypes"], self._manifest["day_to_type"])
             stop_node, stop_off, walkable = z["stop_node"], z["stop_off"], z["stop_walkable"]
         self.graph.set_stop_snaps(stop_node, stop_off, walkable)
-        with np.load(d / "labels.npz") as z:
-            L = {k: z[k] for k in z.files}
+        L = _load_labels(d)
+        if low_memory():
+            cache_size = min(cache_size, 8_000)
         self.params = self._manifest["params"]
         if self.params["slot_step_min"] != C.SLOT_STEP_MIN or self.params["walk_mps"] != C.WALK_MPS:
             raise RuntimeError("artifacts were built with different slot/walk parameters; run `make data`")
@@ -151,6 +190,10 @@ class TransitProvider:
         self._preds: OrderedDict[tuple, np.ndarray] = OrderedDict()
         self._paths: OrderedDict[tuple, list] = OrderedDict()
         self._cache_size = cache_size
+        lm = low_memory()
+        self._lru_size = 1024 if lm else 4096          # label / derived arrays (~10 KB each)
+        self._pred_cache = 24 if lm else _PRED_CACHE    # Dijkstra predecessor arrays (~400 KB each)
+        self._path_cache = 8_000 if lm else 50_000     # leg geometries
         self.transfer_tiebreak_s = C.TRANSFER_TIEBREAK_S
         self._last_dep = [self._last_departures(tt) for tt in self.tts]
         bj = json.loads(C.BUILDINGS_JSON.read_text())
@@ -199,7 +242,8 @@ class TransitProvider:
         out.legs = [lg.model_copy() for lg in hit.legs]
         return out
 
-    def _lru(self, store: OrderedDict, key: tuple, fn, size: int = 4096):
+    def _lru(self, store: OrderedDict, key: tuple, fn, size: int | None = None):
+        size = size or self._lru_size
         hit = store.get(key)
         if hit is None:
             hit = fn()
@@ -410,7 +454,7 @@ class TransitProvider:
             _, pr = dijkstra(self.graph._csr[mode], directed=True, indices=int(node), limit=limit,
                              return_predecessors=True)
             return pr.astype(np.int32)
-        return self._lru(self._preds, (int(node), mode, limit), run, size=_PRED_CACHE)
+        return self._lru(self._preds, (int(node), mode, limit), run, size=self._pred_cache)
 
     def _node_coords(self, nodes: list[int]) -> list[tuple[float, float]]:
         if not nodes:
@@ -426,7 +470,7 @@ class TransitProvider:
         recurs at every time of day)."""
         key = (a, a_node, b, b_node, mode, anchor_b, limit)
         return list(self._lru(self._paths, key, lambda: self._net_path_uncached(a, a_node, b, b_node, mode, anchor_b,
-                                                                                 limit), size=50_000))
+                                                                                 limit), size=self._path_cache))
 
     def _net_path_uncached(self, a, a_node, b, b_node, mode, anchor_b, limit) -> list[tuple[float, float]]:
         src, dst = (b_node, a_node) if anchor_b else (a_node, b_node)
@@ -467,7 +511,7 @@ class TransitProvider:
     def _ride_path(self, tt: Timetable, ride: Ride) -> list[tuple[float, float]]:
         """Ordered stop coordinates of the trip from the boarding to the alighting stop (GTFS stop_times)."""
         return list(self._lru(self._paths, ("R", tt.name, ride.board, ride.alight),
-                              lambda: self._ride_path_uncached(tt, ride), size=50_000))
+                              lambda: self._ride_path_uncached(tt, ride), size=self._path_cache))
 
     def _ride_path_uncached(self, tt: Timetable, ride: Ride) -> list[tuple[float, float]]:
         i, j = int(tt.conn_pos[ride.board]), int(tt.conn_pos[ride.alight])
@@ -597,3 +641,9 @@ def load_provider() -> TransitProvider:
             raise FileNotFoundError(f"no routing artifacts in {C.ARTIFACT_DIR}; run `make data`")
         _PROVIDER = TransitProvider()
     return _PROVIDER
+
+
+if __name__ == "__main__":  # python -m ledger.pipeline.transit --export-mmap
+    import sys
+    if "--export-mmap" in sys.argv:
+        print(export_labels_mmap())

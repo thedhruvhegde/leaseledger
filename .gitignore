@@ -6,6 +6,8 @@ web/dist/
 data/artifacts/*.npz
 data/artifacts/*.npy
 data/artifacts/*.pkl
-data/cache/
+data/cache/*
+!data/cache/llm/
 .env
 presentation/dist-artifact/
+data/artifacts/labels_mmap/

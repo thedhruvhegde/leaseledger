@@ -1,0 +1,39 @@
+# Render Blueprint: one Docker web service serving the API (/api/*) and the built React app (/, /app).
+# Dashboard -> New -> Blueprint -> connect this GitHub repo -> Apply. See DEPLOY.md.
+services:
+  - type: web
+    name: lease-ledger
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free            # 0.1 CPU / 512 MB, sleeps after 15 min idle (~1 min cold start)
+    # plan: starter       # 0.5 CPU / 512 MB, always on (no cold starts). Keep LOW_MEMORY=1 (still 512 MB).
+    # plan: standard      # 1 CPU / 2 GB: you may set LOW_MEMORY=0 and LEDGER_NO_NUMBA=0 for full warm-up.
+    region: ohio
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: LLM_MODE
+        value: cached     # cached | live | off. Set "live" together with GROQ_API_KEY for live Groq parsing.
+      - key: LOW_MEMORY
+        value: "1"        # memory-mapped label tables, smaller caches, lighter warm-up (fits 512 MB)
+      - key: LEDGER_NO_NUMBA
+        value: "1"        # skip numba/LLVM in the server (~50 MB); answers identical, live scans ~4 ms
+      - key: MALLOC_ARENA_MAX
+        value: "2"
+      - key: LEDGER_ENV
+        value: prod
+      - key: GROQ_API_KEY
+        sync: false       # you are prompted for it on Apply; leave blank for rule-based parsing only
+
+# Optional: weekly listing scraper as a Render Cron Job (paid; uncomment to enable). See ledger/scrape/README.md.
+# Note: a cron job has its own disk, so scraped.json is not visible to the web service unless you commit it
+# or copy it to shared storage; the simplest path is running the scraper on a laptop and committing the file.
+#  - type: cron
+#    name: lease-ledger-scrape
+#    runtime: docker
+#    dockerfilePath: ./Dockerfile
+#    region: ohio
+#    plan: starter
+#    schedule: "17 9 * * 1"     # Mondays 09:17 UTC
+#    dockerCommand: python -m ledger.scrape --out data/listings/scraped.json
