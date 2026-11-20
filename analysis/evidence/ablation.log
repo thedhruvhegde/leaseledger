@@ -1,0 +1,9 @@
+[  84.8s] eng-north: full!=base 0.99 full!=sd 0.04 regret med 502
+[ 160.7s] lsa-humanities: full!=base 0.99 full!=sd 0.00 regret med 578
+[ 232.4s] ross-bba: full!=base 1.00 full!=sd 0.00 regret med 583
+[ 306.6s] premed-lsa-sci: full!=base 0.88 full!=sd 0.00 regret med 675
+[ 394.6s] music-artdesign-north: full!=base 1.00 full!=sd 0.00 regret med 634
+[ 459.6s] nursing-clinical: full!=base 1.00 full!=sd 0.00 regret med 534
+[ 521.1s] grad-lab-north: full!=base 1.00 full!=sd 0.00 regret med 468
+[ 592.6s] lsa-kerrytown-job: full!=base 0.87 full!=sd 0.60 regret med 77
+wrote /home/user/hack-the-lease/analysis/evidence/ablation.json in 593s

@@ -1,0 +1,117 @@
+grid 36x40=1440 cells; 1407 within 150 m of the walk graph
+[   48s] north-engineer: usd p10/50/90 [466.8450178123393, 752.246308881622, 1164.6364435291666]
+[   92s] ross-kerrytown-job: usd p10/50/90 [94.13514916529553, 154.98234013607572, 207.27484840662893]
+[  136s] premed-hospital: usd p10/50/90 [369.4591566780236, 760.5406666940312, 1162.316426872939]
+{
+ "study": "surface",
+ "generated_by": "analysis/evidence/surface.py",
+ "bbox": [
+  -83.8,
+  42.24,
+  -83.68,
+  42.32
+ ],
+ "step_m": 250.0,
+ "max_snap_m": 150.0,
+ "cells_total": 1440,
+ "cells_kept": 1407,
+ "profiles": {
+  "north-engineer": {
+   "profile": "north-engineer",
+   "name": "North Campus engineer",
+   "vot_usd_h": 8.0,
+   "months": [
+    1
+   ],
+   "events_used": 12,
+   "units": {
+    "weekly_min": "generalized min/week",
+    "door_to_door_min": "min/week",
+    "usd_month": "USD/month (time value + late-night)"
+   },
+   "weekly_min_p10_p50_p90": [
+    774.2737098970817,
+    1240.5757697084969,
+    1894.2721994258359
+   ],
+   "usd_month_p10_p50_p90": [
+    466.8450178123393,
+    752.246308881622,
+    1164.6364435291666
+   ],
+   "usd_month_min": 242.26754709035043,
+   "cheapest_cell": {
+    "lat": 42.29277578153066,
+    "lon": -83.71652691795894
+   },
+   "share_cells_within_50usd_of_min": 0.005685856432125089,
+   "runtime_s": 46.9,
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times; no delays. Cells are 250 m; homes inside a cell can differ."
+  },
+  "ross-kerrytown-job": {
+   "profile": "ross-kerrytown-job",
+   "name": "Ross + Kerrytown job",
+   "vot_usd_h": 7.5,
+   "months": [
+    9,
+    10,
+    11
+   ],
+   "events_used": 8,
+   "units": {
+    "weekly_min": "generalized min/week",
+    "door_to_door_min": "min/week",
+    "usd_month": "USD/month (time value + late-night)"
+   },
+   "weekly_min_p10_p50_p90": [
+    173.201746394288,
+    285.15609960639506,
+    381.37046624954723
+   ],
+   "usd_month_p10_p50_p90": [
+    94.13514916529553,
+    154.98234013607572,
+    207.27484840662893
+   ],
+   "usd_month_min": 56.31474819259582,
+   "cheapest_cell": {
+    "lat": 42.27930111390581,
+    "lon": -83.74080999637088
+   },
+   "share_cells_within_50usd_of_min": 0.1513859275053305,
+   "runtime_s": 44.4,
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times; no delays. Cells are 250 m; homes inside a cell can differ."
+  },
+  "premed-hospital": {
+   "profile": "premed-hospital",
+   "name": "Pre-med with hospital shifts",
+   "vot_usd_h": 7.5,
+   "months": [
+    9,
+    10,
+    11
+   ],
+   "events_used": 9,
+   "units": {
+    "weekly_min": "generalized min/week",
+    "door_to_door_min": "min/week",
+    "usd_month": "USD/month (time value + late-night)"
+   },
+   "weekly_min_p10_p50_p90": [
+    621.5711162132961,
+    1204.6683875111014,
+    1817.6485519458754
+   ],
+   "usd_month_p10_p50_p90": [
+    369.4591566780236,
+    760.5406666940312,
+    1162.316426872939
+   ],
+   "usd_month_min": 138.67448400156977,
+   "cheapest_cell": {
+    "lat": 42.277055335968335,
+    "lon": -83.73777461156939
+   },
+   "share_cells_within_50usd_of_min": 0.006396588486140725,
+   "runtime_s": 43.6,
+   "caveat": "Travel cost only (no rent). Schedule = demo profile events + first template alternative per slot. Scheduled GTFS times

@@ -1,0 +1,108 @@
+{
+ "base": "http://localhost:8000/api",
+ "measured_at": "2026-11-20T03:15:33",
+ "health": {
+  "status": "ok",
+  "api_version": "0.1.0",
+  "engine": {
+   "ready": true,
+   "missing": []
+  },
+  "provider": "TransitProvider",
+  "llm_mode": "cached",
+  "uptime_s": 323.0,
+  "warmup": {
+   "state": "done",
+   "ms": 9505,
+   "steps": {
+    "load": 1350,
+    "evaluate_demo_profiles": 1888,
+    "robustness_demo_profiles": 917,
+    "provider_all_observed": 5149,
+    "group_demo": 200
+   }
+  }
+ },
+ "profiles": {
+  "north-engineer": {
+   "evaluate_cached": {
+    "median_ms": 16.8,
+    "max_ms": 17.8,
+    "n": 7
+   },
+   "evaluate_uncached": {
+    "median_ms": 126.2,
+    "max_ms": 588.7,
+    "n": 7
+   },
+   "robustness_uncached": {
+    "median_ms": 33.7,
+    "max_ms": 60.2,
+    "n": 7
+   }
+  },
+  "ross-kerrytown-job": {
+   "evaluate_cached": {
+    "median_ms": 9.0,
+    "max_ms": 9.7,
+    "n": 7
+   },
+   "evaluate_uncached": {
+    "median_ms": 57.6,
+    "max_ms": 59.5,
+    "n": 7
+   },
+   "robustness_uncached": {
+    "median_ms": 29.8,
+    "max_ms": 30.2,
+    "n": 7
+   }
+  },
+  "late-night-studio": {
+   "evaluate_cached": {
+    "median_ms": 18.9,
+    "max_ms": 19.5,
+    "n": 7
+   },
+   "evaluate_uncached": {
+    "median_ms": 127.3,
+    "max_ms": 643.1,
+    "n": 7
+   },
+   "robustness_uncached": {
+    "median_ms": 33.4,
+    "max_ms": 82.1,
+    "n": 7
+   }
+  },
+  "premed-hospital": {
+   "evaluate_cached": {
+    "median_ms": 10.4,
+    "max_ms": 11.5,
+    "n": 7
+   },
+   "evaluate_uncached": {
+    "median_ms": 73.2,
+    "max_ms": 77.3,
+    "n": 7
+   },
+   "robustness_uncached": {
+    "median_ms": 31.6,
+    "max_ms": 33.2,
+    "n": 7
+   }
+  }
+ },
+ "health_get": {
+  "median_ms": 2.0,
+  "max_ms": 2.5,
+  "n": 7
+ },
+ "summary": {
+  "evaluate_cached_median_of_medians_ms": 13.600000000000001,
+  "evaluate_uncached_median_of_medians_ms": 99.7,
+  "evaluate_uncached_worst_median_ms": 127.3,
+  "robustness_uncached_median_of_medians_ms": 32.5,
+  "robustness_uncached_worst_median_ms": 33.7
+ }
+}

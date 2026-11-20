@@ -1,0 +1,2304 @@
+{
+ "study": "ablation",
+ "generated_by": "analysis/evidence/ablation.py",
+ "seed": 20261120,
+ "n_per_template": 300,
+ "runtime_s": 592.6,
+ "setup": {
+  "listings": "data/listings/listings.json (69 observed, search-extract)",
+  "rent_cap_usd": 1400.0,
+  "household_size": 1,
+  "modes": [
+   "walk",
+   "bus"
+  ],
+  "vot_usd_h": 7.5,
+  "season": "fall (Sep-Nov)",
+  "preferences": "none (amenity gap = 0, so score = all_in)",
+  "provider_feeds": {
+   "UM": "current UM schedule (feed valid 2026-08-23..2027-01-02)",
+   "AAATA": "current AAATA schedule (feed valid 2026-11-15..2027-01-23)"
+  },
+  "single_destination_definition": "one event per day at the most frequent destination, earliest start to latest end there that day",
+  "weather_ablation_month": "January (month=1): full-January vs no-weather-January",
+  "rent_bands_usd": {
+   "le1000": [
+    0,
+    1000
+   ],
+   "1000-1200": [
+    1000,
+    1200
+   ],
+   "1200-1400": [
+    1200,
+    1400
+   ]
+  }
+ },
+ "pooled": {
+  "semesters": 2400,
+  "full_ne_baseline": {
+   "k": 2322,
+   "n": 2400,
+   "share": 0.9675,
+   "wilson95": [
+    0.9596250208893123,
+    0.9738808023459341
+   ]
+  },
+  "full_ne_single_dest": {
+   "k": 194,
+   "n": 2400,
+   "share": 0.08083333333333333,
+   "wilson95": [
+    0.07058609948189654,
+    0.09242026578133172
+   ]
+  },
+  "full_ne_both": {
+   "k": 194,
+   "n": 2400,
+   "share": 0.08083333333333333,
+   "wilson95": [
+    0.07058609948189654,
+    0.09242026578133172
+   ]
+  },
+  "single_dest_ne_baseline": {
+   "k": 2240,
+   "n": 2400,
+   "share": 0.9333333333333333,
+   "wilson95": [
+    0.9226451577578937,
+    0.942636532228431
+   ]
+  },
+  "regret_baseline_usd_mo": {
+   "mean": 500.6309500231747,
+   "median": 555.06626148492,
+   "p90": 672.3866395985422,
+   "max": 704.1675805088173,
+   "share_gt_0": 0.9675,
+   "share_ge_50": 0.945
+  },
+  "regret_single_dest_usd_mo": {
+   "mean": 7.932249835377828,
+   "median": 0.0,
+   "p90": 0.0,
+   "max": 259.84103870816693,
+   "share_gt_0": 0.08083333333333333,
+   "share_ge_50": 0.05708333333333333
+  },
+  "regret_cash_only_usd_mo": {
+   "mean": 73.818455963596,
+   "median": 90.72903881011945,
+   "p90": 146.64524106380793,
+   "max": 189.77706258483192,
+   "share_gt_0": 0.6291666666666667,
+   "share_ge_50": 0.5833333333333334
+  },
+  "kendall_discordant_pairs_full_vs_single_dest_mean": 0.05404487179487179,
+  "rent_bands": {
+   "le1000": {
+    "semesters": 2400,
+    "full_ne_single_dest": {
+     "k": 194,
+     "n": 2400,
+     "share": 0.08083333333333333,
+     "wilson95": [
+      0.07058609948189654,
+      0.09242026578133172
+     ]
+    },
+    "full_ne_baseline": {
+     "k": 439,
+     "n": 2400,
+     "share": 0.18291666666666667,
+     "wilson95": [
+      0.16796057552351065,
+      0.19888618786149606
+     ]
+    },
+    "regret_single_dest_usd_mo": {
+     "mean": 7.932249835377828,
+     "median": 0.0,
+     "p90": 0.0,
+     "max": 259.84103870816693,
+     "share_gt_0": 0.08083333333333333,
+     "share_ge_50": 0.05708333333333333
+    },
+    "regret_baseline_usd_mo": {
+     "mean": 17.252780799939067,
+     "median": 0.0,
+     "p90": 89.94807922792607,
+     "max": 326.1998744932837,
+     "share_gt_0": 0.18291666666666667,
+     "share_ge_50": 0.15541666666666668
+    }
+   },
+   "1000-1200": {
+    "semesters": 2400,
+    "full_ne_single_dest": {
+     "k": 1,
+     "n": 2400,
+     "share": 0.0004166666666666667,
+     "wilson95": [
+      7.355568396894257e-05,
+      0.002356495956797129
+     ]
+    },
+    "full_ne_baseline": {
+     "k": 1506,
+     "n": 2400,
+     "share": 0.6275,
+     "wilson95": [
+      0.607968141680004,
+      0.6466243555659721
+     ]
+    },
+    "regret_single_dest_usd_mo": {
+     "mean": 0.002254042193512002,
+     "median": 0.0,
+     "p90": 0.0,
+     "max": 5.409701264428804,
+     "share_gt_0": 0.0004166666666666667,
+     "share_ge_50": 0.0
+    },
+    "regret_baseline_usd_mo": {
+     "mean": 73.1699955921152,
+     "median": 62.83373931962478,
+     "p90": 184.12951657079734,
+     "max": 298.61989515632285,
+     "share_gt_0": 0.6275,
+     "share_ge_50": 0.5691666666666667
+    }
+   },
+   "1200-1400": {
+    "semesters": 2400,
+    "full_ne_single_dest": {
+     "k": 501,
+     "n": 2400,
+     "share": 0.20875,
+     "wilson95": [
+      0.19296206191157828,
+      0.22546880222261312
+     ]
+    },
+    "full_ne_baseline": {
+     "k": 1755,
+     "n": 2400,
+     "share": 0.73125,
+     "wilson95": [
+      0.7131550214916582,
+      0.7486058803760438
+     ]
+    },
+    "regret_single_dest_usd_mo": {
+     "mean": 5.04916261400353,
+     "median": 0.0,
+     "p90": 21.63061878992669,
+     "max": 77.32612166605418,
+     "share_gt_0": 0.20875,
+     "share_ge_50": 0.0225
+    },
+    "regret_baseline_usd_mo": {
+     "mean": 51.9685746193805,
+     "median": 51.54464213406891,
+     "p90": 159.5025772283104,
+     "max": 168.21365762645428,
+     "share_gt_0": 0.73125,
+     "share_ge_50": 0.5170833333333333
+    }
+   }
+  },
+  "ablation_flip": {
+   "no_early_arrival": {
+    "k": 0,
+    "n": 2400,
+    "share": 0.0,
+    "wilson95": [
+     1.0842021724855044e-19,
+     0.0015980500157792205
+    ]
+   },
+   "no_weather_jan": {
+    "k": 9,
+    "n": 2400,
+    "share": 0.00375,
+    "wilson95": [
+     0.0019741580061776688,
+     0.007111906634483208
+    ]
+   },
+   "vot_zero": {
+    "k": 1510,
+    "n": 2400,
+    "share": 0.6291666666666667,
+    "wilson95": [
+     0.6096498090981748,
+     0.648270694647749
+    ]
+   },
+   "walk_wait_mult_1": {
+    "k": 15,
+    "n": 2400,
+    "share": 0.00625,
+    "wilson95": [
+     0.0037912735854462977,
+     0.010286800805135683
+    ]
+   }
+  }
+ },
+ "per_template": {
+  "eng-north": {
+   "template": "eng-north",
+   "name": "Engineering sophomore/junior (mostly North Campus)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 300,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 298,
+    "n": 300,
+    "share": 0.9933333333333333,
+    "wilson95": [
+     0.9760224165389365,
+     0.9981698516585397
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 13,
+    "n": 300,
+    "share": 0.043333333333333335,
+    "wilson95": [
+     0.025496447979461018,
+     0.07271746591882099
+    ]
+   },
+   "full_ne_both": {
+    "k": 13,
+    "n": 300,
+    "share": 0.043333333333333335,
+    "wilson95": [
+     0.025496447979461018,
+     0.07271746591882099
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 296,
+    "n": 300,
+    "share": 0.9866666666666667,
+    "wilson95": [
+     0.9662244695197068,
+     0.9948030382967227
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 498.09688781419936,
+    "median": 502.3527233592557,
+    "p90": 519.872574659542,
+    "max": 598.5756871925626,
+    "share_gt_0": 0.9933333333333333,
+    "share_ge_50": 0.9866666666666667
+   },
+   "regret_baseline_cash_part_mean": 659.8672661666667,
+   "regret_baseline_time_part_mean": -161.7703783524673,
+   "regret_single_dest_usd_mo": {
+    "mean": 1.0612810009223654,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 50.68731291473273,
+    "share_gt_0": 0.043333333333333335,
+    "share_ge_50": 0.0033333333333333335
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 0.48789035972857087,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 50.68731291473273,
+    "share_gt_0": 0.03333333333333333,
+    "share_ge_50": 0.0033333333333333335
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.06367948717948718,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 13,
+      "n": 300,
+      "share": 0.043333333333333335,
+      "wilson95": [
+       0.025496447979461018,
+       0.07271746591882099
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 13,
+      "n": 300,
+      "share": 0.043333333333333335,
+      "wilson95": [
+       0.025496447979461018,
+       0.07271746591882099
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 1.0612810009223654,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 50.68731291473273,
+      "share_gt_0": 0.043333333333333335,
+      "share_ge_50": 0.0033333333333333335
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 1.0612810009223654,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 50.68731291473273,
+      "share_gt_0": 0.043333333333333335,
+      "share_ge_50": 0.0033333333333333335
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 7,
+      "n": 300,
+      "share": 0.023333333333333334,
+      "wilson95": [
+       0.011347660237010695,
+       0.047371972518130384
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 5.628227273407476,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 298.61989515632285,
+      "share_gt_0": 0.023333333333333334,
+      "share_ge_50": 0.023333333333333334
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 18,
+      "n": 300,
+      "share": 0.06,
+      "wilson95": [
+       0.03828636939007202,
+       0.09283944546082745
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 29,
+      "n": 300,
+      "share": 0.09666666666666666,
+      "wilson95": [
+       0.06815029462988952,
+       0.13538170231676833
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 1.3077616753953414,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 54.552361359390716,
+      "share_gt_0": 0.06,
+      "share_ge_50": 0.006666666666666667
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 6.421177996834612,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 160.2814969317692,
+      "share_gt_0": 0.09666666666666666,
+      "share_ge_50": 0.06
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 2,
+     "n": 300,
+     "share": 0.006666666666666667,
+     "wilson95": [
+      0.0018301483414602509,
+      0.02397758346106338
+     ]
+    },
+    "vot_zero": {
+     "k": 10,
+     "n": 300,
+     "share": 0.03333333333333333,
+     "wilson95": [
+      0.018204947254090647,
+      0.060261826072620886
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 4,
+     "n": 300,
+     "share": 0.013333333333333334,
+     "wilson95": [
+      0.005196961703277308,
+      0.0337755304802933
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "icc-escher-double",
+      290
+     ],
+     [
+      "university-towers-2br",
+      10
+     ]
+    ],
+    "baseline": [
+     [
+      "um-northwood-1br",
+      281
+     ],
+     [
+      "courtyards-4x4",
+      12
+     ],
+     [
+      "university-towers-2br",
+      4
+     ]
+    ],
+    "single_dest": [
+     [
+      "icc-escher-double",
+      293
+     ],
+     [
+      "university-towers-2br",
+      7
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "lsa-humanities": {
+   "template": "lsa-humanities",
+   "name": "LSA humanities (Central Campus)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 299,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 298,
+    "n": 300,
+    "share": 0.9933333333333333,
+    "wilson95": [
+     0.9760224165389365,
+     0.9981698516585397
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 298,
+    "n": 300,
+    "share": 0.9933333333333333,
+    "wilson95": [
+     0.9760224165389365,
+     0.9981698516585397
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 524.0208827878771,
+    "median": 577.693108617118,
+    "p90": 596.4852637349834,
+    "max": 628.4214004433483,
+    "share_gt_0": 0.9933333333333333,
+    "share_ge_50": 0.9933333333333333
+   },
+   "regret_baseline_cash_part_mean": 505.6386666666666,
+   "regret_baseline_time_part_mean": 18.382216121210448,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 145.214001175196,
+    "median": 142.27440419085548,
+    "p90": 166.01729723326764,
+    "max": 189.77706258483192,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.048833333333333326,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 6,
+      "n": 300,
+      "share": 0.02,
+      "wilson95": [
+       0.009197631503835551,
+       0.04293962106078204
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 6.46530551764225,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 326.1998744932837,
+      "share_gt_0": 0.02,
+      "share_ge_50": 0.02
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 62.93927701378043,
+      "median": 63.09711991759707,
+      "p90": 88.09630160152915,
+      "max": 114.88993309370358,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.7266666666666667
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 57.261694295263396,
+      "median": 57.15172111972106,
+      "p90": 69.81075025777373,
+      "max": 91.65669926475812,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.7566666666666667
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 300,
+     "n": 300,
+     "share": 1.0,
+     "wilson95": [
+      0.9873570285785234,
+      1.0
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "322-n-state-1br",
+      136
+     ],
+     [
+      "um-munger-suite",
+      89
+     ],
+     [
+      "zaragon-place-6br",
+      73
+     ]
+    ],
+    "single_dest": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "ross-bba": {
+   "template": "ross-bba",
+   "name": "Ross BBA (Central, Ross-heavy)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 299,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 582.8908507483693,
+    "median": 582.893048730193,
+    "p90": 589.769118384332,
+    "max": 598.3255669056732,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "regret_baseline_cash_part_mean": 594.6666666666666,
+   "regret_baseline_time_part_mean": -11.775815918297276,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 131.75360938411143,
+    "median": 137.251613496034,
+    "p90": 147.27969694584783,
+    "max": 151.53620440653367,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.03123931623931624,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 195.36930066578702,
+      "median": 194.500016552768,
+      "p90": 220.17468882823016,
+      "max": 270.12941142015416,
+      "share_gt_0": 1.0,
+      "share_ge_50": 1.0
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 67.78785356773442,
+      "median": 66.09652385042841,
+      "p90": 81.3783653509436,
+      "max": 101.81959373047721,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.97
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 300,
+     "n": 300,
+     "share": 1.0,
+     "wilson95": [
+      0.9873570285785234,
+      1.0
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "zaragon-place-6br",
+      300
+     ]
+    ],
+    "single_dest": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "premed-lsa-sci": {
+   "template": "premed-lsa-sci",
+   "name": "Pre-med / LSA science (Central + Medical)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 299,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 264,
+    "n": 300,
+    "share": 0.88,
+    "wilson95": [
+     0.8383421858062522,
+     0.9120491559134255
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 264,
+    "n": 300,
+    "share": 0.88,
+    "wilson95": [
+     0.8383421858062522,
+     0.9120491559134255
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 585.3177141090057,
+    "median": 674.9191680231656,
+    "p90": 682.1133988145517,
+    "max": 692.9341787602808,
+    "share_gt_0": 0.88,
+    "share_ge_50": 0.88
+   },
+   "regret_baseline_cash_part_mean": 581.8314280666667,
+   "regret_baseline_time_part_mean": 3.486286042339002,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 128.4815937218555,
+    "median": 127.84921759214905,
+    "p90": 152.87244160616967,
+    "max": 177.89442745076144,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.06877777777777777,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 72.01840627814433,
+      "median": 72.65078240785078,
+      "p90": 93.33426149457637,
+      "max": 137.90849973843046,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.87
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 140.79605693886657,
+      "median": 162.0196018954614,
+      "p90": 163.814232326067,
+      "max": 168.21365762645428,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.9933333333333333
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 300,
+     "n": 300,
+     "share": 1.0,
+     "wilson95": [
+      0.9873570285785234,
+      1.0
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "1304-geddes-6br",
+      228
+     ],
+     [
+      "university-towers-2br",
+      36
+     ],
+     [
+      "zaragon-place-6br",
+      36
+     ]
+    ],
+    "single_dest": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "music-artdesign-north": {
+   "template": "music-artdesign-north",
+   "name": "Music / Art & Design (North Campus)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 300,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 631.7081502913081,
+    "median": 633.8124777520504,
+    "p90": 674.4590895171084,
+    "max": 704.1675805088173,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "regret_baseline_cash_part_mean": 772.2224440277777,
+   "regret_baseline_time_part_mean": -140.51429373646957,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.06503846153846154,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 158,
+      "n": 300,
+      "share": 0.5266666666666666,
+      "wilson95": [
+       0.4701880390816568,
+       0.5824710024425311
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 11.27335276407053,
+      "median": 1.4772523681536995,
+      "p90": 35.90678398528485,
+      "max": 72.94314380112473,
+      "share_gt_0": 0.5266666666666666,
+      "share_ge_50": 0.06
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 70.38580516177048,
+      "median": 71.86623198036875,
+      "p90": 99.79654367276785,
+      "max": 126.63063810882181,
+      "share_gt_0": 1.0,
+      "share_ge_50": 0.78
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "huron-towers-2br",
+      290
+     ],
+     [
+      "courtyards-4x4",
+      10
+     ]
+    ],
+    "single_dest": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "nursing-clinical": {
+   "template": "nursing-clinical",
+   "name": "Nursing (Medical Campus + clinical shifts)",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 298,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 533.3544696985558,
+    "median": 533.535461726037,
+    "p90": 564.0694289179414,
+    "max": 584.2581804534981,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "regret_baseline_cash_part_mean": 545.4999999999999,
+   "regret_baseline_time_part_mean": -12.145530301443982,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 65.01112843424094,
+    "median": 68.09712083494924,
+    "p90": 95.10774344284918,
+    "max": 108.75196903630342,
+    "share_gt_0": 1.0,
+    "share_ge_50": 0.67
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.052816239316239307,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 229,
+      "n": 300,
+      "share": 0.7633333333333333,
+      "wilson95": [
+       0.7120967386448336,
+       0.807911296406522
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 80.62371911787005,
+      "median": 97.70013612868814,
+      "p90": 131.9740080329545,
+      "max": 158.0159880207898,
+      "share_gt_0": 0.7633333333333333,
+      "share_ge_50": 0.7633333333333333
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 300,
+      "n": 300,
+      "share": 1.0,
+      "wilson95": [
+       0.9873570285785234,
+       1.0
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 162.69466676175244,
+      "median": 167.34381519789213,
+      "p90": 183.8507755830867,
+      "max": 199.8011628882423,
+      "share_gt_0": 1.0,
+      "share_ge_50": 1.0
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 174,
+      "n": 300,
+      "share": 0.58,
+      "wilson95": [
+       0.5234831495365287,
+       0.6344939750360349
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 287,
+      "n": 300,
+      "share": 0.9566666666666667,
+      "wilson95": [
+       0.927282534081179,
+       0.974503552020539
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 17.74215881973795,
+      "median": 10.406687272668592,
+      "p90": 48.737964217682844,
+      "max": 77.32612166605418,
+      "share_gt_0": 0.58,
+      "share_ge_50": 0.08333333333333333
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 32.74429481987488,
+      "median": 31.436725080793394,
+      "p90": 56.73620605619197,
+      "max": 77.32612166605418,
+      "share_gt_0": 0.9566666666666667,
+      "share_ge_50": 0.19
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 300,
+     "n": 300,
+     "share": 1.0,
+     "wilson95": [
+      0.9873570285785234,
+      1.0
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "322-n-state-1br",
+      300
+     ]
+    ],
+    "single_dest": [
+     [
+      "university-towers-2br",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "grad-lab-north": {
+   "template": "grad-lab-north",
+   "name": "Grad student with lab on North Campus",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 300,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "full_ne_both": {
+    "k": 0,
+    "n": 300,
+    "share": 0.0,
+    "wilson95": [
+     8.673617379884035e-19,
+     0.012642971421476655
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 300,
+    "n": 300,
+    "share": 1.0,
+    "wilson95": [
+     0.9873570285785234,
+     1.0
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 469.1025506796234,
+    "median": 468.4795259142297,
+    "p90": 482.33624335972405,
+    "max": 489.3013407867636,
+    "share_gt_0": 1.0,
+    "share_ge_50": 1.0
+   },
+   "regret_baseline_cash_part_mean": 670.0,
+   "regret_baseline_time_part_mean": -200.89744932037658,
+   "regret_single_dest_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "max": 0.0,
+    "share_gt_0": 0.0,
+    "share_ge_50": 0.0
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.040183760683760686,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 0,
+      "n": 300,
+      "share": 0.0,
+      "wilson95": [
+       8.673617379884035e-19,
+       0.012642971421476655
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 0.0,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "share_gt_0": 0.0,
+      "share_ge_50": 0.0
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "vot_zero": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ],
+    "baseline": [
+     [
+      "um-northwood-1br",
+      300
+     ]
+    ],
+    "single_dest": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  },
+  "lsa-kerrytown-job": {
+   "template": "lsa-kerrytown-job",
+   "name": "Student with part-time job in Kerrytown",
+   "semesters_sampled": 300,
+   "semesters_evaluated": 300,
+   "distinct_semesters": 296,
+   "no_feasible": 0,
+   "feasible_listings_median": 40.0,
+   "full_ne_baseline": {
+    "k": 262,
+    "n": 300,
+    "share": 0.8733333333333333,
+    "wilson95": [
+     0.8309188295790445,
+     0.9063077517595862
+    ]
+   },
+   "full_ne_single_dest": {
+    "k": 181,
+    "n": 300,
+    "share": 0.6033333333333334,
+    "wilson95": [
+     0.5470046174408554,
+     0.657049168465373
+    ]
+   },
+   "full_ne_both": {
+    "k": 181,
+    "n": 300,
+    "share": 0.6033333333333334,
+    "wilson95": [
+     0.5470046174408554,
+     0.657049168465373
+    ]
+   },
+   "single_dest_ne_baseline": {
+    "k": 182,
+    "n": 300,
+    "share": 0.6066666666666667,
+    "wilson95": [
+     0.550375270835491,
+     0.6602608952612607
+    ]
+   },
+   "regret_baseline_usd_mo": {
+    "mean": 180.55609405645907,
+    "median": 77.14098432949845,
+    "p90": 584.6825904008494,
+    "max": 689.3660441794464,
+    "share_gt_0": 0.8733333333333333,
+    "share_ge_50": 0.7
+   },
+   "regret_baseline_cash_part_mean": 187.29176649444446,
+   "regret_baseline_time_part_mean": -6.73567243798539,
+   "regret_single_dest_usd_mo": {
+    "mean": 62.39671768210025,
+    "median": 35.850855952010875,
+    "p90": 169.86746695456233,
+    "max": 259.84103870816693,
+    "share_gt_0": 0.6033333333333334,
+    "share_ge_50": 0.4533333333333333
+   },
+   "regret_cash_only_usd_mo": {
+    "mean": 119.5994246336355,
+    "median": 120.82643725349448,
+    "p90": 141.58566435453778,
+    "max": 165.14878182397456,
+    "share_gt_0": 1.0,
+    "share_ge_50": 0.9933333333333333
+   },
+   "kendall_discordant_pairs_full_vs_single_dest_mean": 0.06179059829059829,
+   "rent_bands": {
+    "le1000": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 181,
+      "n": 300,
+      "share": 0.6033333333333334,
+      "wilson95": [
+       0.5470046174408554,
+       0.657049168465373
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 191,
+      "n": 300,
+      "share": 0.6366666666666667,
+      "wilson95": [
+       0.580831624427131,
+       0.6890459633843322
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 62.39671768210025,
+      "median": 35.850855952010875,
+      "p90": 169.86746695456233,
+      "max": 259.84103870816693,
+      "share_gt_0": 0.6033333333333334,
+      "share_ge_50": 0.4533333333333333
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 49.87194076307786,
+      "median": 38.18145626260025,
+      "p90": 107.73698697497821,
+      "max": 285.55205037090354,
+      "share_gt_0": 0.6366666666666667,
+      "share_ge_50": 0.45666666666666667
+     }
+    },
+    "1000-1200": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 1,
+      "n": 300,
+      "share": 0.0033333333333333335,
+      "wilson95": [
+       0.0005886577153496192,
+       0.018636693896650527
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 299,
+      "n": 300,
+      "share": 0.9966666666666667,
+      "wilson95": [
+       0.9813633061033494,
+       0.9994113422846503
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 0.018032337548096015,
+      "median": 0.0,
+      "p90": 0.0,
+      "max": 5.409701264428804,
+      "share_gt_0": 0.0033333333333333335,
+      "share_ge_50": 0.0
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 86.7100867440499,
+      "median": 85.3745182895027,
+      "p90": 124.719908807261,
+      "max": 154.36916947870964,
+      "share_gt_0": 0.9966666666666667,
+      "share_ge_50": 0.9333333333333333
+     }
+    },
+    "1200-1400": {
+     "semesters": 300,
+     "full_ne_single_dest": {
+      "k": 151,
+      "n": 300,
+      "share": 0.5033333333333333,
+      "wilson95": [
+       0.4470719393535323,
+       0.5595104408369911
+      ]
+     },
+     "full_ne_baseline": {
+      "k": 239,
+      "n": 300,
+      "share": 0.7966666666666666,
+      "wilson95": [
+       0.7475056883005968,
+       0.8383261486559936
+      ]
+     },
+     "regret_single_dest_usd_mo": {
+      "mean": 10.070027652824422,
+      "median": 0.072856027309399,
+      "p90": 35.66830624410816,
+      "max": 67.5285574732045,
+      "share_gt_0": 0.5033333333333333,
+      "share_ge_50": 0.03
+     },
+     "regret_baseline_usd_mo": {
+      "mean": 40.3517141746997,
+      "median": 31.91308819448136,
+      "p90": 86.68732225555542,
+      "max": 163.04842297249684,
+      "share_gt_0": 0.7966666666666666,
+      "share_ge_50": 0.38666666666666666
+     }
+    }
+   },
+   "ablation_flip": {
+    "no_early_arrival": {
+     "k": 0,
+     "n": 300,
+     "share": 0.0,
+     "wilson95": [
+      8.673617379884035e-19,
+      0.012642971421476655
+     ]
+    },
+    "no_weather_jan": {
+     "k": 7,
+     "n": 300,
+     "share": 0.023333333333333334,
+     "wilson95": [
+      0.011347660237010695,
+      0.047371972518130384
+     ]
+    },
+    "vot_zero": {
+     "k": 300,
+     "n": 300,
+     "share": 1.0,
+     "wilson95": [
+      0.9873570285785234,
+      1.0
+     ]
+    },
+    "walk_wait_mult_1": {
+     "k": 11,
+     "n": 300,
+     "share": 0.03666666666666667,
+     "wilson95": [
+      0.02059530507112222,
+      0.06445384844611282
+     ]
+    }
+   },
+   "top_picks": {
+    "full": [
+     [
+      "university-towers-2br",
+      289
+     ],
+     [
+      "cabrio-211-e-kingsley-3br",
+      11
+     ]
+    ],
+    "baseline": [
+     [
+      "cabrio-211-e-kingsley-3br",
+      188
+     ],
+     [
+      "um-munger-suite",
+      35
+     ],
+     [
+      "zaragon-place-6br",
+      34
+     ]
+    ],
+    "single_dest": [
+     [
+      "university-towers-2br",
+      112
+     ],
+     [
+      "hillcrest-2br",
+      99
+     ],
+     [
+      "cabrio-211-e-kingsley-3br",
+      89
+     ]
+    ],
+    "cash_only": [
+     [
+      "icc-escher-double",
+      300
+     ]
+    ]
+   }
+  }
+ }
+}

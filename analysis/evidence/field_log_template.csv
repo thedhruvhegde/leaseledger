@@ -1,0 +1,6 @@
+trip_id,date,day,observer,origin,destination,predicted_leave,predicted_route,predicted_board_stop,predicted_bus_dep,predicted_bus_arr,predicted_arrive,predicted_total_min,predicted_walk_min,predicted_wait_min,predicted_ride_min,actual_leave,actual_bus_dep,actual_bus_arr,actual_arrive,actual_total_min,bus_late_min,weather,notes
+B1,,,,,,,,,,,,,,,,,,,,,,,
+B2,,,,,,,,,,,,,,,,,,,,,,,
+B3,,,,,,,,,,,,,,,,,,,,,,,
+W1,,,,,,,,,,,,,,,,,,,,,,,
+W2,,,,,,,,,,,,,,,,,,,,,,,
