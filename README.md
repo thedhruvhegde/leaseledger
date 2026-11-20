@@ -4,7 +4,7 @@
 
 ### Ann Arbor rentals, ranked by what your *week* actually costs
 
-**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Presentation deck](https://lease-ledger.onrender.com/deck) · [Demo video](media/videos/full-demo.mp4) · [Videos](#videos) · [The math](#the-math) · [Evidence](#evidence) · [Run it locally](#run-it-locally)
+**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Presentation deck](https://lease-ledger.onrender.com/deck) · [Video demo](https://www.youtube.com/watch?v=Oi302Xw5rlM) · [Videos](#videos) · [The math](#the-math) · [Evidence](#evidence) · [Run it locally](#run-it-locally)
 
 ![Hack the Lease 2026](https://img.shields.io/badge/Hack%20the%20Lease-2026-1A1A1A?style=flat-square)
 ![University of Michigan](https://img.shields.io/badge/University%20of%20Michigan-Ann%20Arbor-00274C?style=flat-square)
@@ -17,9 +17,9 @@
 
 `student-housing` · `transit-routing` · `gtfs` · `connection-scan-algorithm` · `decision-support` · `monte-carlo` · `fair-division` · `ann-arbor` · `hackathon`
 
-[<img src="media/videos/full-demo.png" alt="Lease Ledger: 3-minute demo of the whole website" width="900"/>](media/videos/full-demo.mp4)
+[<img src="media/videos/full-demo.png" alt="Lease Ledger video demo" width="900"/>](https://www.youtube.com/watch?v=Oi302Xw5rlM)
 
-**[Watch the 3-minute demo](media/videos/full-demo.mp4)** · [60-second highlights](media/videos/full-demo-60s.mp4)
+**[Watch the video demo on YouTube](https://www.youtube.com/watch?v=Oi302Xw5rlM)**
 
 </div>
 
