@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 
 _NO_CACHE = {"index.html", "sw.js", "precache-manifest.json", "manifest.webmanifest"}
 
@@ -52,6 +52,11 @@ def mount_web(app: FastAPI, dist: Optional[Path] = None) -> Optional[Path]:
             raise HTTPException(404, detail="Not Found")   # unknown API path: same JSON 404 as without WEB_DIST
         if request.method not in ("GET", "HEAD"):
             raise HTTPException(405, detail="Method Not Allowed")
+        deck_index = root / "deck" / "index.html"
+        if rel == "deck" and deck_index.is_file():
+            return RedirectResponse("/deck/", status_code=308)   # relative deck paths (./snapshot.json) need the slash
+        if rel == "deck/" and deck_index.is_file():
+            return FileResponse(deck_index, headers=_headers("index.html"))
         if rel:
             f = (root / rel).resolve()
             if f.is_relative_to(root) and f.is_file():

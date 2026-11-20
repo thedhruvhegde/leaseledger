@@ -5,7 +5,7 @@ import { html, num, said, esc, fmt, DAY_NAME, minToClock, reducedMotion, icon, R
 
 const qs = new URLSearchParams(location.search);
 /** The real app. Override with ?app=http://host:5173 */
-export const APP = (qs.get('app') ?? 'http://localhost:5173').replace(/\/$/, '');
+export const APP = (qs.get('app') ?? (location.port === '4400' ? 'http://localhost:5173' : location.origin)).replace(/\/$/, '');
 /** Recorded mode (static hosting, no app server): play the recorded run of the real app instead of iframes.
  *  On with ?app=recorded or a build with VITE_DEMO_MODE=recorded. */
 export const RECORDED = qs.get('app') === 'recorded' || (import.meta as any).env?.VITE_DEMO_MODE === 'recorded';

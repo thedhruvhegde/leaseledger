@@ -4,7 +4,7 @@
 
 ### Ann Arbor rentals, ranked by what your *week* actually costs
 
-**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Demo video](media/videos/full-demo.mp4) · [Videos](#videos) · [The math](#the-math) · [Evidence](#evidence) · [Run it locally](#run-it-locally)
+**[Live demo → lease-ledger.onrender.com](https://lease-ledger.onrender.com)** · [Open the app](https://lease-ledger.onrender.com/app) · [Presentation deck](https://lease-ledger.onrender.com/deck) · [Demo video](media/videos/full-demo.mp4) · [Videos](#videos) · [The math](#the-math) · [Evidence](#evidence) · [Run it locally](#run-it-locally)
 
 ![Hack the Lease 2026](https://img.shields.io/badge/Hack%20the%20Lease-2026-1A1A1A?style=flat-square)
 ![University of Michigan](https://img.shields.io/badge/University%20of%20Michigan-Ann%20Arbor-00274C?style=flat-square)
@@ -426,7 +426,7 @@ concepts/ architecture/ decisions/ execution/   design process, plans, demo scri
 | **Event** | Hack the Lease 2026, University of Michigan (Ann Arbor), Nov 19–20, 2026 |
 | **Challenge** | *Find the apartment that fits you*: help students identify, compare or make better-informed housing decisions based on their self-described needs and routines |
 | **Team** | Dhruv Hegde (dhegde@umich.edu) |
-| **Live product** | **https://lease-ledger.onrender.com** · app: https://lease-ledger.onrender.com/app |
+| **Live product** | **https://lease-ledger.onrender.com** · app: https://lease-ledger.onrender.com/app · deck: https://lease-ledger.onrender.com/deck |
 | **Decision supported** | Which home is cheapest for *your week* (rent, fees and utilities plus the time your schedule spends getting around), and how sure that answer is |
 | **Decision sensitivity** | Live: value of time $8→$20/h flips #1; adding a Tue/Thu hospital shift flips #1; excluding co-ops flips #1 |
 | **Technical execution** | GTFS Connection Scan routing, decision engine, 229 automated tests |

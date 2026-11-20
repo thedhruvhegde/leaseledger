@@ -19,7 +19,11 @@ web/dist
 
 # Not used at runtime
 data/multicity
-presentation
+presentation/node_modules
+presentation/dist
+presentation/dist-artifact
+presentation/screenshots
+presentation/export
 execution
 analysis/multicity/results/*.npz
 web/screenshots

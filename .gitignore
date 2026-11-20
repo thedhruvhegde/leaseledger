@@ -11,3 +11,4 @@ data/cache/*
 .env
 presentation/dist-artifact/
 data/artifacts/labels_mmap/
+presentation/dist-deck/

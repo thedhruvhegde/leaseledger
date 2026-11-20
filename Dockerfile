@@ -12,6 +12,15 @@ COPY web/ ./
 ENV VITE_API_BASE=/api
 RUN npm run build
 
+# ---------------------------------------------------------------- 1b. presentation deck, served at /deck
+FROM node:22-slim AS deck
+WORKDIR /repo
+COPY web/public/basemap.geojson web/public/campus.geojson web/public/
+COPY presentation/package.json presentation/package-lock.json presentation/
+RUN cd presentation && npm ci --no-audit --no-fund
+COPY presentation/ presentation/
+RUN cd presentation && npm run prep && npx vite build --base /deck/ --outDir dist-deck
+
 # ---------------------------------------------------------------- 2. API + routing artifacts
 FROM python:3.12-slim AS app
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -38,6 +47,7 @@ RUN LEDGER_REFERENCE_DATE=$LEDGER_REFERENCE_DATE python -m ledger.pipeline.build
     && python -c "import json; m=json.load(open('data/artifacts/manifest.json')); print('artifacts built', m.get('built_at') or m.get('built'))"
 
 COPY --from=web /web/dist /app/web/dist
+COPY --from=deck /repo/presentation/dist-deck /app/web/dist/deck
 
 # Defaults; every one can be overridden in the Render dashboard (Environment tab) or with docker run -e.
 ENV WEB_DIST=/app/web/dist \
