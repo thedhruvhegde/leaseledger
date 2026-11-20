@@ -1,0 +1,14 @@
+# Five-Minute Demo Script (draft; finalize after build with real outputs)
+
+Outputs below are **placeholders** — no results exist yet. Do not quote any number until computed.
+
+| Time | Segment | Content |
+|---|---|---|
+| 0:00–0:35 | Problem | "Listings tell you rent and one commute. Your life is a *week*: 9am EECS on North, 2pm Ross, UgLi till 1am, January. Students under-weight these costs (commuting paradox; focusing illusion) and fees/winter utilities are Ann Arbor's best-documented renter complaint." One slide with 3 cited facts + interview tally (if collected). |
+| 0:35–1:20 | Input | Type a routine in plain English → editable weekly grid (AI parse, every block shows its source quote). Set budget, modes. |
+| 1:20–2:20 | Result | Ranked homes with monthly ledger: rent, fees, utility band, commute hours→$, late-night walking minutes. Point out the house that looks cheapest by rent but loses all-in. Provenance badges (observed / estimated / synthetic). |
+| 2:20–3:20 | **Sensitivity** (R3) | (1) A schedule change chosen at hour 6 from a ranking flip **actually observed** on real listings and current feeds (e.g., adding a North Campus lab block or a Kerrytown job shift); diff drawer explains exactly which trips moved. **Do not use a last-bus claim unless verified against the current feed** — the 2021–22 term feed runs Bursley-Baits until ~2:30am. (2) Switch Fall→Winter: walk penalty + heating band → another change. (3) Set value of time to $0 → "cash-only" ranking; show what stays the same and why. |
+| 3:20–4:15 | Technical credibility | Breakeven + robustness panel: "B beats A if your time is worth under $X/h"; "A stays #1 across N of M plausible semesters of your program and the full utility band" (Monte Carlo over *declared input ranges*, not arbitrary priority weights). Side-by-side: single-destination straight-line ranking vs week-aware ranking. 20-second explanation: real GTFS timetables + Connection Scan (one backward scan serves every listing) + day-tour chaining + Monte Carlo over declared input ranges. Show test suite passing count. Toggle AI off: still works. |
+| 4:15–5:00 | Limits & scale | Representative service day & feed dates (manifest), utility bands are estimates, listings curated/synthetic, no availability claims. Generalizes: GTFS + OSM + building list = new campus. (Tier 2, if built: 20-second roommate envy-free split with envy matrix.) |
+
+**Technical explanation to rehearse (≤ 45 s):** "For every campus building and every 15-minute arrival deadline, we scan the day's ~210k real bus connections backwards once, which gives the latest time you can leave *any* stop. Adding walk time from each apartment gives door-to-door minutes for every listing at once. That's why changing your 9am class to 8am recomputes instantly — and why we catch what a single-destination filter misses: multi-stop days, time-of-day frequency, and service end times (verified against the current feed)."
