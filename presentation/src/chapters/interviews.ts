@@ -31,10 +31,13 @@ export const interviewsChapter: Chapter = {
     const n = count();
     // the collage adapts to however many photos exist: 0 (numbers + keyword ledger across the slide), 1–3 (one row),
     // 4–6 (two rows), 7–9 (three rows); more than nine are not shown.
-    const imgs = IMAGES.slice(0, 9);
+    // Video-call window: equal 16:9 tiles. Up to 11 photos; the last tile counts the interviews without a photo.
+    const imgs = IMAGES.slice(0, 11);
     const k = imgs.length;
-    const cols = k <= 2 ? Math.max(1, k) : k === 4 ? 2 : 3;
-    const rows = Math.ceil(k / cols);
+    const rest = n != null ? Math.max(0, n - k) : 0;
+    const tiles = k + (rest > 0 ? 1 : 0);
+    const cols = tiles <= 4 ? 2 : tiles <= 9 ? 3 : 4;
+    const rows = Math.ceil(tiles / cols);
     const cs = chips().slice(0, k ? (rows >= 3 ? 4 : 5) : 8);
     const finds: any[] = Array.isArray(interviews?.findings) ? interviews.findings.slice(0, k ? 1 : 2) : [];
     const max = Math.max(1, ...cs.map((c) => c.count ?? 0));
@@ -42,7 +45,14 @@ export const interviewsChapter: Chapter = {
       <div class="geo vline"></div>
       <h2 class="enter" style="--i:1">${interviews?.simulated ? html`What our test personas <em>told us.</em>` : html`What students <em>told us.</em>`}</h2>
       <div class="iv-grid grow ${k ? 'has-img' : 'no-img'}">
-        ${k ? html`<div class="iv-collage enter" style="--i:2;--cols:${cols};--rows:${rows}">${imgs.map((f, i) => html`<div class="plate-img iv-img" style="--r:${(i % 2 ? 1 : -1) * (0.4 + (i % 3) * 0.3)}deg"><img src="./interviews/${encodeURIComponent(f)}" alt="Interview photo" decoding="async"/></div>`)}</div>` : ''}
+        ${k ? html`<div class="iv-call enter" style="--i:2">
+          <div class="iv-bar-top"><span class="iv-dots"><i></i><i></i><i></i></span><span class="iv-title">Student interviews · Lease Ledger</span><span class="iv-rec"><i></i>${n != null ? html`${num(n, SRC)} participants` : "participants"}</span></div>
+          <div class="iv-tiles" style="--cols:${cols};--rows:${rows}">
+            ${imgs.map((f, i) => html`<figure class="iv-tile"><img src="./interviews/${encodeURIComponent(f)}" alt="Interview participant" decoding="async"/><figcaption><svg viewBox="0 0 12 16" aria-hidden="true"><rect x="3.5" y="1" width="5" height="9" rx="2.5"/><path d="M1.5 7.5a4.5 4.5 0 0 0 9 0M6 12v3"/></svg>Student ${String(i + 1).padStart(2, '0')}</figcaption></figure>`)}
+            ${rest > 0 ? html`<div class="iv-tile iv-more"><b>+${num(rest, SRC)}</b><span>more interviews</span></div>` : ''}
+          </div>
+          <div class="iv-controls"><span class="iv-ctl"></span><span class="iv-ctl"></span><span class="iv-ctl"></span><span class="iv-ctl iv-leave"></span></div>
+        </div>` : ''}
         <div class="iv-side enter" style="--i:3">
           ${n != null ? html`<div class="iv-n"><div class="hero ${k ? 'md' : ''}">${num(n, SRC)}</div><div class="hero-cap">${interviews?.simulated ? 'simulated personas · not real users' : 'students interviewed'}</div></div>` : ''}
           ${finds.map((f: any) => html`<div class="iv-find"><b>${num(String(f.value), SRC)}</b>${said(String(f.label), SRC)}</div>`)}
