@@ -1,0 +1,15 @@
+[
+ {"id": "eecs", "name": "EECS Building", "campus": "north", "lat": 42.2925, "lon": -83.7145, "aliases": ["EECS"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "bbb", "name": "Bob and Betty Beyster Building", "campus": "north", "lat": 42.2929, "lon": -83.7163, "aliases": ["BBB", "Beyster", "Bob and Betty"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "duderstadt", "name": "Duderstadt Center", "campus": "north", "lat": 42.2912, "lon": -83.7157, "aliases": ["Dude", "Duderstadt"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "pierpont", "name": "Pierpont Commons", "campus": "north", "lat": 42.2915, "lon": -83.7174, "aliases": ["Pierpont"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "ross", "name": "Ross School of Business", "campus": "central", "lat": 42.2730, "lon": -83.7378, "aliases": ["Ross", "Business School"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "ugli", "name": "Shapiro Undergraduate Library", "campus": "central", "lat": 42.2756, "lon": -83.7372, "aliases": ["UgLi", "Shapiro", "Undergrad Library"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "ccrb", "name": "Central Campus Recreation Building", "campus": "central", "lat": 42.2785, "lon": -83.7330, "aliases": ["CCRB", "Central Rec"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "union", "name": "Michigan Union", "campus": "central", "lat": 42.2750, "lon": -83.7416, "aliases": ["the Union", "Union"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "mason", "name": "Mason Hall", "campus": "central", "lat": 42.2768, "lon": -83.7395, "aliases": ["Mason", "Angell Hall", "Angell"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "chem", "name": "Chemistry Building", "campus": "central", "lat": 42.2783, "lon": -83.7360, "aliases": ["Chem Building"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "uhs", "name": "University Hospital", "campus": "medical", "lat": 42.2837, "lon": -83.7280, "aliases": ["Hospital", "UMich Hospital", "the hospital"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "kerrytown", "name": "Kerrytown Market", "campus": "downtown", "lat": 42.2847, "lon": -83.7460, "aliases": ["Kerrytown"], "source": "TEST FIXTURE (approximate)"},
+ {"id": "nccrb", "name": "North Campus Recreation Building", "campus": "north", "lat": 42.2969, "lon": -83.7197, "aliases": ["NCRB", "North Rec"], "source": "TEST FIXTURE (approximate)"}
+]

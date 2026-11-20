@@ -1,0 +1,3776 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Lease Ledger API",
+  "description": "What a student's actual week costs at each candidate home: timetable-based day tours, all-in monthly ledger, robustness, breakevens and envy-free roommate splits. Deterministic; works offline with LLM_MODE=off.",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/health": {
+   "get": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/manifest": {
+   "get": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Manifest",
+    "operationId": "manifest_api_manifest_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/metrics": {
+   "get": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Metrics",
+    "operationId": "metrics_api_metrics_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/reload": {
+   "post": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Reload",
+    "operationId": "reload_api_reload_post",
+    "parameters": [
+     {
+      "name": "provider",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Provider"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Unprocessable Content"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Service Unavailable"
+     }
+    }
+   }
+  },
+  "/api/buildings": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Buildings",
+    "operationId": "buildings_api_buildings_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/Building"
+         },
+         "type": "array",
+         "title": "Response Buildings Api Buildings Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/listings": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Listings",
+    "description": "All listings (observed first). `ids` may repeat or be comma-separated; custom ids are included when asked.",
+    "operationId": "listings_api_listings_get",
+    "parameters": [
+     {
+      "name": "include_synthetic",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": true,
+       "title": "Include Synthetic"
+      }
+     },
+     {
+      "name": "ids",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Ids"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Unprocessable Content"
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      },
+      "description": "Service Unavailable"
+     }
+    }
+   }
+  },
+  "/api/templates": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Templates",
+    "operationId": "templates_api_templates_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/ScheduleTemplate"
+         },
+         "type": "array",
+         "title": "Response Templates Api Templates Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo-profiles": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Demo Profiles",
+    "operationId": "demo_profiles_api_demo_profiles_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/methods": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Methods",
+    "description": "Everything the Methods/Provenance page needs: equations, parameters with sources, data sources.",
+    "operationId": "methods_api_methods_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/evaluate": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Evaluate",
+    "operationId": "evaluate_api_evaluate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/EvaluateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EvaluationResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/robustness": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Robustness",
+    "operationId": "robustness_api_robustness_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RobustnessRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RobustnessResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/counterfactual": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Counterfactual",
+    "operationId": "counterfactual_api_counterfactual_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PairRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CounterfactualResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/compare": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Compare",
+    "operationId": "compare_api_compare_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PairRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CompareResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/diff": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Diff",
+    "operationId": "diff_api_diff_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DiffRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DiffResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/group": {
+   "post": {
+    "tags": [
+     "engine"
+    ],
+    "summary": "Group",
+    "operationId": "group_api_group_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/GroupApiRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/GroupResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/parse-schedule": {
+   "post": {
+    "tags": [
+     "ai"
+    ],
+    "summary": "Parse Schedule Ep",
+    "operationId": "parse_schedule_ep_api_parse_schedule_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ParseScheduleRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ParseScheduleResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/extract-listing": {
+   "post": {
+    "tags": [
+     "ai"
+    ],
+    "summary": "Extract Listing Ep",
+    "operationId": "extract_listing_ep_api_extract_listing_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ExtractListingRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ExtractListingResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/listings/custom": {
+   "post": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Custom Listing",
+    "description": "Store a student-entered listing in memory (never on disk) and return its id for listing_ids.",
+    "operationId": "custom_listing_api_listings_custom_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CustomListingRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CustomListingResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Service Unavailable",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorBody"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "Breakeven": {
+    "properties": {
+     "a": {
+      "type": "string",
+      "title": "A"
+     },
+     "b": {
+      "type": "string",
+      "title": "B"
+     },
+     "parameter": {
+      "type": "string",
+      "title": "Parameter"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     },
+     "direction": {
+      "type": "string",
+      "title": "Direction"
+     }
+    },
+    "type": "object",
+    "required": [
+     "a",
+     "b",
+     "parameter",
+     "value",
+     "direction"
+    ],
+    "title": "Breakeven"
+   },
+   "Building": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "campus": {
+      "type": "string",
+      "enum": [
+       "central",
+       "north",
+       "medical",
+       "south",
+       "downtown",
+       "other"
+      ],
+      "title": "Campus"
+     },
+     "lat": {
+      "type": "number",
+      "title": "Lat"
+     },
+     "lon": {
+      "type": "number",
+      "title": "Lon"
+     },
+     "aliases": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Aliases",
+      "default": []
+     },
+     "source": {
+      "type": "string",
+      "title": "Source",
+      "default": ""
+     },
+     "hours_note": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hours Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "campus",
+     "lat",
+     "lon"
+    ],
+    "title": "Building"
+   },
+   "CommuteSummary": {
+    "properties": {
+     "weekly_min": {
+      "type": "number",
+      "title": "Weekly Min"
+     },
+     "weekly_generalized_min": {
+      "type": "number",
+      "title": "Weekly Generalized Min"
+     },
+     "weekly_walk_min": {
+      "type": "number",
+      "title": "Weekly Walk Min"
+     },
+     "weekly_wait_min": {
+      "type": "number",
+      "title": "Weekly Wait Min"
+     },
+     "weekly_in_vehicle_min": {
+      "type": "number",
+      "title": "Weekly In Vehicle Min"
+     },
+     "late_night_outdoor_min": {
+      "type": "number",
+      "title": "Late Night Outdoor Min"
+     },
+     "max_single_trip_min": {
+      "type": "number",
+      "title": "Max Single Trip Min"
+     },
+     "weekly_early_min": {
+      "type": "number",
+      "title": "Weekly Early Min",
+      "default": 0
+     },
+     "tours": {
+      "items": {
+       "$ref": "#/components/schemas/DayTour"
+      },
+      "type": "array",
+      "title": "Tours"
+     }
+    },
+    "type": "object",
+    "required": [
+     "weekly_min",
+     "weekly_generalized_min",
+     "weekly_walk_min",
+     "weekly_wait_min",
+     "weekly_in_vehicle_min",
+     "late_night_outdoor_min",
+     "max_single_trip_min",
+     "tours"
+    ],
+    "title": "CommuteSummary"
+   },
+   "CompareResponse": {
+    "properties": {
+     "a": {
+      "title": "A"
+     },
+     "b": {
+      "title": "B"
+     },
+     "line_diffs": {
+      "items": {},
+      "type": "array",
+      "title": "Line Diffs",
+      "default": []
+     },
+     "trip_diffs": {
+      "items": {},
+      "type": "array",
+      "title": "Trip Diffs",
+      "default": []
+     },
+     "breakevens": {
+      "items": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/Breakeven"
+        },
+        {
+         "additionalProperties": true,
+         "type": "object"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Breakevens",
+      "default": []
+     },
+     "facts": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Facts",
+      "default": []
+     }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "title": "CompareResponse",
+    "description": "Engine compare(): see ledger/engine. Loosely typed so engine additions pass through."
+   },
+   "CounterfactualResult": {
+    "properties": {
+     "a": {
+      "type": "string",
+      "title": "A"
+     },
+     "b": {
+      "type": "string",
+      "title": "B"
+     },
+     "feasible": {
+      "type": "boolean",
+      "title": "Feasible"
+     },
+     "delta_weights": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "propertyNames": {
+       "$ref": "#/components/schemas/Criterion"
+      },
+      "type": "object",
+      "title": "Delta Weights",
+      "default": {}
+     },
+     "alternative_changes": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Alternative Changes",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "a",
+     "b",
+     "feasible"
+    ],
+    "title": "CounterfactualResult"
+   },
+   "Criterion": {
+    "type": "string",
+    "enum": [
+     "cash",
+     "time",
+     "late_night",
+     "fit"
+    ],
+    "title": "Criterion"
+   },
+   "CustomListingIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "address": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Address"
+     },
+     "lat": {
+      "type": "number",
+      "maximum": 42.6,
+      "minimum": 42.0,
+      "title": "Lat"
+     },
+     "lon": {
+      "type": "number",
+      "maximum": -83.4,
+      "minimum": -84.2,
+      "title": "Lon"
+     },
+     "neighborhood": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Neighborhood"
+     },
+     "provenance": {
+      "type": "string",
+      "enum": [
+       "observed",
+       "synthetic",
+       "user"
+      ],
+      "title": "Provenance",
+      "default": "user"
+     },
+     "source_url": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 500
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Url"
+     },
+     "observed_on": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Observed On"
+     },
+     "rent": {
+      "type": "number",
+      "maximum": 20000.0,
+      "minimum": 0.0,
+      "title": "Rent"
+     },
+     "rent_basis": {
+      "type": "string",
+      "enum": [
+       "unit",
+       "bed"
+      ],
+      "title": "Rent Basis"
+     },
+     "rent_is_range": {
+      "type": "boolean",
+      "title": "Rent Is Range",
+      "default": false
+     },
+     "rent_low": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rent Low"
+     },
+     "rent_high": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rent High"
+     },
+     "bedrooms": {
+      "type": "integer",
+      "maximum": 12.0,
+      "minimum": 0.0,
+      "title": "Bedrooms"
+     },
+     "baths": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Baths"
+     },
+     "sqft": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sqft"
+     },
+     "rooms": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Rooms",
+      "default": []
+     },
+     "fees": {
+      "items": {
+       "$ref": "#/components/schemas/Fee"
+      },
+      "type": "array",
+      "maxItems": 30,
+      "title": "Fees",
+      "default": []
+     },
+     "utilities_included": {
+      "items": {
+       "type": "string",
+       "enum": [
+        "heat",
+        "electric",
+        "water",
+        "gas",
+        "internet",
+        "trash"
+       ]
+      },
+      "type": "array",
+      "title": "Utilities Included",
+      "default": []
+     },
+     "building_type": {
+      "type": "string",
+      "enum": [
+       "tower",
+       "house",
+       "duplex",
+       "apartment",
+       "coop",
+       "other"
+      ],
+      "title": "Building Type",
+      "default": "other"
+     },
+     "year_built": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Year Built"
+     },
+     "heating": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "gas",
+         "electric_resistance",
+         "heat_pump",
+         "steam",
+         "unknown"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Heating",
+      "default": "unknown"
+     },
+     "furnished": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Furnished"
+     },
+     "in_unit_laundry": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "In Unit Laundry"
+     },
+     "parking_monthly": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parking Monthly"
+     },
+     "pets_allowed": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Pets Allowed"
+     },
+     "lease_term_months": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lease Term Months",
+      "default": 12
+     },
+     "lease_start": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lease Start"
+     },
+     "amenities": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Amenities",
+      "default": []
+     },
+     "notes": {
+      "type": "string",
+      "maxLength": 1000,
+      "title": "Notes",
+      "default": ""
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "name",
+     "lat",
+     "lon",
+     "rent",
+     "rent_basis",
+     "bedrooms"
+    ],
+    "title": "CustomListingIn",
+    "description": "A listing entered by the student. id is assigned by the server."
+   },
+   "CustomListingRequest": {
+    "properties": {
+     "listing": {
+      "$ref": "#/components/schemas/CustomListingIn"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "listing"
+    ],
+    "title": "CustomListingRequest"
+   },
+   "CustomListingResponse": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "listing": {
+      "$ref": "#/components/schemas/Listing"
+     },
+     "stored": {
+      "type": "string",
+      "const": "memory",
+      "title": "Stored",
+      "default": "memory"
+     },
+     "expires_in_s": {
+      "type": "integer",
+      "title": "Expires In S"
+     },
+     "notes": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Notes",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "listing",
+     "expires_in_s"
+    ],
+    "title": "CustomListingResponse"
+   },
+   "Day": {
+    "type": "string",
+    "enum": [
+     "M",
+     "T",
+     "W",
+     "R",
+     "F",
+     "S",
+     "U"
+    ],
+    "title": "Day"
+   },
+   "DayTour": {
+    "properties": {
+     "day": {
+      "$ref": "#/components/schemas/Day"
+     },
+     "trips": {
+      "items": {
+       "$ref": "#/components/schemas/Trip"
+      },
+      "type": "array",
+      "title": "Trips"
+     },
+     "total_min": {
+      "type": "number",
+      "title": "Total Min"
+     },
+     "generalized_min": {
+      "type": "number",
+      "title": "Generalized Min"
+     },
+     "home_returns": {
+      "type": "integer",
+      "title": "Home Returns"
+     }
+    },
+    "type": "object",
+    "required": [
+     "day",
+     "trips",
+     "total_min",
+     "generalized_min",
+     "home_returns"
+    ],
+    "title": "DayTour"
+   },
+   "DiffRequest": {
+    "properties": {
+     "before": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "after": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "listing_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array",
+        "maxItems": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Listing Ids"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "before",
+     "after"
+    ],
+    "title": "DiffRequest"
+   },
+   "DiffResponse": {
+    "properties": {
+     "rank_changes": {
+      "title": "Rank Changes"
+     },
+     "deltas": {
+      "title": "Deltas"
+     },
+     "causes": {
+      "items": {},
+      "type": "array",
+      "title": "Causes",
+      "default": []
+     },
+     "top_changed": {
+      "title": "Top Changed"
+     }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "title": "DiffResponse"
+   },
+   "ErrorBody": {
+    "properties": {
+     "detail": {
+      "type": "string",
+      "title": "Detail"
+     },
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "errors": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Errors",
+      "default": []
+     },
+     "request_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Request Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "detail",
+     "code"
+    ],
+    "title": "ErrorBody"
+   },
+   "EvaluateRequest": {
+    "properties": {
+     "profile": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "listing_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array",
+        "maxItems": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Listing Ids",
+      "description": "Listings to evaluate. Default: demo set if present, else all."
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "profile"
+    ],
+    "title": "EvaluateRequest"
+   },
+   "EvaluationResult": {
+    "properties": {
+     "evaluations": {
+      "items": {
+       "$ref": "#/components/schemas/ListingEvaluation"
+      },
+      "type": "array",
+      "title": "Evaluations"
+     },
+     "value_of_time_used": {
+      "type": "number",
+      "title": "Value Of Time Used"
+     },
+     "value_of_time_derivation": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Value Of Time Derivation"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings",
+      "default": []
+     },
+     "infeasibility": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Infeasibility"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "baseline_ranking": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Baseline Ranking",
+      "default": []
+     },
+     "manifest": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Manifest",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "evaluations",
+     "value_of_time_used",
+     "value_of_time_derivation"
+    ],
+    "title": "EvaluationResult"
+   },
+   "Event": {
+    "properties": {
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "building_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Building Id"
+     },
+     "point": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Point"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "days": {
+      "items": {
+       "$ref": "#/components/schemas/Day"
+      },
+      "type": "array",
+      "title": "Days"
+     },
+     "start_min": {
+      "type": "integer",
+      "maximum": 1800.0,
+      "minimum": 0.0,
+      "title": "Start Min"
+     },
+     "end_min": {
+      "type": "integer",
+      "maximum": 1800.0,
+      "minimum": 0.0,
+      "title": "End Min"
+     },
+     "fixed": {
+      "type": "boolean",
+      "title": "Fixed",
+      "default": true
+     },
+     "source_quote": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Quote"
+     },
+     "provenance": {
+      "$ref": "#/components/schemas/Provenance",
+      "default": "user"
+     }
+    },
+    "type": "object",
+    "required": [
+     "label",
+     "days",
+     "start_min",
+     "end_min"
+    ],
+    "title": "Event",
+    "description": "A recurring weekly commitment at a place."
+   },
+   "ExtractListingRequest": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 6000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "base": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Base",
+      "description": "Partial Listing; e.g. its rent is used to compute a deposit stated as a multiple of rent"
+     },
+     "use_ai": {
+      "type": "boolean",
+      "title": "Use Ai",
+      "default": true
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "ExtractListingRequest"
+   },
+   "ExtractListingResponse": {
+    "properties": {
+     "facts": {
+      "items": {
+       "$ref": "#/components/schemas/Fact2"
+      },
+      "type": "array",
+      "title": "Facts"
+     },
+     "not_stated": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Not Stated"
+     },
+     "flags": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Flags",
+      "default": []
+     },
+     "listing_patch": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Listing Patch",
+      "default": {}
+     },
+     "mode": {
+      "type": "string",
+      "enum": [
+       "live",
+       "cached",
+       "regex"
+      ],
+      "title": "Mode"
+     },
+     "model": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Model"
+     },
+     "latency_ms": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Latency Ms"
+     },
+     "llm_latency_ms": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Llm Latency Ms"
+     },
+     "llm_error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Llm Error"
+     },
+     "dropped": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Dropped",
+      "default": []
+     },
+     "notice": {
+      "type": "string",
+      "title": "Notice",
+      "default": "Extracted facts are quoted from your text; confirm them before scoring. Flags are rule-based prompts to check, not legal advice."
+     }
+    },
+    "type": "object",
+    "required": [
+     "facts",
+     "not_stated",
+     "mode"
+    ],
+    "title": "ExtractListingResponse"
+   },
+   "Fact2": {
+    "properties": {
+     "field": {
+      "type": "string",
+      "title": "Field"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ],
+      "title": "Value"
+     },
+     "quote": {
+      "type": "string",
+      "title": "Quote"
+     },
+     "start": {
+      "type": "integer",
+      "title": "Start"
+     },
+     "end": {
+      "type": "integer",
+      "title": "End"
+     },
+     "source": {
+      "type": "string",
+      "enum": [
+       "ai",
+       "rules"
+      ],
+      "title": "Source",
+      "default": "rules"
+     },
+     "derivation": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Derivation"
+     },
+     "detail": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Detail",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "field",
+     "value",
+     "quote",
+     "start",
+     "end"
+    ],
+    "title": "Fact2",
+    "description": "ExtractedFact plus where it came from and any code-side derivation."
+   },
+   "Fee": {
+    "properties": {
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "amount": {
+      "type": "number",
+      "minimum": 0.0,
+      "title": "Amount"
+     },
+     "period": {
+      "type": "string",
+      "enum": [
+       "once",
+       "monthly",
+       "annual"
+      ],
+      "title": "Period"
+     },
+     "per": {
+      "type": "string",
+      "enum": [
+       "person",
+       "unit"
+      ],
+      "title": "Per",
+      "default": "unit"
+     },
+     "provenance": {
+      "$ref": "#/components/schemas/Provenance",
+      "default": "observed"
+     },
+     "quote": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Quote"
+     }
+    },
+    "type": "object",
+    "required": [
+     "label",
+     "amount",
+     "period"
+    ],
+    "title": "Fee"
+   },
+   "GroupApiRequest": {
+    "properties": {
+     "members": {
+      "items": {
+       "$ref": "#/components/schemas/Member"
+      },
+      "type": "array",
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Members"
+     },
+     "listing_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Listing Ids"
+     }
+    },
+    "type": "object",
+    "required": [
+     "members"
+    ],
+    "title": "GroupApiRequest",
+    "description": "GroupRequest (members, listing_ids) \u2014 listing_ids resolved like /evaluate."
+   },
+   "GroupResult": {
+    "properties": {
+     "splits": {
+      "items": {
+       "$ref": "#/components/schemas/GroupSplit"
+      },
+      "type": "array",
+      "title": "Splits"
+     },
+     "ranking": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Ranking"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "splits",
+     "ranking"
+    ],
+    "title": "GroupResult"
+   },
+   "GroupSplit": {
+    "properties": {
+     "listing_id": {
+      "type": "string",
+      "title": "Listing Id"
+     },
+     "feasible": {
+      "type": "boolean",
+      "title": "Feasible"
+     },
+     "assignment": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Assignment",
+      "default": {}
+     },
+     "rent": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Rent",
+      "default": {}
+     },
+     "utility": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Utility",
+      "default": {}
+     },
+     "envy_matrix": {
+      "items": {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Envy Matrix",
+      "default": []
+     },
+     "maximin_utility": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Maximin Utility"
+     },
+     "equal_split_max_envy": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Equal Split Max Envy"
+     },
+     "relaxation": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Relaxation",
+      "default": {}
+     },
+     "explanation_facts": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Explanation Facts",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "listing_id",
+     "feasible"
+    ],
+    "title": "GroupSplit"
+   },
+   "Infeasibility": {
+    "properties": {
+     "binding_constraint": {
+      "type": "string",
+      "title": "Binding Constraint"
+     },
+     "eliminated": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "Eliminated"
+     },
+     "minimal_relaxation": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Minimal Relaxation"
+     },
+     "restores": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "Restores",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "binding_constraint",
+     "eliminated",
+     "minimal_relaxation"
+    ],
+    "title": "Infeasibility"
+   },
+   "LedgerLine": {
+    "properties": {
+     "key": {
+      "type": "string",
+      "title": "Key"
+     },
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "usd_month": {
+      "type": "number",
+      "title": "Usd Month"
+     },
+     "low": {
+      "type": "number",
+      "title": "Low"
+     },
+     "high": {
+      "type": "number",
+      "title": "High"
+     },
+     "provenance": {
+      "$ref": "#/components/schemas/Provenance"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     },
+     "in_cash_total": {
+      "type": "boolean",
+      "title": "In Cash Total",
+      "default": true
+     }
+    },
+    "type": "object",
+    "required": [
+     "key",
+     "label",
+     "usd_month",
+     "low",
+     "high",
+     "provenance"
+    ],
+    "title": "LedgerLine"
+   },
+   "Listing": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "address": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Address"
+     },
+     "lat": {
+      "type": "number",
+      "title": "Lat"
+     },
+     "lon": {
+      "type": "number",
+      "title": "Lon"
+     },
+     "neighborhood": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Neighborhood"
+     },
+     "provenance": {
+      "type": "string",
+      "enum": [
+       "observed",
+       "synthetic",
+       "user"
+      ],
+      "title": "Provenance"
+     },
+     "source_url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Url"
+     },
+     "observed_on": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Observed On"
+     },
+     "rent": {
+      "type": "number",
+      "minimum": 0.0,
+      "title": "Rent"
+     },
+     "rent_basis": {
+      "type": "string",
+      "enum": [
+       "unit",
+       "bed"
+      ],
+      "title": "Rent Basis"
+     },
+     "rent_is_range": {
+      "type": "boolean",
+      "title": "Rent Is Range",
+      "default": false
+     },
+     "rent_low": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rent Low"
+     },
+     "rent_high": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rent High"
+     },
+     "bedrooms": {
+      "type": "integer",
+      "maximum": 12.0,
+      "minimum": 0.0,
+      "title": "Bedrooms"
+     },
+     "baths": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Baths"
+     },
+     "sqft": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sqft"
+     },
+     "rooms": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Rooms",
+      "default": []
+     },
+     "fees": {
+      "items": {
+       "$ref": "#/components/schemas/Fee"
+      },
+      "type": "array",
+      "title": "Fees",
+      "default": []
+     },
+     "utilities_included": {
+      "items": {
+       "type": "string",
+       "enum": [
+        "heat",
+        "electric",
+        "water",
+        "gas",
+        "internet",
+        "trash"
+       ]
+      },
+      "type": "array",
+      "title": "Utilities Included",
+      "default": []
+     },
+     "building_type": {
+      "type": "string",
+      "enum": [
+       "tower",
+       "house",
+       "duplex",
+       "apartment",
+       "coop",
+       "other"
+      ],
+      "title": "Building Type"
+     },
+     "year_built": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Year Built"
+     },
+     "heating": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "gas",
+         "electric_resistance",
+         "heat_pump",
+         "steam",
+         "unknown"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Heating",
+      "default": "unknown"
+     },
+     "furnished": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Furnished"
+     },
+     "in_unit_laundry": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "In Unit Laundry"
+     },
+     "parking_monthly": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parking Monthly"
+     },
+     "pets_allowed": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Pets Allowed"
+     },
+     "lease_term_months": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lease Term Months",
+      "default": 12
+     },
+     "lease_start": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lease Start"
+     },
+     "amenities": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Amenities",
+      "default": []
+     },
+     "board_included": {
+      "type": "boolean",
+      "title": "Board Included",
+      "default": false
+     },
+     "member_labor_hours_week": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Member Labor Hours Week"
+     },
+     "verification": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "page_fetched",
+         "search_extract",
+         "user_verified"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Verification"
+     },
+     "notes": {
+      "type": "string",
+      "title": "Notes",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "lat",
+     "lon",
+     "provenance",
+     "rent",
+     "rent_basis",
+     "bedrooms",
+     "building_type"
+    ],
+    "title": "Listing"
+   },
+   "ListingEvaluation": {
+    "properties": {
+     "listing_id": {
+      "type": "string",
+      "title": "Listing Id"
+     },
+     "feasible": {
+      "type": "boolean",
+      "title": "Feasible"
+     },
+     "violations": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Violations",
+      "default": []
+     },
+     "rank": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rank"
+     },
+     "score": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Score"
+     },
+     "criteria": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "propertyNames": {
+       "$ref": "#/components/schemas/Criterion"
+      },
+      "type": "object",
+      "title": "Criteria",
+      "default": {}
+     },
+     "pareto": {
+      "type": "boolean",
+      "title": "Pareto",
+      "default": false
+     },
+     "ledger": {
+      "items": {
+       "$ref": "#/components/schemas/LedgerLine"
+      },
+      "type": "array",
+      "title": "Ledger",
+      "default": []
+     },
+     "cash_total": {
+      "type": "number",
+      "title": "Cash Total",
+      "default": 0
+     },
+     "cash_low": {
+      "type": "number",
+      "title": "Cash Low",
+      "default": 0
+     },
+     "cash_high": {
+      "type": "number",
+      "title": "Cash High",
+      "default": 0
+     },
+     "all_in_total": {
+      "type": "number",
+      "title": "All In Total",
+      "default": 0
+     },
+     "commute": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/CommuteSummary"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "explanation_facts": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Explanation Facts",
+      "default": []
+     },
+     "extras": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Extras",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "listing_id",
+     "feasible"
+    ],
+    "title": "ListingEvaluation"
+   },
+   "Member": {
+    "properties": {
+     "alias": {
+      "type": "string",
+      "title": "Alias"
+     },
+     "profile": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "budget_cap": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Budget Cap"
+     },
+     "room_values": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "number"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Room Values"
+     }
+    },
+    "type": "object",
+    "required": [
+     "alias",
+     "profile"
+    ],
+    "title": "Member"
+   },
+   "Mode": {
+    "type": "string",
+    "enum": [
+     "walk",
+     "bus",
+     "bike"
+    ],
+    "title": "Mode"
+   },
+   "PairRequest": {
+    "properties": {
+     "profile": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "a": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "A"
+     },
+     "b": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "B"
+     },
+     "listing_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array",
+        "maxItems": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Listing Ids",
+      "description": "Context set (for normalization). a and b are always included."
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "profile",
+     "a",
+     "b"
+    ],
+    "title": "PairRequest"
+   },
+   "ParseScheduleRequest": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "use_ai": {
+      "type": "boolean",
+      "title": "Use Ai",
+      "description": "false forces the deterministic rule parser",
+      "default": true
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "ParseScheduleRequest"
+   },
+   "ParseScheduleResponse": {
+    "properties": {
+     "events": {
+      "items": {
+       "$ref": "#/components/schemas/Event"
+      },
+      "type": "array",
+      "title": "Events"
+     },
+     "unparsed": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Unparsed",
+      "default": []
+     },
+     "needs_confirmation": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Needs Confirmation",
+      "default": []
+     },
+     "mode": {
+      "type": "string",
+      "enum": [
+       "live",
+       "cached",
+       "regex"
+      ],
+      "title": "Mode"
+     },
+     "model": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Model"
+     },
+     "latency_ms": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Latency Ms"
+     },
+     "llm_error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Llm Error"
+     },
+     "pii_removed": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Pii Removed",
+      "default": []
+     },
+     "notice": {
+      "type": "string",
+      "title": "Notice",
+      "default": "Free text may be sent to an AI provider (Groq) for parsing after emails, phone numbers and street addresses are removed. Confirm the weekly grid before scoring."
+     }
+    },
+    "type": "object",
+    "required": [
+     "events",
+     "mode"
+    ],
+    "title": "ParseScheduleResponse"
+   },
+   "Point": {
+    "properties": {
+     "lat": {
+      "type": "number",
+      "maximum": 42.6,
+      "minimum": 42.0,
+      "title": "Lat"
+     },
+     "lon": {
+      "type": "number",
+      "maximum": -83.4,
+      "minimum": -84.2,
+      "title": "Lon"
+     },
+     "id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "title": "Point"
+   },
+   "Profile": {
+    "properties": {
+     "events": {
+      "items": {
+       "$ref": "#/components/schemas/Event"
+      },
+      "type": "array",
+      "maxItems": 60,
+      "title": "Events"
+     },
+     "template_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Template Id"
+     },
+     "modes": {
+      "items": {
+       "$ref": "#/components/schemas/Mode"
+      },
+      "type": "array",
+      "title": "Modes",
+      "default": [
+       "walk",
+       "bus"
+      ]
+     },
+     "rent_cap": {
+      "type": "number",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "title": "Rent Cap",
+      "default": 1500
+     },
+     "all_in_cap": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 12000.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "All In Cap"
+     },
+     "bedrooms_min": {
+      "type": "integer",
+      "title": "Bedrooms Min",
+      "default": 0
+     },
+     "household_size": {
+      "type": "integer",
+      "maximum": 10.0,
+      "minimum": 1.0,
+      "title": "Household Size",
+      "default": 1
+     },
+     "max_single_trip_min": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Max Single Trip Min"
+     },
+     "needs_parking": {
+      "type": "boolean",
+      "title": "Needs Parking",
+      "default": false
+     },
+     "pet": {
+      "type": "boolean",
+      "title": "Pet",
+      "default": false
+     },
+     "hourly_wage": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 200.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hourly Wage"
+     },
+     "value_of_time": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 200.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value Of Time"
+     },
+     "value_of_time_range": {
+      "anyOf": [
+       {
+        "prefixItems": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "number"
+         }
+        ],
+        "type": "array",
+        "maxItems": 2,
+        "minItems": 2
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value Of Time Range"
+     },
+     "winter_aversion": {
+      "type": "number",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "title": "Winter Aversion",
+      "default": 1.0
+     },
+     "late_night_weight": {
+      "type": "number",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Late Night Weight",
+      "default": 1.0
+     },
+     "weights": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "propertyNames": {
+       "$ref": "#/components/schemas/Criterion"
+      },
+      "type": "object",
+      "title": "Weights"
+     },
+     "preferences": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Preferences",
+      "default": {}
+     },
+     "season": {
+      "$ref": "#/components/schemas/Season",
+      "default": "fall"
+     },
+     "month": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 12.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Month"
+     },
+     "home_return": {
+      "type": "string",
+      "enum": [
+       "auto",
+       "never",
+       "always"
+      ],
+      "title": "Home Return",
+      "default": "auto"
+     },
+     "excluded_building_types": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Excluded Building Types",
+      "default": []
+     }
+    },
+    "type": "object",
+    "title": "Profile"
+   },
+   "Provenance": {
+    "type": "string",
+    "enum": [
+     "observed",
+     "estimated",
+     "assumed",
+     "computed",
+     "synthetic",
+     "user"
+    ],
+    "title": "Provenance"
+   },
+   "RobustnessRequest": {
+    "properties": {
+     "profile": {
+      "$ref": "#/components/schemas/Profile"
+     },
+     "listing_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array",
+        "maxItems": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Listing Ids",
+      "description": "Listings to evaluate. Default: demo set if present, else all."
+     },
+     "samples": {
+      "type": "integer",
+      "maximum": 10000.0,
+      "minimum": 50.0,
+      "title": "Samples",
+      "default": 2000
+     },
+     "seed": {
+      "type": "integer",
+      "maximum": 2147483647.0,
+      "minimum": 0.0,
+      "title": "Seed",
+      "default": 42
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "profile"
+    ],
+    "title": "RobustnessRequest"
+   },
+   "RobustnessResult": {
+    "properties": {
+     "samples": {
+      "type": "integer",
+      "title": "Samples"
+     },
+     "seed": {
+      "type": "integer",
+      "title": "Seed"
+     },
+     "p_rank1": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "P Rank1"
+     },
+     "rank_quantiles": {
+      "additionalProperties": {
+       "prefixItems": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "integer"
+        },
+        {
+         "type": "integer"
+        }
+       ],
+       "type": "array",
+       "maxItems": 3,
+       "minItems": 3
+      },
+      "type": "object",
+      "title": "Rank Quantiles"
+     },
+     "cost_quantiles": {
+      "additionalProperties": {
+       "prefixItems": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "number"
+        }
+       ],
+       "type": "array",
+       "maxItems": 3,
+       "minItems": 3
+      },
+      "type": "object",
+      "title": "Cost Quantiles"
+     },
+     "breakevens": {
+      "items": {
+       "$ref": "#/components/schemas/Breakeven"
+      },
+      "type": "array",
+      "title": "Breakevens"
+     },
+     "drivers": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Drivers"
+     },
+     "mc_standard_error": {
+      "type": "number",
+      "title": "Mc Standard Error"
+     }
+    },
+    "type": "object",
+    "required": [
+     "samples",
+     "seed",
+     "p_rank1",
+     "rank_quantiles",
+     "cost_quantiles",
+     "breakevens",
+     "drivers",
+     "mc_standard_error"
+    ],
+    "title": "RobustnessResult"
+   },
+   "ScheduleTemplate": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "slots": {
+      "items": {
+       "items": {
+        "$ref": "#/components/schemas/Event"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Slots"
+     },
+     "provenance": {
+      "$ref": "#/components/schemas/Provenance",
+      "default": "assumed"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "description",
+     "slots"
+    ],
+    "title": "ScheduleTemplate",
+    "description": "Program-level plausible semester, used to sample unknown future schedules (labeled template)."
+   },
+   "Season": {
+    "type": "string",
+    "enum": [
+     "fall",
+     "winter",
+     "spring"
+    ],
+    "title": "Season"
+   },
+   "Trip": {
+    "properties": {
+     "feasible": {
+      "type": "boolean",
+      "title": "Feasible",
+      "default": true
+     },
+     "mode": {
+      "$ref": "#/components/schemas/Mode"
+     },
+     "depart_min": {
+      "type": "number",
+      "title": "Depart Min"
+     },
+     "arrive_min": {
+      "type": "number",
+      "title": "Arrive Min"
+     },
+     "total_min": {
+      "type": "number",
+      "title": "Total Min"
+     },
+     "walk_min": {
+      "type": "number",
+      "title": "Walk Min",
+      "default": 0
+     },
+     "wait_min": {
+      "type": "number",
+      "title": "Wait Min",
+      "default": 0
+     },
+     "in_vehicle_min": {
+      "type": "number",
+      "title": "In Vehicle Min",
+      "default": 0
+     },
+     "bike_min": {
+      "type": "number",
+      "title": "Bike Min",
+      "default": 0
+     },
+     "transfers": {
+      "type": "integer",
+      "title": "Transfers",
+      "default": 0
+     },
+     "outdoor_after_22_min": {
+      "type": "number",
+      "title": "Outdoor After 22 Min",
+      "default": 0
+     },
+     "legs": {
+      "items": {
+       "$ref": "#/components/schemas/TripLeg"
+      },
+      "type": "array",
+      "title": "Legs",
+      "default": []
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "mode",
+     "depart_min",
+     "arrive_min",
+     "total_min"
+    ],
+    "title": "Trip"
+   },
+   "TripLeg": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "enum": [
+       "walk",
+       "wait",
+       "bus",
+       "bike"
+      ],
+      "title": "Kind"
+     },
+     "start_min": {
+      "type": "number",
+      "title": "Start Min"
+     },
+     "end_min": {
+      "type": "number",
+      "title": "End Min"
+     },
+     "route": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Route"
+     },
+     "agency": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Agency"
+     },
+     "from_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "From Name"
+     },
+     "to_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "To Name"
+     },
+     "meters": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Meters"
+     },
+     "path": {
+      "items": {
+       "prefixItems": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "number"
+        }
+       ],
+       "type": "array",
+       "maxItems": 2,
+       "minItems": 2
+      },
+      "type": "array",
+      "title": "Path",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "kind",
+     "start_min",
+     "end_min"
+    ],
+    "title": "TripLeg"
+   }
+  }
+ }
+}
