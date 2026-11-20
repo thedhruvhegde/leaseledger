@@ -1,0 +1,135 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="lib.js"></script>
+<style>
+.head { left: 96px; top: 100px; }
+.head h1 { font-size: 60px; }
+.head .sub { margin-top: 10px; font-size: 26px; }
+svg.chart { position: absolute; left: 60px; top: 250px; }
+.ax { stroke: var(--ink); stroke-width: 1.5; }
+.grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 6; }
+.tick { font: 500 22px var(--sans); fill: var(--accent); }
+.axl { font: 500 22px var(--sans); fill: var(--body); }
+.faint { fill: none; stroke: var(--line); stroke-width: 2; }
+svg text { paint-order: stroke; stroke: var(--bg); stroke-width: 7px; stroke-linejoin: round; }
+.cap { font: 400 20px/1.3 var(--sans); color: var(--accent); margin-top: 12px; }
+.la { fill: none; stroke: var(--ink); stroke-width: 5; }
+.lb { fill: none; stroke: var(--accent); stroke-width: 5; stroke-dasharray: 14 8; }
+.lab { font: 500 24px var(--sans); }
+.panel { position: absolute; left: 1250px; top: 270px; width: 600px; }
+.ptitle { font: 600 20px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.vbig { font: 600 64px/1 var(--sans); margin-top: 14px; letter-spacing: -0.02em; }
+.vbig small { font: 400 26px var(--sans); color: var(--accent); margin-left: 8px; }
+.rank { position: relative; height: 300px; margin-top: 22px; border-top: 1.5px solid var(--ink); }
+.rr { position: absolute; left: 0; right: 0; height: 66px; display: grid; grid-template-columns: 54px 1fr 150px; align-items: center; border-bottom: 1px solid var(--line); }
+.rr .n { font: 600 28px var(--sans); }
+.rr .nm { font: 400 27px/1.1 var(--display); white-space: nowrap; overflow: hidden; }
+.rr .v { font: 500 28px var(--sans); text-align: right; }
+.fx { position: absolute; left: 1240px; top: 270px; width: 640px; }
+.fx .l { font: 400 25px/1.3 var(--sans); margin-top: 14px; white-space: nowrap; }
+.fx .l.big { font: 400 36px/1.2 var(--sans); }
+.fx .l.res { font: 650 40px/1.2 var(--sans); }
+.fx .who { font: 400 26px/1.1 var(--display); margin-top: 22px; }
+.fx .muted { color: var(--accent); font-size: 20px; white-space: normal; }
+.end { position: absolute; left: 96px; bottom: 112px; font: 400 31px/1.3 var(--sans); color: var(--body); width: 1700px; }
+.end b { color: var(--ink); font-weight: 650; }
+</style></head><body>
+<script>
+const D = window.DATA, P = D.params;
+window.DURATION = 46; window.POSTER_T = 27;
+const A = D.a, B = D.b, LN = D.lines, ids = Object.keys(LN);
+const W = 1120, H = 640, X0 = 110, Y0 = 40, PW = W - X0 - 30, PH = H - Y0 - 90;
+const VMAX = 25, YMIN = 600, YMAX = 2400;
+const xv = (v) => X0 + (v / VMAX) * PW, yv = (y) => Y0 + PH - ((y - YMIN) / (YMAX - YMIN)) * PH;
+const allin = (id, v) => LN[id].K_all_in + v * LN[id].T;      // all-in $/mo at value of time v (exact: linear in v)
+const score = (id, v) => LN[id].K_score + v * LN[id].T;       // ranking score (all-in + preference gap)
+let xdot, HEAD, svg, lineA, lineB, faint = [], cursor, dotA, dotB, tagA, tagB, vline, vlab, PANEL, vbig, rows = {}, FX, fx = [], END, axisG, youG, bandR, lblA, lblB;
+const lineD = (id, v1) => { const n = 60; let d = ''; for (let i = 0; i <= n; i++) { const v = v1 * i / n; d += (i ? 'L' : 'M') + xv(v).toFixed(1) + ' ' + yv(allin(id, v)).toFixed(1); } return d; };
+window.setup = () => {
+  HEAD = L.h('div', { class: 'abs head' }, document.body, `<h1>What would <em>flip</em> it?</h1>
+    <div class="sub">Slide the value of time from $0 to $25 an hour. Same week, same ${ids.length} feasible homes; each all-in cost is a straight line in v.</div>`);
+  svg = L.h('svg', { class: 'chart', width: W, height: H }, document.body);
+  const defs = L.h('defs', {}, svg); const cp = L.h('clipPath', { id: 'plot' }, defs); L.h('rect', { x: X0, y: Y0 - 4, width: PW + 4, height: PH + 4 }, cp);
+  bandR = L.h('rect', { x: xv(P.vot_low), y: Y0, width: xv(P.vot_high) - xv(P.vot_low), height: PH, fill: 'rgba(255,255,255,.45)' }, svg);
+  axisG = L.h('g', {}, svg);
+  for (let y = 800; y <= YMAX; y += 400) { L.h('line', { class: 'grid', x1: X0, x2: X0 + PW, y1: yv(y), y2: yv(y) }, axisG); L.h('text', { class: 'tick', x: X0 - 14, y: yv(y) + 7, 'text-anchor': 'end' }, axisG, L.usd(y)); }
+  for (let v = 0; v <= 25; v += 5) L.h('text', { class: 'tick', x: xv(v), y: Y0 + PH + 34, 'text-anchor': 'middle' }, axisG, `$${v}`);
+  L.h('line', { class: 'ax', x1: X0, x2: X0 + PW, y1: Y0 + PH, y2: Y0 + PH }, axisG);
+  L.h('text', { class: 'axl', x: X0 + PW, y: Y0 + PH + 74, 'text-anchor': 'end' }, axisG, 'value of time, $ per hour');
+  L.h('text', { class: 'axl', x: X0, y: Y0 - 14 }, axisG, 'all-in $ / month');
+  youG = L.h('g', {}, svg);
+  L.h('line', { x1: xv(D.v_used), x2: xv(D.v_used), y1: Y0, y2: Y0 + PH, stroke: 'var(--ink)', 'stroke-width': 1.5, 'stroke-dasharray': '2 5' }, youG);
+  L.h('text', { class: 'tick', x: xv(D.v_used) + 10, y: Y0 + PH - 48, fill: 'var(--ink)' }, youG, `you: ${L.usd(D.v_used, 2)}/h`);
+  L.h('text', { class: 'tick', x: xv(P.vot_low) + 10, y: Y0 + PH - 14 }, youG, `plausible range ${L.usd(P.vot_low, 0)}–${L.usd(P.vot_high, 0)}/h`);
+  const g = L.h('g', { 'clip-path': 'url(#plot)' }, svg);
+  for (const id of ids) if (id !== A && id !== B) faint.push(L.h('path', { class: 'faint', d: lineD(id, VMAX) }, g));
+  lineB = L.h('path', { class: 'lb' }, g); lineA = L.h('path', { class: 'la' }, g);
+  vline = L.h('line', { x1: xv(D.vstar), x2: xv(D.vstar), y1: Y0, y2: Y0 + PH, stroke: 'var(--ink)', 'stroke-width': 2 }, svg);
+  vlab = L.h('text', { class: 'lab', x: xv(D.vstar) - 12, y: yv(allin(A, D.vstar)) - 40, 'text-anchor': 'end', 'font-weight': 650 }, svg, `v* = ${L.usd(D.vstar, 2)}/h`);
+  xdot = L.h('circle', { cx: xv(D.vstar), cy: yv(allin(A, D.vstar)), r: 16, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 2.5 }, svg);
+  cursor = L.h('line', { y1: Y0, y2: Y0 + PH, stroke: 'var(--accent)', 'stroke-width': 1.5 }, svg);
+  dotA = L.h('circle', { r: 9, fill: 'var(--ink)' }, svg); dotB = L.h('circle', { r: 9, fill: 'var(--bg)', stroke: 'var(--accent)', 'stroke-width': 4 }, svg);
+  lblA = L.h('text', { class: 'lab', x: xv(VMAX) - 6, y: yv(allin(A, VMAX)) - 16, 'text-anchor': 'end', fill: 'var(--ink)' }, svg, L.short(A));
+  lblB = L.h('text', { class: 'lab', x: xv(VMAX) - 6, y: yv(allin(B, VMAX)) + 34, 'text-anchor': 'end', fill: 'var(--accent)' }, svg, L.short(B));
+  // ranking panel
+  PANEL = L.h('div', { class: 'panel' }, document.body);
+  L.h('div', { class: 'ptitle' }, PANEL, 'Ranking at value of time');
+  vbig = L.h('div', { class: 'vbig num' }, PANEL);
+  L.h('div', { class: 'cap' }, PANEL, `ranked by score = all-in + $ for missing preferences (${L.usd(D.a_detail.amenity_gap, 0)} for both leaders)`);
+  const rk = L.h('div', { class: 'rank' }, PANEL);
+  for (const id of ids) { const r = L.h('div', { class: 'rr' }, rk); r._n = L.h('div', { class: 'n num' }, r); L.h('div', { class: 'nm' }, r, L.short(id, LN[id].name)); r._v = L.h('div', { class: 'v num' }, r); rows[id] = r; }
+  // formula panel
+  FX = L.h('div', { class: 'fx' }, document.body);
+  const a = D.a_detail, b = D.b_detail, wpm = D.wpm;
+  const lines = [
+    ['ptitle', 'Closed-form breakeven'],
+    ['l big', 'all-in = K + v · T'],
+    ['l muted', `T = (generalized h/wk + co-op h/wk) × ${wpm} wk/mo · K = everything not priced by time`],
+    ['who', L.short(A)],
+    ['l', `K = ${L.usd(a.K_all_in, 2)}  ·  T = (${L.num(a.gen_h_week, 2)} + ${L.num(a.labor_h_week, 0)}) × ${wpm} = ${L.num(a.T, 2)} h`],
+    ['who', L.short(B)],
+    ['l', `K = ${L.usd(b.K_all_in, 2)}  ·  T = (${L.num(b.gen_h_week, 2)} + ${L.num(b.labor_h_week, 0)}) × ${wpm} = ${L.num(b.T, 2)} h`],
+    ['l big', `v* = ΔK / ΔT = ${L.num(b.K_all_in - a.K_all_in, 2)} / ${L.num(a.T - b.T, 2)}`],
+    ['l res', `v* = ${L.usd(D.vstar, 2)} per hour`],
+  ];
+  fx = lines.map(([c, h]) => L.h('div', { class: c }, FX, h));
+  END = L.h('div', { class: 'end' }, document.body, `Below <b>${L.usd(D.vstar, 2)}/h</b> the co-op wins; above it the tower does. At your <b>${L.usd(D.v_used, 2)}/h</b> the co-op leads by <b>${L.usd(b.all_in - a.all_in, 0)}/mo</b>. No re-run needed: the engine solves the tie exactly.`);
+  L.chrome('the flip', `north-engineer demo profile · both homes miss the same preferences ($${a.amenity_gap.toFixed(0)}), so all-in and ranking cross at the same v* · engine re-run at 7 values of v matches the lines · media/videos/the-flip.json`);
+};
+const SW0 = 8.5, SW1 = 25.5;   // sweep window
+const vAt = (t) => t < SW0 ? 0 : VMAX * L.easeInOut((t - SW0) / (SW1 - SW0));
+const sig = (x) => 1 / (1 + Math.exp(-x));
+window.renderFrame = (t) => {
+  L.fade(HEAD, L.p(t, 0.3, 0.8));
+  svg.style.opacity = L.p(t, 1.6, 0.8);
+  const draw = L.p(t, 2.6, 2.2, L.easeInOut);
+  lineA.setAttribute('d', lineD(A, VMAX * draw)); lineB.setAttribute('d', lineD(B, VMAX * draw));
+  faint.forEach((f) => (f.style.opacity = 0.75 * L.p(t, 3.8, 1.2)));
+  lblA.style.opacity = lblB.style.opacity = L.p(t, 4.6, 0.8);
+  youG.style.opacity = bandR.style.opacity = L.p(t, 5.6, 0.8);
+  const v = vAt(t), on = L.p(t, 7.2, 0.6);
+  cursor.setAttribute('x1', xv(v)); cursor.setAttribute('x2', xv(v)); cursor.style.opacity = on;
+  for (const [d, id] of [[dotA, A], [dotB, B]]) { d.setAttribute('cx', xv(v)); d.setAttribute('cy', yv(allin(id, v))); d.style.opacity = on; }
+  // reveal v* line when the cursor passes it
+  const tCross = (() => { let lo = SW0, hi = SW1; for (let i = 0; i < 40; i++) { const m = (lo + hi) / 2; if (vAt(m) < D.vstar) lo = m; else hi = m; } return lo; })();
+  const vk = L.p(t, tCross, 0.6);
+  vline.style.opacity = vk; vlab.style.opacity = vk; xdot.style.opacity = vk; xdot.setAttribute('r', 16 + 30 * (1 - vk));
+  // ranking panel (smooth rank from pairwise score differences)
+  const pin = L.p(t, 6.4, 0.7) * (1 - L.p(t, 28.0, 0.6));
+  L.fade(PANEL, pin);
+  vbig.innerHTML = `${L.usd(v, 2)}<small>/h</small>`;
+  for (const id of ids) {
+    const s = score(id, v);
+    let r = 0; for (const j of ids) if (j !== id) r += sig((s - score(j, v)) / 3.0);
+    const row = rows[id];
+    row.style.top = `${r * 66}px`;
+    row.style.opacity = L.clamp(4.2 - r);
+    const hard = 1 + ids.filter((j) => j !== id && score(j, v) < s).length;
+    row._n.textContent = `${hard}`;
+    row._v.textContent = L.usd(s, 0);
+    row.style.color = id === B ? 'var(--accent)' : 'var(--ink)';
+  }
+  // formula
+  fx.forEach((e, i) => L.fade(e, L.p(t, 28.8 + i * 1.05, 0.6)));
+  L.fade(END, L.p(t, 39.4, 0.8));
+};
+</script></body></html>

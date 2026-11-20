@@ -1,0 +1,148 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="lib.js"></script>
+<style>
+.head { left: 96px; top: 100px; }
+.head h1 { font-size: 60px; }
+.head .sub { margin-top: 10px; font-size: 26px; }
+.col { position: absolute; top: 258px; width: 800px; }
+.col.a { left: 96px; } .col.b { left: 1024px; }
+.tag { font: 600 20px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.tag b { color: var(--ink); }
+.name { font: 400 38px/1.1 var(--display); letter-spacing: -0.01em; margin-top: 10px; white-space: nowrap; }
+.meta { font: 400 21px/1.3 var(--sans); color: var(--body); margin-top: 8px; }
+.rows { margin-top: 18px; border-top: 1.5px solid var(--ink); }
+.row { display: grid; grid-template-columns: 250px 1fr 150px; align-items: baseline; height: 56px; padding-top: 14px; border-bottom: 1px solid var(--line); }
+.row .lab { font: 500 23px/1 var(--sans); color: var(--ink); }
+.row .math { font: 400 21px/1.15 var(--sans); color: var(--body); white-space: nowrap; overflow: hidden; }
+.row .amt { font: 500 30px/1 var(--sans); text-align: right; }
+.row.sub { border-bottom: 1.5px solid var(--ink); }
+.row.sub .lab, .row.sub .amt { font-weight: 650; }
+.row.time .amt { color: var(--ink); }
+.row.total { height: 96px; border-bottom: none; padding-top: 22px; }
+.row.total .lab { font: 400 32px/1 var(--display); }
+.row.total .amt { font: 600 52px/1 var(--sans); grid-column: 2 / 4; text-align: right; }
+.row.total .amt small { font: 400 22px var(--sans); color: var(--accent); margin-right: 18px; }
+.ov { position: absolute; left: 60px; right: 60px; top: 236px; bottom: 150px; background: var(--paper); border: 1px solid var(--line); padding: 46px 64px; }
+.ov::before { content: ''; position: absolute; left: 64px; top: -1px; width: 140px; border-top: 2px solid var(--ink); }
+.ov .t1 { font: 400 40px/1.1 var(--display); }
+.ov .t1 em { font-style: italic; }
+.formula { margin-top: 22px; font: 400 40px/1.2 var(--sans); letter-spacing: -0.01em; }
+.formula .w { color: var(--accent); }
+.formula .note { font: 400 22px/1.4 var(--sans); color: var(--body); margin-top: 8px; }
+.eq { margin-top: 26px; display: grid; grid-template-columns: 330px 1fr; align-items: end; }
+.eq .who { font: 500 24px/1.2 var(--sans); color: var(--body); padding-bottom: 6px; }
+.eq .who b { display: block; color: var(--ink); font: 400 28px/1.15 var(--display); }
+.terms { display: flex; align-items: flex-end; gap: 14px; font: 400 38px/1 var(--sans); white-space: nowrap; }
+.term { display: inline-flex; flex-direction: column; align-items: center; }
+.term small { font: 500 17px/1 var(--sans); color: var(--accent); margin-top: 8px; letter-spacing: .04em; text-transform: uppercase; }
+.op { color: var(--accent); padding-bottom: 25px; }
+.res { font-weight: 650; }
+.dollars { margin-top: 40px; border-top: 1px solid var(--line); padding-top: 22px; }
+.end { position: absolute; left: 0; right: 0; top: 330px; text-align: center; }
+.end h1 { font-size: 104px; }
+.end .sub { margin-top: 30px; font-size: 34px; }
+.end .sub b { color: var(--ink); font-weight: 650; }
+</style></head><body>
+<script>
+const D = window.DATA, A = D.a, B = D.b, P = D.params;
+window.DURATION = 53; window.POSTER_T = 42.5;
+const $ = (x, d = 2) => L.usd(x, d);
+const n1 = (x) => L.num(x, 1);
+function rows(X, other) {
+  const bed = X.rent_basis === 'bed';
+  const occ = Math.round(X.rent_advertised / X.rent_pp);
+  const u = X.lines.utilities;
+  const coop = X.labor_h_week > 0;
+  return [
+    ['Rent per person', bed ? `${$(X.rent_advertised, 0)} advertised per bed` : `${$(X.rent_advertised, 0)} per unit ÷ ${occ} bedrooms`, X.rent_pp],
+    ['Fees', X.fees_pp ? 'monthly-ized' : 'none stated in the listing', X.fees_pp],
+    ['Utilities, Jan', X.utilities === 0 ? 'included in the charge' : `estimate ÷ ${occ} · band ${$(u.low, 0)}–${$(u.high, 0)}`, X.utilities],
+    ['Renters insurance', `assumed (band ${$(X.lines.insurance.low, 0)}–${$(X.lines.insurance.high, 0)})`, X.insurance],
+    ['Meals offset', X.food ? 'meals included: minus assumed groceries' : 'no meal plan', X.food],
+    ['Cash / month', 'rent + fees + utilities + insurance + meals', X.cash, 'sub'],
+    ['Travel time', `${$(P.vot)}/h × ${L.num(X.time_h_week_generalized, 2)} h × ${P.weeks_per_month}`, X.time_usd, 'time'],
+    ['Late-night outdoors', `${n1(X.late_min_week)} min/wk × $${X.late_rate_per_min.toFixed(2)} × ${P.weeks_per_month}`, X.late_usd],
+    ['Co-op work shifts', coop ? `${L.num(X.labor_h_week, 0)} h/wk × ${$(P.vot)}/h × ${P.weeks_per_month}` : 'none', X.labor_usd],
+    ['All-in / month', '', X.all_in, 'total'],
+  ];
+}
+function col(X, cls, tag) {
+  const c = L.h('div', { class: `col ${cls}` }, document.body);
+  const typ = { coop: 'co-op', apartment: 'apartment', house: 'house', tower: 'tower' }[X.type] || X.type;
+  const head = L.h('div', {}, c, `<div class="tag">${tag}</div><div class="name">${X.name}</div>
+    <div class="meta">${typ} · ${$(X.rent_advertised, 0)}/mo ${X.rent_basis === 'bed' ? 'per bed' : 'per unit'} · ${X.synthetic ? 'SYNTHETIC listing' : 'listing text observed Nov 20 2026'} · engine rank #${X.rank}</div>`);
+  const box = L.h('div', { class: 'rows' }, c);
+  const R = rows(X).map(([lab, math, v, k]) => {
+    const r = L.h('div', { class: `row ${k || ''}` }, box);
+    L.h('div', { class: 'lab' }, r, lab);
+    if (k !== 'total') L.h('div', { class: 'math' }, r, math);
+    const amt = L.h('div', { class: 'amt num' }, r);
+    return { r, amt, v, k };
+  });
+  return { c, head, R };
+}
+let CA, CB, OV, END, HEAD, ovParts;
+window.setup = () => {
+  HEAD = L.h('div', { class: 'abs head' }, document.body, `<h1>The receipt: what a home <em>really</em> costs a month</h1>
+    <div class="sub">North Campus engineer · January · value of time ${$(P.vot)}/h = ${L.num(100 * P.vot / P.wage, 0)}% × ${$(P.wage, 0)}/h wage · same ${A.trips} weekly trips priced at each home</div>`);
+  CA = col(A, 'a', '<b>#1</b> by all-in cost');
+  CB = col(B, 'b', '<b>Lowest rent</b> per person in the set');
+  // derivation overlay
+  OV = L.h('div', { class: 'ov' }, document.body);
+  const phi = P.phi_weather, mw = P.m_walk;
+  L.h('div', { class: 't1' }, OV, 'Travel time, <em>component by component</em>');
+  const f = L.h('div', { class: 'formula' }, OV, `G = ivt + 1.75·φ·walk + 1.75·φ·wait + 10·transfers + 0.5·early
+     <div class="note">generalized minutes per week · walking & waiting count 1.75× a riding minute, × φ = ${phi.toFixed(3)} for January snow (NOAA normals) → ${mw.toFixed(3)} · each transfer = 10 min · forced-early minutes 0.5×</div>`);
+  const eqRow = (X, short) => {
+    const c = X.weekly_components;
+    const T = [[n1(c.ivt), 'ride'], ['+', ''], [mw.toFixed(3) + '×' + n1(c.walk), 'walk'], ['+', ''], [mw.toFixed(3) + '×' + n1(c.wait), 'wait'], ['+', ''],
+      ['10×' + L.num(c.transfers, 0), 'transfers'], ['+', ''], ['0.5×' + n1(c.early), 'early'], ['=', ''], [`${L.num(X.G_week, 1)} min`, '/ week']];
+    const e = L.h('div', { class: 'eq' }, OV);
+    L.h('div', { class: 'who' }, e, `<b>${short}</b>${X.trips} trips/week`);
+    const ts = L.h('div', { class: 'terms' }, e);
+    const parts = T.map(([v, lab], i) => lab ? L.h('span', { class: 'term' + (i === T.length - 1 ? ' res' : '') }, ts, `<span>${v}</span><small>${lab}</small>`) : L.h('span', { class: 'op' }, ts, v));
+    return parts;
+  };
+  const pa = eqRow(A, 'ICC Escher (double)'), pb = eqRow(B, 'Hillcrest Manor');
+  const dol = L.h('div', { class: 'dollars' }, OV);
+  L.h('div', { class: 'formula', style: 'margin-top:0' }, dol, `travel $/mo = VOT × G/60 × 4.348 wk/mo`);
+  const da = L.h('div', { class: 'eq', style: 'margin-top:14px' }, dol, `<div class="who"><b>ICC Escher (double)</b></div><div class="terms">${$(P.vot)} × ${L.num(A.G_week / 60, 2)} h × ${P.weeks_per_month} = <span class="res">&nbsp;${$(A.time_usd)}</span></div>`);
+  const db = L.h('div', { class: 'eq', style: 'margin-top:10px' }, dol, `<div class="who"><b>Hillcrest Manor</b></div><div class="terms">${$(P.vot)} × ${L.num(B.G_week / 60, 2)} h × ${P.weeks_per_month} = <span class="res">&nbsp;${$(B.time_usd)}</span></div>`);
+  ovParts = { f, pa, pb, dol, da, db };
+  END = L.h('div', { class: 'end' }, document.body, `<h1>Lowest rent ≠ <em>cheapest week.</em></h1>
+    <div class="sub">${$(B.rent_pp, 0)} rent → <b>${$(B.all_in, 0)}</b> a month all-in &nbsp;·&nbsp; ${$(A.rent_pp, 0)} rent → <b>${$(A.all_in, 0)}</b></div>
+    <div class="sub" style="font-size:24px;color:var(--accent);margin-top:18px">difference ${$(B.all_in - A.all_in, 0)}/mo · ${L.num(B.G_week / 60 - A.G_week / 60, 1)} more generalized hours of travel every week</div>`);
+  L.chrome('the receipt', `north-engineer demo profile · 15-listing demo set · engine output, live UM + AAATA GTFS (week of Nov 30 2026) · numbers: media/videos/the-receipt.json`);
+};
+const ROW_T = [5, 7, 9, 11, 13, 15.2, 33.8, 35.8, 37.6, 39.8];
+window.renderFrame = (t) => {
+  L.fade(HEAD, L.p(t, 0.3, 0.8));
+  L.fade(CA.head, L.p(t, 1.6, 0.7)); L.fade(CB.head, L.p(t, 2.2, 0.7));
+  for (const C of [CA, CB]) {
+    C.R.forEach((r, i) => {
+      const t0 = ROW_T[i] + (C === CB ? 0.25 : 0);
+      const k = L.p(t, t0, 0.6);
+      L.fade(r.r, k, 10);
+      const c = L.p(t, t0 + 0.1, r.k === 'total' ? 1.6 : 0.9, L.easeInOut);
+      const v = r.v * c;
+      r.amt.innerHTML = r.k === 'total' ? `<small>${$(r.v)}</small>${L.usd(v, 0)}` : (r.v === 0 && c > 0 ? '$0.00' : $(v));
+    });
+  }
+  // overlay for the travel-time derivation
+  const ovIn = L.p(t, 17.2, 0.7), ovOut = L.p(t, 32.6, 0.7);
+  const ok = ovIn * (1 - ovOut);
+  OV.style.opacity = ok; OV.style.transform = `translateY(${(1 - ovIn) * 24 - ovOut * 12}px)`;
+  L.fade(ovParts.f, L.p(t, 17.8, 0.7));
+  ovParts.pa.forEach((e, i) => L.fade(e, L.p(t, 19.6 + i * 0.28, 0.5), 8));
+  ovParts.pb.forEach((e, i) => L.fade(e, L.p(t, 22.9 + i * 0.28, 0.5), 8));
+  L.fade(ovParts.dol, L.p(t, 26.6, 0.6)); L.fade(ovParts.da, L.p(t, 27.4, 0.6)); L.fade(ovParts.db, L.p(t, 28.4, 0.6));
+  // ending
+  const e = L.p(t, 44.6, 0.8);
+  for (const C of [CA, CB]) C.c.style.opacity = 1 - e;
+  HEAD.style.opacity = L.p(t, 0.3, 0.8) * (1 - e);
+  L.fade(END, L.p(t, 45.2, 0.9), 20);
+  // highlight the totals before the ending
+  const hl = L.p(t, 41.6, 0.6) * (1 - e);
+  for (const C of [CA, CB]) C.R[9].r.style.background = `rgba(255,255,255,${0.45 * hl})`;
+};
+</script></body></html>

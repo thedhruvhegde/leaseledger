@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="lib.js"></script>
+<script src="../.cache/seven-cities/frames.js"></script>
+<style>
+.card h1 { font-size: 92px; }
+.card .sub { margin-top: 26px; font-size: 32px; max-width: 1400px; }
+.card .sub b { color: var(--ink); font-weight: 650; }
+.plate { position: absolute; left: 240px; top: 196px; width: 1440px; height: 810px; background: #fff; border: 1px solid var(--line); overflow: hidden; }
+.plate img { width: 1440px; height: 810px; display: block; }
+.strip { position: absolute; left: 240px; top: 104px; width: 1440px; display: flex; align-items: baseline; justify-content: space-between; }
+.strip .c { font: 400 46px/1 var(--display); letter-spacing: -0.01em; }
+.strip .c small { font: 500 22px var(--sans); color: var(--accent); letter-spacing: .1em; margin-right: 16px; vertical-align: 6px; }
+.strip .s { font: 400 24px/1.2 var(--sans); color: var(--body); text-align: right; }
+.strip .s b { color: var(--ink); font-weight: 650; }
+.cav { position: absolute; inset: 0; padding: 150px 240px 0; background: var(--bg); }
+.cav h1 { font-size: 64px; }
+.cav ul { margin-top: 40px; list-style: none; }
+.cav li { font: 400 30px/1.4 var(--sans); color: var(--body); padding: 18px 0; border-top: 1px solid var(--line); }
+.cav li b { color: var(--ink); font-weight: 650; }
+</style></head><body>
+<script>
+const D = window.DATA, C = D.cities, F = window.FRAMES;
+const TITLE = 5.0, SEG = 5.6, XF = 0.6, FIN = 6.0, CAV = 7.0;
+window.DURATION = TITLE + C.length * SEG + FIN + CAV; window.POSTER_T = TITLE + C.length * SEG + FIN - 0.5;
+const segs = []; { let t = TITLE; C.forEach((c, i) => { segs.push({ key: c.key, t0: t, t1: t + SEG, c, i }); t += SEG; }); segs.push({ key: 'finale_all_cities', t0: t, t1: t + FIN, finale: true }); }
+let TC, plate, img, strip, CAVEAT;
+const pct = (x) => `${Math.round(100 * x)}%`;
+window.setup = () => {
+  TC = L.h('div', { class: 'card' }, document.body, `<h1>Seven cities, <em>${L.num(D.total_futures)}</em> futures</h1>
+    <div class="sub">Naive rule: pick the home <b>${D.rule}</b>. The full-week model routes every class, job and errand on each city's real timetable. How often do they disagree?</div>`);
+  strip = L.h('div', { class: 'strip' }, document.body);
+  plate = L.h('div', { class: 'plate' }, document.body);
+  img = L.h('img', {}, plate);
+  CAVEAT = L.h('div', { class: 'cav' }, document.body, `<h1>Read these numbers <em>carefully</em></h1><ul>
+    <li><b>Travel-only outside Ann Arbor:</b> no rents; dollar figures are generalized hours valued ${D.units.usd}, not cash.</li>
+    <li><b>Synthetic routines:</b> homes uniform over residential streets; weekly routines simulated, not surveyed.</li>
+    <li><b>Feeds:</b> ${C.filter((c) => c.feed_status.every((s) => s === 'current')).map((c) => c.city).join(' and ')} use current GTFS; the others are expired mirrors (some summer schedules).</li>
+    <li><b>One representative weekday timetable,</b> no ride-time variability. 95% CIs: Wilson (shares), bootstrap (means).</li></ul>`);
+  L.chrome('seven cities', `source: presentation/data/multicity.json (analysis/multicity) · GIFs: presentation/media/multicity · media/videos/seven-cities.json`);
+};
+window.renderFrame = async (t) => {
+  const tin = L.p(t, 0.3, 0.8), tout = L.p(t, TITLE - XF, XF);
+  L.fade(TC, tin); TC.style.opacity = tin * (1 - tout);
+  const s = segs.find((x) => t >= x.t0 - XF / 2 && t < x.t1 + XF / 2) || (t < TITLE ? null : segs[segs.length - 1]);
+  const cavK = L.p(t, window.DURATION - CAV, 0.8);
+  if (!s) { plate.style.opacity = 0; strip.style.opacity = 0; CAVEAT.style.opacity = 0; return; }
+  const local = L.clamp((t - s.t0) / (s.t1 - s.t0 - 0.8));     // play the GIF over the segment, hold its last frame 0.8 s
+  const n = F[s.key], idx = Math.min(n, 1 + Math.floor(local * (n - 1)));
+  const src = `../.cache/seven-cities/${s.key}/${String(idx).padStart(4, '0')}.png`;
+  if (!img.src.endsWith(src.slice(2))) { img.src = src; await img.decode().catch(() => {}); }
+  const fin = Math.min(L.p(t, s.t0 - XF / 2, XF), 1 - L.p(t, s.t1 - XF / 2, XF));
+  plate.style.opacity = Math.max(0, fin) * (1 - cavK);
+  strip.style.opacity = Math.max(0, fin) * (1 - cavK);
+  if (strip._key !== s.key) {
+    strip._key = s.key;
+    strip.innerHTML = s.finale ? `<div class="c">All seven networks</div><div class="s">${L.num(D.total_futures)} simulated student-semesters</div>`
+      : `<div class="c"><small>${s.i + 1} / ${C.length}</small>${s.c.city} · ${s.c.campus}</div>
+         <div class="s">closest-to-campus pick differs in <b>${pct(s.c.pick_differs_p)}</b> (${pct(s.c.pick_differs_ci[0])}–${pct(s.c.pick_differs_ci[1])})<br>mean regret <b>${L.num(s.c.regret_h_mean, 1)} h</b>/semester · feeds ${s.c.feed_status.every((x) => x === 'current') ? 'current' : 'expired mirror'}</div>`;
+  }
+  CAVEAT.style.opacity = cavK;
+};
+</script></body></html>

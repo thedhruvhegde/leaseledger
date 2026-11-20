@@ -1,0 +1,252 @@
+{
+ "_provenance": {
+  "generated": "2026-11-20 17:41 UTC",
+  "profile": "data/templates/demo_profiles.json#north-engineer",
+  "listings": "API default listing set = data/listings/demo_set.json ids (observed: search-result text, 2026-11-20; synthetic ids start with syn-)",
+  "listing_count": 15,
+  "engine": "ledger.engine.core.run_engine / ledger.engine.evaluate (in-process), provider TransitProvider (live UM S1000100 + AAATA S1000304 GTFS, week of 2026-11-30)",
+  "regenerate": "PYTHONPATH=. python3 media/scripts/compute_data.py"
+ },
+ "what": "#1 home vs the lowest-rent feasible home",
+ "a": {
+  "id": "icc-escher-double",
+  "name": "ICC Escher House - double room (co-op)",
+  "type": "coop",
+  "provenance": "observed",
+  "verification": "search_extract",
+  "synthetic": false,
+  "rank": 1,
+  "rent_advertised": 919.0,
+  "rent_basis": "bed",
+  "bedrooms": 1,
+  "household_size": 1,
+  "rent_pp": 919.0,
+  "fees_pp": 0.0,
+  "utilities": 0.0,
+  "parking": 0.0,
+  "insurance": 15.0,
+  "transport": 0.0,
+  "food": -250.0,
+  "cash": 684.0,
+  "time_usd": 330.2573577300935,
+  "time_h_week_generalized": 9.49451925397003,
+  "late_usd": 12.374569993110104,
+  "late_min_week": 28.460372569250467,
+  "late_rate_per_min": 0.1,
+  "labor_h_week": 4.0,
+  "labor_usd": 139.136,
+  "all_in": 1165.7679277232035,
+  "amenity_gap": 36.0,
+  "score": 1201.7679277232035,
+  "weekly_components": {
+   "ivt": 48.36666666666679,
+   "walk": 237.49175226929748,
+   "wait": 0.0,
+   "bike": 0.0,
+   "transfers": 2.0,
+   "early": 3.266666666666424
+  },
+  "weekly_door_to_door_min": 285.85841893596404,
+  "G_week": 569.6711552382018,
+  "lines": {
+   "rent": {
+    "label": "Rent",
+    "usd": 919.0,
+    "low": 919.0,
+    "high": 919.0,
+    "provenance": "observed",
+    "note": "advertised per bed"
+   },
+   "utilities": {
+    "label": "Utilities (estimated)",
+    "usd": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "provenance": "estimated",
+    "note": "Jan: ; split 1 way(s); annual average $0; sqft not stated; assumed 375 sqft (375/bedroom); heat included in rent"
+   },
+   "insurance": {
+    "label": "Renters insurance",
+    "usd": 15.0,
+    "low": 10.0,
+    "high": 27.0,
+    "provenance": "assumed",
+    "note": "Per person; standard $20-30k personal property policy. Often lease-required in towers."
+   },
+   "food_offset": {
+    "label": "Meals included (groceries offset)",
+    "usd": -250.0,
+    "low": -350.0,
+    "high": -200.0,
+    "provenance": "assumed",
+    "note": "charge includes meals; compare against rent + groceries: -$250/mo assumed grocery spend ($200-$350)"
+   },
+   "transport_cash": {
+    "label": "Bus fares",
+    "usd": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "provenance": "observed",
+    "note": "4 bus trips/week; MCard not accepted on TheRide FootballRide. No 2026 policy change found."
+   },
+   "time_value": {
+    "label": "Travel time (valued)",
+    "usd": 330.2573577300935,
+    "low": 127.42585223510865,
+    "high": 911.4858198106991,
+    "provenance": "computed",
+    "note": "4.8 h/wk door-to-door (4.0 h walking, 0.0 h waiting at stops, 0.8 h riding, 3 min forced early arrival charged at 0.5x) = 9.5 generalized h/wk x $8.00/h x 4.348 wk/mo"
+   },
+   "late_night": {
+    "label": "Late-night outdoor exposure",
+    "usd": 12.374569993110104,
+    "low": 0.0,
+    "high": 37.12370997933031,
+    "provenance": "assumed",
+    "note": "28 min/wk walking or waiting outdoors after 22:00 x $0.10/min x weight 1 x 4.348 wk/mo"
+   },
+   "amenity_gap": {
+    "label": "Missing preferences",
+    "usd": 36.0,
+    "low": 0.0,
+    "high": 89.99999999999999,
+    "provenance": "assumed",
+    "note": "missing: gym, in_unit_laundry; $40/mo per unit of importance (assumed)"
+   },
+   "member_labor": {
+    "label": "Co-op work shifts (valued)",
+    "usd": 139.136,
+    "low": 52.176,
+    "high": 417.408,
+    "provenance": "assumed",
+    "note": "4 h/wk x $8.00/h x 4.348 wk/mo; ICC-style co-ops require weekly work shifts; verify with the house"
+   }
+  },
+  "trips": 26
+ },
+ "b": {
+  "id": "hillcrest-2br",
+  "name": "Hillcrest Manor - 2BR",
+  "type": "apartment",
+  "provenance": "observed",
+  "verification": "search_extract",
+  "synthetic": false,
+  "rank": 4,
+  "rent_advertised": 1332.0,
+  "rent_basis": "unit",
+  "bedrooms": 2,
+  "household_size": 1,
+  "rent_pp": 666.0,
+  "fees_pp": 0.0,
+  "utilities": 115.42551875000001,
+  "parking": 0.0,
+  "insurance": 15.0,
+  "transport": 0.0,
+  "food": 0.0,
+  "cash": 796.42551875,
+  "time_usd": 817.4616270801522,
+  "time_h_week_generalized": 23.501081735284966,
+  "late_usd": 19.913839999999883,
+  "late_min_week": 45.79999999999973,
+  "late_rate_per_min": 0.1,
+  "labor_h_week": 0.0,
+  "labor_usd": 0.0,
+  "all_in": 1633.8009858301523,
+  "amenity_gap": 36.0,
+  "score": 1669.8009858301523,
+  "weekly_components": {
+   "ivt": 364.56666666666734,
+   "walk": 232.74924084424038,
+   "wait": 105.46666666666488,
+   "bike": 0.0,
+   "transfers": 33.0,
+   "early": 7.816666666666663
+  },
+  "weekly_door_to_door_min": 707.3325741775726,
+  "G_week": 1410.064904117098,
+  "lines": {
+   "rent": {
+    "label": "Rent",
+    "usd": 666.0,
+    "low": 666.0,
+    "high": 666.0,
+    "provenance": "observed",
+    "note": "advertised per unit / 2 people (assumes all 2 bedrooms are filled; your group is 1)"
+   },
+   "utilities": {
+    "label": "Utilities (estimated)",
+    "usd": 115.42551875000001,
+    "low": 66.39178749999999,
+    "high": 184.1510375,
+    "provenance": "estimated",
+    "note": "Jan: heating $18, electricity $40, internet $28, water_sewer_trash $30; split 2 way(s); annual average $105; sqft not stated; assumed 750 sqft (375/bedroom); heating fuel not stated; gas furnace assumed"
+   },
+   "insurance": {
+    "label": "Renters insurance",
+    "usd": 15.0,
+    "low": 10.0,
+    "high": 27.0,
+    "provenance": "assumed",
+    "note": "Per person; standard $20-30k personal property policy. Often lease-required in towers."
+   },
+   "transport_cash": {
+    "label": "Bus fares",
+    "usd": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "provenance": "observed",
+    "note": "14 bus trips/week; MCard not accepted on TheRide FootballRide. No 2026 policy change found."
+   },
+   "time_value": {
+    "label": "Travel time (valued)",
+    "usd": 817.4616270801522,
+    "low": 311.1541776559131,
+    "high": 2273.115838039982,
+    "provenance": "computed",
+    "note": "11.8 h/wk door-to-door (3.9 h walking, 1.8 h waiting at stops, 6.1 h riding, 8 min forced early arrival charged at 0.5x) = 23.5 generalized h/wk x $8.00/h x 4.348 wk/mo"
+   },
+   "late_night": {
+    "label": "Late-night outdoor exposure",
+    "usd": 19.913839999999883,
+    "low": 0.0,
+    "high": 59.741519999999646,
+    "provenance": "assumed",
+    "note": "46 min/wk walking or waiting outdoors after 22:00 x $0.10/min x weight 1 x 4.348 wk/mo"
+   },
+   "amenity_gap": {
+    "label": "Missing preferences",
+    "usd": 36.0,
+    "low": 0.0,
+    "high": 89.99999999999999,
+    "provenance": "assumed",
+    "note": "missing: gym, in_unit_laundry; $40/mo per unit of importance (assumed)"
+   }
+  },
+  "trips": 26
+ },
+ "lowest_rent_rule": "min rent per person among feasible homes",
+ "params": {
+  "vot": 8.0,
+  "vot_low": 4.0,
+  "vot_high": 16.0,
+  "vot_derivation": [
+   "Your time is valued at $8.00/h = 50% x $16.00/h your wage (USDOT convention: personal local travel at 50% of hourly income).",
+   "Uncertainty range used: $4.00-$16.00/h (0.5x to 2x; you did not declare one).",
+   "Walking minutes count 1.75x and waiting minutes 1.75x a riding minute (plausible 1.5-2x; Wardman 2004, Small & Verhoef 2007); each transfer adds 10 min; each minute the timetable forces you to arrive early counts 0.5x (Small 1982 schedule delay).",
+   "Weather (Jan): 67% of days have snow cover (NOAA 1991-2020 normals), each counting outdoor minutes at 1.3x, scaled by your winter aversion 1 => outdoor-minute multiplier x1.202."
+  ],
+  "wage": 16.0,
+  "m_ivt": 1.0,
+  "m_walk_base": 1.75,
+  "m_wait_base": 1.75,
+  "phi_weather": 1.2022580645161292,
+  "m_walk": 2.103951612903226,
+  "m_wait": 2.103951612903226,
+  "transfer_min": 10.0,
+  "m_early": 0.5,
+  "weeks_per_month": 4.348,
+  "month": 1
+ },
+ "rank_of_lowest_rent": 4,
+ "n_feasible": 12
+}

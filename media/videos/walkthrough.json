@@ -1,0 +1,48 @@
+{
+ "_provenance": {
+  "recorded": "2026-11-20T18:05:14.938Z",
+  "app": "http://localhost:4173/app",
+  "api": "http://localhost:8000/api (LLM_MODE=cached)",
+  "web_build": "current web/ (vite build)",
+  "note": "Numbers on screen are the running app's own output for the typed week (no demo template, wage $16/h, rent cap $1,400)."
+ },
+ "typed_week": "EECS 281 Tue/Thu 10-11:30 in EECS. EECS 370 Mon/Wed 1-2:30pm in BBB. Math 214 MWF 9:30-10:30 in GG Brown. Econ 101 Tue/Thu 2:30-4pm in LSA. Gym Tue/Thu 5:30-6:30pm at NCRB. Project team Mon/Thu 7-10:30pm at the Duderstadt.",
+ "frames": 916,
+ "duration_s": 46.81479501724243,
+ "steps": [
+  {
+   "step": "parsed",
+   "t": 10.816234827041626,
+   "head": "Your week",
+   "cards": []
+  },
+  {
+   "step": "results",
+   "t": 22.01578688621521,
+   "head": "Ann Arbor homes for your week",
+   "cards": [
+    "DD | CS | 65 | #1 | $1,077/mo all-in | $684 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · double room (co-op) | 1 bd · co-op · North Campus | +$24 ",
+    "BB | CS | DD | #2 | $1,137/mo all-in | $824 cash | | | 5.4 h/wk | | | 19 min late | University Towers · 2BR shared (up to 4 people) | 2 bd · high-rise · Central",
+    "DD | CS | 65 | #3 | $1,266/mo all-in | $873 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · single room (co-op) | 1 bd · co-op · North Campus | +$24 ",
+    "5 | 23 | NW | #4 | $1,490/mo all-in | $878 cash | | | 9.0 h/wk | | | 122 min late | 1540 Packard St · room in 4BR, all utilities included | 4 bd · house · Burns"
+   ]
+  },
+  {
+   "step": "receipt",
+   "t": 30.465447902679443,
+   "head": "ICC Escher House",
+   "cards": []
+  },
+  {
+   "step": "vot20",
+   "t": 42.71495795249939,
+   "head": "Ann Arbor homes for your week",
+   "cards": [
+    "BB | CS | DD | #1 | $1,593/mo all-in | 1 | $824 cash | | | 5.4 h/wk | | | 19 min late | University Towers · 2BR shared (up to 4 people) | 2 bd · high-rise · Cen",
+    "DD | CS | 65 | #2 | $1,649/mo all-in | 1 | $684 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · double room (co-op) | 1 bd · co-op · North Campus | +",
+    "DD | CS | 65 | #3 | $1,838/mo all-in | $873 cash | | | 4.1 h/wk | | | 28 min late | ICC Escher House · single room (co-op) | 1 bd · co-op · North Campus | +$572",
+    "NX | DD | CS | #4 | $1,840/mo all-in | 3 | $1,354 cash | | | 3.3 h/wk | | | 21 min late | UM Northwood I/II · furnished 1BR (grad, Standard tier) | 1 bd · apart"
+   ]
+  }
+ ]
+}

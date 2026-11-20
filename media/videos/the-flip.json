@@ -1,0 +1,944 @@
+{
+ "_provenance": {
+  "generated": "2026-11-20 17:57 UTC",
+  "profile": "data/templates/demo_profiles.json#north-engineer",
+  "listings": "API default listing set = data/listings/demo_set.json ids (observed: search-result text, 2026-11-20; synthetic ids start with syn-)",
+  "listing_count": 15,
+  "engine": "ledger.engine.core.run_engine / ledger.engine.evaluate (in-process), provider TransitProvider (live UM S1000100 + AAATA S1000304 GTFS, week of 2026-11-30)",
+  "regenerate": "PYTHONPATH=. python3 media/scripts/compute_data.py"
+ },
+ "what": "value-of-time sweep $0-$25/h; closed-form breakeven",
+ "a": "icc-escher-double",
+ "b": "university-towers-2br",
+ "a_name": "ICC Escher House - double room (co-op)",
+ "b_name": "University Towers - 2BR shared (up to 4 people)",
+ "v_used": 8.0,
+ "wpm": 4.348,
+ "params": {
+  "vot": 8.0,
+  "vot_low": 4.0,
+  "vot_high": 16.0,
+  "vot_derivation": [
+   "Your time is valued at $8.00/h = 50% x $16.00/h your wage (USDOT convention: personal local travel at 50% of hourly income).",
+   "Uncertainty range used: $4.00-$16.00/h (0.5x to 2x; you did not declare one).",
+   "Walking minutes count 1.75x and waiting minutes 1.75x a riding minute (plausible 1.5-2x; Wardman 2004, Small & Verhoef 2007); each transfer adds 10 min; each minute the timetable forces you to arrive early counts 0.5x (Small 1982 schedule delay).",
+   "Weather (Jan): 67% of days have snow cover (NOAA 1991-2020 normals), each counting outdoor minutes at 1.3x, scaled by your winter aversion 1 => outdoor-minute multiplier x1.202."
+  ],
+  "wage": 16.0,
+  "m_ivt": 1.0,
+  "m_walk_base": 1.75,
+  "m_wait_base": 1.75,
+  "phi_weather": 1.2022580645161292,
+  "m_walk": 2.103951612903226,
+  "m_wait": 2.103951612903226,
+  "transfer_min": 10.0,
+  "m_early": 0.5,
+  "weeks_per_month": 4.348,
+  "month": 1
+ },
+ "a_detail": {
+  "gen_h_week": 9.49451925397003,
+  "labor_h_week": 4.0,
+  "T": 58.67416971626169,
+  "K_score": 732.37456999311,
+  "K_all_in": 696.37456999311,
+  "amenity_gap": 36.0,
+  "late_usd": 12.374569993110104,
+  "cash": 684.0,
+  "all_in": 1165.7679277232035,
+  "score": 1201.7679277232035
+ },
+ "b_detail": {
+  "gen_h_week": 11.446455772023347,
+  "labor_h_week": 0.0,
+  "T": 49.76918969675751,
+  "K_score": 868.4771466666664,
+  "K_all_in": 832.4771466666664,
+  "amenity_gap": 36.0,
+  "late_usd": 8.377146666666562,
+  "cash": 824.1,
+  "all_in": 1230.6306642407264,
+  "score": 1266.6306642407264
+ },
+ "vstar": 15.283872212566118,
+ "engine_breakeven_text": "ICC Escher House - double room (co-op) wins if value_of_time < $15.28/h; University Towers - 2BR shared (up to 4 people) wins above it (you use $8.00/h)",
+ "same_amenity_gap": true,
+ "lines": {
+  "icc-escher-double": {
+   "name": "ICC Escher House - double room (co-op)",
+   "K_score": 732.37456999311,
+   "K_all_in": 696.37456999311,
+   "T": 58.67416971626169
+  },
+  "university-towers-2br": {
+   "name": "University Towers - 2BR shared (up to 4 people)",
+   "K_score": 868.4771466666664,
+   "K_all_in": 832.4771466666664,
+   "T": 49.76918969675751
+  },
+  "icc-escher-single": {
+   "name": "ICC Escher House - single room (co-op)",
+   "K_score": 921.37456999311,
+   "K_all_in": 885.37456999311,
+   "T": 58.67416971626169
+  },
+  "hillcrest-2br": {
+   "name": "Hillcrest Manor - 2BR",
+   "K_score": 852.3393587500001,
+   "K_all_in": 816.3393587500001,
+   "T": 102.18270338501902
+  },
+  "um-northwood-1br": {
+   "name": "UM Northwood I/II - furnished 1BR (grad, Standard tier)",
+   "K_score": 1399.2712241969361,
+   "K_all_in": 1363.2712241969361,
+   "T": 35.72166984574731
+  },
+  "syn-burns-park-house-6br-11": {
+   "name": "Synthetic: 6BR house, Burns Park",
+   "K_score": 1150.1279315,
+   "K_all_in": 1138.1279315,
+   "T": 67.78722767166795
+  },
+  "1540-packard-room": {
+   "name": "1540 Packard St - room in 4BR, all utilities included",
+   "K_score": 966.7063987905483,
+   "K_all_in": 930.7063987905483,
+   "T": 94.23867658374033
+  },
+  "courtyards-4x4": {
+   "name": "The Courtyards - 4BR/4BA (per bed)",
+   "K_score": 1488.138446177515,
+   "K_all_in": 1452.138446177515,
+   "T": 35.99317245002066
+  },
+  "603-gott-2br": {
+   "name": "603 Gott St - 2BR duplex unit",
+   "K_score": 1144.905805944671,
+   "K_all_in": 1108.905805944671,
+   "T": 81.1152950418754
+  },
+  "322-n-state-1br": {
+   "name": "322 N State St - 1BR",
+   "K_score": 1415.4989466666664,
+   "K_all_in": 1379.4989466666664,
+   "T": 51.51360437471445
+  },
+  "syn-old-west-side-house-3br-06": {
+   "name": "Synthetic: 3BR house, Old West Side",
+   "K_score": 1260.6991209751461,
+   "K_all_in": 1224.6991209751461,
+   "T": 84.62674078293924
+  },
+  "1141-s-forest-5br": {
+   "name": "1141 S Forest Ave - 5BR/2.5BA house",
+   "K_score": 1422.1717091666665,
+   "K_all_in": 1386.1717091666665,
+   "T": 73.78024467354959
+  }
+ },
+ "sweep_v": [
+  0.0,
+  0.25,
+  0.5,
+  0.75,
+  1.0,
+  1.25,
+  1.5,
+  1.75,
+  2.0,
+  2.25,
+  2.5,
+  2.75,
+  3.0,
+  3.25,
+  3.5,
+  3.75,
+  4.0,
+  4.25,
+  4.5,
+  4.75,
+  5.0,
+  5.25,
+  5.5,
+  5.75,
+  6.0,
+  6.25,
+  6.5,
+  6.75,
+  7.0,
+  7.25,
+  7.5,
+  7.75,
+  8.0,
+  8.25,
+  8.5,
+  8.75,
+  9.0,
+  9.25,
+  9.5,
+  9.75,
+  10.0,
+  10.25,
+  10.5,
+  10.75,
+  11.0,
+  11.25,
+  11.5,
+  11.75,
+  12.0,
+  12.25,
+  12.5,
+  12.75,
+  13.0,
+  13.25,
+  13.5,
+  13.75,
+  14.0,
+  14.25,
+  14.5,
+  14.75,
+  15.0,
+  15.25,
+  15.5,
+  15.75,
+  16.0,
+  16.25,
+  16.5,
+  16.75,
+  17.0,
+  17.25,
+  17.5,
+  17.75,
+  18.0,
+  18.25,
+  18.5,
+  18.75,
+  19.0,
+  19.25,
+  19.5,
+  19.75,
+  20.0,
+  20.25,
+  20.5,
+  20.75,
+  21.0,
+  21.25,
+  21.5,
+  21.75,
+  22.0,
+  22.25,
+  22.5,
+  22.75,
+  23.0,
+  23.25,
+  23.5,
+  23.75,
+  24.0,
+  24.25,
+  24.5,
+  24.75,
+  25.0
+ ],
+ "sweep_top4": [
+  [
+   "icc-escher-double",
+   "hillcrest-2br",
+   "university-towers-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "hillcrest-2br",
+   "university-towers-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "hillcrest-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "hillcrest-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "hillcrest-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "hillcrest-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "hillcrest-2br",
+   "icc-escher-single"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "hillcrest-2br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "icc-escher-double",
+   "university-towers-2br",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "icc-escher-single",
+   "um-northwood-1br"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "icc-escher-single"
+  ],
+  [
+   "university-towers-2br",
+   "icc-escher-double",
+   "um-northwood-1br",
+   "courtyards-4x4"
+  ]
+ ],
+ "engine_checks": [
+  {
+   "v": 0.0,
+   "rank1": "icc-escher-double",
+   "top3": [
+    "icc-escher-double",
+    "hillcrest-2br",
+    "university-towers-2br"
+   ],
+   "score_a": 732.3745699931101,
+   "score_b": 868.4771466666666,
+   "all_in_a": 696.3745699931101,
+   "all_in_b": 832.4771466666666
+  },
+  {
+   "v": 5.0,
+   "rank1": "icc-escher-double",
+   "top3": [
+    "icc-escher-double",
+    "university-towers-2br",
+    "icc-escher-single"
+   ],
+   "score_a": 1025.7454185744186,
+   "score_b": 1117.323095150454,
+   "all_in_a": 989.7454185744185,
+   "all_in_b": 1081.323095150454
+  },
+  {
+   "v": 10.0,
+   "rank1": "icc-escher-double",
+   "top3": [
+    "icc-escher-double",
+    "university-towers-2br",
+    "icc-escher-single"
+   ],
+   "score_a": 1319.116267155727,
+   "score_b": 1366.1690436342417,
+   "all_in_a": 1283.116267155727,
+   "all_in_b": 1330.1690436342417
+  },
+  {
+   "v": 15.23,
+   "rank1": "icc-escher-double",
+   "top3": [
+    "icc-escher-double",
+    "university-towers-2br",
+    "icc-escher-single"
+   ],
+   "score_a": 1625.9821747717754,
+   "score_b": 1626.4619057482835,
+   "all_in_a": 1589.9821747717754,
+   "all_in_b": 1590.4619057482835
+  },
+  {
+   "v": 15.33,
+   "rank1": "university-towers-2br",
+   "top3": [
+    "university-towers-2br",
+    "icc-escher-double",
+    "icc-escher-single"
+   ],
+   "score_a": 1631.8495917434018,
+   "score_b": 1631.4388247179593,
+   "all_in_a": 1595.8495917434018,
+   "all_in_b": 1595.4388247179593
+  },
+  {
+   "v": 20.0,
+   "rank1": "university-towers-2br",
+   "top3": [
+    "university-towers-2br",
+    "icc-escher-double",
+    "icc-escher-single"
+   ],
+   "score_a": 1905.8579643183436,
+   "score_b": 1863.8609406018168,
+   "all_in_a": 1869.8579643183436,
+   "all_in_b": 1827.8609406018168
+  },
+  {
+   "v": 25.0,
+   "rank1": "university-towers-2br",
+   "top3": [
+    "university-towers-2br",
+    "icc-escher-double",
+    "um-northwood-1br"
+   ],
+   "score_a": 2199.2288128996524,
+   "score_b": 2112.7068890856044,
+   "all_in_a": 2163.2288128996524,
+   "all_in_b": 2076.7068890856044
+  }
+ ]
+}

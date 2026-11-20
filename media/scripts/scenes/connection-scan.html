@@ -1,0 +1,146 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="lib.js"></script>
+<style>
+.mapw { position: absolute; left: 50px; top: 104px; transform: scale(.9); transform-origin: 0 0; background: #F2EEE7; border: 1px solid var(--line); }
+.st-path { fill: none; stroke: #DDD6CB; stroke-width: 0.8; }
+.st-minor { fill: none; stroke: #D2CABF; stroke-width: 1.1; }
+.st-major { fill: none; stroke: #BDB5A9; stroke-width: 2.2; }
+.conn { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
+.lbl { font: 600 19px var(--sans); fill: var(--ink); paint-order: stroke; stroke: #F2EEE7; stroke-width: 6px; stroke-linejoin: round; }
+.lbls { font: 500 17px var(--sans); fill: var(--body); paint-order: stroke; stroke: #F2EEE7; stroke-width: 5px; stroke-linejoin: round; }
+.walk { fill: none; stroke: var(--ink); stroke-width: 3.4; stroke-dasharray: 1 7; stroke-linecap: round; }
+.bus { fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.panel { position: absolute; left: 1150px; top: 104px; width: 710px; }
+h1 { font-size: 58px; }
+.sub { font-size: 24px; margin-top: 12px; }
+.ph { font: 600 20px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-top: 30px; }
+.clock { font: 600 92px/1 var(--sans); letter-spacing: -0.02em; margin-top: 10px; }
+.stat { font: 400 24px/1.4 var(--sans); color: var(--body); margin-top: 10px; }
+.stat b { color: var(--ink); font-weight: 650; }
+.log { margin-top: 18px; border-top: 1.5px solid var(--ink); }
+.log div { font: 400 20px/1 var(--sans); height: 40px; padding-top: 11px; border-bottom: 1px solid var(--line); white-space: nowrap; overflow: hidden; color: var(--body); }
+.log b { color: var(--ink); font-weight: 650; display: inline-block; width: 64px; }
+.rule { font: 400 22px/1.4 var(--sans); color: var(--body); margin-top: 18px; }
+.rule code { font: 600 22px var(--sans); color: var(--ink); }
+.p2 { position: absolute; left: 1150px; top: 104px; width: 710px; }
+.opt { display: grid; grid-template-columns: 1fr 120px 100px 130px; font: 400 21px/1 var(--sans); height: 46px; align-items: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.opt span:first-child { overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+.opt.hd { font-weight: 600; color: var(--accent); font-size: 17px; letter-spacing: .06em; text-transform: uppercase; }
+.opt.best { font-weight: 650; background: rgba(255,255,255,.5); }
+.res { font: 400 30px/1.3 var(--display); margin-top: 22px; }
+.res b { font-family: var(--sans); font-weight: 650; }
+.p3 { position: absolute; left: 1150px; top: 104px; width: 710px; }
+.hr { display: grid; grid-template-columns: 1fr 84px 92px 176px; font: 400 20px/1 var(--sans); height: 40px; align-items: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.hr span:first-child { overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+.hr.hd { font-weight: 600; color: var(--accent); font-size: 16px; letter-spacing: .06em; text-transform: uppercase; }
+.big2 { font: 400 46px/1.08 var(--display); }
+.big2 em { font-style: italic; }
+</style></head><body>
+<script>
+const D = window.DATA;
+window.DURATION = 58; window.POSTER_T = 37.5;
+const DL = D.deadline_s, U = D.updates_visible, ST = D.stops, H = D.home, PT = D.provider_trip;
+const SW0 = 6.0, SW1 = 27.0, CLK_END = Math.min(...U.map((u) => u.dep)) - 120;
+const clockAt = (t) => t < SW0 ? DL : DL - (DL - CLK_END) * L.easeInOut((t - SW0) / (SW1 - SW0)) ** 1;
+const tOfClock = (c) => { let lo = SW0, hi = SW1; for (let i = 0; i < 40; i++) { const m = (lo + hi) / 2; if (clockAt(m) > c) lo = m; else hi = m; } return hi; };
+const nm = (s) => s.replace('Central Campus Transit Center', 'CCTC').replace('Pierpont Commons', 'Pierpont');
+const hm = (s) => L.hhmmss(s).slice(0, 5);
+let M1, M2, P1, P2, P3, clockEl, statEl, logEls = [], connEls = [], stopEls = {}, labEls = [], homeG, optEls = [], jEls = [], resEl, cityEls = [], rowEls = [], HEAD, tgtG;
+// stops to label during the scan: greedy far-apart picks among labeled stops (plus the home's best stop)
+const labeled = Object.entries(ST).filter(([, s]) => s.LV != null).map(([k, s]) => [Number(k), s]);
+const pick = [H.best.stop];
+while (pick.length < 9) { let best = null, bd = -1; for (const [k, s] of labeled) { if (pick.includes(k)) continue; const d = Math.min(...pick.map((p) => Math.hypot(ST[p].xy[0] - s.xy[0], ST[p].xy[1] - s.xy[1]))); if (d > bd) { bd = d; best = k; } } if (best == null) break; pick.push(best); }
+window.setup = () => {
+  // ---- campus map
+  M1 = L.h('svg', { class: 'mapw', width: D.map.W, height: D.map.H }, document.body);
+  for (const k of ['path', 'minor', 'major']) L.h('path', { class: 'st-' + k, d: D.map.base[k] }, M1);
+  const cg = L.h('g', {}, M1);
+  U.forEach((u) => { const a = ST[u.from].xy, b = ST[u.to].xy; connEls.push({ el: L.h('line', { class: 'conn', x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, cg), u }); });
+  const sg = L.h('g', {}, M1);
+  for (const [k, s] of Object.entries(ST)) stopEls[k] = L.h('circle', { cx: s.xy[0], cy: s.xy[1], r: 4, fill: 'var(--line)' }, sg);
+  tgtG = L.h('g', {}, M1);
+  D.dest.stops.forEach(([s, w]) => { if (ST[s]) L.h('circle', { cx: ST[s].xy[0], cy: ST[s].xy[1], r: 9, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2 }, tgtG); });
+  const [dx, dy] = D.dest.xy;
+  L.h('circle', { cx: dx, cy: dy, r: 13, fill: 'var(--ink)' }, M1);
+  L.h('text', { class: 'lbl', x: dx + 20, y: dy - 14 }, M1, 'EECS · arrive by 09:55');
+  const lg = L.h('g', {}, M1);
+  pick.forEach((k) => { const s = ST[k]; const t = L.h('text', { class: 'lbls', x: s.xy[0] + 10, y: s.xy[1] - 10 }, lg, `${hm(s.LV)}`); labEls.push({ t, s }); });
+  // home + journey
+  homeG = L.h('g', {}, M1);
+  const [hx, hy] = H.xy;
+  H.options.slice(0, 4).forEach(([lv, s, w], i) => { if (!ST[s]) return; const e = L.h('line', { x1: hx, y1: hy, x2: ST[s].xy[0], y2: ST[s].xy[1], stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-dasharray': '4 5' }, homeG); optEls.push(e); });
+  L.h('rect', { x: hx - 13, y: hy - 13, width: 26, height: 26, fill: 'var(--ink)' }, homeG);
+  L.h('text', { class: 'lbl', x: hx + 22, y: hy + 30 }, homeG, L.short(H.id, H.name));
+  PT.legs.forEach((l) => { if (!l.xy || l.xy.length < 2) return; const el = L.h('path', { class: l.kind === 'bus' ? 'bus' : 'walk' }, M1); jEls.push({ el, pts: l.xy, cum: L.cum(l.xy), l }); });
+  // ---- city map
+  M2 = L.h('svg', { class: 'mapw', width: D.city_map.W, height: D.city_map.H }, document.body);
+  for (const k of ['path', 'minor', 'major']) L.h('path', { class: 'st-' + k, d: D.city_map.base[k] }, M2);
+  const [cx, cy] = D.dest.city_xy;
+  L.h('circle', { cx, cy, r: 13, fill: 'var(--ink)' }, M2); L.h('text', { class: 'lbl', x: cx + 18, y: cy - 14 }, M2, 'EECS');
+  const seen = {};
+  D.homes.forEach((h, i) => { const key = h.xy.join(','); const dup = seen[key] = (seen[key] || 0) + 1; const g = L.h('g', {}, M2);
+    L.h('line', { x1: h.xy[0], y1: h.xy[1], x2: cx, y2: cy, stroke: 'var(--accent)', 'stroke-width': 1.2, 'stroke-dasharray': '3 6' }, g);
+    L.h('rect', { x: h.xy[0] - 8, y: h.xy[1] - 8, width: 16, height: 16, fill: h.id.startsWith('syn-') ? 'var(--bg)' : 'var(--ink)', stroke: 'var(--ink)', 'stroke-width': 2 }, g);
+    if (dup === 1) L.h('text', { class: 'lbls', x: h.xy[0] + 14, y: h.xy[1] + 6 }, g, `${L.hhmm(h.trip_depart_min)}`);
+    cityEls.push(g); });
+  // ---- panels
+  HEAD = L.h('div', { class: 'panel' }, document.body);
+  L.h('h1', {}, HEAD, 'One <em>backward</em> scan');
+  L.h('div', { class: 'sub' }, HEAD, `Connection Scan on the live UM + AAATA timetable (${D.day_type} weekday, ${L.num(D.connections_day)} connections). Target: EECS by 09:55, Tuesday.`);
+  P1 = L.h('div', {}, HEAD);
+  L.h('div', { class: 'ph' }, P1, 'Scanning connections, latest first');
+  clockEl = L.h('div', { class: 'clock num' }, P1);
+  statEl = L.h('div', { class: 'stat' }, P1);
+  const lg2 = L.h('div', { class: 'log' }, P1); for (let i = 0; i < 4; i++) logEls.push(L.h('div', {}, lg2));
+  L.h('div', { class: 'rule' }, P1, `If a vehicle leaving stop <i>u</i> at time <i>d</i> still reaches EECS in time, then <code>L[u] = max(L[u], d)</code>: the latest time you can board at <i>u</i>. Each stop's label is final the first time it is set.`);
+  P2 = L.h('div', { class: 'p2' }, document.body);
+  L.h('div', { class: 'big2' }, P2, 'Then <em>any</em> home is a lookup');
+  L.h('div', { class: 'rule' }, P2, `leave home = max over nearby stops s of ( L[s] − walk(home → s) )`);
+  L.h('div', { class: 'ph' }, P2, L.short(H.id, H.name));
+  const ot = L.h('div', { style: 'margin-top:12px;border-top:1.5px solid var(--ink)' }, P2);
+  L.h('div', { class: 'opt hd' }, ot, '<span>nearby stop</span><span>L[s]</span><span>walk</span><span>leave by</span>');
+  H.options.slice(0, 4).forEach(([lv, s, w], i) => { const r = L.h('div', { class: 'opt num' + (i === 0 ? ' best' : '') }, ot, `<span>${nm(ST[s] ? ST[s].name : String(s))}</span><span>${L.hhmmss(ST[s] ? ST[s].LV : lv + w)}</span><span>−${Math.floor(w / 60)}:${String(w % 60).padStart(2, '0')}</span><span>${L.hhmmss(lv)}</span>`); optEls.push(r); });
+  const routes = PT.legs.filter((l) => l.kind === 'bus').map((l) => l.route).join(' → ');
+  resEl = L.h('div', { class: 'res' }, P2, `Leave <b>${L.hhmmss(PT.depart * 60)}</b>, ride <b>${routes}</b>, at EECS <b>${L.hhmmss(PT.arrive * 60)}</b>: <b>${L.num(PT.total, 1)} min</b> door to door (walk ${L.num(PT.walk, 1)} · ride ${L.num(PT.ivt, 1)}).`);
+  P3 = L.h('div', { class: 'p3' }, document.body);
+  L.h('div', { class: 'big2' }, P3, 'One scan serves <em>every</em> home');
+  L.h('div', { class: 'rule' }, P3, `Same labels, ${D.homes.length} homes of the demo set: the engine's trip to EECS by 09:55 on Tuesday (bus, or walking when it leaves later).`);
+  const ht = L.h('div', { style: 'margin-top:14px;border-top:1.5px solid var(--ink)' }, P3);
+  L.h('div', { class: 'hr hd' }, ht, '<span>home</span><span>leave</span><span>minutes</span><span>how</span>');
+  [...D.homes].sort((a, b) => a.trip_total_min - b.trip_total_min).forEach((h) => rowEls.push(L.h('div', { class: 'hr num' }, ht, `<span>${L.short(h.id, h.name)}</span><span>${L.hhmm(h.trip_depart_min)}</span><span>${L.num(h.trip_total_min, 1)}</span><span>${h.trip_mode === 'bus' ? h.routes.join('→') : 'walk'}</span>`)));
+  L.chrome('connection scan', `Dibbelt et al. CSA · instrumented scan == csa.Timetable.backward == stored labels (asserted) · media/videos/connection-scan.json`);
+};
+const uT = U.map((u) => tOfClock(u.dep));
+const scannedAt = (c) => { let best = 0; for (const u of U) if (u.dep >= c) best = Math.max(best, u.scanned); return best; };
+window.renderFrame = (t) => {
+  const out1 = L.p(t, 40.2, 0.9);
+  HEAD.style.opacity = L.p(t, 0.3, 0.8) * (1 - L.p(t, 27.6, 0.6));
+  M1.style.opacity = L.p(t, 1.0, 0.9) * (1 - out1);
+  const clk = clockAt(t);
+  clockEl.textContent = L.hhmmss(clk);
+  let nLab = 0; const recent = [];
+  connEls.forEach(({ el, u }, i) => { const k = t - uT[i]; if (k < 0) { el.style.opacity = 0; return; } nLab++; el.style.opacity = 0.18 + 0.82 * Math.exp(-k / 0.5); el.style.strokeWidth = 2 + 3 * Math.exp(-k / 0.4); recent.push(u); });
+  for (const [k, s] of Object.entries(ST)) { const e = stopEls[k]; if (s.LV != null && t >= tOfClock(s.LV)) { e.setAttribute('fill', 'var(--ink)'); const age = t - tOfClock(s.LV); e.setAttribute('r', 4 + 5 * Math.exp(-age / 0.5)); } else { e.setAttribute('fill', 'var(--line)'); e.setAttribute('r', 3.5); } }
+  labEls.forEach(({ t: el, s }) => (el.style.opacity = L.p(t, tOfClock(s.LV), 0.4)));
+  tgtG.style.opacity = L.p(t, 3.0, 0.8);
+  statEl.innerHTML = `connections scanned <b>${L.num(scannedAt(clk))}</b> of ${L.num(D.connections_in_window)} in the 4-h window · stops labeled on this map <b>${nLab}</b>`;
+  const last = recent.slice(-4).reverse();
+  logEls.forEach((e, i) => { const u = last[i]; e.innerHTML = u ? `<b>${u.route}</b>${hm(u.dep)} ${nm(ST[u.from].name)} → ${nm(ST[u.to].name)}` : ''; e.style.opacity = u ? 1 - i * 0.18 : 0; });
+  P1.style.opacity = L.p(t, 4.0, 0.6);
+  // phase 2: the home
+  const p2 = L.p(t, 28.2, 0.8) * (1 - out1);
+  L.fade(P2, p2);
+  homeG.style.opacity = L.p(t, 28.6, 0.7);
+  optEls.forEach((e, i) => (e.style.opacity = L.p(t, 29.6 + (i % 4) * 0.5, 0.5)));
+  labEls.forEach(({ t: el }, i) => { if (i > 0) el.style.opacity *= 1 - 0.75 * L.p(t, 28.2, 0.8); });
+  const jk = L.lin(t, 32.6, 3.6);
+  const tot = PT.legs.reduce((a, l) => a + Math.max(0.5, l.end - l.start), 0); let acc = 0;
+  jEls.forEach((o) => { const d = Math.max(0.5, o.l.end - o.l.start); const lk = L.clamp((jk * tot - acc) / d); acc += d; o.el.setAttribute('d', lk > 0 ? L.partial(o.pts, o.cum, L.easeInOut(lk)) : ''); });
+  L.fade(resEl, L.p(t, 36.4, 0.7));
+  // phase 3: every home
+  M2.style.opacity = L.p(t, 40.6, 1.0);
+  L.fade(P3, L.p(t, 41.2, 0.8));
+  cityEls.forEach((g, i) => (g.style.opacity = L.p(t, 42.4 + i * 0.35, 0.5)));
+  rowEls.forEach((r, i) => (r.style.opacity = L.p(t, 43.0 + i * 0.35, 0.5)));
+};
+</script></body></html>

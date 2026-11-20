@@ -1,0 +1,200 @@
+{
+ "_provenance": {
+  "generated": "2026-11-20 17:41 UTC",
+  "profile": "data/templates/demo_profiles.json#north-engineer",
+  "listings": "API default listing set = data/listings/demo_set.json ids (observed: search-result text, 2026-11-20; synthetic ids start with syn-)",
+  "listing_count": 15,
+  "engine": "ledger.engine.core.run_engine / ledger.engine.evaluate (in-process), provider TransitProvider (live UM S1000100 + AAATA S1000304 GTFS, week of 2026-11-30)",
+  "regenerate": "PYTHONPATH=. python3 media/scripts/compute_data.py"
+ },
+ "what": "7-city futures simulation (naive straight-line pick vs full-week optimum)",
+ "source": "presentation/data/multicity.json (analysis/multicity)",
+ "total_futures": 28000,
+ "rule": "closest to campus (straight line)",
+ "units": {
+  "regret_h_semester": "generalized (in-vehicle-equivalent) hours per 15-week semester",
+  "usd": "at value of time $7.50/h",
+  "ci": "95%: bootstrap 10k percentile (means, medians, P90), Wilson (proportions)"
+ },
+ "global_caveats": [
+  "Feeds for Austin, UIUC, Boston and SF are expired MobilityDatabase mirrors (agency hosts blocked here); UIUC and Austin are summer schedules.",
+  "Homes uniform over residential streets (no population weights); routines synthetic, not survey-based.",
+  "Travel-only objective outside Ann Arbor; dollar figures = generalized hours x $7.50/h, not cash.",
+  "One representative Tuesday timetable for all weekdays; no ride-time variability."
+ ],
+ "cities": [
+  {
+   "key": "annarbor",
+   "city": "Ann Arbor",
+   "campus": "University of Michigan",
+   "gif": "presentation/media/multicity/annarbor.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.4505,
+   "pick_differs_ci": [
+    0.4288101840637623,
+    0.4723796036170817
+   ],
+   "regret_h_mean": 15.395693555323284,
+   "regret_h_ci": [
+    14.152503723566534,
+    16.703941167964935
+   ],
+   "regret_usd_mean": 115.46770166492462,
+   "connections": 57486,
+   "stops": 870,
+   "feed_status": [
+    "current",
+    "current"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 45% of futures (95% CI 43\u201347%); mean regret 15.4 h/semester (14.2\u201316.7), $115/semester at $7.50/h"
+  },
+  {
+   "key": "austin",
+   "city": "Austin",
+   "campus": "UT Austin",
+   "gif": "presentation/media/multicity/austin.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.4355,
+   "pick_differs_ci": [
+    0.4139141651344704,
+    0.4573331339648112
+   ],
+   "regret_h_mean": 11.413136203829447,
+   "regret_h_ci": [
+    10.54480109633287,
+    12.3347897700421
+   ],
+   "regret_usd_mean": 85.59852152872085,
+   "connections": 76765,
+   "stops": 1109,
+   "feed_status": [
+    "expired"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 44% of futures (95% CI 41\u201346%); mean regret 11.4 h/semester (10.5\u201312.3), $86/semester at $7.50/h"
+  },
+  {
+   "key": "uiuc",
+   "city": "Champaign-Urbana",
+   "campus": "UIUC",
+   "gif": "presentation/media/multicity/uiuc.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.326,
+   "pick_differs_ci": [
+    0.30580717922742506,
+    0.3468599532264509
+   ],
+   "regret_h_mean": 6.240819861984253,
+   "regret_h_ci": [
+    5.613559032665094,
+    6.901839185831547
+   ],
+   "regret_usd_mean": 46.8061489648819,
+   "connections": 57495,
+   "stops": 1572,
+   "feed_status": [
+    "expired"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 33% of futures (95% CI 31\u201335%); mean regret 6.2 h/semester (5.6\u20136.9), $47/semester at $7.50/h"
+  },
+  {
+   "key": "princeton",
+   "city": "Princeton",
+   "campus": "Princeton University",
+   "gif": "presentation/media/multicity/princeton.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.291,
+   "pick_differs_ci": [
+    0.27150886032983435,
+    0.31129246543372924
+   ],
+   "regret_h_mean": 6.631317230407397,
+   "regret_h_ci": [
+    5.83940815893968,
+    7.478469331948956
+   ],
+   "regret_usd_mean": 49.734879228055476,
+   "connections": 3812,
+   "stops": 166,
+   "feed_status": [
+    "expired",
+    "expired"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 29% of futures (95% CI 27\u201331%); mean regret 6.6 h/semester (5.8\u20137.5), $50/semester at $7.50/h"
+  },
+  {
+   "key": "boston",
+   "city": "Cambridge-Boston",
+   "campus": "Harvard",
+   "gif": "presentation/media/multicity/boston.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.4505,
+   "pick_differs_ci": [
+    0.4288101840637623,
+    0.4723796036170817
+   ],
+   "regret_h_mean": 8.448893612098695,
+   "regret_h_ci": [
+    7.7890580644226075,
+    9.086349909814993
+   ],
+   "regret_usd_mean": 63.366702090740205,
+   "connections": 170945,
+   "stops": 1731,
+   "feed_status": [
+    "expired"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 45% of futures (95% CI 43\u201347%); mean regret 8.4 h/semester (7.8\u20139.1), $63/semester at $7.50/h"
+  },
+  {
+   "key": "nyc",
+   "city": "New York City",
+   "campus": "NYU + Columbia",
+   "gif": "presentation/media/multicity/nyc.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.4055,
+   "pick_differs_ci": [
+    0.384182906896499,
+    0.4271794150396578
+   ],
+   "regret_h_mean": 14.961027864519753,
+   "regret_h_ci": [
+    13.03819914264679,
+    17.01663874933322
+   ],
+   "regret_usd_mean": 112.20770898389816,
+   "connections": 380426,
+   "stops": 2238,
+   "feed_status": [
+    "current",
+    "current"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 41% of futures (95% CI 38\u201343%); mean regret 15.0 h/semester (13.0\u201317.0), $112/semester at $7.50/h"
+  },
+  {
+   "key": "sf",
+   "city": "San Francisco",
+   "campus": "UCSF + SF State",
+   "gif": "presentation/media/multicity/sf.gif",
+   "n_futures": 2000,
+   "pick_differs_p": 0.513,
+   "pick_differs_ci": [
+    0.4910904157100915,
+    0.534859741060596
+   ],
+   "regret_h_mean": 13.260846631622316,
+   "regret_h_ci": [
+    12.389700531646413,
+    14.160011855429806
+   ],
+   "regret_usd_mean": 99.45634973716736,
+   "connections": 343937,
+   "stops": 3256,
+   "feed_status": [
+    "expired",
+    "expired"
+   ],
+   "headline": "Picking the home closest to campus differs from the full-week optimum in 51% of futures (95% CI 49\u201353%); mean regret 13.3 h/semester (12.4\u201314.2), $99/semester at $7.50/h"
+  }
+ ],
+ "finale_gif": "presentation/media/multicity/finale_all_cities.gif"
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="lib.js"></script>
+<style>
+.head { left: 96px; top: 100px; }
+.head h1 { font-size: 60px; }
+.head .sub { margin-top: 10px; font-size: 26px; }
+canvas { position: absolute; left: 0; top: 0; }
+.side { position: absolute; left: 1100px; top: 262px; width: 740px; }
+.lab { font: 600 20px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.big { font: 600 112px/1 var(--sans); letter-spacing: -0.03em; margin-top: 14px; }
+.big small { font: 400 30px var(--sans); color: var(--accent); letter-spacing: 0; margin-left: 10px; }
+.se { font: 400 26px/1.3 var(--sans); color: var(--body); margin-top: 10px; }
+.se b { color: var(--ink); font-weight: 600; }
+.key { position: absolute; left: 96px; top: 984px; display: flex; gap: 40px; font: 500 22px/1 var(--sans); color: var(--body); align-items: center; }
+.key i { display: inline-block; width: 16px; height: 16px; border-radius: 50%; margin-right: 10px; vertical-align: -2px; }
+.vary { margin-top: 24px; font: 400 22px/1.5 var(--sans); color: var(--body); border-top: 1px solid var(--line); padding-top: 16px; }
+.vary b { color: var(--ink); font-weight: 600; }
+.final { position: absolute; left: 1100px; top: 262px; width: 740px; }
+.final .n { font: 600 112px/1 var(--sans); letter-spacing: -0.03em; }
+.final .n small { font: 400 40px var(--sans); color: var(--accent); }
+.final .t { font: 400 36px/1.15 var(--display); margin-top: 18px; }
+.final .t em { font-style: italic; }
+.final .d { font: 400 23px/1.4 var(--sans); color: var(--body); margin-top: 22px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style></head><body>
+<canvas id="cv" width="1920" height="1080"></canvas>
+<script>
+const D = window.DATA, P = D.params, S = D.samples, W = D.winner_index;
+window.DURATION = 41; window.POSTER_T = 38;
+const A = D.a, NA = L.short(A), B = D.ids[1];
+const COLS = 50, ROWS = 40, GX = 96, GY = 268, SP = 17.4, R = 6.2;
+const T0 = 4.2, T1 = 24.0, K = Math.log(S);
+const nAt = (t) => t < T0 ? 0 : Math.min(S, Math.floor((Math.exp(K * L.clamp((t - T0) / (T1 - T0))) - 1) / (Math.exp(K) - 1) * S + 1e-9));
+const tOf = (i) => T0 + (T1 - T0) * Math.log(1 + i * (Math.exp(K) - 1) / S) / K;   // time dot i appears
+const cellXY = (k) => [GX + (k % COLS) * SP + SP / 2, GY + Math.floor(k / COLS) * SP + SP / 2];
+// sorted position: winners of A first (in sample order), then the others
+const sortedPos = new Array(S); { let a = 0, b = W.filter((w) => w === 0).length; W.forEach((w, i) => { sortedPos[i] = w === 0 ? a++ : b++; }); }
+const OTH = new Set(W.filter((w) => w !== 0));
+const NAw = W.filter((w) => w === 0).length;
+let ctx, HEAD, SIDE, big, se, nline, FINAL, KEY;
+const CH = { x: 1100, y: 650, w: 700, h: 220 };
+const FACT = { value_of_time: `value of time ${L.usd(P.vot_low, 0)}–${L.usd(P.vot_high, 0)}/h`, time_multipliers: 'walk / wait / transfer weights', weather: 'January weather', utilities: 'utility prices',
+  late_night: 'late-night $/min', schedule: D.schedule_note.replace('sampled semesters from template', 'template semesters:').split(':')[0], coop: 'co-op hours & grocery offset' };
+window.setup = () => {
+  ctx = document.getElementById('cv').getContext('2d');
+  HEAD = L.h('div', { class: 'abs head' }, document.body, `<h1>How sure is <em>#1?</em></h1>
+    <div class="sub">${L.num(S)} plausible semesters. Each redraws only what the student is unsure about, then re-ranks every home.</div>`);
+  SIDE = L.h('div', { class: 'side' }, document.body);
+  L.h('div', { class: 'lab' }, SIDE, `${NA} is #1 in`);
+  big = L.h('div', { class: 'big num' }, SIDE);
+  se = L.h('div', { class: 'se' }, SIDE);
+  L.h('div', { class: 'vary' }, SIDE, `<b>Varied each draw:</b> ${D.factors.map((f) => FACT[f] || f).join(' · ')}`);
+  KEY = L.h('div', { class: 'key' }, document.body, `<span><i style="background:var(--ink)"></i>${NA} is #1</span><span><i style="border:3px solid var(--accent)"></i>another home is #1${OTH.size === 1 ? ` (${L.short(D.ids[[...OTH][0]])} every time)` : ''}</span>`);
+  FINAL = L.h('div', { class: 'final' }, document.body, `<div class="lab">Final</div>
+    <div class="n num" style="margin-top:14px">${L.num(D.count_a)}<small> of ${L.num(S)}</small></div>
+    <div class="t">semesters keep <em>${NA}</em> at #1 (${(100 * D.p_rank1[A]).toFixed(1)}%, MC standard error ≤ ${(100 * D.mc_standard_error_engine).toFixed(1)} pts).</div>
+    <div class="d">${D.drivers[1]} ${D.drivers[2]}<br>${D.drivers[3]}</div>`);
+  L.chrome('how sure', `engine robustness, seed ${D.seed}, common random numbers · media/videos/how-sure.json`);
+};
+function chart(n, k) {
+  // running share with ±2 SE band, x = log10(n)
+  const { x, y, w, h } = CH;
+  ctx.save(); ctx.globalAlpha = k;
+  const xn = (i) => x + (Math.log10(i) / Math.log10(S)) * w, yp = (p) => y + h - p * h;
+  ctx.strokeStyle = '#B8B0A4'; ctx.lineWidth = 1; ctx.setLineDash([4, 6]);
+  for (const p of [0, 0.5, 1]) { ctx.beginPath(); ctx.moveTo(x, yp(p)); ctx.lineTo(x + w, yp(p)); ctx.stroke(); }
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#8A8178'; ctx.font = '500 20px "Inter Tight"'; ctx.textAlign = 'right';
+  for (const p of [0, 0.5, 1]) ctx.fillText(`${p * 100}%`, x - 12, yp(p) + 7);
+  ctx.textAlign = 'center';
+  for (const i of [1, 10, 100, 1000, S]) ctx.fillText(L.num(i), xn(i), y + h + 32);
+  ctx.textAlign = 'left'; ctx.fillText('semesters drawn (log scale) · share with ±2 standard errors', x, y - 18);
+  if (n >= 1) {
+    ctx.beginPath();
+    for (let i = 1; i <= n; i++) { const p = D.running_p[i - 1], s = D.running_se[i - 1]; ctx[i === 1 ? 'moveTo' : 'lineTo'](xn(i), yp(Math.min(1, p + 2 * s))); }
+    for (let i = n; i >= 1; i--) { const p = D.running_p[i - 1], s = D.running_se[i - 1]; ctx.lineTo(xn(i), yp(Math.max(0, p - 2 * s))); }
+    ctx.closePath(); ctx.fillStyle = 'rgba(138,129,120,0.25)'; ctx.fill();
+    ctx.beginPath();
+    for (let i = 1; i <= n; i++) ctx[i === 1 ? 'moveTo' : 'lineTo'](xn(i), yp(D.running_p[i - 1]));
+    ctx.strokeStyle = '#1A1A1A'; ctx.lineWidth = 3; ctx.stroke();
+  }
+  ctx.restore();
+}
+window.renderFrame = (t) => {
+  ctx.clearRect(0, 0, 1920, 1080);
+  L.fade(HEAD, L.p(t, 0.3, 0.8));
+  const gridK = L.p(t, 2.0, 1.0);
+  // empty cells
+  ctx.fillStyle = `rgba(184,176,164,${0.35 * gridK})`;
+  for (let k = 0; k < S; k++) { const [x, y] = cellXY(k); ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill(); }
+  const n = nAt(t);
+  const sortK = L.p(t, 27.0, 3.2, L.easeInOut);
+  for (let i = 0; i < n; i++) {
+    const ti = tOf(i), fall = L.p(t, ti, 0.45);
+    let [x, y] = cellXY(i);
+    if (sortK > 0) { const [x2, y2] = cellXY(sortedPos[i]); const kk = L.easeInOut(L.clamp(sortK * 1.6 - (i / S) * 0.6)); x = L.mix(x, x2, kk); y = L.mix(y, y2, kk); }
+    y -= (1 - fall) * 60;
+    ctx.globalAlpha = fall;
+    ctx.beginPath(); ctx.arc(x, y, R, 0, 7);
+    if (W[i] === 0) { ctx.fillStyle = '#1A1A1A'; ctx.fill(); } else { ctx.strokeStyle = '#8A8178'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.arc(x, y, R - 1.3, 0, 7); ctx.stroke(); }
+  }
+  ctx.globalAlpha = 1;
+  // highlight the newest dot early on
+  if (n > 0 && n < 40) { const [x, y] = cellXY(n - 1); ctx.strokeStyle = 'rgba(26,26,26,.5)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, R + 6, 0, 7); ctx.stroke(); }
+  const sideK = L.p(t, 3.2, 0.8) * (1 - L.p(t, 30.0, 0.7));
+  L.fade(SIDE, sideK);
+  L.fade(KEY, L.p(t, 4.0, 0.8));
+  const p = n ? D.running_p[n - 1] : 0, s = n ? D.running_se[n - 1] : 0;
+  big.innerHTML = n ? `${(100 * p).toFixed(1)}%` : '—';
+  se.innerHTML = n ? `of <b>${L.num(n)}</b> semesters drawn · standard error <b>±${(100 * s).toFixed(1)}</b> pts` : 'waiting for the first draw';
+  chart(n, sideK);
+  L.fade(FINAL, L.p(t, 30.8, 0.9));
+};
+</script></body></html>
