@@ -1,78 +1,76 @@
+// I · The decision: two homes, two all-in totals, two real weeks of trips. Receipt lines live in the notes and the app.
 import type { Chapter } from '../deck';
-import { plan, ranked, listing, listingName, profile, type Evaluation, lname } from '../api';
+import { plan, ranked, listingName, type Evaluation, lname } from '../api';
 import { PROFILE } from '../requests.js';
-import { html, num, countUp, fmt, esc, said, eyebrow, icon } from '../lib';
+import { html, num, countUp, fmt } from '../lib';
+import { base, loadBase, bboxOf, routeLayer, streets } from '../routemap';
 
 const SRC = `api:POST /evaluate ${PROFILE.hook}`;
+const rentOf = (e: Evaluation) => e.ledger.find((x) => x.key === 'rent')?.usd_month ?? Infinity;
 
-function receipt(e: Evaluation, role: 'cheap' | 'best') {
-  const l = listing(e.listing_id);
-  const rent = e.ledger.find((x) => x.key === 'rent')?.usd_month ?? l?.rent;
-  const lines = e.ledger.filter((x) => x.key !== 'rent' && x.key !== 'amenity_gap' && Math.abs(x.usd_month) >= 0.5);
-  const best = role === 'best';
+function miniMap(ev: any, both: any[], mute: boolean) {
+  const b = base;
+  if (!b || !ev) return html`<div class="hk-map img-ph"></div>`;
+  const bb = bboxOf(b, both);
+  const pad = 26, w = bb.x1 - bb.x0 + pad * 2, h = bb.y1 - bb.y0 + pad * 2;
+  return html`<svg class="hk-map" viewBox="${bb.x0 - pad} ${bb.y0 - pad} ${w} ${h}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    ${streets(b)}${routeLayer(b, ev, mute ? 'mute' : '', 22)}</svg>`;
+}
+
+function side(e: Evaluation, ev: any, both: any[], best: boolean, i: number) {
   return html`
-  <div class="card receipt ${best ? 'rc-best' : ''} enter" style="--i:${best ? 4 : 3}">
-    <div class="rc-head">
-      ${icon(best ? 'II' : 'I', best ? 'on' : '')}
-      <span class="label">${role === 'cheap' ? 'Lowest rent on the list' : 'Cheapest actual week'}</span>
-      <span class="prov">${esc(l?.provenance ?? '')}</span>
-    </div>
-    <h3 class="rc-name">${lname(e.listing_id)}</h3>
-    <div class="rc-rent"><span>Rent</span>${num(fmt(rent, 'usd'), SRC)}</div>
-    <ul class="rc-lines">
-      ${lines.map((x) => html`<li><span>${esc(x.label)}</span>${num((x.usd_month >= 0 ? '+' : '') + fmt(x.usd_month, 'usd'), SRC)}</li>`)}
-    </ul>
-    <div class="rc-total"><span class="label">All-in, per month</span>${countUp(e.all_in_total, 'usd', SRC, 'rc-big')}</div>
-    <div class="rc-foot micro">${num(`#${e.rank}`, SRC)} by all-in cost · ${num(fmt(e.commute.weekly_min / 60, 'hours'), SRC)} door-to-door per week</div>
+  <div class="hk-side ${best ? 'best' : 'cheap'} enter" style="--i:${i}">
+    <div class="plate-img hk-plate">${miniMap(ev, both, !best)}</div>
+    <div class="hk-who"><span class="hk-name">${lname(e.listing_id)}</span><span class="hk-rent">rent ${num(fmt(rentOf(e), 'usd'), SRC)}${best ? '' : html` <b class="hk-low">lowest</b>`}</span></div>
+    <div class="hero md ${best ? '' : 'mute'}">${countUp(e.all_in_total, 'usd', SRC)}</div>
+    <div class="hk-cap">a month, all-in · ${num(fmt(e.commute.weekly_min / 60, 'hours'), SRC)} of trips a week</div>
   </div>`;
 }
 
 export const hook: Chapter = {
   id: 'hook',
   title: 'The decision',
-  numeral: 'I',
-  gist: 'Lowest rent is not the cheapest week',
-  budget: 22,
-  deps: ['listings', `eval:${PROFILE.hook}`],
+  budget: 29,
+  deps: ['listings', `eval:${PROFILE.hook}`, 'routes'],
   render() {
-    const ev = plan[`eval:${PROFILE.hook}`];
-    const top = ranked(ev);
-    const prof = profile(PROFILE.hook);
+    const top = ranked(plan[`eval:${PROFILE.hook}`]);
     let body: string;
     if (!top.length) {
-      body = html`<div class="pending enter" style="--i:2"><b>Waiting for the engine</b>The receipts are computed live by the API (or its snapshot). Nothing is pre-typed.</div>`;
+      body = html`<div class="pending enter" style="--i:2"><b>Waiting for the engine</b>Computed live by the API (or its snapshot). Nothing is pre-typed.</div>`;
     } else {
-      const rentOf = (e: Evaluation) => e.ledger.find((x) => x.key === 'rent')?.usd_month ?? Infinity;
       const cheapest = [...top].sort((a, b) => rentOf(a) - rentOf(b))[0];
       const best = top[0];
       if (cheapest.listing_id === best.listing_id) {
-        body = html`<div class="hook-grid">${receipt(best, 'best')}<div class="pending enter" style="--i:3"><b>Here the lowest rent also wins</b>For this student the cheapest rent is also the cheapest week — the engine says so instead of forcing a story.</div></div>`;
+        body = html`<div class="pending enter" style="--i:2"><b>Here the lowest rent also wins</b>The engine says so instead of forcing a story.</div>`;
       } else {
-        const gapRent = Math.abs(rentOf(cheapest) - rentOf(best));
-        const gapAll = cheapest.all_in_total - best.all_in_total;
+        const r = plan.routes;
+        const evA = r?.a?.listing_id === best.listing_id ? r.a : null, evB = r?.b?.listing_id === cheapest.listing_id ? r.b : null;
+        const both = [evA, evB].filter(Boolean);
         body = html`
-        <div class="hook-grid">
-          ${receipt(cheapest, 'cheap')}
-          <div class="hook-mid enter" style="--i:5">
-            <div class="vs-b"><div class="label">Rent says</div><div class="vs-n">${num(fmt(gapRent, 'usd'), SRC)}</div><div class="micro">cheaper</div></div>
-            <div class="vs-rule"></div>
-            <div class="vs-b"><div class="label">The week says</div><div class="vs-n ink">${num(fmt(gapAll, 'usd'), SRC)}</div><div class="micro">more, every month</div></div>
-          </div>
-          ${receipt(best, 'best')}
-        </div>`;
+        <div class="hk-grid">
+          ${side(cheapest, evB, both, false, 2)}
+          <div class="hk-vs enter" style="--i:4"><span>vs</span></div>
+          ${side(best, evA, both, true, 3)}
+        </div>
+        <p class="hk-line enter" style="--i:5">The lowest rent costs <b>${num(fmt(cheapest.all_in_total - best.all_in_total, 'usd'), SRC)} more</b> every month.</p>`;
       }
     }
     return html`
       <div class="geo vline"></div>
-      ${eyebrow(this.numeral, 'The decision')}
-      <h1 class="hook-title enter" style="--i:1">Lowest rent <em class="neq">≠</em> cheapest week.</h1>
-      <p class="sub enter" style="--i:2">Same student — ${said(prof?.name ?? 'demo student', 'api:GET /demo-profiles')} — same listings, priced on this fall’s real bus timetables.</p>
-      <div class="grow">${body}</div>`;
+      <h2 class="enter" style="--i:1">Lowest rent isn’t the <em>cheapest week.</em></h2>
+      <div class="grow hk-body">${body}</div>`;
+  },
+  mount(el) {
+    if (!base) loadBase().then((b) => b && el.dispatchEvent(new CustomEvent('deck:rerender', { bubbles: true })));
   },
   notes() {
     const top = ranked(plan[`eval:${PROFILE.hook}`]);
-    return `<p><b>I · The decision (22 s).</b> "Listings tell you rent. Your life is a week." Point at the left receipt: lowest rent on the list. Then the right one: what the week actually costs once fees, utilities and every bus/walk trip of the routine are priced.</p>
-      <p>Live numbers — #1 is <b>${top[0] ? listingName(top[0].listing_id) : '…'}</b>. Don't read every line; land the two totals.</p>
+    const lines = (e?: Evaluation) => e ? e.ledger.filter((x) => Math.abs(x.usd_month) >= 0.5 && x.key !== 'amenity_gap').map((x) => `${x.label} ${fmt(x.usd_month, 'usd')}`).join(' · ') : '…';
+    const cheap = [...top].sort((a, b) => rentOf(a) - rentOf(b))[0];
+    return `<p><b>I · The decision (29 s).</b> "Same student — a North Campus engineer — same listings, priced on this fall's real bus timetables." Left: the lowest rent on the list. Right: the cheapest actual week. The maps are each home's real week of trips (thick = bus, thin = walking).</p>
+      <p>Land the two totals and the gap. Don't read the receipt lines; if asked:</p>
+      <p><b>${cheap ? listingName(cheap.listing_id) : '…'}</b>: ${lines(cheap)}</p>
+      <p><b>${top[0] ? listingName(top[0].listing_id) : '…'}</b> (#1): ${lines(top[0])}</p>
       <p>Transition: "So why do students get this wrong?"</p>`;
   },
 };

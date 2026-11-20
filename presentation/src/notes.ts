@@ -1,6 +1,6 @@
 // Speaker-notes window, synced with the deck over BroadcastChannel('lease-ledger-deck').
-import '@fontsource/playfair-display/400.css';
-import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/inter-tight/wght.css';
 import './notes.css';
 
 const root = document.getElementById('notes')!;

@@ -9,12 +9,12 @@ const fs = require('node:fs');
 
 const arg = (k, d) => (process.argv.find((a) => a.startsWith(`--${k}=`)) ?? `=${d}`).split('=').slice(1).join('=');
 const URL0 = arg('url', 'http://localhost:4400/');
-const OUT = path.resolve(__dirname, '..', arg('out', 'screenshots/cartesian'));
+const OUT = path.resolve(__dirname, '..', arg('out', 'screenshots/v3'));
 fs.mkdirSync(OUT, { recursive: true });
 
 (async () => {
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
   const errors = [];
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
   page.on('pageerror', (e) => errors.push(String(e)));
@@ -29,19 +29,19 @@ fs.mkdirSync(OUT, { recursive: true });
     await page.evaluate((k) => window.__deck.go(k, false), i);
     await page.waitForTimeout(400);
     const pre = async (suffix) => { await page.waitForTimeout(1800); await page.screenshot({ path: path.join(OUT, `${String(i + 1).padStart(2, '0')}${suffix}-${id}.png`) }); };
-    if (id === 'how' || id === 'demo' || id === 'problem') await pre('a');
+    if (['demo', 'robust', 'evidence', 'limits', 'multicity'].includes(id)) await pre('a');
+    if (id === 'how') for (let k = 0; k < 4; k++) { await page.evaluate((kk) => document.getElementById('how').dispatchEvent(new CustomEvent('deck:setstep', { bubbles: true, detail: kk })), k); await pre(String.fromCharCode(97 + k)); }
     await page.evaluate((cid) => document.getElementById(cid).dispatchEvent(new CustomEvent('deck:setstep', { bubbles: true, detail: 99 })), id);
     if (id === 'demo') {
       await page.click('.flip-btn[data-flip="vot"]');
       await page.waitForTimeout(3500);
     }
-    if (id === 'how') await page.evaluate(() => document.getElementById('how').dispatchEvent(new CustomEvent('deck:setstep', { bubbles: true, detail: 2 })));
     await page.waitForTimeout(id === 'demo' ? 600 : 2600);
     const file = path.join(OUT, `${String(i + 1).padStart(2, '0')}-${id}.png`);
     await page.screenshot({ path: file });
     if (id === 'multicity') {
-      for (const [k, suf] of [[-2, 'b'], [-1, 'c']]) {
-        await page.evaluate((kk) => { const s = document.querySelectorAll('#multicity .mc-index span'); s[s.length + kk]?.dispatchEvent(new MouseEvent('click', { bubbles: true })); }, k);
+      for (const [k, suf] of [[-1, 'c']]) {
+        await page.evaluate((kk) => { const s = document.querySelectorAll('#multicity .mc-ticks i'); s[s.length + kk]?.dispatchEvent(new MouseEvent('click', { bubbles: true })); }, k);
         await page.waitForTimeout(1500);
         await page.screenshot({ path: path.join(OUT, `${String(i + 1).padStart(2, '0')}${suf}-${id}.png`) });
       }

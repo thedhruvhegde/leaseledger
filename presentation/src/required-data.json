@@ -22,6 +22,6 @@
   "surface_glob": "surface-*.geojson",
   "surfaces_min": 2,
   "optional": {
-    "interviews.json": "chapter 2 interview tallies; absent => slide says interviews are in progress (never invented)"
+    "interviews.json": "What-students-told-us chapter (with public/interviews/*.jpg|png); absent => the chapter is left out of the talk (never invented, never shown as pending)"
   }
 }

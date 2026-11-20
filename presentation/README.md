@@ -1,6 +1,12 @@
 # Lease Ledger — showcase deck (`presentation/`)
 
-This is a cross-fading slide deck built with Vite and TypeScript, designed in the **Cartesian** editorial system (`design/CARTESIAN.md`): a museum-catalogue monograph on a stone canvas — Playfair Display 400 headlines and numerals, Inter body, taupe uppercase labels, 1px hairlines, compass-ring geometry, no shadows or gradients. The embedded app keeps its own black-and-white style inside hairline device frames (the deck is the monograph, the app is the instrument). It runs fully offline: fonts come from `@fontsource` (Playfair Display 5.2.8, Inter 5.2.8), KaTeX is bundled, and nothing loads from a CDN. It embeds the real app and calls the real API. Every number on a slide comes from one of two places:
+This is a cross-fading slide deck built with Vite and TypeScript. It uses the Cartesian palette (`design/CARTESIAN.md`: stone canvas, ink, 1px hairlines, no shadows) with the v3 type and layout rules in **`design/DECK-NOTES.md`**:
+- **Fraunces** headlines and **Inter Tight** body and numbers (tabular figures), both bundled through `@fontsource-variable` (Fraunces 5.2.8, Inter Tight 5.2.7). KaTeX is bundled too; nothing loads from a CDN.
+- Each slide has one headline, one hero image or number, and at most one supporting line.
+- Nothing on a slide is smaller than 22px, except the live/snapshot indicator.
+- Caveats and detail live in the speaker notes and on the Limits slide.
+
+The deck runs fully offline. It embeds the real app and calls the real API.
 - the API, live or from its cached snapshot;
 - `presentation/data/facts.json`, which the evidence agent writes.
 
@@ -15,7 +21,7 @@ This is a cross-fading slide deck built with Vite and TypeScript, designed in th
 - **`npm run snapshot`** captures every API response the deck uses into `public/snapshot.json`. The API must be up. The script also checks that the three scripted flips still flip the way `execution/demo-flips.md` says, and exits non-zero if they don't. Re-run it after any engine or data change.
 - **`npm run build`** runs the honesty checks (below), then `tsc`, then `vite build` into `dist/`. Serve the result with `npm run preview`, also on :4400.
 - **`npm run screenshots`** (the deck must be running) does two things:
-  - writes every chapter at 1920×1080 to `screenshots/cartesian/` (plus extra states: pipeline intro, demo before the flip, the all-city plate and the catalogue; `--out=` and `--only=` override);
+  - writes every chapter at 1920×1080 to `screenshots/v3/` (plus extra states: each how-it-works step, the demo before the flip, the first city plate, the pre-reveal states; `--out=` and `--only=` override);
   - checks that every visible number on a slide carries `data-src`.
 - **`npm run check`** runs the honesty checks and only warns about placeholders.
 - **`npm run export`** (the deck must be running) writes a backup PDF of every slide, every multi-city plate and the catalogue to `export/lease-ledger-deck.pdf`.
@@ -38,24 +44,28 @@ This is a cross-fading slide deck built with Vite and TypeScript, designed in th
 
 ## Chapters (budget sums to 5:00)
 
-| # | Chapter | Budget | Source of every number |
+| # | Chapter | Budget | Hero (source) |
 |---|---|---|---|
-| — | Cover — title plate (geo ring, ink accent) | 0:08 | none |
-| — | Contents — agenda generated from the chapter list (Roman numerals, clickable) | 0:07 | none |
-| I | The decision — "Lowest rent ≠ cheapest week" (two receipts, count-up totals) | 0:22 | `POST /evaluate` north-engineer |
-| II | Why it's hard — Plate I week strip, citations, interviews "in progress" unless `data/interviews.json` | 0:25 | `/demo-profiles`, `/evaluate` |
-| III | How it works — five-step timeline, KaTeX from `GET /methods` revealed per step | 0:35 | `/methods`, `/manifest` |
-| IV | **Live demo** — app in hairline laptop + phone frames; 3 scripted flips in a ledger table with animated ranks | 1:15 | `/evaluate` + `/diff` (flips from `execution/demo-flips.md` only) |
-| V | How sure are we — 100-mark frequency array plus the breakeven number line | 0:28 | `/robustness`, `/compare` |
-| VI | Evidence — one anchor vs two, ablation, validation (field rides "pending" unless `data/field.json`) | 0:25 | `data/facts.json` (with 95% CIs) |
-| VII | Same city, different map — Plate II cost-surface morph (stone→ink tones) | 0:15 | `data/surface-*.geojson`, `facts.json` |
-| VIII | Seven cities — rapid-fire catalogue plates (~3 s each, click to pause, click a numeral to jump), all-city plate, catalogue grid + stats; honesty footer from feed statuses | 0:22 | `data/multicity.json`, `media/multicity/*` |
-| IX | Group Week — surplus ledger, fair split, envy matrix | 0:18 | `POST /group` |
-| X | Limits & next — API limitations, campus scaling, **plan** (not traction) | 0:12 | `/methods`, `/manifest` |
-| — | Close — geo ring, one sentence, the ask | 0:08 | none |
-| A | Appendix: the math under the hood — Sobol, τ(t) sawtooth, CVaR, EVPI | Q&A | `/api/advanced/*` (optional — shows "pending") |
+| 1 | Cover — full-bleed Ann Arbor with one engineer's week of trips drawn on in ink | 0:08 | `POST /compare` trip legs over `basemap-paths.json` |
+| 2 | The decision — two homes, two route maps, two all-in totals | 0:29 | `POST /evaluate` north-engineer, `POST /compare` (`routes`) |
+| 3 | A whole week — the week grid plus one number (trips routed) and author-year chips | 0:25 | `/demo-profiles`, `/evaluate` |
+| — | *What students told us* — collage + keyword chips. **Only in the talk when `data/interviews.json` or `public/interviews/*.jpg\|png` exists**; then it takes 0:10 from chapter 3 | (0:10) | user-supplied only |
+| 4 | How it works — five steps, one picture or number each (app screenshot, timetable count, a real day tour, the walk/wait weight, the receipt) | 0:35 | `public/img/*`, `/manifest`, `/compare`, `facts.json` |
+| 5 | **Live demo** — app in hairline frames; three scripted flips with animated ranks | 1:15 | `/evaluate` + `/diff` (flips from `execution/demo-flips.md` only) |
+| 6 | How sure — 100-mark array and "n in 100", then → the breakeven number line | 0:28 | `/robustness`, `/compare` |
+| 7 | Evidence — two-anchor hero %, one-anchor %, then → validation | 0:25 | `data/facts.json` |
+| 8 | Same city, different map — two cost surfaces side by side, one overlap % | 0:15 | `data/surface-*.geojson`, `facts.json` |
+| 9 | Seven cities — rapid fire: each city's map + one %, then a catalogue of all seven (tag: simulated · travel-only) | 0:22 | `data/multicity.json`, `media/multicity/*` |
+| 10 | Group Week — app screenshot, fair rent each, largest envy | 0:18 | `POST /group` |
+| 11 | Limits & next — six short limits (the full API list is in the notes), then → the plan | 0:12 | `/methods` |
+| 12 | Close — the city again, one sentence, the ask | 0:08 | none |
+| A | Appendix: the math under the hood — Sobol, τ(t) sawtooth, CVaR, EVPI | Q&A | `/api/advanced/*` |
 
-If time is tight, skip chapter VIII: press `→` twice, or jump with the number keys. The multi-city GIFs are shown grayscale and multiplied into the stone canvas (CSS `mix-blend-mode: multiply`), so their white becomes the page.
+The receipt lines, CIs, portal comparison, ablation, citations' findings and every caveat are in each chapter's speaker notes (`S`).
+
+If time is tight, skip the seven-cities chapter (jump with the number keys). The multi-city GIFs are cropped to their map, shown grayscale and multiplied into the stone canvas (CSS `mix-blend-mode: multiply`), so their white becomes the page.
+
+**Interviews:** drop photos into `public/interviews/` and/or write `data/interviews.json` (`{completed?, keywords|themes|tags: [string | {label, count}], images?, note?}`). `npm run prep` lists the images, and the chapter joins the talk after chapter 3. With neither present it stays out entirely. Nothing is ever invented.
 
 ## Honesty checks (`scripts/check-copy.mjs`; `--strict` in `npm run build`)
 1. **No hard-coded digits in slide copy.**
@@ -88,7 +98,7 @@ If time is tight, skip chapter VIII: press `→` twice, or jump with the number 
   - The portal gap is mostly rent and all-in accounting, **not routing**.
   - The fair test is the single-destination commute model.
   - **Never claim field rides** unless the slide shows field results.
-- [ ] Interviews: say exactly what slide 2 shows. If none are logged, it says "in progress".
+- [ ] Interviews: the "What students told us" slide exists only when real material is in `public/interviews/` or `data/interviews.json`. Say exactly what it shows; if it's absent, don't mention counts.
 
 ## Files
 - `src/requests.js`: every API request (shared with `scripts/snapshot.mjs`). The flip definitions live here, along with `ADVANCED` request bodies (adjust them once `/api/advanced/*` schemas are final).
@@ -97,4 +107,6 @@ If time is tight, skip chapter VIII: press `→` twice, or jump with the number 
 - `src/styles.css` (tokens, components, chrome) and `src/chapters.css` (per-chapter layouts): the Cartesian system.
 - `src/facts.ts`: the `facts.json` accessors `F()` and `CI()`, and placeholders.
 - `src/chapters/*.ts`: one file per chapter, including its speaker notes.
+- `src/routemap.ts`: ink route maps (basemap streets + `/compare` trip-leg geometry, draw-on animation).
+- `scripts/prep-interviews.mjs`: lists `public/interviews/*` into `src/interviews-manifest.json`.
 - `scripts/prep-basemap.mjs`: turns `web/public/basemap.geojson` into compact SVG paths (`public/basemap-paths.json`).

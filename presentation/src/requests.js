@@ -132,6 +132,16 @@ export async function runPlan(call, group, onResult = (_n, _d) => {}) {
     if (top.length > 1) jobs.push(get('compare', 'POST', '/compare', { profile: P[rp], a: top[0].listing_id, b: top[1].listing_id }));
   }
   if (group) jobs.push(get('group', 'POST', '/group', group));
+  // the hook's two homes (lowest rent vs cheapest week) with every trip leg's geometry: cover map + hook maps
+  const hk = out[`eval:${PROFILE.hook}`];
+  if (hk) {
+    const feas = hk.evaluations.filter((e) => e.feasible).sort((a, b) => a.rank - b.rank);
+    const rent = (e) => e.ledger.find((x) => x.key === 'rent')?.usd_month ?? Infinity;
+    const cheap = [...feas].sort((a, b) => rent(a) - rent(b))[0];
+    if (cheap && feas[0] && cheap.listing_id !== feas[0].listing_id) {
+      jobs.push(get('routes', 'POST', '/compare', { profile: P[PROFILE.hook], a: feas[0].listing_id, b: cheap.listing_id }));
+    }
+  }
   await Promise.all(jobs);
 
   // advanced math (appendix); failures leave the chapter in its "pending" state

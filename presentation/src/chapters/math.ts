@@ -7,7 +7,7 @@
 import type { Chapter } from '../deck';
 import { plan, sname } from '../api';
 import { MUSIC_VOT } from '../requests.js';
-import { html, num, said, esc, fmt, eyebrow } from '../lib';
+import { html, num, said, esc, fmt } from '../lib';
 import { tex } from './how';
 
 const S = 'api:POST /advanced/sensitivity', PR = 'api:POST /advanced/profile', RK = 'api:POST /advanced/risk', EV = 'api:POST /advanced/evpi';
@@ -110,8 +110,7 @@ export const math: Chapter = {
   deps: ['adv:profile', 'adv:sensitivity', 'adv:evpi', 'adv:evpiMusic', 'adv:risk', 'listings'],
   render() {
     return html`
-      ${eyebrow('A', 'Appendix · for Q&A', html`<span class="micro">click a card or press → for its equation</span>`)}
-      <h2 class="mt-title">The math under the hood.</h2>
+      <h2 class="mt-title">The math <em>under the hood.</em></h2>
       <div class="math-grid">
         <div class="card">${ttl('I', 'What drives the decision', 'Sobol')}${sobolCard()}<div class="eq hide-until" data-step="1">${tex(EQ.sobol)}</div></div>
         <div class="card">${ttl('II', 'Door-to-door time is a sawtooth', 'τ(t)')}${sawCard()}<div class="eq hide-until" data-step="2">${tex(EQ.profile)}</div></div>

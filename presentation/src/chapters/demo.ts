@@ -1,7 +1,7 @@
 import type { Chapter } from '../deck';
 import { call, plan, ranked, type Evaluation, sname } from '../api';
 import { FLIPS, applyFlip } from '../requests.js';
-import { html, num, said, esc, fmt, DAY_NAME, minToClock, reducedMotion, eyebrow, icon, ROMAN } from '../lib';
+import { html, num, said, esc, fmt, DAY_NAME, minToClock, reducedMotion, icon, ROMAN, tag } from '../lib';
 
 const qs = new URLSearchParams(location.search);
 /** The real app. Override with ?app=http://host:5173 */
@@ -11,7 +11,7 @@ export const APP = (qs.get('app') ?? 'http://localhost:5173').replace(/\/$/, '')
 export const RECORDED = qs.get('app') === 'recorded' || (import.meta as any).env?.VITE_DEMO_MODE === 'recorded';
 const LAP = { w: 1280, h: 1040, s: 0.55 };
 const PHN = { w: 390, h: 950, s: 0.6 };
-const ROW = 54;
+const ROW = 64;
 
 function flipLabel(f: any, before: any): string {
   if (f.patch?.value_of_time != null) {
@@ -25,7 +25,7 @@ function flipLabel(f: any, before: any): string {
   return esc(f.verb);
 }
 
-function frame(kind: 'laptop' | 'phone', src: string, plate: string, cap: string) {
+function frame(kind: 'laptop' | 'phone', src: string) {
   const d = kind === 'laptop' ? LAP : PHN;
   return html`<figure class="device device-${kind}">
     <div class="frame">
@@ -38,7 +38,6 @@ function frame(kind: 'laptop' | 'phone', src: string, plate: string, cap: string
         <div class="offline"><span class="label">App not reachable</span><span class="small" data-ok>${esc(APP)} — start it with <code>make web</code>. The ledger on the right calls the API directly and keeps working.</span></div>
       </div>
     </div>
-    <figcaption class="device-cap"><span class="micro">${esc(plate)}</span><span class="micro" data-ok>${esc(cap)}</span></figcaption>
   </figure>`;
 }
 
@@ -52,26 +51,23 @@ export const demo: Chapter = {
   render() {
     const laptopSrc = `${APP}/app?demo=north-engineer#results`;
     const phoneSrc = `${APP}/app?demo=north-engineer#results`;
-    const host = RECORDED ? 'recorded run · 2026-11-20' : APP.replace(/^https?:\/\//, '');
     return html`
       <div class="geo vline"></div>
-      <div class="demo-head">
-        ${eyebrow(this.numeral, 'Live demo', html`<span class="live-tag micro"><i></i>${RECORDED ? 'Recorded run of the real app' : 'The real app, running now'}</span>`)}
-        <h2 class="enter" style="--i:1">Change one thing. <em>Watch the answer move.</em></h2>
+      <div class="demo-head enter" style="--i:1">
+        <h2>Change one thing. <em>Watch it move.</em></h2>
+        ${tag(RECORDED ? 'recorded run of the real app' : 'the real app, live', 'demo-tag')}
       </div>
       <div class="demo-grid">
         <div class="devices enter" style="--i:2">
-          ${frame('laptop', laptopSrc, 'Instrument · desktop', host)}
-          ${frame('phone', phoneSrc, 'Same · phone', 'width ' + PHN.w)}
+          ${frame('laptop', laptopSrc)}
+          ${frame('phone', phoneSrc)}
         </div>
         <div class="flip-col enter" style="--i:3">
-          <div class="label">Decision sensitivity · from the API</div>
           <div class="flip-btns">
-            ${FLIPS.map((f: any, i: number) => html`<button class="flip-btn" data-flip="${f.id}">${icon(ROMAN[i])}<span class="fb-t"><span class="fb-p">${esc(f.profile.replace(/-/g, ' '))}</span><span class="fb-l">${flipLabel(f, plan[`eval:${f.profile}`])}</span></span></button>`)}
+            ${FLIPS.map((f: any, i: number) => html`<button class="flip-btn" data-flip="${f.id}">${icon(ROMAN[i])}<span class="fb-l">${flipLabel(f, plan[`eval:${f.profile}`])}</span></button>`)}
           </div>
           <div class="flip-out">
-            <div class="fo-head"><span class="fo-title">Choose a change above.</span><span class="fo-src micro" data-ok></span></div>
-            <div class="fo-cols micro"><span>Rank</span><span>Home</span><span>All-in / mo</span></div>
+            <div class="fo-head"><span class="fo-title">Pick a change.</span></div>
             <ol class="ranks" style="height:${ROW * 5}px"></ol>
             <div class="fo-cause"></div>
           </div>
@@ -99,8 +95,7 @@ async function runFlip(el: HTMLElement, id: string) {
   const p = plan.demoProfiles?.find((d: any) => d.id === f.profile)?.profile;
   const out = el.querySelector<HTMLElement>('.flip-out')!;
   const title = out.querySelector<HTMLElement>('.fo-title')!;
-  const srcEl = out.querySelector<HTMLElement>('.fo-src')!;
-  const cause = out.querySelector<HTMLElement>('.fo-cause')!;
+    const cause = out.querySelector<HTMLElement>('.fo-cause')!;
   const list = out.querySelector<HTMLOListElement>('.ranks')!;
   el.querySelectorAll('.flip-btn').forEach((b) => {
     const on = (b as HTMLElement).dataset.flip === id;
@@ -122,7 +117,7 @@ async function runFlip(el: HTMLElement, id: string) {
     if (token !== running) return;
     const ms = Math.round(performance.now() - t0);
     const src = a.source === 'live' && b.source === 'live' ? 'live' : 'snapshot';
-    srcEl.textContent = src === 'live' ? `live · ${ms} ms` : 'snapshot';
+    out.dataset.src = src === 'live' ? `live ${ms}ms` : 'snapshot';
     const B = ranked(b.data), A = ranked(a.data);
     animate(list, B, A);
     const b1 = B[0]?.listing_id, a1 = A[0]?.listing_id;
@@ -131,8 +126,8 @@ async function runFlip(el: HTMLElement, id: string) {
       ? html`<span class="label fo-flip">#1 flips</span><span class="fo-name">${sname(a1)}</span>`
       : html`<span class="label fo-flip">#1 holds</span><span class="fo-name">${sname(a1)}</span>`;
     const c0 = d?.data?.causes?.[0];
-    cause.innerHTML = html`${c0 ? said(c0.length > 220 ? c0.slice(0, 217) + '…' : c0, 'api:POST /diff causes[0]') : ''}
-      ${margin != null ? html`<div class="fo-margin"><span class="label">New lead over #2</span><span class="fo-m">${num(fmt(margin, 'usd') + '/mo', 'api:POST /evaluate score')}</span>${f.knifeEdge || margin < 10 ? html`<span class="fo-knife">a knife edge — and we say so</span>` : ''}</div>` : ''}`;
+    cause.innerHTML = html`${c0 ? html`<p class="fo-c">${said(c0.length > 120 ? c0.slice(0, 117).replace(/\s+\S*$/, '') + '…' : c0, 'api:POST /diff causes[0]')}</p>` : ''}
+      ${margin != null ? html`<div class="fo-margin"><span class="fo-ml">lead over #2</span><span class="fo-m">${num(fmt(margin, 'usd') + '/mo', 'api:POST /evaluate score')}</span>${f.knifeEdge || margin < 10 ? html`<span class="fo-knife">a knife edge</span>` : ''}</div>` : ''}`;
   } catch (e) {
     title.textContent = 'API and snapshot both unavailable';
     cause.textContent = String(e);

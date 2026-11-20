@@ -70,10 +70,9 @@ export const minToClock = (m: number) => {
 
 export const DAY_NAME: Record<string, string> = { M: 'Mon', T: 'Tue', W: 'Wed', R: 'Thu', F: 'Fri', S: 'Sat', U: 'Sun' };
 
-// ---------- Cartesian helpers ----------
+// ---------- deck helpers ----------
 export const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-/** Chapter eyebrow: "III · HOW IT WORKS" in the label style, plus optional trailing content (citation, button). */
-export const eyebrow = (numeral: string | undefined, label: string, extra = ''): string =>
-  `<div class="eyebrow enter" style="--i:0"><span class="label">${numeral ? `<span class="eb-n">${esc(numeral)}</span><span class="eb-sep">·</span>` : ''}${esc(label)}</span>${extra}</div>`;
-/** 40px circle with a Roman numeral (card-icon). */
-export const icon = (numeral: string, cls = ''): string => `<span class="card-icon ${cls}">${esc(numeral)}</span>`;
+/** 44px circle with a short mark (flip buttons, step nodes). */
+export const icon = (mark: string, cls = ''): string => `<span class="card-icon ${cls}">${esc(mark)}</span>`;
+/** The one small honesty tag a slide may carry, e.g. "simulated · travel-only". Legible (22px), never decorative. */
+export const tag = (text: string, cls = ''): string => `<span class="tag ${cls}">${esc(text)}</span>`;
