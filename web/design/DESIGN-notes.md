@@ -22,3 +22,10 @@ No photographs: no licensed images were available offline, so the product's own 
 basemap are the pictures. The design-taste skill's scripts (gate/consistency) were not run, so no `.taste-skill/` dir exists.
 
 Screenshots: `node scripts/screenshots-v2.mjs` (env ONLY, SIZE, PRESENT=1, DARK=1, FULL=1) → `screenshots/v2/`.
+
+## v3 (2026-11-20)
+The app's main experience is now the portal-style search-results page (`/app#results`, "Homes"): sticky filter bar
+(Your week summary, Budget, Household, Getting around, All filters), ranked listing cards with generated street-map
+thumbnails, and a MapLibre map with numbered all-in price pins and the selected home's real routes. Detail and the
+compare tray open in the list pane (bottom sheet on phones). Display face is Inter Tight (Nunito removed).
+Full rationale, conventions and tokens: `DESIGN-v3.md`. Screenshots: `node scripts/screenshots-v3.mjs` → `screenshots/v3/`.

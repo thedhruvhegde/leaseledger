@@ -41,7 +41,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Nunito Variable', 'Inter Variable', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Inter Tight Variable', 'Inter Variable', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['Inter Variable', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         mono: ['JetBrains Mono Variable', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },

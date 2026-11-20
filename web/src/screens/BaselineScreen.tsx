@@ -45,7 +45,7 @@ export function BaselineScreen() {
 
   return (
     <div className="space-y-5">
-      <SectionTitle eyebrow="Proof of value" title="Portal ranking vs. your-week ranking">
+      <SectionTitle title="Portal ranking vs. your-week ranking">
         Left: what a typical rental portal shows — sorted by rent plus straight-line distance to the one building you visit most{fb ? <> (<b className="text-ink">{fb.name}</b>)</> : ''}. Right: the same homes ranked by what your whole week costs.
       </SectionTitle>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">

@@ -5,7 +5,7 @@ import { WeeklyGrid } from '../components/WeeklyGrid';
 import { EventEditor } from '../components/EventEditor';
 import { Callout, EmptyState, ErrorState, SectionTitle, Skeleton } from '../components/ui/Misc';
 import { ListingName, ListingSourceBadge, splitName } from '../components/ui/Badge';
-import { IconCheck, IconPlus, IconTrash, IconUsers } from '../components/ui/Icons';
+import { IconCheck, IconPlus, IconTrash } from '../components/ui/Icons';
 import { DEFAULT_PROFILE } from '../api/mockData';
 import type { GroupSplit, Member, ScheduleTemplate } from '../types';
 import { usd } from '../lib/format';
@@ -44,7 +44,7 @@ export function GroupScreen() {
 
   return (
     <div className="space-y-5">
-      <SectionTitle eyebrow="Roommates" title={<span className="inline-flex items-center gap-2"><IconUsers size={22} /> Group Week</span>}>
+      <SectionTitle title="Group Week">
         Everyone’s week counts. We pick the apartment that’s best for the <b className="text-ink">worst-off</b> roommate, assign rooms, and split rent so that <b className="text-ink">nobody would rather swap</b> their room-and-rent with anyone else (envy-free). Aliases only — no names needed.
       </SectionTitle>
 

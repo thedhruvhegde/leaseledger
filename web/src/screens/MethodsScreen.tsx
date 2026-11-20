@@ -82,7 +82,7 @@ export function MethodsScreen() {
   const mf = manifest.data;
   return (
     <div className="space-y-6">
-      <SectionTitle eyebrow="Evidence" title="Methods & sources">
+      <SectionTitle title="Methods & sources">
         Every number in {kind === 'mock' ? 'this (mock) session' : 'the app'} is tagged with where it came from. Here are the data sources, the assumptions you can change, the equations, and what we can’t claim.
       </SectionTitle>
       <div className="card"><ProvenanceLegend /></div>

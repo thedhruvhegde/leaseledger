@@ -17,7 +17,7 @@ export function WeekPill({ value, onChange, onSubmit, pending = false, placehold
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (value.trim()) onSubmit(); } }}
-        className={`week-pill mono block w-full border border-transparent bg-soft py-4 pl-6 pr-16 text-ink placeholder:text-faint focus:border-line-strong focus:bg-surface focus:outline-none ${size === 'lg' ? 'text-base' : 'text-[0.9375rem]'}`}
+        className={`week-pill block w-full border border-transparent bg-soft py-4 pl-6 pr-16 text-ink placeholder:text-faint focus:border-line-strong focus:bg-surface focus:outline-none ${size === 'lg' ? 'text-base' : 'text-[0.9375rem]'}`}
       />
       <button type="button" onClick={onSubmit} disabled={pending || !value.trim()} aria-label={pending ? 'Reading your week' : 'Read my week'}
         className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-ink transition-[transform,opacity] hover:bg-ink/80 active:scale-95 disabled:opacity-35">

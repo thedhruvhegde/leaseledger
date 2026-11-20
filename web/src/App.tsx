@@ -1,8 +1,9 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { currentRoute, navigate, type Route } from './lib/route';
 import { resolveClient } from './api/client';
 import { SCREENS, useApp, type Screen } from './store/app';
-import { useDemoProfiles, useDiff, useListingMap } from './api/hooks';
+import { useBuildings, useDemoProfiles, useDiff, useListingMap } from './api/hooks';
+import { parseSchedule as localParse } from './api/mockNlp';
 import { Header, Logo, TabBar } from './components/Header';
 import { DiffDrawer } from './components/DiffDrawer';
 import { WeekScreen } from './screens/WeekScreen';
@@ -115,29 +116,58 @@ function Shell() {
     window.scrollTo({ top: 0 });
   }, [screen]);
 
+  // Landing hand-off: read the typed week once, then show the homes it ranks.
+  const weekDraft = useApp((s) => s.weekDraft);
+  const api = useApp((s) => s.api);
+  const { data: buildings = [] } = useBuildings();
+  const consumed = useRef<string | null>(null);
+  useEffect(() => {
+    if (!weekDraft || !api || consumed.current === weekDraft) return;
+    consumed.current = weekDraft;
+    const st = useApp.getState();
+    st.setWeekDraft(null);
+    st.setParsing(true);
+    st.setScreen('results');
+    void api.parseSchedule(weekDraft, st.aiEnabled).catch(() => localParse(weekDraft, buildings)).then((r) => {
+      const s2 = useApp.getState();
+      s2.setProfile((p) => ({ ...p, events: r.events }), 'load');
+      const nc: Record<number, string[]> = {};
+      for (const n of r.needs_confirmation) (nc[n.event_index] ??= []).push(n.reason);
+      s2.setNeedsConfirm(nc);
+      s2.setLastAiMode(r.mode);
+      s2.setParsing(false);
+    });
+  }, [weekDraft, api, buildings]);
+
   const showDrawer = drawerOpen && (screen === 'week' || screen === 'results'); // never cover how-sure / portal screens
 
+  const full = screen === 'results';
   return (
     <div className="min-h-screen bg-bg">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2">Skip to content</a>
       <Header />
       {fellBack && (
-        <div role="status" className="border-b border-warn/40 bg-warn/10 px-4 py-1.5 text-center text-sm font-medium text-warn">
+        <div role="status" className="border-b border-line bg-raised px-4 py-1.5 text-center text-[13px] text-charcoal">
           API offline — showing mock data. Travel times are simplified and all listings are synthetic.
         </div>
       )}
-      <main id="main" className="app-main mx-auto max-w-[1800px] px-4 py-6 sm:px-6 lg:py-8">
-        {screen === 'week' && <WeekScreen />}
-        {screen === 'results' && <ResultsScreen />}
-        {screen === 'robustness' && <RobustnessScreen />}
-        {screen === 'baseline' && <BaselineScreen />}
-        {screen === 'group' && <GroupScreen />}
-        {screen === 'add' && <AddListingScreen />}
-        {screen === 'methods' && <MethodsScreen />}
-      </main>
-      <footer className="secondary-chrome app-foot mx-auto max-w-[1800px] px-6 pb-8 text-xs text-faint">
-        {PRODUCT_NAME} · Hack the Lease 2026 · Not legal or financial advice. Synthetic listings are fictional and labeled. <a className="underline decoration-line underline-offset-2 hover:text-ink" href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>About {PRODUCT_NAME}</a>
-      </footer>
+      {full ? (
+        <main id="main" className="app-main app-full"><ResultsScreen /></main>
+      ) : (
+        <>
+          <main id="main" className="app-main mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:py-8">
+            {screen === 'week' && <WeekScreen />}
+            {screen === 'robustness' && <RobustnessScreen />}
+            {screen === 'baseline' && <BaselineScreen />}
+            {screen === 'group' && <GroupScreen />}
+            {screen === 'add' && <AddListingScreen />}
+            {screen === 'methods' && <MethodsScreen />}
+          </main>
+          <footer className="secondary-chrome app-foot mx-auto max-w-[1440px] border-t border-line px-4 py-6 text-[12px] text-faint sm:px-6">
+            {PRODUCT_NAME} · Hack the Lease 2026 · Not legal or financial advice. Synthetic listings are fictional and labeled. <a className="underline decoration-line-strong underline-offset-2 hover:text-ink" href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>About {PRODUCT_NAME}</a>
+          </footer>
+        </>
+      )}
       <TabBar />
       <DiffDrawer diff={diff.data} loading={diff.isFetching} names={names} open={showDrawer} pinned={!!pinned} onClose={() => setDrawer(false)} onPin={pin} onUnpin={unpin} />
     </div>

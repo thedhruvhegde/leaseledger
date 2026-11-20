@@ -32,3 +32,5 @@ export const IconCalendar = (p: P) => (<svg {...base(p)}><rect x="3.5" y="5" wid
 export const IconReceipt = (p: P) => (<svg {...base(p)}><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6M9 16h3" /></svg>);
 export const IconGauge = (p: P) => (<svg {...base(p)}><path d="M4 17a8 8 0 1116 0" /><path d="M12 17l4-5" /></svg>);
 export const IconSwap = (p: P) => (<svg {...base(p)}><path d="M7 4v14M4 15l3 3 3-3M17 20V6M14 9l3-3 3 3" /></svg>);
+export const IconHome = (p: P) => (<svg {...base(p)}><path d="M4 11l8-7 8 7" /><path d="M6 9.5V20h12V9.5" /><path d="M10 20v-5h4v5" /></svg>);
+export const IconMore = (p: P) => (<svg {...base(p)}><circle cx="5" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /></svg>);

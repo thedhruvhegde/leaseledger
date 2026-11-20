@@ -55,7 +55,7 @@ export function AddListingScreen() {
 
   return (
     <div className="space-y-5">
-      <SectionTitle eyebrow="Your own find" title="Add a listing">
+      <SectionTitle title="Add a listing">
         Paste a listing’s text. We pull out the facts that matter — every one linked to the exact words it came from — flag things worth checking, and add it to your ranking.
       </SectionTitle>
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">

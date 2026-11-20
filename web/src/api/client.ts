@@ -1,6 +1,6 @@
 /**
  * Typed API client. Two implementations share one interface:
- *  - LiveApi: HTTP to the FastAPI backend (VITE_API_BASE, default http://localhost:8000/api)
+ *  - LiveApi: HTTP to the FastAPI backend (VITE_API_BASE; default /api same-origin, or http://localhost:8000/api on Vite ports 5173/5174)
  *  - MockApi (./mock.ts): deterministic in-browser fixtures + simplified engine, all listings synthetic
  * Selection: VITE_API_MODE=mock|live (default live). In live mode, if GET /health fails the app
  * falls back to mock automatically and shows the "API offline — showing mock data" banner.
@@ -55,7 +55,13 @@ export class ApiError extends Error {
   }
 }
 
-export const API_BASE: string = (import.meta.env.VITE_API_BASE as string | undefined) ?? 'http://localhost:8000/api';
+/** VITE_API_BASE wins (the Dockerfile builds with "/api"). Otherwise: Vite dev/preview ports talk to the local API on :8000;
+ *  anything else is assumed to be the same-origin deployment, so the relative "/api". */
+function defaultBase(): string {
+  if (typeof window === 'undefined') return 'http://localhost:8000/api';
+  return ['5173', '5174'].includes(window.location.port) ? 'http://localhost:8000/api' : '/api';
+}
+export const API_BASE: string = (import.meta.env.VITE_API_BASE as string | undefined) || defaultBase();
 export const API_MODE: 'live' | 'mock' = (import.meta.env.VITE_API_MODE as string | undefined) === 'mock' ? 'mock' : 'live';
 
 /** Unwrap list endpoints that may return either `T[]` or `{items|buildings|listings|...: T[]}`. */

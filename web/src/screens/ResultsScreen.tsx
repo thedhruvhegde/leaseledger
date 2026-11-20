@@ -1,92 +1,327 @@
-import { Suspense, lazy, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../store/app';
-import { NoWeek } from '../components/NoWeek';
-import { hasWeek, useBeforeEvaluation, useBuildingMap, useDiff, useEvaluation, useListingMap } from '../api/hooks';
-import { useFlip } from '../lib/flip';
-import { ListingCard, SplitBar, TIME_FILL } from '../components/ListingCard';
-import { TripList, WeekTimeline } from '../components/WeekTimeline';
-import { WhyPanel } from '../components/WhyPanel';
-import { ErrorState, SectionTitle, Skeleton } from '../components/ui/Misc';
-import { IconChevron, IconInfo } from '../components/ui/Icons';
-import { ListingSourceBadge, MealsBadge, splitName } from '../components/ui/Badge';
+import { hasWeek, useBeforeEvaluation, useBuildings, useDemoProfiles, useDiff, useEvaluation, useListingMap, useListings } from '../api/hooks';
+import { HomeCard } from '../components/HomeCard';
+import { ComparePanel, HomeDetail } from '../components/HomeDetail';
+import { AllFilters, BudgetFilter, FiltersSheetButton, HouseholdFilter, ModesFilter, SortSelect, WeekSummary, type SortKey } from '../components/SearchBar';
+import { SplitBar } from '../components/ListingCard';
+import { ErrorState, Skeleton } from '../components/ui/Misc';
+import { IconChevron, IconInfo, IconX } from '../components/ui/Icons';
+import { splitName } from '../components/ui/Badge';
 import { Segmented } from '../components/ui/Controls';
-import type { MapLine, MapPoint } from '../components/MapView';
-import type { EvaluationResult, Infeasibility, Listing, ListingEvaluation, Profile } from '../types';
+import type { MapLine } from '../components/MapView';
+import type { Anchor, Place, PricePin } from '../components/SearchMap';
+import type { Campus, EvaluationResult, Infeasibility, Listing, ListingEvaluation, Profile } from '../types';
 import { hours, titleCase, usd, usdRate } from '../lib/format';
 import { legLines } from '../lib/legs';
+import { useDesktop } from '../lib/media';
 
-const MapView = lazy(() => import('../components/MapView'));
+const SearchMap = lazy(() => import('../components/SearchMap'));
 
+const CAMPUS_LABEL: Partial<Record<Campus, string>> = { central: 'Central Campus', north: 'North Campus', medical: 'Medical Campus', south: 'South Campus', downtown: 'Downtown' };
+const rentOf = (x: ListingEvaluation) => x.ledger.find((y) => y.key === 'rent')?.usd_month ?? null;
+
+function sortEvals(evals: ListingEvaluation[], key: SortKey): ListingEvaluation[] {
+  const fit = (x: ListingEvaluation) => (x.feasible ? 0 : 1);
+  const val: Record<SortKey, (x: ListingEvaluation) => number> = {
+    best: (x) => x.rank ?? 999,
+    allin: (x) => x.all_in_total,
+    cash: (x) => x.cash_total,
+    travel: (x) => x.commute?.weekly_min ?? 1e9,
+    rent: (x) => rentOf(x) ?? 1e9,
+  };
+  return [...evals].sort((a, b) => fit(a) - fit(b) || val[key](a) - val[key](b));
+}
+
+/** Homes: the portal search-results layout — filter bar, ranked list on the left, price-pin map on the right. */
 export function ResultsScreen() {
+  const desktop = useDesktop();
   const { data, isLoading, error, refetch, isFetching } = useEvaluation();
   const before = useBeforeEvaluation();
   const diff = useDiff();
   const lmap = useListingMap();
+  const { data: listings = [] } = useListings();
+  const { data: buildings = [] } = useBuildings();
   const selected = useApp((s) => s.selected);
   const setSelected = useApp((s) => s.setSelected);
-  const setProfile = useApp((s) => s.setProfile);
+  const setScreen = useApp((s) => s.setScreen);
   const profile = useApp((s) => s.committed);
+  const parsing = useApp((s) => s.parsing);
+  const compare = useApp((s) => s.compare);
+  const toggleCompare = useApp((s) => s.toggleCompare);
+  const compareOpen = useApp((s) => s.compareOpen);
+  const setCompareOpen = useApp((s) => s.setCompareOpen);
+  const [sort, setSort] = useState<SortKey>('best');
   const [view, setView] = useState<'cards' | 'table'>('cards');
-  const order = (data?.evaluations ?? []).map((e) => e.listing_id).join('|');
-  const flip = useFlip(order);
+  const [hover, setHover] = useState<string | null>(null);
+  const [mobileView, setMobileView] = useState<'list' | 'map'>('list');
+  const pane = useRef<HTMLDivElement>(null);
+  const listScroll = useRef(0);
+
+  const evals = useMemo(() => data?.evaluations ?? [], [data]);
+  const sorted = useMemo(() => sortEvals(evals, sort), [evals, sort]);
   const portalRank = useMemo(() => new Map((data?.baseline_ranking ?? []).map((id, i) => [id, i + 1])), [data]);
-
-  if (!hasWeek(profile)) return <NoWeek />;
-  if (error && !data) return <ErrorState error={error} retry={() => void refetch()} />;
-  if (isLoading || !data) return <ResultsSkeleton />;
-
-  const evals = data.evaluations;
-  const max = Math.max(1, ...evals.map((e) => e.all_in_total));
-  const sel = evals.find((e) => e.listing_id === selected) ?? evals.find((e) => e.feasible) ?? evals[0];
-  const beforeRank = (id: string) => before.data?.evaluations.find((e) => e.listing_id === id)?.rank ?? null;
-  const rentOf = (x: ListingEvaluation) => x.ledger.find((y) => y.key === 'rent')?.usd_month ?? null;
-  const cheapestRent = [...evals].sort((a, b) => (rentOf(a) ?? 0) - (rentOf(b) ?? 0))[0];
+  const lines = useMemo(() => new Map(evals.map((e) => [e.listing_id, legLines(e)])), [evals]);
+  const open = selected ? evals.find((e) => e.listing_id === selected) : undefined;
   const top = evals.find((e) => e.rank === 1);
+  const lowest = useMemo(() => [...evals].filter((e) => rentOf(e) != null).sort((a, b) => rentOf(a)! - rentOf(b)!)[0], [evals]);
+  const nFit = evals.filter((e) => e.feasible).length;
 
-  return (
-    <div className="space-y-5">
-      <SectionTitle eyebrow="Step 2" title="What your week costs" right={
-        <div className="flex items-center gap-2">
-          {isFetching && <span className="text-xs text-faint animate-pulse2">Updating…</span>}
-          <Segmented label="View" value={view} onChange={setView} options={[{ value: 'cards', label: 'Cards' }, { value: 'table', label: 'Table' }]} />
-        </div>
-      }>
-        Ranked by all-in monthly cost: cash you pay plus the value of the hours your week spends getting around
-        {data.value_of_time_used > 0 ? <> (at <b className="text-ink">{usdRate(data.value_of_time_used)}/h</b>)</> : <> — <b className="text-ink">cash only</b> right now</>}.
-      </SectionTitle>
+  // Map data
+  const pins: PricePin[] = useMemo(() => evals.map((e) => {
+    const l = lmap.get(e.listing_id);
+    return { id: e.listing_id, lat: l?.lat ?? 0, lon: l?.lon ?? 0, rank: e.feasible ? e.rank ?? null : null, price: e.all_in_total, feasible: e.feasible, name: l?.name ?? e.listing_id };
+  }).filter((p) => p.lat !== 0), [evals, lmap]);
+  const others = useMemo(() => {
+    const ranked = new Set(evals.map((e) => e.listing_id));
+    return listings.filter((l) => !ranked.has(l.id)).map((l) => ({ lat: l.lat, lon: l.lon, label: `${l.name} (not in this ranking)` }));
+  }, [listings, evals]);
+  const places: Place[] = useMemo(() => {
+    const seen = new Map<string, Place>();
+    const bm = new Map(buildings.map((b) => [b.id, b]));
+    for (const ev of profile.events) {
+      const b = ev.building_id ? bm.get(ev.building_id) : null;
+      const p = b ? { lat: b.lat, lon: b.lon, label: `${b.name}: ${ev.label}` } : ev.point ? { lat: ev.point.lat, lon: ev.point.lon, label: ev.label } : null;
+      if (p && !seen.has(`${p.lat},${p.lon}`)) seen.set(`${p.lat},${p.lon}`, p);
+    }
+    return Array.from(seen.values());
+  }, [profile.events, buildings]);
+  const anchors: Anchor[] = useMemo(() => {
+    const acc = new Map<Campus, { lat: number; lon: number; n: number }>();
+    for (const b of buildings) {
+      if (!CAMPUS_LABEL[b.campus]) continue;
+      const a = acc.get(b.campus) ?? { lat: 0, lon: 0, n: 0 };
+      acc.set(b.campus, { lat: a.lat + b.lat, lon: a.lon + b.lon, n: a.n + 1 });
+    }
+    return Array.from(acc.entries()).map(([k, v]) => ({ lat: v.lat / v.n, lon: v.lon / v.n, label: CAMPUS_LABEL[k]! }));
+  }, [buildings]);
+  const routeId = hover ?? selected ?? top?.listing_id ?? null;
+  const routes: MapLine[] = useMemo(() => (routeId ? lines.get(routeId) ?? [] : []), [routeId, lines]);
+  const focus = useMemo(() => {
+    if (!open) return null;
+    const l = lmap.get(open.listing_id);
+    const pts: [number, number][] = (lines.get(open.listing_id) ?? []).flatMap((x) => x.coords);
+    if (l) pts.push([l.lon, l.lat]);
+    return pts;
+  }, [open, lmap, lines]);
+  const fitKey = `${evals.map((e) => e.listing_id).join('|')}#${places.length}#${selected ? 'd' : 'l'}`;
 
-      {data.infeasibility && <InfeasibleBanner inf={data.infeasibility} profile={profile} onRelax={(p) => setProfile(p)} />}
-      {top && cheapestRent && top.listing_id !== cheapestRent.listing_id && profile.events.length > 0 && cheapestRent.all_in_total - top.all_in_total >= 10 && (
-        <div className="card flex flex-wrap items-baseline gap-x-4 gap-y-1 px-6 py-5" data-testid="insight">
-          <span className="font-display text-2xl font-semibold text-ink">Lowest rent ≠ cheapest week.</span>
-          <span className="text-base text-faint">
-            <b className="font-semibold text-ink">{splitName(lmap.get(cheapestRent.listing_id)?.name).title}</b> has the lowest rent
-            {rentOf(cheapestRent) != null && <> (<span className="num">{usd(rentOf(cheapestRent))}/mo</span>)</>}, but {cheapestRent.feasible ? <>ranks <b className="num font-semibold text-ink">#{cheapestRent.rank}</b> once your week is counted</> : <>fails your constraints</>}: <b className="num font-semibold text-ink">{usd(cheapestRent.all_in_total - top.all_in_total)}/mo</b> more all-in than #1.
-          </span>
-        </div>
-      )}
-      <Notes warnings={data.warnings.filter((w) => !w.startsWith('MOCK'))} />
+  const openHome = (id: string) => {
+    if (pane.current && !selected) listScroll.current = pane.current.scrollTop;
+    setCompareOpen(false);
+    setSelected(id);
+    if (pane.current) pane.current.scrollTop = 0;
+  };
+  const closeHome = () => {
+    setSelected(null);
+    setCompareOpen(false);
+    requestAnimationFrame(() => { if (pane.current) pane.current.scrollTop = listScroll.current; });
+  };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && (useApp.getState().selected || useApp.getState().compareOpen)) closeHome(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // A selected id from elsewhere (e.g. portal screen) that is not in this ranking: drop it.
+  useEffect(() => { if (data && selected && !open) setSelected(null); }, [data, selected, open, setSelected]);
 
-      <div className="grid grid-cols-1 gap-6 2xl:grid-cols-[minmax(0,34rem)_minmax(0,1fr)] xl:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
-        <div className="min-w-0">
-          {view === 'cards' ? (
-            <ol className="space-y-2.5" aria-label="Ranked homes">
-              {evals.map((e) => (
-                <li key={e.listing_id} ref={flip(e.listing_id)} className="relative">
-                  <ListingCard e={e} l={lmap.get(e.listing_id)} max={max} selected={sel?.listing_id === e.listing_id} onSelect={() => setSelected(e.listing_id)}
-                    delta={diff.data?.deltas[e.listing_id]} before={beforeRank(e.listing_id)} portalRank={portalRank.get(e.listing_id)} />
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <DenseTable evals={evals} lmap={lmap} max={max} selected={sel?.listing_id} onSelect={setSelected} />
-          )}
-          <div className="secondary-chrome mt-3 flex flex-wrap gap-3 text-xs text-muted">
-            <span className="inline-flex items-center gap-1.5"><span className="h-2 w-4 rounded-full bg-cash" />Cash</span>
-            <span className="inline-flex items-center gap-1.5"><span className="h-2 w-4 rounded-full" style={{ background: TIME_FILL }} />Time &amp; late-night (not cash)</span>
+  const noWeek = !hasWeek(profile) && !parsing;
+  const listBody = noWeek ? <StartPanel /> : error && !data ? <div className="p-4"><ErrorState error={error} retry={() => void refetch()} /></div>
+    : (isLoading || !data || parsing && !evals.length) ? <ListSkeleton reading={parsing} /> : (
+    <ListView data={data} sorted={sorted} lmap={lmap} lines={lines} view={view} setView={setView} sort={sort} setSort={setSort}
+      selected={selected} hover={hover} setHover={setHover} onOpen={openHome} compare={compare} toggleCompare={toggleCompare}
+      deltas={diff.data?.deltas} beforeRank={(id) => before.data?.evaluations.find((e) => e.listing_id === id)?.rank ?? null}
+      top={top} lowest={lowest} nFit={nFit} isFetching={isFetching} profile={profile} desktop={desktop} />
+  );
+  const detailBody = open && data ? <HomeDetail key={open.listing_id} e={open} l={lmap.get(open.listing_id)} result={data} onClose={closeHome} portalRank={portalRank.get(open.listing_id)} />
+    : compareOpen && compare.length === 2 && data ? <ComparePanel a={compare[0]} b={compare[1]} result={data} onClose={closeHome} portalRank={portalRank} /> : null;
+  const map = (
+    <Suspense fallback={<div className="h-full w-full bg-raised" />}>
+      <SearchMap pins={pins} others={others} places={places} anchors={anchors} routes={routes} activeId={selected} hoverId={hover}
+        onHover={setHover} onOpen={openHome} fitKey={fitKey} focus={focus} />
+    </Suspense>
+  );
+
+  if (desktop) {
+    return (
+      <div className="flex h-[calc(100dvh-57px)] flex-col">
+        <FilterBar isFetching={isFetching} />
+        <div className="flex min-h-0 flex-1">
+          <div ref={pane} className="results-pane relative min-h-0 overflow-y-auto border-r border-line bg-surface">
+            {detailBody ?? listBody}
+            <CompareTray lmap={lmap} evals={evals} />
+          </div>
+          <div className="relative min-w-0 flex-1">
+            {map}
+            <MapLegend routeName={routeId ? splitName(lmap.get(routeId)?.name).title : null} hasPlaces={places.length > 0} />
           </div>
         </div>
-        {sel && <Detail e={sel} result={data} l={lmap.get(sel.listing_id)} />}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="sticky top-[57px] z-20 flex items-center gap-2 border-b border-line bg-bg px-3 py-2">
+        <WeekSummary compact onClick={() => setScreen('week')} />
+        <FiltersSheetButton />
+      </div>
+      {mobileView === 'list' ? <div ref={pane}>{listBody}</div> : (
+        <div className="relative h-[calc(100dvh-57px-53px-64px)]">{map}</div>
+      )}
+      {!noWeek && (
+        <button className="mobile-toggle fixed left-1/2 z-30 -translate-x-1/2 btn-primary h-10 px-5" onClick={() => setMobileView((v) => (v === 'list' ? 'map' : 'list'))}>
+          {mobileView === 'list' ? 'Map' : 'List'}
+        </button>
+      )}
+      <CompareTray lmap={lmap} evals={evals} mobile />
+      {detailBody && (
+        <div className="fixed inset-0 z-[55]" role="dialog" aria-modal="true" aria-label="Home details">
+          <button className="absolute inset-0 bg-ink/30" aria-label="Close details" onClick={closeHome} />
+          <div className="sheet absolute inset-x-0 bottom-0 max-h-[92dvh] overflow-y-auto rounded-t-2xl border-t border-line bg-surface animate-slide-up">
+            <div className="flex justify-center pt-2"><span className="h-1 w-10 rounded-full bg-line-strong" aria-hidden /></div>
+            {detailBody}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FilterBar({ isFetching }: { isFetching: boolean }) {
+  const setScreen = useApp((s) => s.setScreen);
+  return (
+    <div className="relative z-30 flex h-[52px] shrink-0 items-center gap-2 border-b border-line bg-bg px-4">
+      <WeekSummary onClick={() => setScreen('week')} />
+      <span className="mx-1 h-6 w-px bg-line" aria-hidden />
+      <BudgetFilter />
+      <HouseholdFilter />
+      <ModesFilter />
+      <AllFilters />
+      <span className={`ml-auto text-[12px] text-faint transition-opacity ${isFetching ? 'opacity-100' : 'opacity-0'}`} aria-live="polite">{isFetching ? 'Updating…' : ''}</span>
+    </div>
+  );
+}
+
+function ListView({ data, sorted, lmap, lines, view, setView, sort, setSort, selected, hover, setHover, onOpen, compare, toggleCompare, deltas, beforeRank, top, lowest, nFit, profile, desktop }: {
+  data: EvaluationResult; sorted: ListingEvaluation[]; lmap: Map<string, Listing>; lines: Map<string, MapLine[]>; view: 'cards' | 'table'; setView: (v: 'cards' | 'table') => void;
+  sort: SortKey; setSort: (s: SortKey) => void; selected: string | null; hover: string | null; setHover: (id: string | null) => void; onOpen: (id: string) => void;
+  compare: string[]; toggleCompare: (id: string) => void; deltas?: Record<string, import('../types').DiffDelta>; beforeRank: (id: string) => number | null;
+  top?: ListingEvaluation; lowest?: ListingEvaluation; nFit: number; isFetching: boolean; profile: Profile; desktop: boolean;
+}) {
+  const setProfile = useApp((s) => s.setProfile);
+  const max = Math.max(1, ...sorted.map((e) => e.all_in_total));
+  const showInsight = top && lowest && top.listing_id !== lowest.listing_id && lowest.all_in_total - top.all_in_total >= 10;
+  return (
+    <div className="px-4 pb-24 pt-4 sm:px-5">
+      <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <div className="min-w-0">
+          <h1 className="font-sans text-[1.125rem] font-semibold tracking-normal">Ann Arbor homes for your week</h1>
+          <div className="num text-[13px] text-faint">
+            <b className="font-semibold text-ink">{nFit}</b> of {sorted.length} fit · ranked by all-in monthly cost{data.value_of_time_used > 0 ? <> with time at {usdRate(data.value_of_time_used)}/h</> : <>, cash only</>}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <SortSelect value={sort} onChange={setSort} />
+          {desktop && <Segmented size="xs" label="View" value={view} onChange={setView} options={[{ value: 'cards', label: 'Cards' }, { value: 'table', label: 'Table' }]} />}
+        </div>
+      </div>
+
+      {data.infeasibility && <div className="mt-3"><InfeasibleBanner inf={data.infeasibility} profile={profile} onRelax={(p) => setProfile(p)} /></div>}
+      {showInsight && (
+        <div className="mt-3 rounded-xl border border-line bg-raised px-4 py-3 text-[13px] leading-relaxed text-charcoal" data-testid="insight">
+          <b className="font-semibold text-ink">Lowest rent isn’t the cheapest week.</b>{' '}
+          {splitName(lmap.get(lowest!.listing_id)?.name).title} has the lowest rent{rentOf(lowest!) != null && <> (<span className="num">{usd(rentOf(lowest!))}</span>)</>} but {lowest!.feasible ? <>ranks #{lowest!.rank}</> : <>fails your constraints</>}: <b className="num font-semibold text-ink">{usd(lowest!.all_in_total - top!.all_in_total)}/mo</b> more all-in than #1.
+        </div>
+      )}
+      <div className="mt-2"><Notes warnings={data.warnings.filter((w) => !w.startsWith('MOCK'))} /></div>
+
+      {view === 'table' ? (
+        <div className="mt-3"><DenseTable evals={sorted} lmap={lmap} max={max} selected={selected ?? undefined} onSelect={onOpen} /></div>
+      ) : (
+        <ol className="results-grid mt-3" aria-label="Ranked homes">
+          {sorted.map((e) => (
+            <li key={e.listing_id}>
+              <HomeCard e={e} l={lmap.get(e.listing_id)} lines={lines.get(e.listing_id) ?? []} active={selected === e.listing_id} hovered={hover === e.listing_id}
+                onOpen={() => onOpen(e.listing_id)} onHover={(on) => setHover(on ? e.listing_id : null)}
+                inCompare={compare.includes(e.listing_id)} onCompare={() => toggleCompare(e.listing_id)}
+                delta={deltas?.[e.listing_id]} before={beforeRank(e.listing_id)} lowestRent={e.listing_id === lowest?.listing_id && e.listing_id !== top?.listing_id} />
+            </li>
+          ))}
+        </ol>
+      )}
+      <p className="mt-6 text-[12px] leading-relaxed text-faint">
+        Prices are per person per month. All-in adds the value of your travel time and late-night exposure to the cash you pay; it is a ranking, not a bill.
+        Not legal or financial advice. Synthetic listings are fictional and labeled.
+      </p>
+    </div>
+  );
+}
+
+function StartPanel() {
+  const setScreen = useApp((s) => s.setScreen);
+  const setProfile = useApp((s) => s.setProfile);
+  const { data: demos = [] } = useDemoProfiles();
+  return (
+    <div className="px-5 py-10">
+      <h1 className="text-[1.5rem] font-semibold">Start with your week</h1>
+      <p className="mt-2 max-w-md text-[14px] text-charcoal">Homes are priced against your routine: classes, work, the library, the gym. Add a few blocks (or pick a program template) and the ranked list and price pins appear here.</p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        <button className="btn-primary" onClick={() => setScreen('week')}>Describe your week</button>
+        {demos.slice(0, 2).map((d) => <button key={d.id} className="btn-outline" onClick={() => setProfile(d.profile, 'load')}>Try “{d.name}”</button>)}
+      </div>
+    </div>
+  );
+}
+
+function ListSkeleton({ reading }: { reading: boolean }) {
+  return (
+    <div className="px-5 pt-4">
+      {reading && <div className="mb-3 text-[13px] text-charcoal" aria-live="polite">Reading your week and planning every trip…</div>}
+      <Skeleton className="mb-3 h-6 w-64" />
+      <div className="results-grid">{Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="h-72" />)}</div>
+    </div>
+  );
+}
+
+function CompareTray({ lmap, evals, mobile = false }: { lmap: Map<string, Listing>; evals: ListingEvaluation[]; mobile?: boolean }) {
+  const compare = useApp((s) => s.compare);
+  const toggle = useApp((s) => s.toggleCompare);
+  const clear = useApp((s) => s.clearCompare);
+  const compareOpen = useApp((s) => s.compareOpen);
+  const setCompareOpen = useApp((s) => s.setCompareOpen);
+  const setSelected = useApp((s) => s.setSelected);
+  if (compare.length === 0 || compareOpen) return null;
+  const ev = (id: string) => evals.find((e) => e.listing_id === id);
+  return (
+    <div className={`${mobile ? 'fixed inset-x-2 z-30 compare-tray-m' : 'sticky bottom-3 mx-4 sm:mx-5'} flex items-center gap-2 rounded-xl border border-line-strong bg-surface p-2 pl-3`} role="region" aria-label="Compare tray">
+      <span className="text-[12px] font-medium text-faint">Compare</span>
+      <div className="flex min-w-0 flex-1 gap-1.5">
+        {compare.map((id) => (
+          <span key={id} className="inline-flex min-w-0 items-center gap-1 rounded-full bg-soft py-1 pl-2.5 pr-1 text-[12px]">
+            <span className="truncate font-medium">{splitName(lmap.get(id)?.name ?? id).title}</span>
+            <span className="num text-faint">{usd(ev(id)?.all_in_total)}</span>
+            <button className="flex h-5 w-5 items-center justify-center rounded-full hover:bg-line" onClick={() => toggle(id)} aria-label={`Remove ${lmap.get(id)?.name ?? id} from compare`}><IconX size={12} /></button>
+          </span>
+        ))}
+        {compare.length < 2 && <span className="self-center truncate text-[12px] text-faint">Pick one more home</span>}
+      </div>
+      <button className="btn-ghost h-8 px-2 text-[12px]" onClick={clear}>Clear</button>
+      <button className="btn-primary h-8 px-3.5 text-[13px]" disabled={compare.length < 2} onClick={() => { setSelected(null); setCompareOpen(true); }}>Compare</button>
+    </div>
+  );
+}
+
+function MapLegend({ routeName, hasPlaces }: { routeName: string | null; hasPlaces: boolean }) {
+  return (
+    <div className="pointer-events-none absolute bottom-3 left-3 rounded-lg border border-line bg-surface/95 px-3 py-2 text-[11px] text-charcoal">
+      {routeName && <div className="mb-1 font-medium text-ink">Routes from {routeName}</div>}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="inline-flex items-center gap-1.5"><span className="h-[3px] w-5 rounded-full bg-bus" />Bus</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-0 w-5 border-t-2 border-dotted border-ink" />Walk</span>
+        {hasPlaces && <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full border-2 border-ink bg-surface" />Your places</span>}
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-mute" />Other listings</span>
       </div>
     </div>
   );
@@ -97,22 +332,13 @@ export function Notes({ warnings }: { warnings: string[] }) {
   if (warnings.length === 0) return null;
   return (
     <details className="disclosure w-fit max-w-full">
-      <summary className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-muted transition-colors hover:border-faint/60 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-        <IconInfo size={14} /> Assumptions &amp; notes ({warnings.length}) <IconChevron size={14} className="chev" />
+      <summary className="inline-flex items-center gap-1.5 rounded-full px-1 py-1 text-[12px] text-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <IconInfo size={13} /> Assumptions &amp; notes ({warnings.length}) <IconChevron size={13} className="chev" />
       </summary>
-      <ul className="mt-2 max-w-4xl space-y-1.5 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-muted">
+      <ul className="mt-1 max-w-4xl space-y-1.5 rounded-xl border border-line bg-surface px-4 py-3 text-[13px] text-charcoal">
         {warnings.map((w) => <li key={w} className="flex gap-2"><span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-faint" />{w}</li>)}
       </ul>
     </details>
-  );
-}
-
-function ResultsSkeleton() {
-  return (
-    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[30rem_1fr]">
-      <div className="space-y-2.5">{Array.from({ length: 5 }, (_, i) => <Skeleton key={i} className="h-28" />)}</div>
-      <Skeleton className="h-[36rem]" />
-    </div>
   );
 }
 
@@ -120,9 +346,9 @@ export function InfeasibleBanner({ inf, profile, onRelax }: { inf: Infeasibility
   const r = inf.minimal_relaxation;
   const label: Record<string, string> = { rent_cap: 'your rent cap', all_in_cap: 'your all-in cap', needs_parking: 'needing parking', pet: 'the pet requirement', max_single_trip_min: 'your longest-trip limit', bedrooms: 'the bedroom requirement' };
   return (
-    <div role="alert" className="card border-bad/40 bg-bad/5 p-4">
-      <div className="text-base font-semibold text-ink">No home fits — {label[inf.binding_constraint] ?? titleCase(inf.binding_constraint)} is binding.</div>
-      <div className="mt-1 text-sm text-muted">
+    <div role="alert" className="rounded-xl border border-bad/40 bg-bad/5 p-4">
+      <div className="text-[14px] font-semibold text-ink">No home fits — {label[inf.binding_constraint] ?? titleCase(inf.binding_constraint)} is binding.</div>
+      <div className="mt-1 text-[13px] text-charcoal">
         {Object.entries(inf.eliminated).map(([k, n]) => `${label[k] ?? titleCase(k)} rules out ${n}`).join(' · ')}
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
@@ -142,20 +368,20 @@ export function InfeasibleBanner({ inf, profile, onRelax }: { inf: Infeasibility
 
 function DenseTable({ evals, lmap, max, selected, onSelect }: { evals: ListingEvaluation[]; lmap: Map<string, Listing>; max: number; selected?: string; onSelect: (id: string) => void }) {
   return (
-    <div className="card overflow-x-auto">
-      <table className="w-full min-w-[560px] text-sm">
-        <thead className="text-left text-2xs uppercase tracking-wider text-faint">
+    <div className="overflow-x-auto rounded-xl border border-line">
+      <table className="w-full min-w-[560px] text-[13px]">
+        <thead className="bg-raised text-left text-[12px] text-faint">
           <tr className="border-b border-line">
-            <th className="px-3 py-2">#</th><th className="px-3 py-2">Home</th><th className="px-3 py-2 text-right">All-in</th><th className="px-3 py-2 text-right">Cash</th>
-            <th className="px-3 py-2 text-right">h/wk</th><th className="px-3 py-2 text-right">Late</th><th className="w-24 px-3 py-2">Split</th>
+            <th className="px-3 py-2 font-medium">#</th><th className="px-3 py-2 font-medium">Home</th><th className="px-3 py-2 text-right font-medium">All-in</th><th className="px-3 py-2 text-right font-medium">Cash</th>
+            <th className="px-3 py-2 text-right font-medium">h/wk</th><th className="px-3 py-2 text-right font-medium">Late</th><th className="w-24 px-3 py-2 font-medium">Split</th>
           </tr>
         </thead>
         <tbody className="num">
           {evals.map((e) => (
             <tr key={e.listing_id} onClick={() => onSelect(e.listing_id)} tabIndex={0} onKeyDown={(ev) => ev.key === 'Enter' && onSelect(e.listing_id)}
-              className={`cursor-pointer border-b border-line/60 hover:bg-raised ${selected === e.listing_id ? 'bg-accent-soft/60' : ''} ${e.feasible ? '' : 'text-faint'}`}>
-              <td className="px-3 py-2 font-bold text-accent">{e.rank ?? '—'}</td>
-              <td className="max-w-[14rem] truncate px-3 py-2 font-sans" title={e.violations.join(' ')}>{lmap.get(e.listing_id)?.name ?? e.listing_id}{!e.feasible && <span className="ml-1 text-bad">✕</span>}</td>
+              className={`cursor-pointer border-b border-line/60 last:border-0 hover:bg-raised ${selected === e.listing_id ? 'bg-soft' : ''} ${e.feasible ? '' : 'text-faint'}`}>
+              <td className="px-3 py-2 font-semibold">{e.rank ?? '—'}</td>
+              <td className="max-w-[16rem] truncate px-3 py-2 font-sans" title={e.violations.join(' ')}>{lmap.get(e.listing_id)?.name ?? e.listing_id}{!e.feasible && <span className="ml-1 text-bad">✕</span>}</td>
               <td className="px-3 py-2 text-right font-semibold">{usd(e.all_in_total)}</td>
               <td className="px-3 py-2 text-right">{usd(e.cash_total)}</td>
               <td className="px-3 py-2 text-right">{hours(e.commute?.weekly_min)}</td>
@@ -165,85 +391,6 @@ function DenseTable({ evals, lmap, max, selected, onSelect }: { evals: ListingEv
           ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-function Detail({ e, result, l }: { e: ListingEvaluation; result: EvaluationResult; l?: Listing }) {
-  const events = useApp((s) => s.committed.events);
-  const bmap = useBuildingMap();
-  const lmap = useListingMap();
-  const [tab, setTab] = useState<'visual' | 'list'>('visual');
-  const { points, lines } = useMemo(() => {
-    const pts: MapPoint[] = [];
-    const ls: MapLine[] = [];
-    for (const [id, x] of lmap) if (id !== e.listing_id) pts.push({ id, lat: x.lat, lon: x.lon, label: x.name, kind: 'listing' });
-    const seen = new Set<string>();
-    for (const ev of events) {
-      const b = ev.building_id ? bmap.get(ev.building_id) : null;
-      const p = b ? { lat: b.lat, lon: b.lon, name: b.name } : ev.point ? { lat: ev.point.lat, lon: ev.point.lon, name: ev.label } : null;
-      if (!p || seen.has(p.name)) continue;
-      seen.add(p.name);
-      pts.push({ id: p.name, lat: p.lat, lon: p.lon, label: `${p.name} — ${ev.label}`, kind: 'building' });
-      if (l) {
-        const usesBus = e.commute?.tours.some((t) => t.trips.some((tr) => tr.mode === 'bus' && tr.legs[tr.legs.length - 1]?.to_name === p.name));
-        const usesBike = e.commute?.tours.some((t) => t.trips.some((tr) => tr.mode === 'bike' && tr.legs[tr.legs.length - 1]?.to_name === p.name));
-        ls.push({ coords: [[l.lon, l.lat], [p.lon, p.lat]], kind: usesBus ? 'bus' : usesBike ? 'bike' : 'walk' });
-      }
-    }
-    if (l) pts.push({ id: l.id, lat: l.lat, lon: l.lon, label: `Home: ${l.name}`, kind: 'home' });
-    const exact = legLines(e);
-    return { points: pts, lines: exact.length ? exact : ls };
-  }, [e, l, events, bmap, lmap]);
-
-  return (
-    <div className="min-w-0 space-y-5">
-      <div className="card p-4 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <div className="label">{e.feasible ? `#${e.rank} for your week` : 'Doesn’t fit your constraints'}</div>
-            <h3 className="mt-1 text-[1.875rem] font-semibold leading-tight">{splitName(l?.name ?? e.listing_id).title}</h3>
-            {splitName(l?.name).sub && <div className="text-base text-muted">{splitName(l?.name).sub}</div>}
-            <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted">
-              {l?.address && <span>{l.address}</span>}
-              {l?.neighborhood && <span>· {l.neighborhood}</span>}
-              {l && <ListingSourceBadge l={l} />}
-              {l && <MealsBadge l={l} />}
-              {l?.source_url && <a className="text-ink underline underline-offset-2" href={l.source_url} target="_blank" rel="noreferrer">source</a>}
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="mono text-4xl font-semibold">{usd(e.all_in_total)}<span className="text-sm font-normal text-faint">/mo</span></div>
-            <div className="mono text-sm text-faint">{hours(e.commute?.weekly_min)} a week getting around</div>
-          </div>
-        </div>
-        {l?.provenance === 'synthetic' && <div className="mt-3 rounded-md border border-p-synthetic/40 px-3 py-1.5 text-xs text-p-synthetic hatch-synthetic">Synthetic listing: a fictional home used to demonstrate the method. Not a real property, price, or availability.</div>}
-        <div className="mt-6">
-          <WhyPanel e={e} result={result} />
-        </div>
-      </div>
-
-      {e.commute && (
-        <div className="card p-4 sm:p-5">
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <div className="text-base font-semibold">Your week from here</div>
-              <div className="num text-xs text-muted">
-                {hours(e.commute.weekly_min)} door-to-door · {Math.round(e.commute.weekly_walk_min)} min walking · {Math.round(e.commute.weekly_wait_min)} min waiting · {Math.round(e.commute.weekly_in_vehicle_min)} min on buses · longest trip {Math.round(e.commute.max_single_trip_min)} min
-              </div>
-            </div>
-            <Segmented size="xs" label="Timeline view" value={tab} onChange={setTab} options={[{ value: 'visual', label: 'Timeline' }, { value: 'list', label: 'Trip list' }]} />
-          </div>
-          {tab === 'visual' ? <WeekTimeline commute={e.commute} events={events} /> : <TripList commute={e.commute} />}
-        </div>
-      )}
-
-      <div className="card p-4 sm:p-5">
-        <div className="mb-3 text-base font-semibold">Map</div>
-        <Suspense fallback={<Skeleton className="h-80" />}>
-          <MapView points={points} lines={lines} height={340} ariaLabel={`Map of ${l?.name ?? 'home'} and your places`} />
-        </Suspense>
-      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '../store/app';
 import { useBuildingMap, useBuildings, useDemoProfiles, useEvaluation, useListingMap, useParseSchedule, useTemplates } from '../api/hooks';
 import { parseSchedule as localParse } from '../api/mockNlp';
@@ -76,22 +76,10 @@ export function WeekScreen() {
 
   const selected = sel != null ? profile.events[sel] : undefined;
 
-  // Arriving from the landing page's week pill: parse that text once.
-  const weekDraft = useApp((s) => s.weekDraft);
-  const consumed = useRef<string | null>(null);
-  useEffect(() => {
-    if (!weekDraft || consumed.current === weekDraft) return;
-    consumed.current = weekDraft;
-    useApp.getState().setWeekDraft(null);
-    setText(weekDraft);
-    void run(weekDraft);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weekDraft]);
-
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <div className="min-w-0 space-y-5">
-        <SectionTitle eyebrow="Step 1" title="Your week">
+        <SectionTitle title="Your week">
           Describe a normal week in plain English, or drag blocks on the grid. We price every home against <em>this</em> routine, not a single “distance to campus”.
         </SectionTitle>
 
@@ -194,8 +182,8 @@ function LivePreview({ onGo }: { onGo: () => void }) {
   return (
     <div className="card p-4">
       <div className="mb-2 flex items-center justify-between">
-        <div className="text-sm font-semibold">Right now, your week ranks</div>
-        <button className="btn-ghost -mr-2 text-xs text-accent" onClick={onGo}>Full results <IconChevron size={14} /></button>
+        <div className="text-sm font-semibold">Top homes for this week</div>
+        <button className="btn-ghost -mr-2 text-xs text-accent" onClick={onGo}>All homes <IconChevron size={14} /></button>
       </div>
       {isLoading && <div className="space-y-2"><Skeleton className="h-9" /><Skeleton className="h-9" /><Skeleton className="h-9" /></div>}
       {!data && !isLoading && <div className="text-sm text-muted">Add a block to your week (or load a demo) to see a ranking.</div>}
@@ -213,7 +201,7 @@ function LivePreview({ onGo }: { onGo: () => void }) {
           );
         })}
       </ol>
-      <button className="btn-primary mt-3 w-full" onClick={onGo}>See what your week costs</button>
+      <button className="btn-primary mt-3 w-full" onClick={onGo}>See homes on the map</button>
     </div>
   );
 }

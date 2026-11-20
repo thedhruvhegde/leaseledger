@@ -10,8 +10,8 @@ export function SectionTitle({ eyebrow, title, children, right }: { eyebrow?: st
     <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
         {eyebrow && <div className="label mb-1">{eyebrow}</div>}
-        <h2 className="text-2xl font-semibold text-ink sm:text-[1.875rem] sm:leading-tight">{title}</h2>
-        {children && <p className="mt-1.5 max-w-3xl text-base text-faint">{children}</p>}
+        <h1 className="text-[1.625rem] font-semibold leading-tight text-ink">{title}</h1>
+        {children && <p className="mt-1.5 max-w-3xl text-[15px] leading-relaxed text-charcoal">{children}</p>}
       </div>
       {right}
     </div>

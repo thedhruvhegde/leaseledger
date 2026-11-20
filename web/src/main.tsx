@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App } from './App';
 import '@fontsource-variable/inter/wght.css';
-import '@fontsource-variable/nunito/wght.css';
+import '@fontsource-variable/inter-tight/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import './index.css';
 

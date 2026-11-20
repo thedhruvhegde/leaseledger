@@ -6,8 +6,8 @@ import { DEFAULT_PROFILE } from '../api/mockData';
 export type Screen = 'week' | 'results' | 'robustness' | 'baseline' | 'group' | 'add' | 'methods';
 
 export const SCREENS: { id: Screen; label: string; short: string }[] = [
+  { id: 'results', label: 'Homes', short: 'Homes' },
   { id: 'week', label: 'Your week', short: 'Week' },
-  { id: 'results', label: 'What your week costs', short: 'Costs' },
   { id: 'robustness', label: 'How sure are we?', short: 'Sure?' },
   { id: 'baseline', label: 'Portal vs. your week', short: 'Portal' },
   { id: 'group', label: 'Group Week', short: 'Group' },
@@ -54,6 +54,15 @@ interface AppState {
   setSelected: (id: string | null) => void;
   compareWith: string | null;
   setCompareWith: (id: string | null) => void;
+  /** Compare tray: up to two homes; `compareOpen` shows the side-by-side in the detail pane. */
+  compare: string[];
+  toggleCompare: (id: string) => void;
+  clearCompare: () => void;
+  compareOpen: boolean;
+  setCompareOpen: (v: boolean) => void;
+  /** Landing hand-off in flight: the week text is being read. */
+  parsing: boolean;
+  setParsing: (v: boolean) => void;
 
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -75,9 +84,9 @@ interface AppState {
 }
 
 function initialScreen(): Screen {
-  if (typeof window === 'undefined') return 'week';
+  if (typeof window === 'undefined') return 'results';
   const h = window.location.hash.replace('#', '');
-  return SCREENS.some((s) => s.id === h) ? (h as Screen) : 'week';
+  return SCREENS.some((s) => s.id === h) ? (h as Screen) : 'results';
 }
 
 function initialTheme(): 'light' | 'dark' {
@@ -150,6 +159,17 @@ export const useApp = create<AppState>((set, get) => ({
   setSelected: (selected) => set({ selected }),
   compareWith: null,
   setCompareWith: (compareWith) => set({ compareWith }),
+  compare: [],
+  toggleCompare: (id) => {
+    const c = get().compare;
+    const next = c.includes(id) ? c.filter((x) => x !== id) : [...c, id].slice(-2);
+    set({ compare: next, compareOpen: get().compareOpen && next.length === 2 });
+  },
+  clearCompare: () => set({ compare: [], compareOpen: false }),
+  compareOpen: false,
+  setCompareOpen: (compareOpen) => set({ compareOpen }),
+  parsing: false,
+  setParsing: (parsing) => set({ parsing }),
 
   theme: initialTheme(),
   toggleTheme: () => {

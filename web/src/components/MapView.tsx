@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import type { GeoJSONSource, Map as MlMap, StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useApp } from '../store/app';
+import { MAP_INK, addStreetLayers } from '../lib/basemap';
 
 export interface MapPoint { id: string; lat: number; lon: number; label: string; kind: 'home' | 'listing' | 'building' | 'pick' }
 /** coords are [lon, lat]. `exact` = real geometry (street path / bus stops); otherwise a straight schematic line. */
@@ -13,17 +14,11 @@ const css = (name: string) => {
   return v ? `rgb(${v.split(/\s+/).join(',')})` : '#888';
 };
 
-let basemapCache: Promise<GeoJSON.FeatureCollection | null> | null = null;
-function loadBasemap() {
-  basemapCache ??= fetch('/basemap.geojson').then((r) => (r.ok ? r.json() : null)).catch(() => null);
-  return basemapCache;
-}
-
 function style(dark: boolean): StyleSpecification {
   return {
     version: 8,
     sources: {},
-    layers: [{ id: 'bg', type: 'background', paint: { 'background-color': dark ? '#12151c' : '#f3f4f6' } }],
+    layers: [{ id: 'bg', type: 'background', paint: { 'background-color': dark ? MAP_INK.dark.bg : MAP_INK.light.bg } }],
   };
 }
 
@@ -67,15 +62,7 @@ export function MapView({ points, lines = [], onPick, height = 320, center, sche
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     m.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'Streets: Overture Maps / OSM (ODbL)' }));
     m.on('load', async () => {
-      const bm = await loadBasemap();
-      if (bm && m.getStyle()) {
-        m.addSource('base', { type: 'geojson', data: bm });
-        const ink = theme === 'dark' ? ['#2a3140', '#3a4356', '#4b566e'] : ['#e3e6eb', '#d1d5db', '#b8bec8'];
-        m.addLayer({ id: 'paths', type: 'line', source: 'base', filter: ['==', ['get', 'k'], 'path'], paint: { 'line-color': ink[0], 'line-width': 0.6, 'line-dasharray': [2, 1.5] } });
-        m.addLayer({ id: 'service', type: 'line', source: 'base', filter: ['==', ['get', 'k'], 'service'], paint: { 'line-color': ink[0], 'line-width': 0.7 } });
-        m.addLayer({ id: 'minor', type: 'line', source: 'base', filter: ['==', ['get', 'k'], 'minor'], paint: { 'line-color': ink[1], 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.6, 15, 2.2] } });
-        m.addLayer({ id: 'major', type: 'line', source: 'base', filter: ['==', ['get', 'k'], 'major'], paint: { 'line-color': ink[2], 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.2, 15, 4] } });
-      }
+      await addStreetLayers(m, theme === 'dark');
       m.addSource('lines', { type: 'geojson', data: fc([]) });
       const lineColor = ['match', ['get', 'kind'], 'bus', css('bus'), 'bike', css('bike'), 'wait', css('wait'), css('walk')] as unknown as string;
       // Solid: exact bus/bike geometry. Dashed: walking paths and straight schematic fallbacks.

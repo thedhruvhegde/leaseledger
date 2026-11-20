@@ -39,7 +39,7 @@ export function RobustnessScreen() {
 
   return (
     <div className="space-y-5">
-      <SectionTitle eyebrow="Step 3" title="How sure are we?" right={
+      <SectionTitle title="How sure are we?" right={
         <div className="flex items-center gap-2">
           {isFetching && <span className="animate-pulse2 text-xs text-faint">Sampling…</span>}
           <Segmented label="Number of plausible semesters" value={String(samples)} onChange={(v) => setSamples(Number(v))}
@@ -99,7 +99,7 @@ function RobustBody({ data, lmap, vot }: { data: RobustnessResult; lmap: Map<str
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <div className="card p-5">
           <div className="text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
-            In <span className="mono text-ink underline decoration-2 underline-offset-4">{frequency(data.p_rank1[top], n)}</span> plausible semesters, <span className="text-ink">{splitName(nm(top)).title}</span> is the cheapest week for you.
+            In <span className="num text-ink">{frequency(data.p_rank1[top], n)}</span> plausible semesters, <span className="text-ink">{splitName(nm(top)).title}</span> is the cheapest week for you.
           </div>
           <div className="mt-5 grid items-start gap-6 2xl:grid-cols-[auto_minmax(0,1fr)]">
           <div>

@@ -81,7 +81,7 @@ export function WhyPanel({ e, result }: { e: ListingEvaluation; result: Evaluati
 const shortLabel = (d: LineDiff) => d.label.replace(/\s*\(.*\)$/, '');
 
 /** "#2 Hillcrest Manor, compared with this home": all-in delta chip + the largest line deltas (B − A, from /compare). */
-function VsRow({ a, b, result, lmap, select }: { a: string; b: string; result: EvaluationResult; lmap: Map<string, Listing>; select: React.ReactNode }) {
+export function VsRow({ a, b, result, lmap, select }: { a: string; b: string; result: EvaluationResult; lmap: Map<string, Listing>; select: React.ReactNode }) {
   const { data, isLoading } = useCompare(a, b);
   const be = result.evaluations.find((x) => x.listing_id === b);
   const ae = result.evaluations.find((x) => x.listing_id === a);
@@ -100,9 +100,9 @@ function VsRow({ a, b, result, lmap, select }: { a: string; b: string; result: E
       </div>
       {isLoading || !data ? <Skeleton className="h-8" /> : (
         <div className="flex flex-wrap gap-1.5" aria-label="Differences, other home minus this one">
-          {allIn && <span className={`mono inline-flex items-center gap-1 rounded-full border border-ink px-3 py-1 text-sm font-semibold ${tone(allIn.delta)}`}>{signedUsd(allIn.delta)}/mo all-in</span>}
+          {allIn && <span className={`num inline-flex items-center gap-1 rounded-full border border-ink px-3 py-1 text-[13px] font-semibold ${tone(allIn.delta)}`}>{signedUsd(allIn.delta)}/mo all-in</span>}
           {lines.map((d) => (
-            <span key={d.key} className="mono inline-flex items-center gap-1.5 rounded-full bg-soft px-3 py-1 text-sm">
+            <span key={d.key} className="num inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1 text-[13px]">
               <span className="text-faint">{shortLabel(d).toLowerCase()}</span> <b className={`font-medium ${tone(d.delta)}`}>{signedUsd(d.delta)}</b>
             </span>
           ))}
@@ -112,7 +112,7 @@ function VsRow({ a, b, result, lmap, select }: { a: string; b: string; result: E
   );
 }
 
-function Compare({ a, b, vot }: { a: string; b: string; vot: number }) {
+export function Compare({ a, b, vot }: { a: string; b: string; vot: number }) {
   const { data, isLoading } = useCompare(a, b);
   const cf = useCounterfactual(a, b);
   const lmap = useListingMap();

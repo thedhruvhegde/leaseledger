@@ -3,8 +3,8 @@
  *   the offline basemap, campus points, icons and manifest.
  * - navigations: network first, fall back to the cached shell (works offline, SPA routes).
  * - same-origin static files: cache first (hashed assets never change).
- * - the API (another origin, :8000) is never intercepted: numbers are always live or clearly unavailable. */
-const VERSION = 'll-v2';
+ * - the API (another origin in dev, or same-origin /api/* in production) is never intercepted: numbers are always live or clearly unavailable. */
+const VERSION = 'll-v3';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/basemap.geojson', '/campus.geojson',
   '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable-512.png', '/icons/apple-touch-icon.png'];
 
@@ -30,6 +30,8 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  // Same-origin API (production: /api/* on the same host) always goes straight to the network.
+  if (url.pathname.startsWith('/api/') || url.pathname === '/api') return;
   if (req.mode === 'navigate') {
     event.respondWith((async () => {
       try {
